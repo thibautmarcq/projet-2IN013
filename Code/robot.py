@@ -67,4 +67,24 @@ class Robot :
     def afficher_etat(self) :
         print("Je suis le robot " + self.nom + " et je suis à la position" + self.get_position)
 
-
+    def deplacement(self) :
+        boucle = True
+        while boucle :
+            print("----------------------------------")
+            print("Choisir une option : a pour avancer, r pour reculer, d pour aller a droite, g pour aller a gauche, ou q pour quitter")
+            depl = input()
+            quantite = 0
+            if depl in ['a', 'r', 'd', 'g'] :
+                print("Tapez de combien vous voulez vous déplacer")
+                quantite = input()
+            if depl == 'a' :
+                self.avancer(quantite)
+            elif depl == 'r' :
+                self.reculer(quantite)
+            elif depl == 'd' :
+                self.droite(quantite)
+            elif depl == 'g' :
+                self.gauche(quantite)
+            elif delp == 'q' :
+                boucle = False
+            print("Le déplacement du robot est terminé")
