@@ -18,8 +18,14 @@ class Environnement:
         return None
 
     def trace(self):
+        """Permet de tracer un environnement"""
         for ligne in range(y):
-            print("|", end="")
+            print("|", end="") #Permet de ne pas sauter à la ligne à ch fois
+            if (ligne==0) or (ligne==self.matrice.):
+                for colonne in range(x):
+                    print("-", end="") #Contour haut de la box
+                for colonne in range(x):
+                    if 
             for colonne in range(x):
                 print("-", end="")
             print("|")
