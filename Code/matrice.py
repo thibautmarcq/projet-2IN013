@@ -1,4 +1,4 @@
-from numpy import 
+import numpy as np
 
 class Matrice :
     
