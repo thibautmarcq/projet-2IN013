@@ -26,6 +26,9 @@ class Robot :
 
 
     def reculer(self, quantite) :
+        if self.posy-quantite < 0 :
+            print("Le déplacement n'est pas possible car hors champ")
+            return
         trouve = False
         for o in self.obstacles :
             if o.y == self.posx and (self.posy-quantite)==o.y :
@@ -50,6 +53,9 @@ class Robot :
             self.posx = self.posxy + quantite
 
     def gauche(self, quantite) :
+        if self.posx-quantite < 0 :
+            print("Le déplacement n'est pas possible car hors champ")
+            return
         trouve = False
         for o in self.osbtacles :
             if o.x == self.posx and (self.posx - quantite) == o.x :
@@ -66,5 +72,27 @@ class Robot :
     
     def afficher_etat(self) :
         print("Je suis le robot " + self.nom + " et je suis à la position" + self.get_position)
+
+    def deplacement(self) :
+        boucle = True
+        while boucle :
+            print("----------------------------------")
+            print("Choisir une option : a pour avancer, r pour reculer, d pour aller a droite, g pour aller a gauche, ou q pour quitter")
+            depl = input()
+            quantite = 0
+            if depl in ['a', 'r', 'd', 'g'] :
+                print("Tapez de combien vous voulez vous déplacer")
+                quantite = input()
+            if depl == 'a' :
+                self.avancer(quantite)
+            elif depl == 'r' :
+                self.reculer(quantite)
+            elif depl == 'd' :
+                self.droite(quantite)
+            elif depl == 'g' :
+                self.gauche(quantite)
+            elif delp == 'q' :
+                boucle = False
+            print("Le déplacement du robot est terminé")
 
 
