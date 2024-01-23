@@ -26,6 +26,9 @@ class Robot :
 
 
     def reculer(self, quantite) :
+        if self.posy-quantite < 0 :
+            print("Le déplacement n'est pas possible car hors champ")
+            return
         trouve = False
         for o in self.obstacles :
             if o.y == self.posx and (self.posy-quantite)==o.y :
@@ -50,6 +53,9 @@ class Robot :
             self.posx = self.posxy + quantite
 
     def gauche(self, quantite) :
+        if self.posx-quantite < 0 :
+            print("Le déplacement n'est pas possible car hors champ")
+            return
         trouve = False
         for o in self.osbtacles :
             if o.x == self.posx and (self.posx - quantite) == o.x :
@@ -88,3 +94,5 @@ class Robot :
             elif delp == 'q' :
                 boucle = False
             print("Le déplacement du robot est terminé")
+
+
