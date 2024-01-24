@@ -22,10 +22,25 @@ canv = Canvas(root, width=300 , height=200, bg="white" )
 canv.place(x=50, y=50)
 x=50
 canv.create_line(0,200,300, 20) #(x1,y1, x2,y2)
-canv.create_rectangle(50,x,250,150, fill='lightblue') #(xTopLeft,yTopLeft, xBtmRight,yBtmRight)
+rect = canv.create_rectangle(50,x,250,150, fill='lightblue') #(xTopLeft,yTopLeft, xBtmRight,yBtmRight)
 canv.create_line(0,100,150, 20, fill='green')
 
+def down(event):
+    canv.move(rect, 0, 5)
 
+def up(event):
+    canv.move(rect, 0, -5)
+
+def right(event):
+    canv.move(rect, 5, 0)
+
+def left(event):
+    canv.move(rect, -5, 0)
+
+root.bind("<Down>", down)
+root.bind("<Up>", up)
+root.bind("<Left>", left)
+root.bind("<Right>", right)
 
 
 # Creation d'une entrée
