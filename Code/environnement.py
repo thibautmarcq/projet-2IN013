@@ -13,22 +13,9 @@ class Environnement:
         self.rectangle = None #Constructeur du rectangle
 
 
-    def trace(self):
-        """Permet de tracer un environnement"""
-        for ligne in range((self.y)+1):
-            print("|", end="") #Permet de ne pas sauter à la ligne à ch fois
-            for colonne in range(self.x):
-                if (ligne==0) or (ligne==(self.y)+1): #self.y = derniere lg de l'env, on veut la ligne d'après pr le cadre
-                    print("-", end="") #Contour de la box
-
-                ## RECHERCHE DELEMENTS ET PRINT EN FCT
-                # if isinstance(self.matrice, Obstacle):
-                    # print("x")
-                # if - in :::
-                
-                print(" ", end="") #Espace (rien dans la case)
-
-            print("|")
+    def affiche(self):
+        #methodes pour affichage avec tkinter
+        pass
 
 
 env = Environnement(25,3)
