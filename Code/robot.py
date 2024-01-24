@@ -25,7 +25,7 @@ class Robot :
                 return
             
         if trouve == False :
-            print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(self.posx) + ", " + str(self.posy + quantite) + ")" )
+            print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(self.posx) + ", " + str(int(self.posy) + int(quantite)) + ")" )
             self.posy = self.posy + quantite
 
 
@@ -42,7 +42,7 @@ class Robot :
             
         if trouve == False :
             print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(self.posx) + ", " + str(int(self.posy) - int(quantite)) + ")")
-            self.posy = self.posy - quantite
+            self.posy = int(self.posy) - int(quantite)
 
     def droite(self, quantite) :
         trouve = False
@@ -68,11 +68,11 @@ class Robot :
                 return
         
         if trouve == False :
-            print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(self.posx - quantite) + ", " + str(self.posy) + ")")
-            self.posx = self.posxy - quantite
+            print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(int(self.posx) - int(quantite)) + ", " + str(self.posy) + ")")
+            self.posx = int(self.posx) - int(quantite)
 
     def get_position_string(self) :
-        return ("()" + str(self.posx) + ", " + str(self.posy) + ")")  
+        return ("(" + str(self.posx) + ", " + str(self.posy) + ")")  
     
     def afficher_etat(self) :
         print("Je suis le robot " + self.nom + " et je suis à la position" + self.get_position_string())
