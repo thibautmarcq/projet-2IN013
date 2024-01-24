@@ -1,6 +1,6 @@
 import numpy as np
 
-import Robot as Robot ##
+import robot as Robot ##
 import matrice as Matrice
 import rectangle as Rectangle
 
@@ -18,21 +18,20 @@ class Environnement:
         for ligne in range((self.y)+1):
             print("|", end="") #Permet de ne pas sauter à la ligne à ch fois
             for colonne in range(self.x):
-                if (ligne==0) or (ligne==self.y): #Premiere ou derniere ligne
-                    print("-", end="") #Contour haut de la box
+                if (ligne==0) or (ligne==(self.y)+1): #self.y = derniere lg de l'env, on veut la ligne d'après pr le cadre
+                    print("-", end="") #Contour de la box
 
                 ## RECHERCHE DELEMENTS ET PRINT EN FCT
                 # if isinstance(self.matrice, Obstacle):
                     # print("x")
                 # if - in 
                 
-                else :
-                    print(" ", end="") #Espace (rien dans la case)
+                print(" ", end="") #Espace (rien dans la case)
 
             print("|")
 
 
-env = Environnement(25,8)
+env = Environnement(25,3)
 env.trace()
 
 

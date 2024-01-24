@@ -86,7 +86,7 @@ class Robot :
             quantite = 0
             if depl in ['z', 'q', 's', 'd'] :
                 print("Taper la quantité du déplacement")
-                quantite = input()
+                quantite = int(input())
             if depl == 'z' :
                 self.avancer(quantite)
             elif depl == 's' :
