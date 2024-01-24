@@ -1,0 +1,11 @@
+Pas de petite tache
+Mettre le temps réalisé dans done. 
+
+Pas perdre trop de temps sur certaines choses (fiche python)
+Points de bloquage
+
+Faire attention aux commits. Faire plein de petits commits.
+
+Gérer la répartition des commits. 
+
+Commenter le code.

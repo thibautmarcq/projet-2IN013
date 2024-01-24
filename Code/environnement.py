@@ -24,7 +24,7 @@ class Environnement:
                 ## RECHERCHE DELEMENTS ET PRINT EN FCT
                 # if isinstance(self.matrice, Obstacle):
                     # print("x")
-                # if - in 
+                # if - in :::
                 
                 print(" ", end="") #Espace (rien dans la case)
 

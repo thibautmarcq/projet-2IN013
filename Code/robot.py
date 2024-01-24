@@ -83,7 +83,6 @@ class Robot :
             print("----------------------------------")
             print("Choisir une option : z pour avancer, s pour reculer, d pour aller a droite, q pour aller a gauche, ou e pour quitter")
             depl = input()
-            quantite = 0
             if depl in ['z', 'q', 's', 'd'] :
                 print("Taper la quantité du déplacement")
                 quantite = int(input())
