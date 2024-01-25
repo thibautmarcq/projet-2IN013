@@ -6,10 +6,10 @@ import rectangle as Rectangle
 
 class Environnement:
     
-    def __init__(self, width, height): #initialise l'environnement de taille x*y
+    def __init__(self, width, height, scale): #initialise l'environnement de taille x*y et l'echelle pour la matrice
         self.width=width; self.height=height
         # self.robot = Robot.Robot() #Voir avec ines les parametres
-        self.matrice = Matrice.Matrice(width,height) #Instanciation de la matrice - Matrice.Matrice(x,y) ??
+        self.matrice = Matrice.Matrice(int(width/scale),int(height/scale)) #Instanciation de la matrice - Matrice.Matrice(x,y) ??
         self.rectangle = None #Constructeur du rectangle
         self.robots = []
 
