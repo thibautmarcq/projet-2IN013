@@ -1,6 +1,6 @@
 import numpy as np
 
-import robot as Robot ##
+import robot as Robot #
 import matrice as Matrice
 import rectangle as Rectangle
 
@@ -20,9 +20,3 @@ class Environnement:
 
 env = Environnement(25,3)
 env.trace()
-
-
-
-
-
-
