@@ -1,5 +1,6 @@
 from tkinter import *
 from robot import Robot
+import math
 
 # Configs de la fenêtre
 root=Tk()
@@ -35,9 +36,9 @@ def updateVecteur(angle):
     robot.rotation(angle)
     canv.coords(robot_vec, robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
 def updateVecteurR(z):
-    updateVecteur(0.1)
+    updateVecteur(math.pi/10)
 def updateVecteurL(z):
-    updateVecteur(-0.1)
+    updateVecteur(-math.pi/10)
 
 
 # Déplacement clavier
