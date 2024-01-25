@@ -13,7 +13,7 @@ class Environnement:
         self.rectangle = None #Constructeur du rectangle
         self.robots = []
 
-    def setRobot(self, robot):
+    def addRobot(self, robot):
         """Ajoute un robot a notre environnement"""
         self.robots.append(robot)
 
