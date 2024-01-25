@@ -1,3 +1,5 @@
+import math
+
 class Obstacle :
 
     def __init__(self, nom, posx, posy) :
@@ -15,6 +17,17 @@ class Robot :
         self.posx = position_x
         self.posy = position_y
         self.obstacles = obstacles
+        self.direction = (0,0) # vecteur directeur du robot
+
+    def rotation(self, angle):
+        """Tourne d'un certain angle le vecteur directeur du robot"""
+        x, y = self.directeur
+        self.directeur = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))
+
+    def avancerDirection(self):
+        """Fait avancer le robot en suivant son vecteur directeur"""
+        self.x += self.direction[0]
+        self.y += self.direction[1]
     
     def avancer(self, quantite) :
         trouve = False

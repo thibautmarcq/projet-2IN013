@@ -23,5 +23,3 @@ Répartir le boulot plus uniformément pour que tt le monde soit bien dans le pr
 Faire des commit plus souvent, le meme type de choses très détaillé 
 
 !! Équilibre 
-
-faire des commentaires dans toutes les fonctions 
