@@ -1,18 +1,8 @@
 import math
 
-class Obstacle :
-
-    def __init__(self, nom, posx, posy) :
-        self.nom = nom
-        self.x = posx
-        self.y = posy
-
-    def presenter_obstacle(self):
-        return(self.nom + "à la position (" + str(self.x) + ", " + str(self.y) + ")")
-
 
 class Robot :
-    def __init__(self, nom, position_x, position_y,):
+    def __init__(self, nom, position_x, position_y):
         self.nom = nom
         self.posx = position_x
         self.posy = position_y
@@ -28,60 +18,28 @@ class Robot :
         self.x += self.direction[0]
         self.y += self.direction[1]
     
-    def avancer(self, quantite) :
-        trouve = False
-        for o in self.obstacles :
-            if o.y == self.posx and (int(self.posy) + int(quantite))==o.y :
-                trouve = True
-                print("Je ne peux pas avancer en (" + str(self.posx) + ", " + str(self.posy + quantite) + ") car il y a l'obstacle " + o.presenter_obstacle())
-                return
-            
-        if trouve == False :
-            print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(self.posx) + ", " + str(int(self.posy) + int(quantite)) + ")" )
-            self.posy = self.posy + quantite
+    def avancer(self, quantite) : 
+        print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(self.posx) + ", " + str(int(self.posy) + int(quantite)) + ")" )
+        self.posy = self.posy + quantite
 
 
     def reculer(self, quantite) :
         if (int(self.posy) - int(quantite)) < 0 :
             print("Le déplacement n'est pas possible car hors champ")
             return
-        trouve = False
-        for o in self.obstacles :
-            if o.y == self.posx and (self.posy-quantite)==o.y :
-                trouve = True
-                print("Je ne peux pas avancer en (" + str(self.posx) + ", " + str(self.posy - quantite) + ") car il y a l'obstacle" + o.presenter_obstacle())
-                return
-            
-        if trouve == False :
-            print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(self.posx) + ", " + str(int(self.posy) - int(quantite)) + ")")
-            self.posy = int(self.posy) - int(quantite)
+        print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(self.posx) + ", " + str(int(self.posy) - int(quantite)) + ")")
+        self.posy = int(self.posy) - int(quantite)
 
     def droite(self, quantite) :
-        trouve = False
-        for o in self.obstacles :
-            if o.x == self.posx and (int(self.posx) + int(quantite)) == o.x :
-                trouve = True
-                print("Je ne peux pas avancer en (" + str(self.posx + quantite) + ", " + str(self.posy) + ") car il y a l'obstacle" + o.presenter_obstacle())
-                return
-        
-        if trouve == False :
-            print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(int(self.posx) + int(quantite)) + ", " + str(self.posy) + ")")
-            self.posx = int(self.posx) + int(quantite)
+        print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(int(self.posx) + int(quantite)) + ", " + str(self.posy) + ")")
+        self.posx = int(self.posx) + int(quantite)
 
     def gauche(self, quantite) :
         if (int(self.posx) - int(quantite)) < 0 :
             print("Le déplacement n'est pas possible car hors champ")
             return
-        trouve = False
-        for o in self.obstacles :
-            if o.x == self.posx and (int(self.posx) - int(quantite) )== o.x :
-                trouve = True
-                print("Je ne peux pas avancer en (" + str(int(self.posx) - quantite) + ", " + str(self.posy) + ") car il y a l'obstacle" + o.presenter_obstacle())
-                return
-        
-        if trouve == False :
-            print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(int(self.posx) - int(quantite)) + ", " + str(self.posy) + ")")
-            self.posx = int(self.posx) - int(quantite)
+        print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(int(self.posx) - int(quantite)) + ", " + str(self.posy) + ")")
+        self.posx = int(self.posx) - int(quantite)
 
     def get_position_string(self) :
         return ("(" + str(self.posx) + ", " + str(self.posy) + ")")  
@@ -112,12 +70,6 @@ class Robot :
         self.afficher_etat()
 
 
-o1 = Obstacle("obstacle 1", 2, 3)
-o2 = Obstacle("obstacle 2", 5, 6)
-o3 = Obstacle("obstacle 3", 1, 4)
-
-liste_obstacles = [o1, o2, o3]
-
-#rob_le_robot = Robot("Robert", 1, 2, liste_obstacles)
-#rob_le_robot.afficher_etat()
-#rob_le_robot.deplacement()
+rob_le_robot = Robot("Robert", 1, 2)
+rob_le_robot.afficher_etat()
+rob_le_robot.deplacement()
