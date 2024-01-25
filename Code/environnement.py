@@ -6,12 +6,16 @@ import rectangle as Rectangle
 
 class Environnement:
     
-    def __init__(self, x, y): #initialise l'environnement de taille x*y
-        self.x=x; self.y=y
+    def __init__(self, width, height): #initialise l'environnement de taille x*y
+        self.width=width; self.height=height
         # self.robot = Robot.Robot() #Voir avec ines les parametres
         self.matrice = Matrice.Matrice(x,y) #Instanciation de la matrice - Matrice.Matrice(x,y) ??
         self.rectangle = None #Constructeur du rectangle
-        self.robot = None
+        self.robots = []
+
+    def setRobot(self, robot):
+        """Ajoute un robot a notre environnement"""
+        self.robots.append(robot)
 
 
     def affiche(self):
