@@ -69,7 +69,3 @@ class Robot :
         print("Le déplacement du robot est terminé")
         self.afficher_etat()
 
-
-rob_le_robot = Robot("Robert", 1, 2)
-rob_le_robot.afficher_etat()
-rob_le_robot.deplacement()
