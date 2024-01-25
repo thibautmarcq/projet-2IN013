@@ -50,7 +50,6 @@ inp.place(x=50, y=258)
 # Test avec fonction et bouton
 def affiche():
     print('coucou')
-    x=x+5
     canv.create_rectangle(50,x,250,150, fill='lightblue')
     labb.config(text="Does this work? ->"+inp.get()+"!")
     labb.place(x=50, y=288)
