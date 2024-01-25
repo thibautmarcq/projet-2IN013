@@ -20,8 +20,8 @@ class Robot :
 
     def rotation(self, angle):
         """Tourne d'un certain angle le vecteur directeur du robot"""
-        x, y = self.directeur
-        self.directeur = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))
+        x, y = self.direction
+        self.direction = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))
 
     def avancerDirection(self):
         """Fait avancer le robot en suivant son vecteur directeur"""
