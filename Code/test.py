@@ -27,17 +27,35 @@ x=50
 #rect = canv.create_rectangle(50,x,250,150, fill='lightblue') #(xTopLeft,yTopLeft, xBtmRight,yBtmRight)
 #canv.create_line(0,100,150, 20, fill='green')
 
-robot = Robot("Claude", 150, 100)
+# -------------------------
+# Test de la visualisation 
+# du vecteur directeur du robot
+# -------------------------
 
+# on crée le robot en 150 100
+robot = Robot("Claude", 150, 100)
+# on crée le visuel pour le vecteur directeur de ce robot
 robot_vec = canv.create_line(robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
 
 def updateVecteur(angle):
+    """Cette fonction fait une rotation de notre robot de <angle>
+        et refresh le visuel de la direction de notre robot
+    """
     global robot_vec
     robot.rotation(angle)
     canv.coords(robot_vec, robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
 def updateVecteurR(z):
+    """fonction callback pour bind avec tkinter
+    possede un argument z car demandé par tkinter
+    mais pas utilisé
+    """
     updateVecteur(math.pi/10)
 def updateVecteurL(z):
+    """fonction callback pour bind avec tkinter
+    l'argument z est obligatoire pour récupérer l'evenement
+    mais il nous est pas utile
+    """
+    print(z)
     updateVecteur(-math.pi/10)
 
 
