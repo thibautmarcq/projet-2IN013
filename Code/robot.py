@@ -118,6 +118,6 @@ o3 = Obstacle("obstacle 3", 1, 4)
 
 liste_obstacles = [o1, o2, o3]
 
-rob_le_robot = Robot("Robert", 1, 2, liste_obstacles)
-rob_le_robot.afficher_etat()
-rob_le_robot.deplacement()
+#rob_le_robot = Robot("Robert", 1, 2, liste_obstacles)
+#rob_le_robot.afficher_etat()
+#rob_le_robot.deplacement()
