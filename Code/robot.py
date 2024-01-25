@@ -17,7 +17,7 @@ class Robot :
         self.posx = position_x
         self.posy = position_y
         self.obstacles = obstacles
-        self.direction = (0,0) # vecteur directeur du robot
+        self.direction = (0,-1) # vecteur directeur du robot
 
     def rotation(self, angle):
         """Tourne d'un certain angle le vecteur directeur du robot"""
