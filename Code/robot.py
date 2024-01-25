@@ -15,6 +15,12 @@ class Robot :
         self.posx = position_x
         self.posy = position_y
         self.obstacles = obstacles
+        self.direction = (0,0) # vecteur directeur du robot
+
+    def avancerDirection(self):
+        """Fait avancer le robot en suivant son vecteur directeur"""
+        self.x += self.direction[0]
+        self.y += self.direction[1]
     
     def avancer(self, quantite) :
         trouve = False

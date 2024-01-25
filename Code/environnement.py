@@ -1,6 +1,6 @@
 import numpy as np
 
-import robot as Robot ##
+import robot as Robot
 import matrice as Matrice
 import rectangle as Rectangle
 
@@ -11,6 +11,7 @@ class Environnement:
         # self.robot = Robot.Robot() #Voir avec ines les parametres
         self.matrice = Matrice.Matrice(x,y) #Instanciation de la matrice - Matrice.Matrice(x,y) ??
         self.rectangle = None #Constructeur du rectangle
+        self.robot = None
 
 
     def trace(self):
