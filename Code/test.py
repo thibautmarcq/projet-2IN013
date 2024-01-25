@@ -1,10 +1,11 @@
 from tkinter import *
+from robot import Robot
 
 # Configs de la fenêtre
 root=Tk()
 root.geometry("400x350")
 root.title("Simulation - Robocar Poli")
-root.iconbitmap('Code\logo.ico')
+#root.iconbitmap('Code\logo.ico')
 root.config(background="purple")
 
 # Creation d'un label
@@ -21,9 +22,23 @@ labb.place_forget()
 canv = Canvas(root, width=300 , height=200, bg="white" )
 canv.place(x=50, y=50)
 x=50
-canv.create_line(0,200,300, 20) #(x1,y1, x2,y2)
-rect = canv.create_rectangle(50,x,250,150, fill='lightblue') #(xTopLeft,yTopLeft, xBtmRight,yBtmRight)
-canv.create_line(0,100,150, 20, fill='green')
+#canv.create_line(0,200,300, 20) #(x1,y1, x2,y2)
+#rect = canv.create_rectangle(50,x,250,150, fill='lightblue') #(xTopLeft,yTopLeft, xBtmRight,yBtmRight)
+#canv.create_line(0,100,150, 20, fill='green')
+
+robot = Robot("Claude", 150, 100)
+
+robot_vec = canv.create_line(robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
+
+def updateVecteur(angle):
+    global robot_vec
+    robot.rotation(angle)
+    canv.coords(robot_vec, robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
+def updateVecteurR(z):
+    updateVecteur(0.1)
+def updateVecteurL(z):
+    updateVecteur(-0.1)
+
 
 # Déplacement clavier
 def down(event):
@@ -46,8 +61,10 @@ def leftBtn():
 
 root.bind("<Down>", down)
 root.bind("<Up>", up)
-root.bind("<Left>", left)
-root.bind("<Right>", right)
+#root.bind("<Left>", left)
+#root.bind("<Right>", right)
+root.bind("<Right>", updateVecteurR)
+root.bind("<Left>", updateVecteurL)
 
 btn = Button(root, text="Up", command=upBtn)
 btn.place(x=180, y=258)
