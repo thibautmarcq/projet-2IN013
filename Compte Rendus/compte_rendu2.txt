@@ -23,3 +23,5 @@ Répartir le boulot plus uniformément pour que tt le monde soit bien dans le pr
 Faire des commit plus souvent, le meme type de choses très détaillé 
 
 !! Équilibre 
+
+en python, les * en parametre de fonction sont pour utiliser un seul parametres mais dans l'appel de la fonciton, on peut mettre plusieurs parametres, par exemple *args dans la signature peut representer un nombre quelconque de variables lors de l'appel de la fonction.
