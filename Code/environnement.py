@@ -9,7 +9,7 @@ class Environnement:
     def __init__(self, width, height): #initialise l'environnement de taille x*y
         self.width=width; self.height=height
         # self.robot = Robot.Robot() #Voir avec ines les parametres
-        self.matrice = Matrice.Matrice(x,y) #Instanciation de la matrice - Matrice.Matrice(x,y) ??
+        self.matrice = Matrice.Matrice(width,height) #Instanciation de la matrice - Matrice.Matrice(x,y) ??
         self.rectangle = None #Constructeur du rectangle
         self.robots = []
 
