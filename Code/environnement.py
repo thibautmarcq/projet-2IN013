@@ -17,14 +17,16 @@ class Environnement:
         self.robots = []
         self.scale = scale
 
-    def addRobot(self, robot):
+    def addRobot(self, nom, x, y):
         """Ajoute un robot a notre environnement"""
-        self.robots.append(robot)
+        self.robots.append(Robot(nom,x,y))
+        self.matrice[int(x/self.scale)-1][int(y/self.scale)-1] = nom #met le robot dans la matrice (representer par son nom dans la matrice)
 
     def addObstacle(self,nom):
+        """Ajout d'un obstacle dans la matrice"""
         x = random.uniform(0,self.width) #prend des coordonnees aleatoire pour l'obstacle
         y = random.uniform(0,self.height)
-        self.matrice[int(x/self.scale)-1][int(y/self.scale)-1] = Obstacle(nom,x,y) #met l'obstacle dans la matrice
+        self.matrice[int(x/self.scale)-1][int(y/self.scale)-1] = nom #met l'obstacle dans la matrice (representer par son nom dans la matrice)
 
 
 
