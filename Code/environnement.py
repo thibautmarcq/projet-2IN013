@@ -31,7 +31,10 @@ class Environnement:
         self.matrice[x/self.scale-1][(y/self.scale)-1] = obs #met l'obstacle dans la matrice
 
     def detect_obs(self, nb) :
-        """Detection d'un obstacle a l'avant et a l'arriere"""
+        """
+            Detection d'un obstacle a l'avant et a l'arriere
+            L'utiliser avant de faire un déplacement
+        """
         if ( isinstance(self.matrice[self.robots[nb].posx+1][self.robots[nb].posy], Obstacle.Obstacle)) :
             print("Il y a un obstacle devant le robot ne peut pas avancer")
             return True
