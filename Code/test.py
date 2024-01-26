@@ -33,10 +33,13 @@ x=50
 # -------------------------
 
 # on crée le robot en 150 100
-robot = Robot("Claude", 150, 100)
+robot = Robot("Claude", 150, 100, 50,50)
 # on crée le visuel pour le vecteur directeur de ce robot
 robot_vec = canv.create_line(robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
+def create_robot_rect(canv, robot):
+    robot.rect = canv.create_rectangle(robot.posx-(robot.width/2), robot.posy-(robot.height/2), robot.posx+(robot.width/2), robot.posy+(robot.height/2))
 
+create_robot_rect(canv, robot)
 def updateVecteur(angle):
     """Cette fonction fait une rotation de notre robot de <angle>
         et refresh le visuel de la direction de notre robot
