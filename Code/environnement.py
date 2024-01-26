@@ -1,12 +1,11 @@
 import random
 
+import obstacle as Obstacle
+import robot as Robot
 
 #import numpy as np
 
 
-import robot as Robot
-import obstacle as Obstacle
-import robot as Robot
 
 
 class Environnement:
@@ -31,7 +30,17 @@ class Environnement:
         obs = Obstacle.Obstacle(nom, x, y)
         self.matrice[x/self.scale-1][(y/self.scale)-1] = obs #met l'obstacle dans la matrice
 
-
+    def detect_obs(self, nb) :
+        """Detection d'un obstacle a l'avant et a l'arriere"""
+        if ( isinstance(self.matrice[self.robots[nb].posx+1][self.robots[nb].posy], Obstacle.Obstacle)) :
+            print("Il y a un obstacle devant le robot ne peut pas avancer")
+            return True
+        elif ( isinstance(self.matrice[self.robots[nb].posx-1][self.robots[nb].posy], Obstacle.Obstacle)) :
+            print("Il y a un obstacle derriere le robot ne peut pas reculer")
+            return True
+        else :
+            print("Aucun obstacle devant ou derriere le robot")
+            return False
 
     def affiche(self):
         #methodes pour affichage avec tkinter
