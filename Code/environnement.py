@@ -17,8 +17,9 @@ class Environnement:
 
     def addRobot(self, nom, x, y):
         """Ajoute un robot a notre environnement"""
-        self.robots.append(Robot(nom,x,y))
-        self.matrice[int(x/self.scale)-1][int(y/self.scale)-1] = nom #met le robot dans la matrice (representé par son nom dans la matrice)
+        rob = Robot(nom,x,y)
+        self.robots.append(rob)
+        self.matrice[int(x/self.scale)-1][int(y/self.scale)-1] = rob #met le robot dans la matrice (representé par son nom dans la matrice)
 
     def addObstacle(self,nom):
         """Ajout d'un obstacle dans la matrice"""
