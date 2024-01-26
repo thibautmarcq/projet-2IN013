@@ -19,13 +19,14 @@ class Environnement:
         """Ajoute un robot a notre environnement"""
         rob = Robot(nom,x,y)
         self.robots.append(rob)
-        self.matrice[int(x/self.scale)-1][int(y/self.scale)-1] = rob #met le robot dans la matrice (representé par son nom dans la matrice)
+        self.matrice[int(x/self.scale)-1][int(y/self.scale)-1] = rob #met le robot dans la matrice
 
-    def addObstacle(self,nom):
+    def addObstacle(self,nom, x, y):
         """Ajout d'un obstacle dans la matrice"""
-        x = random.uniform(0,self.width) #prend des coordonnees aleatoires pour l'obstacle
-        y = random.uniform(0,self.height)
-        self.matrice[int(x/self.scale)-1][int(y/self.scale)-1] = nom #met l'obstacle dans la matrice (representé par son nom dans la matrice)
+        obs = Obstacle(nom, x, y)
+        x = random.randint(0,self.width) #prend des coordonnees aleatoires pour l'obstacle
+        y = random.randint(0,self.height)
+        self.matrice[x/self.scale-1][(y/self.scale)-1] = obs #met l'obstacle dans la matrice
 
 
 
