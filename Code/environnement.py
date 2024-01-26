@@ -38,5 +38,4 @@ class Environnement:
         pass
 
 
-env = Environnement(25,3)
-env.trace()
+env = Environnement(50,20,5)
