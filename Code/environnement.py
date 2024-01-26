@@ -21,11 +21,11 @@ class Environnement:
         self.robots.append(rob)
         self.matrice[int(x/self.scale)-1][int(y/self.scale)-1] = rob #met le robot dans la matrice
 
-    def addObstacle(self,nom, x, y):
+    def addObstacle(self,nom):
         """Ajout d'un obstacle dans la matrice"""
-        obs = Obstacle(nom, x, y)
         x = random.randint(0,self.width) #prend des coordonnees aleatoires pour l'obstacle
         y = random.randint(0,self.height)
+        obs = Obstacle(nom, x, y)
         self.matrice[x/self.scale-1][(y/self.scale)-1] = obs #met l'obstacle dans la matrice
 
 

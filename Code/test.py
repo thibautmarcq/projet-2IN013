@@ -33,9 +33,20 @@ x=50
 # -------------------------
 
 # on crée le robot en 150 100
-robot = Robot("Claude", 150, 100)
+robot = Robot("Claude", 150, 100, 50,50)
 # on crée le visuel pour le vecteur directeur de ce robot
 robot_vec = canv.create_line(robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
+
+def create_robot_rect(canv, robot):
+    """crée le polygone qui représente notre robot sur l'interface graphique"""
+    robot.rect = canv.create_polygon(robot.posx-(robot.width/2), robot.posy-(robot.height/2), robot.posx+(robot.width/2), robot.posy-(robot.height/2), robot.posx+(robot.width/2), robot.posy+(robot.height/2), robot.posx-(robot.width/2), robot.posy+(robot.height/2))
+
+create_robot_rect(canv, robot)
+
+def rotate_robot_rect(rect, angle):
+    """Fonction q"""
+    pass
+
 
 def updateVecteur(angle):
     """Cette fonction fait une rotation de notre robot de <angle>
@@ -44,6 +55,7 @@ def updateVecteur(angle):
     global robot_vec
     robot.rotation(angle)
     canv.coords(robot_vec, robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
+
 def updateVecteurR(z):
     """fonction callback pour bind avec tkinter
     possede un argument z car demandé par tkinter

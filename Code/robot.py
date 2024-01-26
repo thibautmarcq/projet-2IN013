@@ -2,10 +2,12 @@ import math
 
 
 class Robot :
-    def __init__(self, nom, position_x, position_y):
+    def __init__(self, nom, position_x, position_y, width, height):
         self.nom = nom
         self.posx = position_x
         self.posy = position_y
+        self.width = width
+        self.height = height
         self.direction = (0,-1) # vecteur directeur du robot
 
     def rotation(self, angle):
