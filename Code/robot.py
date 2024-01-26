@@ -2,6 +2,8 @@ import math
 
 
 class Robot :
+    """Robot - Objet aux coordonnées continues, se place dans l'environnement, avance selon une direction"""
+
     def __init__(self, nom, position_x, position_y):
         self.nom = nom
         self.posx = position_x
