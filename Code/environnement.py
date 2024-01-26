@@ -1,8 +1,8 @@
 import random
 
-import matrice as Matrice
-import numpy as np
-import rectangle as Rectangle
+
+#import numpy as np
+
 
 import obstacle as Obstacle
 import robot as Robot
