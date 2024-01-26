@@ -11,7 +11,6 @@ class Environnement:
     def __init__(self, width, height, scale): #initialise l'environnement de taille x*y 
         #scale = l'echelle c'est un int ainsi scale = la taille d'un cot'e d'une case de la matrice dans dans le rectangle?
         self.width=width; self.height=height
-        # self.robot = Robot.Robot() #Voir avec ines les parametres
         self.matrice = Matrice.Matrice(int(width/scale),int(height/scale)) #Instanciation de la matrice - Matrice.Matrice(x,y) ??
         self.rectangle = None #Constructeur du rectangle
         self.robots = []
