@@ -1,5 +1,8 @@
-import numpy as np
-import random 
+import random
+
+
+#import numpy as np
+
 
 import robot as Robot
 import obstacle as Obstacle
@@ -35,5 +38,4 @@ class Environnement:
         pass
 
 
-env = Environnement(25,3)
-env.trace()
+env = Environnement(50,20,5)
