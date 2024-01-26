@@ -1,10 +1,12 @@
-import numpy as np
-import random 
- 
-import robot as Robot
+import random
+
 import matrice as Matrice
+import numpy as np
 import rectangle as Rectangle
+
 import obstacle as Obstacle
+import robot as Robot
+
 
 class Environnement:
     
@@ -17,7 +19,7 @@ class Environnement:
 
     def addRobot(self, nom, x, y):
         """Ajoute un robot a notre environnement"""
-        rob = Robot(nom,x,y)
+        rob = Robot.Robot(nom,x,y)
         self.robots.append(rob)
         self.matrice[int(x/self.scale)-1][int(y/self.scale)-1] = rob #met le robot dans la matrice
 
@@ -25,7 +27,7 @@ class Environnement:
         """Ajout d'un obstacle dans la matrice"""
         x = random.randint(0,self.width) #prend des coordonnees aleatoires pour l'obstacle
         y = random.randint(0,self.height)
-        obs = Obstacle(nom, x, y)
+        obs = Obstacle.Obstacle(nom, x, y)
         self.matrice[x/self.scale-1][(y/self.scale)-1] = obs #met l'obstacle dans la matrice
 
 
