@@ -2,8 +2,6 @@ import numpy as np
 import random 
  
 import robot as Robot
-import matrice as Matrice
-import rectangle as Rectangle
 import obstacle as Obstacle
 
 class Environnement:
