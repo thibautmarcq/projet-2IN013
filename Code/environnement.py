@@ -1,21 +1,23 @@
 import numpy as np
 import random 
- 
+
 import robot as Robot
 import obstacle as Obstacle
+import robot as Robot
+
 
 class Environnement:
     
     def __init__(self, width, height, scale): #initialise l'environnement de taille x*y 
         #scale = l'echelle c'est un int ainsi scale = la taille d'un cot'e d'une case de la matrice dans dans le rectangle?
         self.width=width; self.height=height
-        self.matrice = [[None for _ in range(width)] for _ in range(height)] # Matrice python basique - initialisation avec taille
+        self.matrice = [[None] * int(width/scale)] * int(height/scale) # Création d'une matrice int(width/scale)*int(height/scale) avec que des Nones (Plus lent que np.empty)
         self.robots = []
         self.scale = scale
 
     def addRobot(self, nom, x, y):
         """Ajoute un robot a notre environnement"""
-        rob = Robot(nom,x,y)
+        rob = Robot.Robot(nom,x,y)
         self.robots.append(rob)
         self.matrice[int(x/self.scale)-1][int(y/self.scale)-1] = rob #met le robot dans la matrice
 
@@ -23,7 +25,7 @@ class Environnement:
         """Ajout d'un obstacle dans la matrice"""
         x = random.randint(0,self.width) #prend des coordonnees aleatoires pour l'obstacle
         y = random.randint(0,self.height)
-        obs = Obstacle(nom, x, y)
+        obs = Obstacle.Obstacle(nom, x, y)
         self.matrice[x/self.scale-1][(y/self.scale)-1] = obs #met l'obstacle dans la matrice
 
 
