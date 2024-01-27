@@ -16,7 +16,12 @@ lab.place(x=50, y=10)
 labb = Label(root)
 labb.place_forget()
 
-btn_vitesse = Scale(root, from_=1, to=10, orient=HORIZONTAL, label="Vitesse")
+
+
+def test_slide(value):
+    print("Slider à : "+value+" !")
+
+btn_vitesse = Scale(root, from_=1, to=10, orient=HORIZONTAL, label="Vitesse", command=test_slide)
 btn_vitesse.pack(side=BOTTOM)
 
 
