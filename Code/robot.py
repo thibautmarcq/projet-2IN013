@@ -19,9 +19,9 @@ class Robot :
         self.direction = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))
 
     def avancerDirection(self):
-        """Fait avancer le robot en suivant son vecteur directeur"""
-        self.x += self.direction[0]
-        self.y += self.direction[1]
+        """Fait avancer le robot en suivant son vecteur directeur et de sa vitesse"""
+        self.x += self.direction[0]*self.speed
+        self.y += self.direction[1]*self.speed
     
     def avancer(self, quantite) : 
         print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(self.posx) + ", " + str(int(self.posy) + int(quantite)) + ")" )
