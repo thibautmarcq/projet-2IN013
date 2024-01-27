@@ -33,28 +33,41 @@ x=50
 # -------------------------
 
 # on crée le robot en 150 100
-robot = Robot("Claude", 150, 100, 50,50, 30)
+robot = Robot("Claude", 150, 100, 50,80, 30)
 # on crée le visuel pour le vecteur directeur de ce robot
-robot_vec = canv.create_line(robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
 
 def create_robot_rect(canv, robot):
     """crée le polygone qui représente notre robot sur l'interface graphique"""
-    robot.rect = canv.create_polygon(robot.posx-(robot.width/2), robot.posy-(robot.height/2), robot.posx+(robot.width/2), robot.posy-(robot.height/2), robot.posx+(robot.width/2), robot.posy+(robot.height/2), robot.posx-(robot.width/2), robot.posy+(robot.height/2))
+    robot.points = [robot.posx-(robot.width/2), robot.posy-(robot.height/2),
+                    robot.posx+(robot.width/2), robot.posy-(robot.height/2),
+                    robot.posx+(robot.width/2), robot.posy+(robot.height/2),
+                    robot.posx-(robot.width/2), robot.posy+(robot.height/2)]
+    robot.rect = canv.create_polygon(robot.points, fill="orange")
 
 create_robot_rect(canv, robot)
+robot_vec = canv.create_line(robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
 
-def rotate_robot_rect(rect, angle):
-    """Fonction q"""
-    pass
+def rotationVecteur(v, angle):
+    """fonction qui fais une rotation du vecteur2D <v> de <angle>"""
+    x, y = v
+    return (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))
+
+def rotate_robot_rect(canvas, robot, angle):
+    """Fonction qui fait tourner le rectangle qui représente le robot"""
+    for i in range(0, 8, 2):
+        v = rotationVecteur((robot.points[i]-robot.posx, robot.points[i+1]-robot.posy), angle)
+        robot.points[i] = v[0] + robot.posx
+        robot.points[i+1] = v[1] + robot.posy
+    canvas.coords(robot.rect, robot.points)
 
 
 def updateVecteur(angle):
     """Cette fonction fait une rotation de notre robot de <angle>
         et refresh le visuel de la direction de notre robot
     """
-    global robot_vec
     robot.rotation(angle)
     canv.coords(robot_vec, robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
+    rotate_robot_rect(canv, robot, angle)
 
 def updateVecteurR(z):
     """fonction callback pour bind avec tkinter
