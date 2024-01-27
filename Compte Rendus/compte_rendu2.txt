@@ -1,25 +1,30 @@
-Pas de petite tache
-Mettre le temps réalisé dans done. 
-
-Pas perdre trop de temps sur certaines choses (fiche python)
-Points de bloquage
-
-Faire attention aux commits. Faire plein de petits commits.
-
-Gérer la répartition des commits. 
-
-Commenter le code.
+Ce qu'on a fait :
+- discuté de la direction du projet et des objectifs de la semaine 
+- on est revenus sur l'organisation de la semaine précédente et comment l'ameliorer
+- on a partage nos points de vue sur la modelisation du robot
 
 
-La démo doit être déjà prête pour la prochaine fois devant le client 
-On doit pas parler pour se dire « cette personne a ceci cela »
+Objectifs de la semaine :
+- avoir un environnement qui lie robot et matrice
+- faire evoluer ce robot dans cet environnement
 
-Rajouter dans le descriptif de la tâche le temps réel 
+conseils des profs :
+- changer la vitesse
+- faire une interface graphique
+- pouvoir deplacer ou tourner le robot d'un angle quelconque
+- (petit plus : pouvoir controler le robot avec le clavier)
 
-Merge git ? —> gestion de conflit 
 
-Répartir le boulot plus uniformément pour que tt le monde soit bien dans le projet 
-
-Faire des commit plus souvent, le meme type de choses très détaillé 
-
-!! Équilibre 
+A noter :
+- Pas de petite tache
+- Mettre le temps réalisé dans done
+- Pas perdre trop de temps sur certaines choses (fiche python quand on peut retrouver des resumés facilement sur internet)
+- Faire attention aux commits. Faire plein de petits commits
+- Commenter le code pour que tout soit clair pour les autres lecteurs et dans le futur
+- La démo doit être déjà prête pour la prochaine fois devant le client 
+- On doit pas parler pour se dire « cette personne a ceci cela »
+- Rajouter dans le descriptif de la tâche le temps réel (peut etre une bonne idée pour pouvoir se répere et s'auto-réguler dans le futur)
+- Répartir le boulot plus uniformément pour que tt le monde soit bien dans le projet (il faut bien commencer pour eviter de creuser les ecarts)
+- Faire des commit plus souvent, le meme type de choses très détaillé 
+- ne pas faire deux commits differents surtout si il s'agit de modifs deifferentes
+- faire attention a l'équilibre dans le groupe
