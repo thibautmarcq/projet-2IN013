@@ -4,7 +4,7 @@ import robot as Robot
 
 env = Env.Environnement(25, 25, 5)
 env.addRobot("rob", 0, 0,1,1,1)
-env.addObstacle("obs", )
+env.addObstacle("obs")
 print(env.detect_obs(env.robots[0]))
 for i in range(len(env.matrice)) :
     for j in range(len(env.matrice)) :
