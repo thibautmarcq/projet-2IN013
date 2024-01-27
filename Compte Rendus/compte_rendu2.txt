@@ -23,8 +23,8 @@ A noter :
 - Commenter le code pour que tout soit clair pour les autres lecteurs et dans le futur
 - La démo doit être déjà prête pour la prochaine fois devant le client 
 - On doit pas parler pour se dire « cette personne a ceci cela »
-- Rajouter dans le descriptif de la tâche le temps réel (peut etre une bonne idée pour pouvoir se répere et s'auto-réguler dans le futur)
+- Rajouter dans le descriptif de la tâche le temps réel (peut etre une bonne idée pour pouvoir se réperer et s'auto-réguler dans le futur)
 - Répartir le boulot plus uniformément pour que tt le monde soit bien dans le projet (il faut bien commencer pour eviter de creuser les ecarts)
 - Faire des commit plus souvent, le meme type de choses très détaillé 
-- ne pas faire deux commits differents surtout si il s'agit de modifs deifferentes
+- faire deux commits differents surtout s'il s'agit de modifs differentes
 - faire attention a l'équilibre dans le groupe
