@@ -53,7 +53,7 @@ def rotationVecteur(v, angle):
     return (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))
 
 def rotate_robot_rect(canvas, robot, angle):
-    """Fonction qui fait tourner le rectangle qui représente le robot"""
+    """fait une rotation du rectangle qui représente le robot"""
     for i in range(0, 8, 2):
         v = rotationVecteur((robot.points[i]-robot.posx, robot.points[i+1]-robot.posy), angle)
         robot.points[i] = v[0] + robot.posx
@@ -61,8 +61,20 @@ def rotate_robot_rect(canvas, robot, angle):
     canvas.coords(robot.rect, robot.points)
 
 
+
+def refresh_position_robot_visuel(canvas, robot):
+    """Update la position du visuel du robot"""
+
+    for i in range(0,8,2):
+        robot.points[i] = robot.points[i]+robot.speed*robot.direction[0]
+        robot.points[i+1] = robot.points[i+1]+robot.speed*robot.direction[1]
+    canvas.coords(robot.rect, robot.points)
+    canvas.coords(robot_vec, robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
+
+
+
 def rotationRobot(angle):
-    """Cette fonction fait une rotation de notre robot de <angle>
+    """fait une rotation de notre robot de <angle>
         et refresh le visuel de la direction de notre robot
     """
     robot.rotation(angle)
@@ -81,6 +93,11 @@ def rotationRobotG(event):
     mais il nous est pas utile
     """
     rotationRobot(-math.pi/10)
+
+def avancerRobot(event):
+    """Fonction callback qui fait avancer notre robot"""
+    robot.avancerDirection()
+    refresh_position_robot_visuel(canv, robot)
 
 
 # # Déplacement clavier
@@ -108,6 +125,7 @@ def rotationRobotG(event):
 # #root.bind("<Right>", right)
 root.bind("<Right>", rotationRobotD)
 root.bind("<Left>", rotationRobotG)
+root.bind("<Up>", avancerRobot)
 
 # btn = Button(root, text="Up", command=upBtn)
 # btn.place(x=180, y=258)
