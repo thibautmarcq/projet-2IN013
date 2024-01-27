@@ -14,7 +14,8 @@ class Robot :
         self.direction = (0,-1) # vecteur directeur du robot
 
     def setVitesse(self, vitesse):
-        self.speed = vitesse
+        self.speed = int(vitesse)
+        print("Vitesse changée à "+ str(self.speed))
 
     def rotation(self, angle):
         """Tourne d'un certain angle le vecteur directeur du robot"""
