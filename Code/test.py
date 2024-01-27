@@ -4,7 +4,7 @@ import math
 
 # Configs de la fenêtre
 root=Tk()
-root.geometry("400x350")
+root.geometry("800x500")
 root.title("Simulation - Robocar Poli")
 #root.iconbitmap('Code\logo.ico')
 root.config(background="purple")
@@ -20,7 +20,7 @@ labb.place_forget()
 
 ## Création d'un canva !!
 """Plus les choses sont en bas (dans les lignes de code), plus haut elles seront affichées"""
-canv = Canvas(root, width=300 , height=200, bg="white" )
+canv = Canvas(root, width=600 , height=400, bg="white" )
 canv.place(x=50, y=50)
 x=50
 #canv.create_line(0,200,300, 20) #(x1,y1, x2,y2)
