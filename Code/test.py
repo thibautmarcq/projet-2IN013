@@ -61,7 +61,7 @@ def rotate_robot_rect(canvas, robot, angle):
     canvas.coords(robot.rect, robot.points)
 
 
-def updateVecteur(angle):
+def rotationRobot(angle):
     """Cette fonction fait une rotation de notre robot de <angle>
         et refresh le visuel de la direction de notre robot
     """
@@ -69,19 +69,18 @@ def updateVecteur(angle):
     canv.coords(robot_vec, robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
     rotate_robot_rect(canv, robot, angle)
 
-def updateVecteurR(z):
+def rotationRobotD(event):
     """fonction callback pour bind avec tkinter
-    possede un argument z car demandé par tkinter
+    possede un argument event car demandé par tkinter
     mais pas utilisé
     """
-    updateVecteur(math.pi/10)
-def updateVecteurL(z):
+    rotationRobot(math.pi/10)
+def rotationRobotG(event):
     """fonction callback pour bind avec tkinter
-    l'argument z est obligatoire pour récupérer l'evenement
+    l'argument event est obligatoire pour récupérer l'evenement
     mais il nous est pas utile
     """
-    print(z)
-    updateVecteur(-math.pi/10)
+    rotationRobot(-math.pi/10)
 
 
 # # Déplacement clavier
@@ -107,8 +106,8 @@ def updateVecteurL(z):
 # root.bind("<Up>", up)
 # #root.bind("<Left>", left)
 # #root.bind("<Right>", right)
-root.bind("<Right>", updateVecteurR)
-root.bind("<Left>", updateVecteurL)
+root.bind("<Right>", rotationRobotD)
+root.bind("<Left>", rotationRobotG)
 
 # btn = Button(root, text="Up", command=upBtn)
 # btn.place(x=180, y=258)
