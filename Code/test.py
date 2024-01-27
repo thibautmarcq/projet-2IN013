@@ -18,14 +18,6 @@ labb.place_forget()
 
 
 
-def test_slide(value):
-    print("Slider à : "+value+" !")
-
-btn_vitesse = Scale(root, from_=1, to=10, orient=HORIZONTAL, label="Vitesse", command=test_slide)
-btn_vitesse.pack(side=BOTTOM)
-
-
-
 ## Création d'un canva !!
 """Plus les choses sont en bas (dans les lignes de code), plus haut elles seront affichées"""
 canv = Canvas(root, width=600 , height=400, bg="white" )
@@ -157,6 +149,10 @@ root.bind("<Up>", avancerRobot)
 
 # btn = Button(root, text="Change", command=affiche)
 # btn.place(x=230, y=258)
+
+# Slider de vitesse
+btn_vitesse = Scale(root, from_=1, to=10, orient=HORIZONTAL, label="Vitesse", command=robot.setVitesse)
+btn_vitesse.pack(side=BOTTOM)
 
 # Boucle de la fenètre principale
 root.mainloop()
