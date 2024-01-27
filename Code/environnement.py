@@ -28,7 +28,7 @@ class Environnement:
         x = random.randint(0,self.width) #prend des coordonnees aleatoires pour l'obstacle
         y = random.randint(0,self.height)
         obs = Obstacle.Obstacle(nom, x, y)
-        self.matrice[int(x/self.scale)][int(y/self.scale)] = obs #met l'obstacle dans la matrice
+        self.matrice[x/self.scale][y/self.scale] = obs #met l'obstacle dans la matrice
 
     def detect_obs(self, rob) :
         """
