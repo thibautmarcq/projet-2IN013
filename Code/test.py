@@ -33,7 +33,7 @@ x=50
 # -------------------------
 
 # on crée le robot en 150 100
-robot = Robot("Claude", 150, 100, 50,50)
+robot = Robot("Claude", 150, 100, 50,50, 30)
 # on crée le visuel pour le vecteur directeur de ce robot
 robot_vec = canv.create_line(robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
 
