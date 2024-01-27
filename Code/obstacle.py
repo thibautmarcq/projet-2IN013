@@ -9,4 +9,4 @@ class Obstacle :
 
     def presenter_obstacle(self):
         """Affichage (console) de l'obstacle"""
-        return(self.nom + "à la position (" + str(self.x) + ", " + str(self.y) + ")")
+        print("Je suis l'obstacle " + self.nom + " et je suis à la position(", self.x,", ", self.y,")")
