@@ -4,7 +4,7 @@ import math
 
 # Configs de la fenêtre
 root=Tk()
-root.geometry("800x500")
+root.geometry("800x550")
 root.title("Simulation - Robocar Poli")
 #root.iconbitmap('Code\logo.ico')
 root.config(background="purple")
@@ -15,6 +15,9 @@ lab.place(x=50, y=10)
 
 labb = Label(root)
 labb.place_forget()
+
+btn_vitesse = Scale(root, from_=1, to=10, orient=HORIZONTAL, label="Vitesse")
+btn_vitesse.pack(side=BOTTOM)
 
 
 
