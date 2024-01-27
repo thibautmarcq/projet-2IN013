@@ -17,18 +17,18 @@ class Environnement:
         self.robots = []
         self.scale = scale
 
-    def addRobot(self, nom, x, y):
+    def addRobot(self, nom, x, y, L,l,vit):
         """Ajoute un robot a notre environnement"""
-        rob = Robot.Robot(nom,x,y)
+        rob = Robot.Robot(nom,x,y,L,l,vit)
         self.robots.append(rob)
-        self.matrice[int(x/self.scale)-1][int(y/self.scale)-1] = rob #met le robot dans la matrice
+        self.matrice[int(x/self.scale)][int(y/self.scale)] = rob #met le robot dans la matrice
 
     def addObstacle(self,nom):
         """Ajout d'un obstacle dans la matrice"""
         x = random.randint(0,self.width) #prend des coordonnees aleatoires pour l'obstacle
         y = random.randint(0,self.height)
         obs = Obstacle.Obstacle(nom, x, y)
-        self.matrice[x/self.scale-1][(y/self.scale)-1] = obs #met l'obstacle dans la matrice
+        self.matrice[int(x/self.scale)][int(y/self.scale)] = obs #met l'obstacle dans la matrice
 
     def detect_obs(self, n) :
         """
