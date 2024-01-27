@@ -151,7 +151,7 @@ root.bind("<Up>", avancerRobot)
 # btn.place(x=230, y=258)
 
 # Slider de vitesse
-btn_vitesse = Scale(root, from_=1, to=10, orient=HORIZONTAL, label="Vitesse", command=robot.setVitesse)
+btn_vitesse = Scale(root, from_=20, to=100, orient=HORIZONTAL, label="Vitesse", command=robot.setVitesse)
 btn_vitesse.pack(side=BOTTOM)
 
 # Boucle de la fenètre principale
