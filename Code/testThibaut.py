@@ -31,13 +31,12 @@ frame_row1.grid(row=1)
 
 frame_gauche = LabelFrame(frame_row1, width=400, height=425, bd=0)
 frame_gauche.grid(row=1, column=0, padx=5, pady=5)
-# frame_gauche.grid_propagate(True)
 
 frame_stats = LabelFrame(frame_gauche, text='Stats', width=350, height=200) # btn_vitesse + coordonnées
 frame_stats.grid(row=1, column=0, padx=10, pady=10)
-frame_gauche.grid_propagate(False)
 
 frame_coordonnees = LabelFrame(frame_gauche, text='Coordonnées', )
+frame_coordonnees.grid(row=1, column=1)
 
 frame_canva = LabelFrame(frame_row1, padx=10, pady=10)
 frame_canva.grid(row=1, column=1, padx=10, pady=10)
@@ -140,8 +139,9 @@ btn_vitesse = Scale(frame_stats, from_=1, to=100,  orient=HORIZONTAL, label="Vit
 btn_vitesse.grid(row=0, column=0, padx=5, pady=5)
 
 # Afficheur de coordonnées
-lab_coord = Label(frame_stats, text='cc mv')
-lab_coord.grid(row=0, column=1, padx=5, pady=5)
+lab_coord_nom = Label(frame_coordonnees, text=("Coordonnées du robot "+robot.nom+" :")).grid(row=0, column=0, padx=5, pady=5)
+lab_coord_x = Label(frame_coordonnees, text=("x ="+str(robot.posx))).grid(row=1, column=0)
+lab_coord_y = Label(frame_coordonnees, text=("y ="+str(robot.posy))).grid(row=1, column=1)
 
 # Boucle de la fenètre principale
 root.mainloop()
