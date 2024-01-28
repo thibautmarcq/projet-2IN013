@@ -45,11 +45,11 @@ class Robot :
         self.x = int(self.x) + int(quantite)
 
     def gauche(self, quantite) :
-        if (int(self.posx) - int(quantite)) < 0 :
+        if (int(self.x) - int(quantite)) < 0 :
             print("Le déplacement n'est pas possible car hors champ")
             return
-        print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(int(self.posx) - int(quantite)) + ", " + str(self.posy) + ")")
-        self.posx = int(self.posx) - int(quantite)
+        print("Position précédente : (" + str(self.x) + ", " + str(self.y) + "), nouvelle position : (" + str(int(self.x) - int(quantite)) + ", " + str(self.y) + ")")
+        self.x = int(self.x) - int(quantite)
 
     def get_position_string(self) :
         return ("(" + str(self.posx) + ", " + str(self.posy) + ")")  
