@@ -52,7 +52,7 @@ class Robot :
         self.x = int(self.x) - int(quantite)
 
     def get_position_string(self) :
-        return ("(" + str(self.posx) + ", " + str(self.posy) + ")")  
+        return ("(" + str(self.x) + ", " + str(self.y) + ")")  
     
     def afficher_etat(self) :
         print("Je suis le robot " + self.nom + " et je suis à la position" + self.get_position_string())
