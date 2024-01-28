@@ -156,6 +156,7 @@ root.bind("<space>", avancerRobot)
 
 # Slider de vitesse
 btn_vitesse = Scale(frame_stats, from_=1, to=100,  orient=HORIZONTAL, label="Vitesse", command=robot.setVitesse)
+btn_vitesse.set(robot.speed) # permet d'initialiser le slider a la vitesse initiale du robot
 btn_vitesse.grid(row=0, column=0, padx=5, pady=5)
 
 # Boucle de la fenètre principale
