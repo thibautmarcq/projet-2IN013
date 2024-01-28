@@ -40,19 +40,19 @@ class Environnement:
         """
         obs = False
         # Detecte si il y a un obstacle devant
-        if ( isinstance(self.matrice[rob.posx+1][rob.posy], Obstacle.Obstacle) ) :
+        if ( isinstance(self.matrice[rob.x+1][rob.y], Obstacle.Obstacle) ) :
             print("Il y a un obstacle devant, le robot ne peut pas avancer")
             obs = True
         # Detecte si il y a un obstacle devant
-        if ( isinstance(self.matrice[rob.posx-1][rob.posy], Obstacle.Obstacle) ) :
+        if ( isinstance(self.matrice[rob.p-1][rob.y], Obstacle.Obstacle) ) :
             print("Il y a un obstacle derriere, le robot ne peut pas reculer")
             obs = True
         # Detecte si il y a un obstacle à droite
-        if ( isinstance(self.matrice[rob.posx][rob.posy+1], Obstacle.Obstacle) ) :
+        if ( isinstance(self.matrice[rob.x][rob.y+1], Obstacle.Obstacle) ) :
             print("Il y a un obstacle à droite, le robot ne peut pas faire de rotation à droite")
             obs = True
         # Detecte si il y a un obstacle à gauche
-        if ( isinstance(self.matrice[rob.posx][rob.posy-1], Obstacle.Obstacle) ) :
+        if ( isinstance(self.matrice[rob.x][rob.y-1], Obstacle.Obstacle) ) :
             print("Il y a un obstacle à gauche, le robot ne peut pas faire de rotation à gauche")
             obs = True
 
