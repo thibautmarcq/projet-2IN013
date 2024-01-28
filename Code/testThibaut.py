@@ -63,6 +63,28 @@ canv.grid(row=3, column=0)
 # on crée le robot en 150 100
 robot = Robot("Claude", 150, 100, 50, 80, 30)
 
+# Afficheur de coordonnées
+# global lab_coord_nom, lab_coord_x, lab_coord_y
+lab_coord_nom = Label(frame_coordonnees, text=("Coordonnées du robot "+robot.nom+" :")).grid(row=0, column=0, padx=5, pady=5)
+lab_coord_x = Label(frame_coordonnees, text=("x ="+str(robot.posx)))
+lab_coord_x.grid(row=1, column=0)
+lab_coord_y = Label(frame_coordonnees, text=("y ="+str(robot.posy)))
+lab_coord_y.grid(row=1, column=1)
+
+def update_coord_affichage():
+    """Met à jour l'affichage des coordonnées dans l'affichage (implémenter chaque avancement)"""
+    lab_coord_x = Label(frame_coordonnees, text=("x ="+str(robot.posx))).grid(row=1, column=0)
+    lab_coord_y = Label(frame_coordonnees, text=("y ="+str(robot.posy))).grid(row=1, column=1)
+    lab_coord_x.place_forget() # Retire l'ancienne coord de l'affchage
+    lab_coord_y.place_forget() # Idem x
+
+def update_coord_affichage():
+    """Met à jour l'affichage des coordonnées dans l'affichage (implémenter chaque avancement)"""
+    # Update labels
+    lab_coord_x.config(text=("x ="+str(robot.posx)))
+    lab_coord_y.config(text=("y ="+str(robot.posy)))
+
+
 # on crée le visuel pour le vecteur directeur de ce robot
 
 def create_robot_rect(canv, robot):
@@ -93,14 +115,12 @@ def rotate_robot_rect(canvas, robot, angle):
 
 def refresh_position_robot_visuel(canvas, robot):
     """Update la position du visuel du robot"""
-
     for i in range(0,8,2):
         robot.points[i] = robot.points[i]+robot.speed*robot.direction[0]
         robot.points[i+1] = robot.points[i+1]+robot.speed*robot.direction[1]
     canvas.coords(robot.rect, robot.points)
     canvas.coords(robot_vec, robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
-
-
+    update_coord_affichage()
 
 def rotationRobot(angle):
     """fait une rotation de notre robot de <angle>
@@ -137,11 +157,6 @@ root.bind("<space>", avancerRobot)
 # Slider de vitesse
 btn_vitesse = Scale(frame_stats, from_=1, to=100,  orient=HORIZONTAL, label="Vitesse", command=robot.setVitesse)
 btn_vitesse.grid(row=0, column=0, padx=5, pady=5)
-
-# Afficheur de coordonnées
-lab_coord_nom = Label(frame_coordonnees, text=("Coordonnées du robot "+robot.nom+" :")).grid(row=0, column=0, padx=5, pady=5)
-lab_coord_x = Label(frame_coordonnees, text=("x ="+str(robot.posx))).grid(row=1, column=0)
-lab_coord_y = Label(frame_coordonnees, text=("y ="+str(robot.posy))).grid(row=1, column=1)
 
 # Boucle de la fenètre principale
 root.mainloop()
