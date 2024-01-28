@@ -34,11 +34,11 @@ class Robot :
 
 
     def reculer(self, quantite) :
-        if (int(self.posy) - int(quantite)) < 0 :
+        if (int(self.y) - int(quantite)) < 0 :
             print("Le déplacement n'est pas possible car hors champ")
             return
-        print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(self.posx) + ", " + str(int(self.posy) - int(quantite)) + ")")
-        self.posy = int(self.posy) - int(quantite)
+        print("Position précédente : (" + str(self.x) + ", " + str(self.y) + "), nouvelle position : (" + str(self.x) + ", " + str(int(self.y) - int(quantite)) + ")")
+        self.y = int(self.y) - int(quantite)
 
     def droite(self, quantite) :
         print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(int(self.posx) + int(quantite)) + ", " + str(self.posy) + ")")
