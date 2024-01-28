@@ -76,9 +76,9 @@ robot = Robot("Claude", 150, 100, 50, 80, 30)
 # Afficheur de coordonnées
 # global lab_coord_nom, lab_coord_x, lab_coord_y
 lab_coord_nom = Label(frame_coordonnees, text=("Coordonnées du robot "+robot.nom+" :")).grid(row=0, column=0, padx=5, pady=5)
-lab_coord_x = Label(frame_coordonnees, text=("x ="+str(robot.posx)))
+lab_coord_x = Label(frame_coordonnees, text=("x ="+str(robot.x)))
 lab_coord_x.grid(row=1, column=0)
-lab_coord_y = Label(frame_coordonnees, text=("y ="+str(robot.posy)))
+lab_coord_y = Label(frame_coordonnees, text=("y ="+str(robot.y)))
 lab_coord_y.grid(row=1, column=1)
 
 
