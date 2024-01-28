@@ -71,18 +71,13 @@ lab_coord_x.grid(row=1, column=0)
 lab_coord_y = Label(frame_coordonnees, text=("y ="+str(robot.posy)))
 lab_coord_y.grid(row=1, column=1)
 
-def update_coord_affichage():
-    """Met à jour l'affichage des coordonnées dans l'affichage (implémenter chaque avancement)"""
-    lab_coord_x = Label(frame_coordonnees, text=("x ="+str(robot.posx))).grid(row=1, column=0)
-    lab_coord_y = Label(frame_coordonnees, text=("y ="+str(robot.posy))).grid(row=1, column=1)
-    lab_coord_x.place_forget() # Retire l'ancienne coord de l'affchage
-    lab_coord_y.place_forget() # Idem x
+
 
 def update_coord_affichage():
     """Met à jour l'affichage des coordonnées dans l'affichage (implémenter chaque avancement)"""
     # Update labels
-    lab_coord_x.config(text=("x ="+str(robot.posx)))
-    lab_coord_y.config(text=("y ="+str(robot.posy)))
+    lab_coord_x.config(text=("x ="+str(round(robot.posx, 2))))
+    lab_coord_y.config(text=("y ="+str(round(robot.posy, 2))))
 
 
 # on crée le visuel pour le vecteur directeur de ce robot
