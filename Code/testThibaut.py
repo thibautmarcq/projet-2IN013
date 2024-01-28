@@ -5,7 +5,7 @@ import math
 
 # Configs de la fenêtre
 root=Tk()
-root.geometry("1130x550")
+root.geometry("1030x550")
 root.title("Simulation - Robocar Poli")
 #root.iconbitmap('Code\logo.ico')
 # root.config(background="purple")
@@ -17,11 +17,12 @@ labb.place_forget()
 
 # Frames
 
-#  ----------
-# |titre     |
-#  ----------
-# |g   ||c   |
-#  ----------
+#  --------------
+# |titre         |
+#  --------------
+# |g up  ||c     |
+# | tuto ||      |
+#  --------------
 
 frame_titre = LabelFrame(root, bd=-1)
 frame_titre.grid(row=0, sticky='w', padx=15)
@@ -32,11 +33,20 @@ frame_row1.grid(row=1)
 frame_gauche = LabelFrame(frame_row1, width=400, height=425, bd=0)
 frame_gauche.grid(row=1, column=0, padx=5, pady=5)
 
-frame_stats = LabelFrame(frame_gauche, text='Stats', width=350, height=200) # btn_vitesse + coordonnées
-frame_stats.grid(row=1, column=0, padx=10, pady=10)
+frame_up = LabelFrame(frame_gauche, bd=0)
+frame_up.grid(row=0)
 
-frame_coordonnees = LabelFrame(frame_gauche, text='Coordonnées', )
-frame_coordonnees.grid(row=1, column=1)
+frame_stats = LabelFrame(frame_up, text='Stats', width=350, height=200) # btn_vitesse + coordonnées
+frame_stats.grid(row=0, column=0, padx=10, pady=10)
+
+frame_coordonnees = LabelFrame(frame_up, text='Coordonnées', )
+frame_coordonnees.grid(row=0, column=1)
+
+frame_tutorial = LabelFrame(frame_gauche, text="Tutorial", bd=1)
+frame_tutorial.grid(row=1)
+tutorial_image = PhotoImage(file="Code/tutorial.png").subsample(2,2)
+tutorial = Label(frame_tutorial, image=tutorial_image)
+tutorial.grid(row=1, column=1)
 
 frame_canva = LabelFrame(frame_row1, padx=10, pady=10)
 frame_canva.grid(row=1, column=1, padx=10, pady=10)
