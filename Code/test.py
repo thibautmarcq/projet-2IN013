@@ -69,7 +69,7 @@ def refresh_position_robot_visuel(canvas, robot):
         robot.points[i] = robot.points[i]+robot.speed*robot.direction[0]
         robot.points[i+1] = robot.points[i+1]+robot.speed*robot.direction[1]
     canvas.coords(robot.rect, robot.points)
-    canvas.coords(robot_vec, robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
+    canvas.coords(robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
 
 
 
