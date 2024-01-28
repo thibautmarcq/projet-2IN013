@@ -1,11 +1,12 @@
 import environnement as Env
 import obstacle as Obstacle
 import robot as Robot
+from interface import Interface
 
 # Création de l'envronnement
 env = Env.Environnement(5, 5, 1)
 # Ajout de robot et d'obstacle
-env.addRobot("rob", 0, 0, 1, 1, 1)
+env.addRobot("rob", 200, 200, 50, 50, 30)
 env.addObstacle("obs")
 # En fonction de la taille et en fonction de l'ordre qu'on appel addRobot et addObstacle, ils peuvent se superposer dans la matrice et peuvent se supprimer
 print(env.detect_obs(env.robots[0]))
@@ -28,3 +29,8 @@ for i in range(len(env.matrice)) :
             print(env.matrice[i][j].presenter_obstacle())
         else :
             print("Ce n'est pas un obstacle")
+
+
+print(env.robots[env.robotSelect])
+
+interface = Interface(env)

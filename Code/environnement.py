@@ -15,13 +15,14 @@ class Environnement:
         self.width=width; self.height=height
         self.matrice = [[None] * int(width/scale)] * int(height/scale) # Création d'une matrice int(width/scale)*int(height/scale) avec que des Nones (Plus lent que np.empty)
         self.robots = []
+        self.robotSelect = 0 # robot selectionné pour bougé
         self.scale = scale
 
     def addRobot(self, nom, x, y, width, height, vitesse):
         """Ajoute un robot a notre environnement"""
         rob = Robot.Robot(nom, x, y, width, height, vitesse)
         self.robots.append(rob)
-        self.matrice[int(x/self.scale)][int(y/self.scale)] = rob #met le robot dans la matrice
+        #self.matrice[int(x/self.scale)][int(y/self.scale)] = rob #met le robot dans la matrice
 
     def addObstacle(self,nom):
         """Ajout d'un obstacle dans la matrice"""
