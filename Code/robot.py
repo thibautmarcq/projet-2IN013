@@ -29,8 +29,8 @@ class Robot :
         self.y += self.direction[1]*self.speed
     
     def avancer(self, quantite) : 
-        print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(self.posx) + ", " + str(int(self.posy) + int(quantite)) + ")" )
-        self.posy = self.posy + quantite
+        print("Position précédente : (" + str(self.x) + ", " + str(self.y) + "), nouvelle position : (" + str(self.x) + ", " + str(int(self.y) + int(quantite)) + ")" )
+        self.y = self.y + quantite
 
 
     def reculer(self, quantite) :
