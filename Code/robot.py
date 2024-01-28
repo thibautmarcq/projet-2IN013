@@ -41,8 +41,8 @@ class Robot :
         self.y = int(self.y) - int(quantite)
 
     def droite(self, quantite) :
-        print("Position précédente : (" + str(self.posx) + ", " + str(self.posy) + "), nouvelle position : (" + str(int(self.posx) + int(quantite)) + ", " + str(self.posy) + ")")
-        self.posx = int(self.posx) + int(quantite)
+        print("Position précédente : (" + str(self.x) + ", " + str(self.y) + "), nouvelle position : (" + str(int(self.x) + int(quantite)) + ", " + str(self.y) + ")")
+        self.x = int(self.x) + int(quantite)
 
     def gauche(self, quantite) :
         if (int(self.posx) - int(quantite)) < 0 :
