@@ -86,8 +86,8 @@ lab_coord_y.grid(row=1, column=1)
 def update_coord_affichage():
     """Met à jour l'affichage des coordonnées dans l'affichage (implémenter chaque avancement)"""
     # Update labels
-    lab_coord_x.config(text=("x ="+str(round(robot.posx, 2))))
-    lab_coord_y.config(text=("y ="+str(round(robot.posy, 2))))
+    lab_coord_x.config(text=("x ="+str(round(robot.x, 2))))
+    lab_coord_y.config(text=("y ="+str(round(robot.y, 2))))
 
 
 # on crée le visuel pour le vecteur directeur de ce robot
