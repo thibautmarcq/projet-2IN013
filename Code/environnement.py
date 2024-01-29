@@ -13,7 +13,7 @@ class Environnement:
     def __init__(self, width, height, scale): #initialise l'environnement de taille x*y 
         #scale = l'echelle c'est un int ainsi scale = la taille d'un cot'e d'une case de la matrice dans dans le rectangle?
         self.width=width; self.height=height
-        self.matrice = [[None] * int(width/scale)] * int(height/scale) # Création d'une matrice int(width/scale)*int(height/scale) avec que des Nones (Plus lent que np.empty)
+        self.matrice = [[None] * int(width/scale) for i in range(int(height/scale))] # Création d'une matrice int(width/scale)*int(height/scale) avec que des Nones (Plus lent que np.empty)
         self.robots = []
         self.scale = scale
 
@@ -44,7 +44,7 @@ class Environnement:
             print("Il y a un obstacle devant, le robot ne peut pas avancer")
             obs = True
         # Detecte si il y a un obstacle devant
-        if ( isinstance(self.matrice[rob.p-1][rob.y], Obstacle.Obstacle) ) :
+        if ( isinstance(self.matrice[rob.x-1][rob.y], Obstacle.Obstacle) ) :
             print("Il y a un obstacle derriere, le robot ne peut pas reculer")
             obs = True
         # Detecte si il y a un obstacle à droite
