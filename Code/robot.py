@@ -31,9 +31,9 @@ class Robot :
         aka 600*400)
         """
         maxi = max(self.height, self.width)
-        if (self.x + newx - max) < 0 or (self.y + newy -max) < 0 :
+        if (self.x + newx - maxi) < 0 or (self.y + newy - maxi) < 0 :
             return False
-        if (self.x + newx + max) > 600 or (self.y + newy + max) > 400 :
+        if (self.x + newx - maxi) > 600 or (self.y + newy - maxi) > 400 :
             return False
         return True
 
