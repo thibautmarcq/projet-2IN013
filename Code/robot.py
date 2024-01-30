@@ -24,6 +24,11 @@ class Robot :
         self.direction = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))
 
     def robotDansCadre(self) :
+        """
+        Détermine si le robot est bien dans le cadre
+        (pour l'instant en fonction des coordonnées de la fênetre actuelle de tkinter
+        aka 600*400)
+        """
         maxi = max(self.height, self.width)
         if (self.x - max) < 0 or (self.y-max) < 0 :
             return False
