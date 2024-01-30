@@ -173,7 +173,7 @@ def avancerRobot(event):
 # Key binds
 root.bind("<Right>", rotationRobotD)
 root.bind("<Left>", rotationRobotG)
-root.bind("<Up>", avancerRobot)
+root.bind("<space>", avancerRobot)
 
 # Slider de vitesse
 btn_vitesse = Scale(frame_stats, from_=1, to=100,  orient=HORIZONTAL, label="Vitesse", command=robot.setVitesse)
