@@ -10,13 +10,13 @@ class Robot :
         self.y = y
         self.width = width
         self.height = height
-        self.speed = vitesse
+        self.vitesse = vitesse
         self.direction = (0,-1) # vecteur directeur du robot
 
     def setVitesse(self, vitesse):
         """Change la vitesse du robot"""
-        self.speed = int(vitesse)
-        print("Vitesse changée à "+ str(self.speed))
+        self.vitesse = int(vitesse)
+        print("Vitesse changée à "+ str(self.vitesse))
 
     def rotation(self, angle):
         """Tourne d'un certain angle le vecteur directeur du robot"""
@@ -25,8 +25,8 @@ class Robot :
 
     def avancerDirection(self):
         """Fait avancer le robot en suivant son vecteur directeur et de sa vitesse"""
-        self.x += self.direction[0]*self.speed
-        self.y += self.direction[1]*self.speed
+        self.x += self.direction[0]*self.vitesse
+        self.y += self.direction[1]*self.vitesse
     
     def avancer(self, quantite) : 
         print("Position précédente : (" + str(self.x) + ", " + str(self.y) + "), nouvelle position : (" + str(self.x) + ", " + str(int(self.y) + int(quantite)) + ")" )

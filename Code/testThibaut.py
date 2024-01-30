@@ -131,8 +131,8 @@ def refresh_position_robot_visuel(canvas, robot):
     Update la position du visuel du robot
     """
     for i in range(0,8,2):
-        robot.points[i] = robot.points[i]+robot.speed*robot.direction[0]
-        robot.points[i+1] = robot.points[i+1]+robot.speed*robot.direction[1]
+        robot.points[i] = robot.points[i]+robot.vitesse*robot.direction[0]
+        robot.points[i+1] = robot.points[i+1]+robot.vitesse*robot.direction[1]
     canvas.coords(robot.rect, robot.points)
     canvas.coords(robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
     update_coord_affichage()
@@ -177,7 +177,7 @@ root.bind("<space>", avancerRobot)
 
 # Slider de vitesse
 btn_vitesse = Scale(frame_stats, from_=1, to=100,  orient=HORIZONTAL, label="Vitesse", command=robot.setVitesse)
-btn_vitesse.set(robot.speed) # permet d'initialiser le slider a la vitesse initiale du robot
+btn_vitesse.set(robot.vitesse) # permet d'initialiser le slider a la vitesse initiale du robot
 btn_vitesse.grid(row=0, column=0, padx=5, pady=5)
 
 # Boucle de la fenètre principale

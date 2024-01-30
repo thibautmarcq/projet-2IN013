@@ -1,11 +1,11 @@
 class Obstacle :
     """Obstacle - Objet aux coordonnées discrètes, se place dans la matrice de l'environnement """
 
-    def __init__(self, nom, posx, posy) :
+    def __init__(self, nom, x, y) :
         """Constructeur de l'obstacle - Prend un nom et des coordonnées entières"""
         self.nom = nom
-        self.x = posx
-        self.y = posy
+        self.x = x
+        self.y = y
 
     def presenter_obstacle(self):
         """Affichage (console) de l'obstacle"""
