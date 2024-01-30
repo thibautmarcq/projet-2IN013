@@ -127,7 +127,9 @@ def rotate_robot_rect(canvas, robot, angle):
 
 
 def refresh_position_robot_visuel(canvas, robot):
-    """Update la position du visuel du robot"""
+    """
+    Update la position du visuel du robot
+    """
     for i in range(0,8,2):
         robot.points[i] = robot.points[i]+robot.speed*robot.direction[0]
         robot.points[i+1] = robot.points[i+1]+robot.speed*robot.direction[1]
@@ -136,28 +138,34 @@ def refresh_position_robot_visuel(canvas, robot):
     update_coord_affichage()
 
 def rotationRobot(angle):
-    """fait une rotation de notre robot de <angle>
-        et refresh le visuel de la direction de notre robot
+    """
+    Fait une rotation de notre robot de <angle>
+    et refresh le visuel de la direction de notre robot
     """
     robot.rotation(angle)
     canv.coords(robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
     rotate_robot_rect(canv, robot, angle)
 
 def rotationRobotD(event):
-    """fonction callback pour bind avec tkinter
-    possede un argument event car demandé par tkinter
+    """
+    Fonction callback pour bind avec tkinter
+    possède un argument event car demandé par tkinter
     mais pas utilisé
     """
     rotationRobot(math.pi/10)
+
 def rotationRobotG(event):
-    """fonction callback pour bind avec tkinter
+    """
+    Fonction callback pour bind avec tkinter
     l'argument event est obligatoire pour récupérer l'evenement
     mais il nous est pas utile
     """
     rotationRobot(-math.pi/10)
 
 def avancerRobot(event):
-    """Fonction callback qui fait avancer notre robot"""
+    """
+    Fonction callback qui fait avancer notre robot
+    """
     robot.avancerDirection()
     refresh_position_robot_visuel(canv, robot)
 
