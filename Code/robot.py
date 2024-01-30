@@ -23,6 +23,8 @@ class Robot :
         x, y = self.direction
         self.direction = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))
 
+    def robotDansCadre() :
+
     def avancerDirection(self):
         """Fait avancer le robot en suivant son vecteur directeur et de sa vitesse"""
         self.x += self.direction[0]*self.vitesse
