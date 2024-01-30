@@ -108,7 +108,9 @@ create_robot_rect(canv, robot)
 robot_vec = canv.create_line(robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
 
 def rotationVecteur(v, angle):
-    """fonction qui fais une rotation du vecteur2D <v> de <angle>"""
+    """
+    Fonction qui fait une rotation du vecteur2D <v> de <angle>
+    """
     x, y = v
     return (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))
 
