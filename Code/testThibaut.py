@@ -98,10 +98,10 @@ def create_robot_rect(canv, robot):
     """
     crée le polygone qui représente notre robot sur l'interface graphique
     """
-    robot.points = [robot.x-(robot.width/2), robot.y-(robot.height/2),
-                    robot.x+(robot.width/2), robot.y-(robot.height/2),
-                    robot.x+(robot.width/2), robot.y+(robot.height/2),
-                    robot.x-(robot.width/2), robot.y+(robot.height/2)]
+    robot.points = [robot.x-(robot.width/2), robot.y-(robot.length/2),
+                    robot.x+(robot.width/2), robot.y-(robot.length/2),
+                    robot.x+(robot.width/2), robot.y+(robot.length/2),
+                    robot.x-(robot.width/2), robot.y+(robot.length/2)]
     robot.rect = canv.create_polygon(robot.points, fill="orange")
 
 create_robot_rect(canv, robot)
