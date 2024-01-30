@@ -93,7 +93,9 @@ def update_coord_affichage():
 # on crée le visuel pour le vecteur directeur de ce robot
 
 def create_robot_rect(canv, robot):
-    """crée le polygone qui représente notre robot sur l'interface graphique"""
+    """
+    crée le polygone qui représente notre robot sur l'interface graphique
+    """
     robot.points = [robot.x-(robot.width/2), robot.y-(robot.height/2),
                     robot.x+(robot.width/2), robot.y-(robot.height/2),
                     robot.x+(robot.width/2), robot.y+(robot.height/2),
