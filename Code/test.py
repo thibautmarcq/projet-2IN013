@@ -87,6 +87,7 @@ def rotationRobotD(event):
     mais pas utilisé
     """
     rotationRobot(math.pi/10)
+    
 def rotationRobotG(event):
     """fonction callback pour bind avec tkinter
     l'argument event est obligatoire pour récupérer l'evenement
