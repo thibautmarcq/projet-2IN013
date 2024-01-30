@@ -4,12 +4,12 @@ import math
 class Robot :
     """Robot - Objet aux coordonnées continues, se place dans l'environnement, avance selon une direction"""
 
-    def __init__(self, nom, x, y, width, height, vitesse):
+    def __init__(self, nom, x, y, width, length, vitesse):
         self.nom = nom
         self.x = x
         self.y = y
         self.width = width
-        self.height = height
+        self.length = length
         self.vitesse = vitesse
         self.direction = (0,-1) # vecteur directeur du robot
 
