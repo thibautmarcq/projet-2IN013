@@ -23,16 +23,17 @@ class Robot :
         x, y = self.direction
         self.direction = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))
 
-    def robotDansCadre(self) :
+    def robotDansCadre(self, newx, newy) :
         """
-        Détermine si le robot est bien dans le cadre
+        Détermine si le robot resterait bien dans le cadre
+        après en déplacement aux newx et newy souhaités
         (pour l'instant en fonction des coordonnées de la fênetre actuelle de tkinter
         aka 600*400)
         """
         maxi = max(self.height, self.width)
-        if (self.x - max) < 0 or (self.y-max) < 0 :
+        if (self.x + newx - max) < 0 or (self.y + newy -max) < 0 :
             return False
-        if (self.x + max) > 600 or (self.y + max) > 400 :
+        if (self.x + newx + max) > 600 or (self.y + newy + max) > 400 :
             return False
         return True
 
@@ -40,9 +41,11 @@ class Robot :
         """
         Fait avancer le robot en suivant son vecteur directeur et de sa vitesse
         """
-        if self.robotDansCadre :
-            self.x += self.direction[0]*self.vitesse
-            self.y += self.direction[1]*self.vitesse
+        newx = self.x + self.direction[0]*self.vitesse
+        newy = self.y + self.direction[1]*self.vitesse
+        if self.robotDansCadre(newx, newy) :
+            self.x = newx
+            self.y = newy
     
     def avancer(self, quantite) : 
         print("Position précédente : (" + str(self.x) + ", " + str(self.y) + "), nouvelle position : (" + str(self.x) + ", " + str(int(self.y) + int(quantite)) + ")" )
