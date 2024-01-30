@@ -166,8 +166,8 @@ def avancerRobot(event):
     """
     Fonction callback qui fait avancer notre robot
     """
-    robot.avancerDirection()
-    refresh_position_robot_visuel(canv, robot)
+    if robot.avancerDirection() :
+        refresh_position_robot_visuel(canv, robot)
 
 
 # Key binds
