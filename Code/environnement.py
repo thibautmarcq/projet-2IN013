@@ -25,18 +25,24 @@ class Environnement:
 
     def addObstacle(self,nom):
         """Ajout d'un obstacle dans la matrice"""
-        x = random.randint(0,self.width) #prend des coordonnees aleatoires pour l'obstacle
-        y = random.randint(0,self.height)
-        obs = Obstacle.Obstacle(nom, x, y)
-        self.matrice[int(x/self.scale)-1][int(y/self.scale)-1] = obs #met l'obstacle dans la matrice
+        oqp = False
+        while( oqp == False ) :
+            random_x = random.randrange(0,self.width) #prend des coordonnees aleatoires pour l'obstacle
+            random_y = random.randrange(0,self.height)
+            x = int(random_x/self.scale)
+            y = int(random_y/self.scale)
+            if ( self.matrice[x][y] == None) :
+                obs = Obstacle.Obstacle(nom, x, y)
+                self.matrice[x][y] = obs #met l'obstacle dans la matrice
+                oqp = True
 
     def detect_obs(self, rob) :
         """
-            La fonction prend en paramètre n qui correspond au n-ième robot de la liste robots
-            Detection d'un obstacle a l'avant et a l'arriere pour avancer ou reculer
-            Detection d'un obstacle sur les cotes pour faire une rotation à droite ou à gauche
-            Si il y a un obstacle renvoie True sinon False
-            L'utiliser avant de faire un déplacement
+            Detection d'obstacle autour du robot
+
+            Param : rob : Objet de type Robot
+
+            Renvoie True si il y a un obstacle sinon False
         """
         obs = False
         # Detecte si il y a un obstacle devant
@@ -56,8 +62,6 @@ class Environnement:
             print("Il y a un obstacle à gauche, le robot ne peut pas faire de rotation à gauche")
             obs = True
 
-        if (obs == False) :
-            print ("Il n'y a pas d'obstacle autour de lui")
         return obs
 
     def affiche(self):
