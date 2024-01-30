@@ -30,7 +30,7 @@ class Robot :
         (pour l'instant en fonction des coordonnées de la fênetre actuelle de tkinter
         aka 600*400)
         """
-        maxi = max(self.height, self.width)/2
+        maxi = max(self.length, self.width)/2
         if (newx - maxi) < 0 or (newy - maxi) < 0 :
             return False
         if (newx + maxi) > 600 or (newy + maxi) > 400 :
