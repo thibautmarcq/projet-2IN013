@@ -70,3 +70,4 @@ class Environnement:
 
 
 env = Environnement(50,20,5)
+print(env.height)
