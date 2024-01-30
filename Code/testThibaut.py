@@ -113,7 +113,9 @@ def rotationVecteur(v, angle):
     return (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))
 
 def rotate_robot_rect(canvas, robot, angle):
-    """fait une rotation du rectangle qui représente le robot"""
+    """
+    Fait une rotation du rectangle qui représente le robot
+    """
     for i in range(0, 8, 2):
         v = rotationVecteur((robot.points[i]-robot.x, robot.points[i+1]-robot.y), angle)
         robot.points[i] = v[0] + robot.x
