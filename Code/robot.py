@@ -40,12 +40,15 @@ class Robot :
     def avancerDirection(self):
         """
         Fait avancer le robot en suivant son vecteur directeur et de sa vitesse
+        Retourne True si le déplacement a réussi (si il était possible dans le cadre) et False sinon
         """
         newx = self.x + self.direction[0]*self.vitesse
         newy = self.y + self.direction[1]*self.vitesse
         if self.robotDansCadre(newx, newy) :
             self.x = newx
             self.y = newy
+            return True
+        return False
     
     def avancer(self, quantite) : 
         print("Position précédente : (" + str(self.x) + ", " + str(self.y) + "), nouvelle position : (" + str(self.x) + ", " + str(int(self.y) + int(quantite)) + ")" )
