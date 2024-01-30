@@ -23,7 +23,13 @@ class Robot :
         x, y = self.direction
         self.direction = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))
 
-    def robotDansCadre() :
+    def robotDansCadre(self) :
+        maxi = max(self.height, self.width)
+        if (self.x - max) < 0 or (self.y-max) < 0 :
+            return False
+        if (self.x + max) > 600 or (self.y + max) > 400 :
+            return False
+        return True
 
     def avancerDirection(self):
         """Fait avancer le robot en suivant son vecteur directeur et de sa vitesse"""
