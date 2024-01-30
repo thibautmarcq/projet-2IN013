@@ -17,9 +17,9 @@ class Environnement:
         self.robots = []
         self.scale = scale
 
-    def addRobot(self, nom, x, y, width, height, vitesse):
+    def addRobot(self, nom, x, y, width, length, vitesse):
         """Ajoute un robot a notre environnement"""
-        rob = Robot.Robot(nom, x, y, width, height, vitesse)
+        rob = Robot.Robot(nom, x, y, width, length, vitesse)
         self.robots.append(rob)
         self.matrice[int(x/self.scale)][int(y/self.scale)] = rob #met le robot dans la matrice
 
