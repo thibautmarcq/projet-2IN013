@@ -1,11 +1,9 @@
 import random
 
+import numpy as np
+
 import obstacle as Obstacle
 import robot as Robot
-
-#import numpy as np
-
-
 
 
 class Environnement:
@@ -13,7 +11,7 @@ class Environnement:
     def __init__(self, width, height, scale): #initialise l'environnement de taille x*y 
         #scale = l'echelle c'est un int ainsi scale = la taille d'un cot'e d'une case de la matrice dans dans le rectangle?
         self.width=width; self.height=height
-        self.matrice = [[None] * int(width/scale) for i in range(int(height/scale))] # Création d'une matrice int(width/scale)*int(height/scale) avec que des Nones (Plus lent que np.empty)
+        self.matrice = np.empty([int(width/scale), int(height/scale)], dtype=int) # Création d'une matrice int(width/scale)*int(height/scale) grâce à np.empty
         self.robots = []
         self.scale = scale
 
