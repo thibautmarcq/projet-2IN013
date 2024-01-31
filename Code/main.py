@@ -4,7 +4,7 @@ import robot as Robot
 from interface import Interface
 
 # Création de l'envronnement
-env = Env.Environnement(5, 5, 1)
+env = Env.Environnement(500, 500, 1)
 # Ajout de robot et d'obstacle
 env.addRobot("rob", 200, 200, 50, 50, 30)
 env.addObstacle("obs")
