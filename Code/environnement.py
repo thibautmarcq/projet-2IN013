@@ -39,6 +39,7 @@ class Environnement:
             Si il y a un obstacle renvoie True sinon False
             L'utiliser avant de faire un déplacement
         """
+        return False
         obs = False
         # Detecte si il y a un obstacle devant
         if ( isinstance(self.matrice[rob.posx+1][rob.posy], Obstacle.Obstacle) ) :
