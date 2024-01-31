@@ -29,9 +29,9 @@ class Environnement:
             random_y = random.randrange(0,self.height)
             x = int(random_x/self.scale)
             y = int(random_y/self.scale)
-            if ( self.matrice[x][y] == None) :
-                obs = Obstacle.Obstacle(nom, x, y)
-                self.matrice[x][y] = obs #met l'obstacle dans la matrice
+            if ( self.matrice[x][y] != 1 | self.matrice[x][y] != 2) :
+                Obstacle.Obstacle(nom, x, y)
+                self.matrice[x][y] = 2 #  Ajoute l'obstacle représenté par le chiffre 2 dans la matrice
                 oqp = True
 
     def detect_obs(self, rob) :
