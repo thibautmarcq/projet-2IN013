@@ -103,7 +103,7 @@ class Interface:
             v = self.rotationVecteur((robot.points[i]-robot.posx, robot.points[i+1]-robot.posy), angle)
             robot.points[i] = v[0] + robot.posx
             robot.points[i+1] = v[1] + robot.posy
-        self.cnv.coords(robot.rect, robot.points)
+        self.canv.coords(robot.rect, robot.points)
 
     def refresh_position_robot_visuel(self, robot):
         """Update la position du visuel du robot"""
@@ -112,7 +112,7 @@ class Interface:
             robot.points[i] = robot.points[i]+robot.speed*robot.direction[0]
             robot.points[i+1] = robot.points[i+1]+robot.speed*robot.direction[1]
         self.canv.coords(robot.rect, robot.points)
-        self.canv.coords(self.robot_vec, robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
+        self.canv.coords(robot.robot_vec, robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
     
     def rotationRobot(self, angle):
         """fait une rotation de notre robot de <angle>
@@ -121,7 +121,7 @@ class Interface:
         self.env.robots[0].rotation(angle)
         r = self.env.robots[self.env.robotSelect]
         self.canv.coords(r.robot_vec, r.posx, r.posy, r.posx+(75*r.direction[0]), r.posy+(75*r.direction[1]))
-        self.rotate_robot_rect(self, r, angle)
+        self.rotate_robot_rect(r, angle)
 
 # Frames
 
