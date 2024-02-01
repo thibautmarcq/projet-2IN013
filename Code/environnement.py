@@ -17,6 +17,7 @@ class Environnement:
         self.scale = scale
 
     def addRobot(self, nom, x, y, width, length, vitesse):
+
         """ Ajoute un robot a notre environnement
             :param nom: nom du robot
             :param x: la coordonnée x où on veut placer le robot au départ
@@ -26,14 +27,17 @@ class Environnement:
             :param vitesse: la vitesse initiale du robot
             :returns: rien, on crée juste un robot qu'on ajoute a la liste des robots de l'environnement
         """
+
         rob = Robot.Robot(nom, x, y, width, length, vitesse)
         self.robots.append(rob)
         self.matrice[int(x/self.scale)][int(y/self.scale)] = 1 # Ajoute le robot représenté par le chiffre 1 dans la matrice
 
     def addObstacle(self,nom):
+
         """ Ajout d'un obstacle dans la matrice, l'obstacle est représenté par '2' dans la matrice
             :param nom: nom de l'obstacle
         """
+
         oqp = False
         while( oqp == False ) :
             random_x = random.randrange(0,self.width) #prend des coordonnees aleatoires pour l'obstacle
@@ -46,13 +50,12 @@ class Environnement:
                 oqp = True
 
     def detect_obs(self, rob) :
-        """
-            Detection d'obstacle autour du robot
 
-            Param : rob : Objet de type Robot
-
-            Renvoie True si il y a un obstacle sinon False
+        """ Détection d'un obstacle autour du robot
+            :param rob: le robot autour duquel on veut vérifier s'il y a un obstacle
+            :returns: true si un obstacle est détecté, false sinon
         """
+
         obs = False
         # Detecte si il y a un obstacle devant
         if ( self.matrice[rob.x+1][rob.y] == 2 ) :
