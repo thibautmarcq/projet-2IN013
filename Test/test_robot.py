@@ -13,7 +13,12 @@ class TestRobot(unittest.TestCase):
         self.assertEqual(self.rob.width, 5)
         self.assertEqual(self.rob.length, 7)
         self.assertEqual(self.rob.vitesse, 8)
+        self.assertEqual(self.rob.direction, (0,-1))
 
     def test_setVitesse(self):
         self.rob.setVitesse(12)
         self.assertEqual(self.rob.vitesse, 12)
+
+
+
+    
