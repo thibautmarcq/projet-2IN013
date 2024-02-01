@@ -1,4 +1,5 @@
 import unittest
+import math 
 
 from Code.robot import Robot
 
@@ -19,6 +20,10 @@ class TestRobot(unittest.TestCase):
         self.rob.setVitesse(12)
         self.assertEqual(self.rob.vitesse, 12)
 
-
+    def test_rotation(self):
+        self.rob.rotation(math.pi/6)
+        dirx,diry = self.rob.direction
+        self.assertAlmostEqual(dirx, 1.0/2)
+        self.assertAlmostEqual(diry, -math.sqrt(3)/2.0)
 
     
