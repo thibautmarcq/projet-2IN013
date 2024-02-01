@@ -31,7 +31,9 @@ class Environnement:
         self.matrice[int(x/self.scale)][int(y/self.scale)] = 1 # Ajoute le robot représenté par le chiffre 1 dans la matrice
 
     def addObstacle(self,nom):
-        """Ajout d'un obstacle dans la matrice"""
+        """ Ajout d'un obstacle dans la matrice, l'obstacle est représenté par '2' dans la matrice
+            :param nom: nom de l'obstacle
+        """
         oqp = False
         while( oqp == False ) :
             random_x = random.randrange(0,self.width) #prend des coordonnees aleatoires pour l'obstacle
