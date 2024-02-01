@@ -11,5 +11,4 @@ class TestObstacle(unittest.TestCase):
         self.assertEqual(self.obs.y, 30)
         self.assertEqual(self.obs.nom, "Pierre" )
 
-    if __name__ == '__main__':
-        unittest.main()
+    

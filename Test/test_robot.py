@@ -26,4 +26,8 @@ class TestRobot(unittest.TestCase):
         self.assertAlmostEqual(dirx, 1.0/2)
         self.assertAlmostEqual(diry, -math.sqrt(3)/2.0)
 
+    def test_avancer(self):
+        self.rob.avancerDirection()
+        self.assertEqual(self.rob.x, 10)
+        self.assertEqual(self.rob.y, 7)
     
