@@ -10,13 +10,22 @@ class Environnement:
     
     def __init__(self, width, height, scale): #initialise l'environnement de taille x*y 
         #scale = l'echelle c'est un int ainsi scale = la taille d'un cot'e d'une case de la matrice dans dans le rectangle?
+
         self.width=width; self.height=height
         self.matrice = np.empty([int(width/scale), int(height/scale)], dtype=int) # Création d'une matrice int(width/scale)*int(height/scale) grâce à np.empty
         self.robots = []
         self.scale = scale
 
     def addRobot(self, nom, x, y, width, length, vitesse):
-        """Ajoute un robot a notre environnement"""
+        """ Ajoute un robot a notre environnement
+            :param nom: nom du robot
+            :param x: la coordonnée x où on veut placer le robot au départ
+            :param y: la coordonnée y où on veut placer le robot au départ
+            :param width: la largeur du robot
+            :param length: la longueur du robot
+            :param vitesse: la vitesse initiale du robot
+            :returns: rien, on crée juste un robot qu'on ajoute a la liste des robots de l'environnement
+        """
         rob = Robot.Robot(nom, x, y, width, length, vitesse)
         self.robots.append(rob)
         self.matrice[int(x/self.scale)][int(y/self.scale)] = 1 # Ajoute le robot représenté par le chiffre 1 dans la matrice
