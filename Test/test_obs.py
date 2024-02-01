@@ -1,10 +1,10 @@
 import unittest
 
-from Code import obstacle 
+from Code.obstacle import Obstacle 
 
 class TestObstacle(unittest.TestCase):
     def setUp(self) :
-        self.obs = obstacle("Pierre", 20, 30)
+        self.obs = Obstacle("Pierre", 20, 30)
 
     def test_coords(self):
         self.assertEqual(self.obs.x, 20)
