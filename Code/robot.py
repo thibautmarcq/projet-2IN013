@@ -5,6 +5,16 @@ class Robot :
     """Robot - Objet aux coordonnées continues, se place dans l'environnement, avance selon une direction"""
 
     def __init__(self, nom, x, y, width, length, vitesse):
+
+        """ Initialise le robot grâce avec les paramètres passés en argument
+            :param nom: nom du robot
+            :param x: coordonnée x à laquelle on veut initialiser le robot
+            :param y: coordonnée y à laquelle on veut initialiser le robot
+            :param width: la largeur du robot
+            :param length: la longueur du robot
+            :param vitesse: la vitesse initiale du robot
+        """
+        
         self.nom = nom
         self.x = x
         self.y = y
