@@ -2,8 +2,8 @@ import random
 
 import numpy as np
 
-import obstacle as Obstacle
-import robot as Robot
+import Code.obstacle as Obstacle
+import Code.robot as Robot
 
 
 class Environnement:
