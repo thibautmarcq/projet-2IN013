@@ -7,12 +7,14 @@ class Robot :
     def __init__(self, nom, x, y, width, length, vitesse):
 
         """ Initialise le robot grâce avec les paramètres passés en argument
+            Initialise la direction du robot à (0, -1), donc vers le bas
             :param nom: nom du robot
             :param x: coordonnée x à laquelle on veut initialiser le robot
             :param y: coordonnée y à laquelle on veut initialiser le robot
             :param width: la largeur du robot
             :param length: la longueur du robot
             :param vitesse: la vitesse initiale du robot
+            :returns: ne retourne rien, ça initalise et initaialise seulement le robot
         """
 
         self.nom = nom
