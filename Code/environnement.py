@@ -58,21 +58,20 @@ class Environnement:
             :returns: true si un obstacle est détecté, false sinon
         """
 
-        obs = False
         # Detecte si il y a un obstacle devant
-        if ( self.matrice[rob.x+1][rob.y] == 2 ) :
-            obs = True
+        if ( self.matrice[int(rob.x/self.scale)+1][int(rob.y/self.scale)] == 2 ) :
+            return True
         # Detecte si il y a un obstacle devant
-        if ( self.matrice[rob.x-1][rob.y] == 2 ) :
-            obs = True
+        if ( self.matrice[int(rob.x/self.scale)-1][int(rob.y/self.scale)] == 2 ) :
+            return True
         # Detecte si il y a un obstacle à droite
-        if ( self.matrice[rob.x][rob.y+1] == 2 ) :
-            obs = True
+        if ( self.matrice[int(rob.x/self.scale)][int(rob.y/self.scale)+1] == 2 ) :
+            return True
         # Detecte si il y a un obstacle à gauche
-        if ( self.matrice[rob.x][rob.y-1] == 2 ) :
-            obs = True
+        if ( self.matrice[int(rob.x/self.scale)][int(rob.y/self.scale)-1] == 2 ) :
+            return True
 
-        return obs
+        return False
 
     def affiche(self):
         #methodes pour affichage avec tkinter
