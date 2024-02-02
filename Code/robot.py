@@ -14,7 +14,7 @@ class Robot :
             :param length: la longueur du robot
             :param vitesse: la vitesse initiale du robot
         """
-        
+
         self.nom = nom
         self.x = x
         self.y = y
@@ -24,7 +24,11 @@ class Robot :
         self.direction = (0,-1) # vecteur directeur du robot
 
     def setVitesse(self, vitesse):
-        """Change la vitesse du robot"""
+
+        """ Change la vitesse du robot
+            :param vitesse: la nouvelle vitesse qu'on veut donner au robot
+            :returns: rien du tout, modifie juste la vitesse
+        """
         self.vitesse = int(vitesse)
         print("Vitesse changée à "+ str(self.vitesse))
 
