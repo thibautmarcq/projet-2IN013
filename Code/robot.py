@@ -31,11 +31,17 @@ class Robot :
             :param vitesse: la nouvelle vitesse qu'on veut donner au robot
             :returns: rien du tout, modifie juste la vitesse
         """
+
         self.vitesse = int(vitesse)
         print("Vitesse changée à "+ str(self.vitesse))
 
     def rotation(self, angle):
-        """Tourne d'un certain angle le vecteur directeur du robot"""
+
+        """ Tourne d'un certain angle le vecteur directeur du robot
+            :param angle: l'angle de rotation souhaité pour le changement de direction du robot
+            :returns: ne retourne rien, on modifie juste la direction du robot
+        """
+        
         x, y = self.direction
         self.direction = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))
 
