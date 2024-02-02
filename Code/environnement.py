@@ -38,8 +38,8 @@ class Environnement:
             :param nom: nom de l'obstacle
         """
 
-        oqp = False
-        while( oqp == False ) :
+        obs_place = False
+        while( obs_place == False ) :
             random_x = random.randrange(0,self.width) #prend des coordonnees aleatoires pour l'obstacle
             random_y = random.randrange(0,self.height)
             x = int(random_x/self.scale)
@@ -47,7 +47,7 @@ class Environnement:
             if ( self.matrice[x][y] != 1 | self.matrice[x][y] != 2) :
                 Obstacle.Obstacle(nom, x, y)
                 self.matrice[x][y] = 2 #  Ajoute l'obstacle représenté par le chiffre 2 dans la matrice
-                oqp = True
+                obs_place = True
 
     def detect_obs(self, rob) :
 
