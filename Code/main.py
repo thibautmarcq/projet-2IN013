@@ -8,7 +8,7 @@ import robot as Robot
 env = Env.Environnement(5, 5, 1)
 
 # Ajout de robot et d'obstacle
-env.addRobot("rob", 0, 0, 1, 1, 1)
+env.addRobot("rob", 200, 200, 50, 50, 30)
 env.addObstacle("obs")
 
 # En fonction de la taille et en fonction de l'ordre qu'on appel addRobot et addObstacle, ils peuvent se superposer dans la matrice et peuvent se supprimer

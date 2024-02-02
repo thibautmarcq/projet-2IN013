@@ -14,6 +14,7 @@ class Environnement:
         self.width=width; self.height=height
         self.matrice = np.empty([int(width/scale), int(height/scale)], dtype=int) # Création d'une matrice int(width/scale)*int(height/scale) grâce à np.empty
         self.robots = []
+        self.robotSelect = 0 # robot selectionné pour bougé
         self.scale = scale
 
     def addRobot(self, nom, x, y, width, length, vitesse):
