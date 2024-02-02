@@ -36,6 +36,7 @@ class Environnement:
 
         """ Ajout d'un obstacle dans la matrice, l'obstacle est représenté par '2' dans la matrice
             :param nom: nom de l'obstacle
+            :returns: ne retourne rien, place juste un obstacle aléatoirement dans la matrice
         """
 
         obs_place = False
