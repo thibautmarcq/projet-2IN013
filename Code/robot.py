@@ -41,17 +41,19 @@ class Robot :
             :param angle: l'angle de rotation souhaité pour le changement de direction du robot
             :returns: ne retourne rien, on modifie juste la direction du robot
         """
-        
+
         x, y = self.direction
         self.direction = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))
 
     def robotDansCadre(self, newx, newy) :
+
+        """ Détermine si le robot resterait bien dans le cadre après déplacement en (xnew, ynew)
+            (pour l'instant juste pour le canva de tkinter)
+            :param xnew: la coordonnée x où on souhaite se déplacer
+            :param ynew: la coordonnée y où on souhaite se déplacer
+            :returns: True si le déplacement est possible, False sinon
         """
-        Détermine si le robot resterait bien dans le cadre
-        après en déplacement aux newx et newy souhaités
-        (pour l'instant en fonction des coordonnées de la fênetre actuelle de tkinter
-        aka 600*400)
-        """
+
         maxi = max(self.length, self.width)/2
         if (newx - maxi) < 0 or (newy - maxi) < 0 :
             return False
