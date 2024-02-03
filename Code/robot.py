@@ -30,15 +30,18 @@ class Robot :
         self.roueD = 0 # Nombre de tours/min de la roue droite initialisée à 0
         self.roueG = 0 # Nombre de toues/min de la roue gauche initialisée à 0
 
-    def setVitesse(self, vitesse):
+    def setVitesse(self):
 
         """ Change la vitesse du robot
             :param vitesse: la nouvelle vitesse qu'on veut donner au robot
             :returns: rien du tout, modifie juste la vitesse
         """
-
-        self.vitesse = int(vitesse)
-        print("Vitesse changée à "+ str(self.vitesse))
+        if ( self.roueG != self.roueD) : # Si les 2 roues n'ont pas les memes tours/min, on prends la différence entre les 2 roues
+            nbTour = max(self.roueD, self.roueG) - min(self.roueD, self.roueG)
+        else : # Si les roues ont le même nombre de tour/min alors prends le tours/min d'une des deux roues
+            nbTour = self.roueD
+        angulaire = 2*math.pi*(nbTour/60) # Calcul de la vitesse angulaire : w = 2*pi*(tours/60)
+        self.vitesse = self.tailleRoue*angulaire # Calcul de la vitesse linéaire : v = tailleRoue * vitesse_angulaire
 
     def rotation(self, angle):
 
