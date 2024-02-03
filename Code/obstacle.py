@@ -1,6 +1,6 @@
 import logging
 
-logging.basicConfig(filename='log-obstacle.log', level=logging.DEBUG, format='%(asctime)s:%(levelname)s:%(message)s') # niveaux : DEBUG INFO WARNING ERROR CRITICAL
+logging.basicConfig(filename='Code/Logs/log-obstacle.log', level=logging.DEBUG, format='%(asctime)s:%(levelname)s:%(message)s') # niveaux : DEBUG INFO WARNING ERROR CRITICAL
 
 class Obstacle :
     """ L'obsctacle est un objet aux coordonnées discrètes, se place dans la matrice de l'environnement 
