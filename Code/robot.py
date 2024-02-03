@@ -85,3 +85,10 @@ class Robot :
             return True
         return False
     
+    def addTour(self) :
+        """
+            Augmente de 1 tour sur les 2 roues
+            :returns: rien, on va modifier directement les 2 roues
+        """
+        self.roueG += 1
+        self.roueD += 1
