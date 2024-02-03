@@ -17,7 +17,7 @@ class Robot :
             :param tailleRoue: la taille des roue
             :returns: ne retourne rien, ça initalise et initaialise seulement le robot
         """
-
+ 
         self.nom = nom
         self.x = x
         self.y = y
