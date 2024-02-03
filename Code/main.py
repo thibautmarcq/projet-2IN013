@@ -5,7 +5,7 @@ from Code.robot import Robot
 # Test des méthodes de la classe environnement
 
 # Création de l'envronnement
-env = Env.Environnement(5, 5, 1)
+env = Env(5, 5, 1)
 
 # Ajout de robot et d'obstacle
 env.addRobot("rob", 200, 200, 50, 50, 30)

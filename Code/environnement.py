@@ -30,7 +30,7 @@ class Environnement:
             :returns: rien, on crée juste un robot qu'on ajoute a la liste des robots de l'environnement
         """
 
-        rob = Robot.Robot(nom, x, y, width, length, vitesse)
+        rob = Robot(nom, x, y, width, length, vitesse)
         self.robots.append(rob)
         self.matrice[int(x/self.scale)][int(y/self.scale)] = 1 # Ajoute le robot représenté par le chiffre 1 dans la matrice
 
@@ -48,7 +48,7 @@ class Environnement:
             x = int(random_x/self.scale)
             y = int(random_y/self.scale)
             if ( self.matrice[x][y] != 1 | self.matrice[x][y] != 2) :
-                Obstacle.Obstacle(nom, x, y)
+                Obstacle(nom, x, y)
                 self.matrice[x][y] = 2 #  Ajoute l'obstacle représenté par le chiffre 2 dans la matrice
                 obs_place = True
 
@@ -78,6 +78,3 @@ class Environnement:
         #methodes pour affichage avec tkinter
         pass
 
-
-env = Environnement(50,20,5)
-print(env.height)
