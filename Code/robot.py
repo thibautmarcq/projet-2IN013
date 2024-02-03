@@ -99,3 +99,10 @@ class Robot :
                 :returns: rien, on va modifier directement la roue gauche
             """
             self.roueG += 1
+
+    def addTourD(self) :
+        """
+            Augmente de 1 tour sur la roue droite
+            :returns: rien, on va modifier directement la roue droite
+        """
+        self.roueD += 1
