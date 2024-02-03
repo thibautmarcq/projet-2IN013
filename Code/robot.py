@@ -1,4 +1,7 @@
 import math
+import logging
+
+logging.basicConfig(filename='Code/Logs/log-robot.log', level=logging.DEBUG, format='%(asctime)s:%(levelname)s:%(message)s') # niveaux : DEBUG INFO WARNING ERROR CRITICAL
 
 
 class Robot :
@@ -33,7 +36,7 @@ class Robot :
         """
 
         self.vitesse = int(vitesse)
-        print("Vitesse changée à "+ str(self.vitesse))
+        logging.info("Vitesse changée à "+ str(self.vitesse))
 
     def rotation(self, angle):
 
