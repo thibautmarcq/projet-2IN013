@@ -1,3 +1,7 @@
+import logging
+
+logging.basicConfig(filename='log-obstacle.log', level=logging.DEBUG, format='%(asctime)s:%(levelname)s:%(message)s') # niveaux : DEBUG INFO WARNING ERROR CRITICAL
+
 class Obstacle :
     """ L'obsctacle est un objet aux coordonnées discrètes, se place dans la matrice de l'environnement 
     """
@@ -16,4 +20,5 @@ class Obstacle :
 
     def presenter_obstacle(self):
         """Affichage (console) de l'obstacle"""
-        print("Je suis l'obstacle " + self.nom + " et je suis à la position(", self.x,", ", self.y,")")
+        logging.debug("Je suis l'obstacle " + self.nom + " et je suis à la position(" + str(self.x) + ", " + str(self.y) + ")")
+        
