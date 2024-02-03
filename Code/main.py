@@ -1,6 +1,6 @@
-import environnement as Env
-import obstacle as Obstacle
-import robot as Robot
+from Code.environnement import Environnement as Env
+from Code.obstacle import Obstacle
+from Code.robot import Robot
 
 # Test des méthodes de la classe environnement
 
