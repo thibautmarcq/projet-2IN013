@@ -4,7 +4,7 @@ import math
 class Robot :
     """Robot - Objet aux coordonnées continues, se place dans l'environnement, avance selon une direction"""
 
-    def __init__(self, nom, x, y, width, length, vitesse):
+    def __init__(self, nom, x, y, width, length, tailleRoue):
 
         """ Initialise le robot grâce avec les paramètres passés en argument
             Initialise la direction du robot à (0, -1), donc vers le bas
@@ -14,6 +14,7 @@ class Robot :
             :param width: la largeur du robot
             :param length: la longueur du robot
             :param vitesse: la vitesse initiale du robot
+            :param tailleRoue: la taille des roue
             :returns: ne retourne rien, ça initalise et initaialise seulement le robot
         """
 
@@ -22,8 +23,12 @@ class Robot :
         self.y = y
         self.width = width
         self.length = length
-        self.vitesse = vitesse
+        self.tailleRoue = tailleRoue
+
+        self.vitesse = 0 # Vitesse du robot initialisée à 0
         self.direction = (0,-1) # vecteur directeur du robot
+        self.roueD = 0 # Nombre de tours/min de la roue droite initialisée à 0
+        self.roueG = 0 # Nombre de toues/min de la roue gauche initialisée à 0
 
     def setVitesse(self, vitesse):
 
