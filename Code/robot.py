@@ -54,11 +54,11 @@ class Robot :
         angle = angulaire*(180/math.pi) 
         if ( angle > 40 ) :
             angle = 40
-        print("angulaire : ",angle)
-        if ( self.roueG < self.roueD ):
-            self.direction = (-1*(x*math.cos(angle)-y*math.sin(angle)), (x*math.sin(angle)+y*math.cos(angle))) # Rotation du vecteur directeur
-        else :
-            self.direction = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle)) # Rotation du vecteur directeur
+        else  :
+            if ( self.roueG < self.roueD ):
+                self.direction = (-1*(x*math.cos(angle)-y*math.sin(angle)), (x*math.sin(angle)+y*math.cos(angle))) # Rotation du vecteur directeur
+            else :
+                self.direction = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle)) # Rotation du vecteur directeur
 
     def robotDansCadre(self, newx, newy) :
 
