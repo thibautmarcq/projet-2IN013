@@ -84,9 +84,11 @@ lab_coord_y.grid(row=1, column=1)
 
 
 def update_coord_affichage():
+
+    """ Met à jour l'affichage des coordonnées dans l'affichage (implémenter chaque avancement)
+        :returns: ne retourne rien, fait juste l'affichage à jour des coordonnées
     """
-    Met à jour l'affichage des coordonnées dans l'affichage (implémenter chaque avancement)
-    """
+
     # Update labels
     lab_coord_x.config(text=("x ="+str(round(robot.x, 2))))
     lab_coord_y.config(text=("y ="+str(round(robot.y, 2))))
@@ -95,9 +97,12 @@ def update_coord_affichage():
 # on crée le visuel pour le vecteur directeur de ce robot
 
 def create_robot_rect(canv, robot):
+
+    """ Crée le polygone qui représente notre robot sur l'interface graphique
+        :param robot: le robot qu'on veut représenter par un polygone dans l'interface graphique
+        :returns: ne retourne rien, crée le robot uniquement
     """
-    crée le polygone qui représente notre robot sur l'interface graphique
-    """
+
     robot.points = [robot.x-(robot.width/2), robot.y-(robot.length/2),
                     robot.x+(robot.width/2), robot.y-(robot.length/2),
                     robot.x+(robot.width/2), robot.y+(robot.length/2),
@@ -108,16 +113,25 @@ create_robot_rect(canv, robot)
 robot_vec = canv.create_line(robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
 
 def rotationVecteur(v, angle):
+
+    """ Fonction qui fait une rotation du vecteur2D <v> de <angle>
+        :param v: le vecteur de direction de départ
+        :param angle: l'angle par lequel on veut tourner le robot
+        :returns: le nouveau vecteur directeur
     """
-    Fonction qui fait une rotation du vecteur2D <v> de <angle>
-    """
+
     x, y = v
     return (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))
 
 def rotate_robot_rect(canvas, robot, angle):
+
+    """ Fait une rotation du rectangle qui représente le robot
+        :param canvas: le canva dans lequel on est placé
+        :param robot: le robot qu'on veut représenter graphiquement
+        :param angle: l'angle de rotation du robot
+        :returns: ne retourne rien, fait juste une modification sur le canva
     """
-    Fait une rotation du rectangle qui représente le robot
-    """
+
     for i in range(0, 8, 2):
         v = rotationVecteur((robot.points[i]-robot.x, robot.points[i+1]-robot.y), angle)
         robot.points[i] = v[0] + robot.x
@@ -127,9 +141,13 @@ def rotate_robot_rect(canvas, robot, angle):
 
 
 def refresh_position_robot_visuel(canvas, robot):
+
+    """ Update la position du visuel du robot
+        :param canvas: la fenêtre visuelle sur laquelle on est et qu'on veut mettre à jour
+        :param robot: le robot dont on veut mettre à jour la représentation sur le canva
+        :returns: rien, on met juste à jour la fenêtre de représentation du robot et de l'environnement
     """
-    Update la position du visuel du robot
-    """
+
     for i in range(0,8,2):
         robot.points[i] = robot.points[i]+robot.vitesse*robot.direction[0]
         robot.points[i+1] = robot.points[i+1]+robot.vitesse*robot.direction[1]
@@ -138,34 +156,41 @@ def refresh_position_robot_visuel(canvas, robot):
     update_coord_affichage()
 
 def rotationRobot(angle):
+
+    """ Fait une rotation de notre robot de <angle> et refresh le visuel de la direction de notre robot
+        :param angle: l'angle de rotation pour le robot
+        :returns: rien, on tourne le robot et on change son affichage
     """
-    Fait une rotation de notre robot de <angle>
-    et refresh le visuel de la direction de notre robot
-    """
+
     robot.rotation(angle)
     canv.coords(robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
     rotate_robot_rect(canv, robot, angle)
 
 def rotationRobotD(event):
+
+    """ Fonction callback pour bind avec tkinter
+        :param event: argument appelé car demandé par tkinter mais pas utilisé
+        :returns: ne retourne rien, on bind juste pour faire la rotation droite
     """
-    Fonction callback pour bind avec tkinter
-    possède un argument event car demandé par tkinter
-    mais pas utilisé
-    """
+
     rotationRobot(math.pi/10)
 
 def rotationRobotG(event):
+
+    """ Fonction callback pour bind avec tkinter
+        :param event: l'argument event est obligatoire pour récupérer l'evenementmais il ne nous est pas utile
+        :returns: ne retourne rien, on bind juste pour faire la rotation gauche
     """
-    Fonction callback pour bind avec tkinter
-    l'argument event est obligatoire pour récupérer l'evenement
-    mais il nous est pas utile
-    """
+
     rotationRobot(-math.pi/10)
 
 def avancerRobot(event):
+
+    """ Fonction callback qui fait avancer notre robot
+        :param event: demandé par tkinter mais on ne l'utilise pas vraiment
+        :returns: ne retourne rien, on avance puis affiche le robot
     """
-    Fonction callback qui fait avancer notre robot
-    """
+    
     if robot.avancerDirection() :
         refresh_position_robot_visuel(canv, robot)
 
