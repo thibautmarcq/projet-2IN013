@@ -44,7 +44,6 @@ class Robot :
         self.vitesse = self.tailleRoue*angulaire # Calcul de la vitesse linéaire : v = tailleRoue * vitesse_angulaire
 
     def rotation(self):
-
         """ Determine angle/sec que va faire le robot
             :param
             :returns: ne retourne rien, on modifie juste la direction du robot
@@ -52,8 +51,14 @@ class Robot :
         x, y = self.direction
         nbTour = max(self.roueD, self.roueG) - min(self.roueD, self.roueG) # La différence entre les 2 roues
         angulaire = 2*math.pi*(nbTour/60) # Calule de la vitesse angulaire
-        angle = angulaire*(180/math.pi) # Calcule de l'angle grâce à la vitesse angulaire
-        self.direction = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle)) # Rotation du vecteur directeur
+        angle = angulaire*(180/math.pi) 
+        if ( angle > 40 ) :
+            angle = 40
+        print("angulaire : ",angle)
+        if ( self.roueG < self.roueD ):
+            self.direction = (-1*(x*math.cos(angle)-y*math.sin(angle)), (x*math.sin(angle)+y*math.cos(angle))) # Rotation du vecteur directeur
+        else :
+            self.direction = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle)) # Rotation du vecteur directeur
 
     def robotDansCadre(self, newx, newy) :
 
