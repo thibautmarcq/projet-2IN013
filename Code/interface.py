@@ -3,6 +3,12 @@ import math
 class Interface:
 
     def __init__(self, env):
+
+        """ Constructeur de la classe interface, avec l'initialisation de la fenêtre 
+            :param env: l'environnement que l'on veut intégrer à l'interface et représenter graphiquement
+            :returns: ne retourne rien, initialise seulement l'interface
+        """
+
         self.env = env # notre environnement a représenter graphiquement
 
         #initilisation de la fenetre
@@ -19,7 +25,14 @@ class Interface:
         self.place_widget()
 
         self.main()
+
+
     def create_widget(self):
+
+        """ Initialisation de la fenetre avec les différentes cadres la composant
+            :returns: ne retourne rien, on prépare la strcture de notre interface graphique
+        """
+
         self.labb = Label(self.root)
         self.frame_titre = LabelFrame(self.root, bd=-1)
         self.frame_row1 = LabelFrame(self.root, bd=0)
@@ -34,6 +47,9 @@ class Interface:
         self.canv = Canvas(self.frame_canva, width=600 , height=400, bg="white" )
 
     def place_widget(self):
+        """ Mise en place du layout et du positionnement des widget dans la fenêtre
+            :returns: ne retourne rien
+        """
         self.labb.place_forget()
         self.frame_titre.grid(row=0, sticky='w', padx=15)
         self.frame_row1.grid(row=1)
@@ -44,6 +60,11 @@ class Interface:
         self.canv.grid(row=3, column=0)
 
     def main(self):
+
+        """ Fonction main qui permet de créer le robot et ajouter les différents outils dans la fenêtre
+            :returns: ne retourne rien
+        """
+
         # on crée le robot en 150 100
         for rob in self.env.robots:
             self.create_robot_rect(rob) 
@@ -66,26 +87,40 @@ class Interface:
         self.root.mainloop()
 
     def rotationRobotD(self, event):
-        """fonction callback pour bind avec tkinter
-        possede un argument event car demandé par tkinter
-        mais pas utilisé
+
+        """ Fonction callback pour bind avec tkinter
+            :param event: argument demandé par tkinter mais pas utilisé
+            :returns: ne retourne rien
         """
+
         self.rotationRobot(math.pi/10)
+
+
     def rotationRobotG(self, event):
-        """fonction callback pour bind avec tkinter
-        l'argument event est obligatoire pour récupérer l'evenement
-        mais il nous est pas utile
+
+        """ Fonction callback pour bind avec tkinter
+            :param event: argument demandé par tkinter mais pas utilisé
+            :returns: ne retourne rien
         """
+
         self.rotationRobot(-math.pi/10)
 
     def avancerRobot(self, event):
-        """Fonction callback qui fait avancer notre robot"""
+
+        """ Fonction callback qui fait avancer notre robot
+            :param event: argument demandé par tkinter mais pas utilisé
+            :returns: ne retourne rien
+        """
+        
         robot = self.env.robots[self.env.robotSelect]
         robot.avancerDirection()
         self.refresh_position_robot_visuel(robot)
 
     def create_robot_rect(self, robot):
-        """crée le polygone qui représente notre robot sur l'interface graphique"""
+        """ Crée le polygone qui représente notre robot sur l'interface graphique
+            :param robot: le robot qu'on veut représenter sur l'interface graphique
+            :returns: ne retourne rien
+        """
         robot.points = [robot.posx-(robot.width/2), robot.posy-(robot.height/2),
                         robot.posx+(robot.width/2), robot.posy-(robot.height/2),
                         robot.posx+(robot.width/2), robot.posy+(robot.height/2),
@@ -93,12 +128,25 @@ class Interface:
         robot.rect = self.canv.create_polygon(robot.points, fill="orange")
 
     def rotationVecteur(self, v, angle):
-        """fonction qui fais une rotation du vecteur2D <v> de <angle>"""
+        
+        """ Fonction qui fait une rotation du vecteur2D <v> de <angle>
+            :param v: le vecteur de direction de départ
+            :param angle: l'angle par lequel on veut tourner le robot
+            :returns: le nouveau vecteur directeur
+        """
+
         x, y = v
         return (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))
 
     def rotate_robot_rect(self, robot, angle):
-        """fait une rotation du rectangle qui représente le robot"""
+            
+        """ Fait une rotation du rectangle qui représente le robot
+            :param canvas: le canva dans lequel on est placé
+            :param robot: le robot qu'on veut représenter graphiquement
+            :param angle: l'angle de rotation du robot
+            :returns: ne retourne rien, fait juste une modification sur le canva
+        """
+
         for i in range(0, 8, 2):
             v = self.rotationVecteur((robot.points[i]-robot.posx, robot.points[i+1]-robot.posy), angle)
             robot.points[i] = v[0] + robot.posx
@@ -106,7 +154,12 @@ class Interface:
         self.canv.coords(robot.rect, robot.points)
 
     def refresh_position_robot_visuel(self, robot):
-        """Update la position du visuel du robot"""
+        
+        """ Update la position du visuel du robot
+            :param canvas: la fenêtre visuelle sur laquelle on est et qu'on veut mettre à jour
+            :param robot: le robot dont on veut mettre à jour la représentation sur le canva
+            :returns: rien, on met juste à jour la fenêtre de représentation du robot et de l'environnement
+        """
 
         for i in range(0,8,2):
             robot.points[i] = robot.points[i]+robot.speed*robot.direction[0]
@@ -115,9 +168,12 @@ class Interface:
         self.canv.coords(robot.robot_vec, robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
     
     def rotationRobot(self, angle):
-        """fait une rotation de notre robot de <angle>
-            et refresh le visuel de la direction de notre robot
+
+        """ Fait une rotation de notre robot de <angle> et refresh le visuel de la direction de notre robot
+            :param angle: l'angle de rotation pour le robot
+            :returns: rien, on tourne le robot et on change son affichage
         """
+       
         self.env.robots[0].rotation(angle)
         r = self.env.robots[self.env.robotSelect]
         self.canv.coords(r.robot_vec, r.posx, r.posy, r.posx+(75*r.direction[0]), r.posy+(75*r.direction[1]))

@@ -19,6 +19,10 @@ class Obstacle :
         self.y = y
 
     def presenter_obstacle(self):
-        """Affichage (console) de l'obstacle"""
+
+        """ Affichage (console) de l'obstacle
+            :returns: ne retourne rien, fait un affichage console pour présenter rapidement l'obstacle
+        """
+        
         logging.debug("Je suis l'obstacle " + self.nom + " et je suis à la position(" + str(self.x) + ", " + str(self.y) + ")")
         

@@ -9,13 +9,19 @@ logging.basicConfig(filename='Code/Logs/log-obstacle.log', level=logging.DEBUG, 
 
 class Environnement:
     
-    def __init__(self, width, height, scale): #initialise l'environnement de taille x*y 
-        #scale = l'echelle c'est un int ainsi scale = la taille d'un cot'e d'une case de la matrice dans dans le rectangle?
-
+    def __init__(self, width, height, scale): 
+        
+        """ Initialise l'environnement où l'on va se placer, où on considère que l'environnement dans lequel évolue le robot est un rectangle
+            :param width: largeur de l'environnement
+            :param height: longueur de l'environnement
+            :param scale: l'échelle qui permet de passer de l'environnement à la matrice, c'est la correspondance de la taille d'un côté d'une case de la matrice dans le rectangle
+            :returns: ne retourne rien, fait juste l'initialisation
+        """
+        
         self.width=width; self.height=height
         self.matrice = np.empty([int(width/scale), int(height/scale)], dtype=int) # Création d'une matrice int(width/scale)*int(height/scale) grâce à np.empty
         self.robots = []
-        self.robotSelect = 0 # robot selectionné pour bougé
+        self.robotSelect = 0 # robot selectionné pour bouger
         self.scale = scale
 
     def addRobot(self, nom, x, y, width, length, vitesse):
