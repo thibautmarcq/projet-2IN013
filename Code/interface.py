@@ -47,15 +47,15 @@ class Interface:
         # on crée le robot en 150 100
         for rob in self.env.robots:
             self.create_robot_rect(rob) 
-            rob.robot_vec = self.canv.create_line(rob.posx, rob.posy, rob.posx+(75*rob.direction[0]), rob.posy+(75*rob.direction[1]))
+            rob.robot_vec = self.canv.create_line(rob.x, rob.y, rob.x+(75*rob.direction[0]), rob.y+(75*rob.direction[1]))
         # Slider de vitesse
         btn_vitesse = Scale(self.frame_stats, from_=1, to=100,  orient=HORIZONTAL, label="Vitesse", command=self.env.robots[self.env.robotSelect].setVitesse)
-        btn_vitesse.set(self.env.robots[self.env.robotSelect].speed) # permet d'initialiser le slider a la vitesse initiale du robot
+        btn_vitesse.set(self.env.robots[self.env.robotSelect].vitesse) # permet d'initialiser le slider a la vitesse initiale du robot
         btn_vitesse.grid(row=0, column=0, padx=5, pady=5)
         # Afficheur de coordonnées
         lab_coord_nom = Label(self.frame_coordonnees, text=("Coordonnées du robot "+self.env.robots[self.env.robotSelect].nom+" :")).grid(row=0, column=0, padx=5, pady=5)
-        lab_coord_x = Label(self.frame_coordonnees, text=("x ="+str(self.env.robots[self.env.robotSelect].posx))).grid(row=1, column=0)
-        lab_coord_y = Label(self.frame_coordonnees, text=("y ="+str(self.env.robots[self.env.robotSelect].posy))).grid(row=1, column=1)
+        lab_coord_x = Label(self.frame_coordonnees, text=("x ="+str(self.env.robots[self.env.robotSelect].x))).grid(row=1, column=0)
+        lab_coord_y = Label(self.frame_coordonnees, text=("y ="+str(self.env.robots[self.env.robotSelect].y))).grid(row=1, column=1)
 
         # Key binds
         self.root.bind("<Right>", self.rotationRobotD)
