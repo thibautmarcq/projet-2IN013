@@ -78,19 +78,18 @@ class Robot :
             return False
         return True
 
-    def avancerDirection(self):
+    def avancerDirection(self, distance):
 
         """ Fait avancer le robot en suivant son vecteur directeur et de sa vitesse
-            :returns: True si le déplacement a réussi, False sinon
+            :returns: ne retourne rien
         """
         
-        newx = self.x + self.direction[0]*self.vitesse
-        newy = self.y + self.direction[1]*self.vitesse
+        newx = self.x + self.direction[0]*distance
+        newy = self.y + self.direction[1]*distance
         if self.robotDansCadre(newx, newy) :
             self.x = newx
             self.y = newy
-            return True
-        return False
+            
     
     def addTour(self) :
         """
