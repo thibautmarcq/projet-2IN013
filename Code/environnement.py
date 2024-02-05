@@ -2,8 +2,8 @@ import random
 import logging
 import numpy as np
 
-from Code.obstacle import Obstacle
-from Code.robot import Robot
+from .obstacle import Obstacle
+from .robot import Robot
 
 logging.basicConfig(filename='Code/Logs/log-obstacle.log', level=logging.DEBUG, format='%(asctime)s:%(levelname)s:%(message)s') # niveaux : DEBUG INFO WARNING ERROR CRITICAL
 
