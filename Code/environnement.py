@@ -23,6 +23,7 @@ class Environnement:
         self.robots = []
         self.robotSelect = 0 # robot selectionné pour bouger
         self.scale = scale #echelle en int positif 
+        self.last_refresh = 0 # initialise la dernière fois où l'environnement a été rafraîchi à 0 pour savoir quand on le fait pour la première fois
 
     def addRobot(self, nom, x, y, width, length, vitesse):
 
