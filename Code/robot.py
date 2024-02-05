@@ -44,6 +44,8 @@ class Robot :
         nbTour = max(self.roueD, self.roueG)
         angulaire = 2*math.pi*(nbTour/60) # Calcul de la vitesse angulaire : w = 2*pi*(tours/60)
         self.vitesse = self.tailleRoue*angulaire # Calcul de la vitesse linéaire : v = tailleRoue * vitesse_angulaire
+        logging.info("Vitesse changée à "+ str(self.vitesse))
+
 
     def rotation(self):
         """ Determine angle/sec que va faire le robot
