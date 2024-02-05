@@ -111,3 +111,11 @@ class Robot :
             :returns: rien, on va modifier directement la roue droite
         """
         self.roueD += 1
+
+    def subTour(self) :
+        """
+            Réduit de 1 tour sur les 2 roues
+            :returns: rien, on va modifier directement les 2 roues
+        """
+        self.roueG -= 1
+        self.roueD -= 1
