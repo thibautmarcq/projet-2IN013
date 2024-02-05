@@ -22,7 +22,7 @@ class Environnement:
         self.matrice = np.empty([int(width/scale), int(height/scale)], dtype=int) # Création d'une matrice int(width/scale)*int(height/scale) grâce à np.empty
         self.robots = []
         self.robotSelect = 0 # robot selectionné pour bouger
-        self.scale = scale
+        self.scale = scale #echelle en int positif 
 
     def addRobot(self, nom, x, y, width, length, vitesse):
 
@@ -68,7 +68,7 @@ class Environnement:
         # Detecte si il y a un obstacle devant
         if ( self.matrice[int(rob.x/self.scale)+1][int(rob.y/self.scale)] == 2 ) :
             return True
-        # Detecte si il y a un obstacle devant
+        # Detecte si il y a un obstacle derriere
         if ( self.matrice[int(rob.x/self.scale)-1][int(rob.y/self.scale)] == 2 ) :
             return True
         # Detecte si il y a un obstacle à droite
