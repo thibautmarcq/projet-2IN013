@@ -54,12 +54,12 @@ class Robot :
         angle = angulaire*(180/math.pi) 
         if ( angle > 40 ) :
             angle = 40
-        print("angulaire : ",angle)
-        if ( self.roueG < self.roueD ):
-            angle = -angle
-            self.direction = ((x*math.cos(angle)-y*math.sin(angle)), (x*math.sin(angle)+y*math.cos(angle))) # Rotation du vecteur directeur
-        else :
-            self.direction = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle)) # Rotation du vecteur directeur
+        else  :
+            if ( self.roueG < self.roueD ):
+                angle = -angle
+                self.direction = ((x*math.cos(angle)-y*math.sin(angle)), (x*math.sin(angle)+y*math.cos(angle))) # Rotation du vecteur directeur
+            else :
+                self.direction = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle)) # Rotation du vecteur directeur
 
     def robotDansCadre(self, newx, newy) :
 
@@ -112,3 +112,25 @@ class Robot :
             :returns: rien, on va modifier directement la roue droite
         """
         self.roueD += 1
+
+    def subTour(self) :
+        """
+            Réduit de 1 tour sur les 2 roues
+            :returns: rien, on va modifier directement les 2 roues
+        """
+        self.roueG -= 1
+        self.roueD -= 1
+
+    def subTourG(self) :
+        """
+            Réduit de 1 tour sur la roue gauche
+            :returns: rien, on va modifier directement la roue gauche
+        """
+        self.roueG -= 1
+
+    def subTourD(self) :
+        """
+            Réduit de 1 tour sur la roue droite
+            :returns: rien, on va modifier directement la roue droite
+        """
+        self.roueD -= 1
