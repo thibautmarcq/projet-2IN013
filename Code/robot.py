@@ -51,7 +51,7 @@ class Robot :
         """
         x, y = self.direction
         nbTour = max(self.roueD, self.roueG) - min(self.roueD, self.roueG) # La différence entre les 2 roues
-        angulaire = 2*math.pi*(nbTour/60) # Calule de la vitesse angulaire
+        angulaire = 2*math.pi*(nbTour/6000)# Calule de la vitesse angulaire
         angle = angulaire*(180/math.pi) 
         if ( angle > 40 ) :
             angle = 40
