@@ -44,7 +44,7 @@ frame_coordonnees.grid(row=0, column=1)
 
 frame_tutorial = LabelFrame(frame_gauche, text="Tutorial", bd=1)
 frame_tutorial.grid(row=1)
-tutorial_image = PhotoImage(file="Code/tutorial_up_key.png").subsample(2,2)
+tutorial_image = PhotoImage(file="Code/Interface/tutorial_up_key.png").subsample(2,2)
 tutorial = Label(frame_tutorial, image=tutorial_image)
 tutorial.grid(row=1, column=1)
 
