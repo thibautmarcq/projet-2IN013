@@ -57,7 +57,8 @@ class Robot :
             angle = 40
         else  :
             if ( self.roueG < self.roueD ):
-                self.direction = (-1*(x*math.cos(angle)-y*math.sin(angle)), (x*math.sin(angle)+y*math.cos(angle))) # Rotation du vecteur directeur
+                angle = -angle
+                self.direction = ((x*math.cos(angle)-y*math.sin(angle)), (x*math.sin(angle)+y*math.cos(angle))) # Rotation du vecteur directeur
             else :
                 self.direction = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle)) # Rotation du vecteur directeur
 
@@ -100,11 +101,11 @@ class Robot :
         self.roueD += 1
 
     def addTourG(self) :
-            """
-                Augmente de 1 tour sur la roue gauche
-                :returns: rien, on va modifier directement la roue gauche
-            """
-            self.roueG += 1
+        """
+            Augmente de 1 tour sur la roue gauche
+            :returns: rien, on va modifier directement la roue gauche
+        """
+        self.roueG += 1
 
     def addTourD(self) :
         """
