@@ -1,7 +1,7 @@
-from tkinter import *
-from robot import Robot
 import math
+from tkinter import *
 
+from robot import Robot
 
 # Configs de la fenêtre
 root=Tk()
@@ -44,7 +44,7 @@ frame_coordonnees.grid(row=0, column=1)
 
 frame_tutorial = LabelFrame(frame_gauche, text="Tutorial", bd=1)
 frame_tutorial.grid(row=1)
-tutorial_image = PhotoImage(file="Code/tutorial_up_key.png").subsample(2,2)
+tutorial_image = PhotoImage(file="Code/Interface/tutorial_up_key.png").subsample(2,2)
 tutorial = Label(frame_tutorial, image=tutorial_image)
 tutorial.grid(row=1, column=1)
 
@@ -147,24 +147,32 @@ def refresh_position_robot_visuel(canvas, robot):
         :param robot: le robot dont on veut mettre à jour la représentation sur le canva
         :returns: rien, on met juste à jour la fenêtre de représentation du robot et de l'environnement
     """
-
     for i in range(0,8,2):
         robot.points[i] = robot.points[i]+robot.vitesse*robot.direction[0]
         robot.points[i+1] = robot.points[i+1]+robot.vitesse*robot.direction[1]
-    canvas.coords(robot.rect, robot.points)
+    dx, dy = robot.direction
+    canvas.coords(robot.rect,
+                  robot.x-(robot.width/2)*(-dy)-(robot.length/2)*dx,
+                  robot.y-(robot.width/2)*(dx)-(robot.length/2)*dy,
+                  robot.x+(robot.width/2)*(-dy)-(robot.length/2)*dx,
+                  robot.y+(robot.width/2)*(dx)-(robot.length/2)*dy,
+                  robot.x+(robot.width/2)*(-dy)+(robot.length/2)*dx,
+                  robot.y+(robot.width/2)*(dx)+(robot.length/2)*dy,
+                  robot.x-(robot.width/2)*(-dy)+(robot.length/2)*dx,
+                  robot.y-(robot.width/2)*(dx)+(robot.length/2)*dy
+                  )
     canvas.coords(robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
     update_coord_affichage()
+    #root.after(1000/60, refresh_position_robot_visuel(canv, robot))
 
-def rotationRobot(angle):
-
-    """ Fait une rotation de notre robot de <angle> et refresh le visuel de la direction de notre robot
-        :param angle: l'angle de rotation pour le robot
-        :returns: rien, on tourne le robot et on change son affichage
+def rotationRobot():
     """
-
-    robot.rotation(angle)
+    Fait une rotation de notre robot de <angle>
+    et refresh le visuel de la direction de notre robot
+    """
+    robot.rotation()
     canv.coords(robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
-    rotate_robot_rect(canv, robot, angle)
+    refresh_position_robot_visuel(canv, robot)
 
 def rotationRobotD(event):
 
@@ -172,8 +180,9 @@ def rotationRobotD(event):
         :param event: argument appelé car demandé par tkinter mais pas utilisé
         :returns: ne retourne rien, on bind juste pour faire la rotation droite
     """
-
-    rotationRobot(math.pi/10)
+    robot.addTourD()
+    robot.setVitesse()
+    rotationRobot()
 
 def rotationRobotG(event):
 
@@ -181,8 +190,9 @@ def rotationRobotG(event):
         :param event: l'argument event est obligatoire pour récupérer l'evenementmais il ne nous est pas utile
         :returns: ne retourne rien, on bind juste pour faire la rotation gauche
     """
-
-    rotationRobot(-math.pi/10)
+    robot.addTourG()
+    robot.setVitesse()
+    rotationRobot()
 
 def avancerRobot(event):
 
@@ -194,11 +204,34 @@ def avancerRobot(event):
     if robot.avancerDirection() :
         refresh_position_robot_visuel(canv, robot)
 
+def test(event):
+    """print("avant", robot.direction)
+    robot.addTourD()
+    print("Add tourD", robot.direction)
+    robot.rotation()
+    print("rotation", robot.direction)
+    robot.addTourG()
+    print("Add tourG", robot.direction)
+    robot.rotation()
+    print("rotation", robot.direction)
+    robot.addTourG()
+    print("Add tourG", robot.direction)
+    robot.rotation()
+    print("rotation", robot.direction)"""
+    root.after(int(1000/60), z)
+
+def z():
+    print("prout")
+    robot.avancerDirection()
+    robot.rotation()
+    refresh_position_robot_visuel(canv, robot)
+    root.after(int(1000/30), z)
 
 # Key binds
 root.bind("<Right>", rotationRobotD)
 root.bind("<Left>", rotationRobotG)
 root.bind("<Up>", avancerRobot)
+root.bind("<space>", test)
 
 # Slider de vitesse
 btn_vitesse = Scale(frame_stats, from_=1, to=100,  orient=HORIZONTAL, label="Vitesse", command=robot.setVitesse)
