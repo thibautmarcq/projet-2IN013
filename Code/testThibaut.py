@@ -1,7 +1,7 @@
-from tkinter import *
-from robot import Robot
 import math
+from tkinter import *
 
+from robot import Robot
 
 # Configs de la fenêtre
 root=Tk()
@@ -147,11 +147,9 @@ def refresh_position_robot_visuel(canvas, robot):
         :param robot: le robot dont on veut mettre à jour la représentation sur le canva
         :returns: rien, on met juste à jour la fenêtre de représentation du robot et de l'environnement
     """
-    Update la position du visuel du robot
-    """
-    """for i in range(0,8,2):
+    for i in range(0,8,2):
         robot.points[i] = robot.points[i]+robot.vitesse*robot.direction[0]
-        robot.points[i+1] = robot.points[i+1]+robot.vitesse*robot.direction[1]"""
+        robot.points[i+1] = robot.points[i+1]+robot.vitesse*robot.direction[1]
     dx, dy = robot.direction
     canvas.coords(robot.rect,
                   robot.x-(robot.width/2)*(-dy)-(robot.length/2)*dx,
@@ -182,10 +180,6 @@ def rotationRobotD(event):
         :param event: argument appelé car demandé par tkinter mais pas utilisé
         :returns: ne retourne rien, on bind juste pour faire la rotation droite
     """
-    Fonction callback pour bind avec tkinter
-    possède un argument event car demandé par tkinter
-    mais pas utilisé
-    """
     robot.addTourD()
     robot.setVitesse()
     rotationRobot()
@@ -195,10 +189,6 @@ def rotationRobotG(event):
     """ Fonction callback pour bind avec tkinter
         :param event: l'argument event est obligatoire pour récupérer l'evenementmais il ne nous est pas utile
         :returns: ne retourne rien, on bind juste pour faire la rotation gauche
-    """
-    Fonction callback pour bind avec tkinter
-    l'argument event est obligatoire pour récupérer l'evenement
-    mais il nous est pas utile
     """
     robot.addTourG()
     robot.setVitesse()
