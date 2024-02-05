@@ -36,10 +36,11 @@ class Robot :
             :param vitesse: la nouvelle vitesse qu'on veut donner au robot
             :returns: rien du tout, modifie juste la vitesse
         """
-        if ( self.roueG != self.roueD) : # Si les 2 roues n'ont pas les memes tours/min, on prends la différence entre les 2 roues
-            nbTour = max(self.roueD, self.roueG) - min(self.roueD, self.roueG)
-        else : # Si les roues ont le même nombre de tour/min alors prends le tours/min d'une des deux roues
-            nbTour = self.roueD
+        # if ( self.roueG != self.roueD) : # Si les 2 roues n'ont pas les memes tours/min, on prends la différence entre les 2 roues
+        #     nbTour = max(self.roueD, self.roueG) - min(self.roueD, self.roueG)
+        # else : # Si les roues ont le même nombre de tour/min alors prends le tours/min d'une des deux roues
+        #     nbTour = self.roueD
+        nbTour = max(self.roueD, self.roueG)
         angulaire = 2*math.pi*(nbTour/60) # Calcul de la vitesse angulaire : w = 2*pi*(tours/60)
         self.vitesse = self.tailleRoue*angulaire # Calcul de la vitesse linéaire : v = tailleRoue * vitesse_angulaire
 
