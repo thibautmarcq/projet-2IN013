@@ -24,7 +24,7 @@ class Robot :
         self.y = y
         self.width = width
         self.length = length
-        self.tailleRoue = tailleRoue
+        self.tailleRoue = tailleRoue/100 # taille des roues en m donc 1 m = 1/100 cm
 
         self.vitesse = 0 # Vitesse du robot initialisée à 0
         self.direction = (0,-1) # vecteur directeur du robot
