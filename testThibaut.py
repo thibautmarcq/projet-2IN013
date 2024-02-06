@@ -224,8 +224,8 @@ def test(event):
 def tic_tac():
     env.refresh_env()
     refresh_position_robot_visuel(canv, robot)
-    print("tic tac")
-    root.after((1/10), tic_tac())
+    #print("tic tac")
+    root.after(int(1000/60), tic_tac)
 
 def lancement(event) :
     tic_tac()
