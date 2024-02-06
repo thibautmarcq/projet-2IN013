@@ -31,7 +31,7 @@ class Robot :
         self.roueD = 0 # Nombre de tours/min de la roue droite initialisée à 0
         self.roueG = 0 # Nombre de toues/min de la roue gauche initialisée à 0
 
-    def setVitesse(self):
+    def setVitesse(self, prout):
 
         """ Change la vitesse du robot
             :param vitesse: la nouvelle vitesse qu'on veut donner au robot
@@ -167,3 +167,15 @@ class Robot :
             :returns: rien, on va modifier directement la roue droite
         """
         self.roueD -= 1
+    
+    def setTourG(self, nbTours):
+        """
+
+        """
+        self.roueG=nbTours
+
+    def setTourD(self, nbTours):
+        """
+
+        """
+        self.roueD=nbTours
