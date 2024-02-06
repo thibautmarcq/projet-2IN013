@@ -233,18 +233,13 @@ root.bind("<Left>", rotationRobotG)
 root.bind("<Up>", avancerRobot)
 root.bind("<space>", test)
 
-# Slider de vitesse
-# btn_vitesse = Scale(frame_vitesses, from_=1, to=100,  orient=HORIZONTAL, label="Vitesse", command=robot.setVitesse)
-# btn_vitesse.set(robot.vitesse) # permet d'initialiser le slider a la vitesse initiale du robot
-# btn_vitesse.grid(row=0, column=0, padx=5, pady=5)
-
 
 # Slider des vitesses des roues gauche et droite respectivement
 btn_tourG = Scale(frame_vitesses, from_=50, to=0, orient=VERTICAL, label="Vitesse \nroue G", command=robot.setTourG)
 btn_tourG.config(length=70)
 btn_tourG.grid(row=0, column=0, padx=5, pady=5)
 
-btn_tourD = Scale(frame_vitesses, from_=50, to=0, orient=VERTICAL, command=robot.setTourD)
+btn_tourD = Scale(frame_vitesses, from_=50, to=0, orient=VERTICAL, label="Vitesse \nroue D", command=robot.setTourD)
 btn_tourD.config(length=70)
 btn_tourD.grid(row=0, column=1, padx=5, pady=5)
 
