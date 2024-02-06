@@ -41,7 +41,7 @@ class Robot :
         #     nbTour = max(self.roueD, self.roueG) - min(self.roueD, self.roueG)
         # else : # Si les roues ont le même nombre de tour/min alors prends le tours/min d'une des deux roues
         #     nbTour = self.roueD
-        nbTour = max(int(self.roueD), int(self.roueG))
+        nbTour = (int(self.roueD) + int(self.roueG))/2
         angulaire = 2*math.pi*(nbTour/60) # Calcul de la vitesse angulaire : w = 2*pi*(tours/60)
         self.vitesse = self.tailleRoue*angulaire # Calcul de la vitesse linéaire : v = tailleRoue * vitesse_angulaire
         logging.info("Vitesse changée à "+ str(self.vitesse))
@@ -52,13 +52,13 @@ class Robot :
             :returns: ne retourne rien, on modifie juste la direction du robot
         """
         x, y = self.direction
-        nbTour = (self.roueD + self.roueG)/2 # la moyenne des deux roues
+        nbTour = (int(self.roueD) + int(self.roueG))/2 # la moyenne des deux roues
         angulaire = 2*math.pi*(nbTour/60) # Calule de la vitesse angulaire
         angle = angulaire*(180/math.pi) 
         if ( angle > 40 ) :
             angle = 40
         else  :
-            if ( self.roueG < self.roueD ):
+            if ( int(self.roueG) < int(self.roueD) ):
                 angle = -angle
                 self.direction = ((x*math.cos(angle)-y*math.sin(angle)), (x*math.sin(angle)+y*math.cos(angle))) # Rotation du vecteur directeur
             else :
@@ -115,8 +115,8 @@ class Robot :
         """
         
         if self.robotDansCadre() :
-            self.x = self.x + self.direction[0]*self.distance
-            self.y = self.y + self.direction[1]*self.distance
+            self.x = self.x + self.direction[0]*distance
+            self.y = self.y + self.direction[1]*distance
 
     def reculerDirection(self):
 

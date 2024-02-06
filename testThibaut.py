@@ -224,12 +224,14 @@ def test(event):
 def tic_tac():
     env.refresh_env()
     refresh_position_robot_visuel(canv, robot)
-    root.after(int(1000/30), tic_tac)
+    print("tic tac")
+    root.after((1/10), tic_tac())
 
-
+def lancement(event) :
+    tic_tac()
 
 # Key binds
-root.bind("<space>", tic_tac)
+root.bind("<space>", lancement)
 
 # Setup de l'environnement
 env = Environnement(400, 600, 1) # un environnement qui reprend grossièrement la taille du canva test, et avec une échelle de 1, c'est pas représentatif c'est juste pour intégrer l'environnement
