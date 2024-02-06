@@ -1,7 +1,8 @@
 import math
 from tkinter import *
 
-from robot import Robot
+from Code.environnement import Environnement
+from Code.robot import Robot
 
 # Configs de la fenêtre
 root=Tk()
@@ -221,9 +222,7 @@ def test(event):
     root.after(int(1000/60), tic_tac)
 
 def tic_tac():
-    print("prout")
-    robot.avancerDirection()
-    robot.rotation()
+    env.refresh_env()
     refresh_position_robot_visuel(canv, robot)
     root.after(int(1000/30), tic_tac)
 

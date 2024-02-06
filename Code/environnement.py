@@ -1,6 +1,7 @@
 import random
 import logging
 import numpy as np
+import time
 
 from .obstacle import Obstacle
 from .robot import Robot
@@ -90,6 +91,25 @@ class Environnement:
             return True
 
         return False
+    
+    def refresh_env(self) :
+
+        """ Pour rafraichir l'environnement et faire updater tous les robots qui le composent.
+            :returns: ne retourne rien, fait juste la mise à jour de tous les éléments
+        """
+        temps = time.time()
+
+        if self.last_refresh = 0 : # donc si c'est la première fois qu'on fait le rafraichissement
+            self.last_refresh = temps
+
+        for rob in self.robots : # on fait avancer tous les robots de l'environnement 
+            duree = temps - self.last_refresh
+            distance = rob.vitesse*duree
+            rob.avancerDirection(distance)
+            rob.rotation()
+
+        self.last_refresh = temps # on met à jour l'heure du dernier rafraichissement 
+
 
     def affiche(self):
         #methodes pour affichage avec tkinter
