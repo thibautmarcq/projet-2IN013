@@ -13,7 +13,7 @@ class TestRobot(unittest.TestCase):
         self.assertEqual(self.rob.y, 15)
         self.assertEqual(self.rob.width, 5)
         self.assertEqual(self.rob.length, 7)
-        self.assertEqual(self.rob.vitesse, 8)
+        self.assertEqual(self.rob.vitesse, 0)
         self.assertEqual(self.rob.direction, (0,-1))
 
     def test_setVitesse(self):
@@ -30,4 +30,11 @@ class TestRobot(unittest.TestCase):
         self.rob.avancerDirection()
         self.assertEqual(self.rob.x, 10)
         self.assertEqual(self.rob.y, 7)
+
+    def test_reculer(self):
+        self.rob.reculerDirection()
+        self.rob.setVitesse(8)
+        self.assertEqual(self.rob.x, 10)
+        self.assertEqual(self.rob.y, 23)
+
     

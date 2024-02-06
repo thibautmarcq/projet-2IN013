@@ -118,6 +118,18 @@ class Robot :
             self.x = self.x + self.direction[0]*self.distance
             self.y = self.y + self.direction[1]*self.distance
 
+    def reculerDirection(self):
+
+        """ Fait reculer le robot en suivant son vecteur directeur et de sa vitesse
+            :returns: True si le déplacement a réussi, False sinon
+        """
+        
+    
+        if self.robotDansCadre() :
+            self.x = self.x - self.direction[0]*self.vitesse
+            self.y = self.y - self.direction[1]*self.vitesse
+
+
     
     def addTour(self) :
         """
