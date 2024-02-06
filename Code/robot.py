@@ -74,12 +74,41 @@ class Robot :
             :returns: True si le déplacement est possible, False sinon
         """
 
-        maxi = max(self.length, self.width)/2
-        if (newx - maxi) < 0 or (newy - maxi) < 0 :
+        x_dir = self.direction[0]
+        y_dir = self.direction[1]
+
+        # les coordonnées d'un point intermédiaire qui est sur la largeur du rectangle
+        # il est pile entre les deux points de l'avant du rectangle qui représente le robot
+        x_intermediaire = self.x + x_dir*self.length/2
+        y_intermediaire = self.y + y_dir*self.length/2
+
+        # deux vecteurs qui sont respectivement la rotation de 90° (sens anti-horaire) et -90° (sens horaire) du vecteur directeur du robot
+        # ils vont permettre d'obtenir les coordonnées des coins avant gauche et droit du rectangle représentant le robot, en partant du point intermédiaire
+        vect_droite = [-y_dir, x_dir]
+        vect_gauche = [y_dir, -x_dir]
+
+        # le calcul des coordonnées du point avant gauche du robot
+        gauche_x = x_intermediaire + vect_gauche[0]*(self.width/2)
+        gauche_y = y_intermediaire + vect_gauche[1]*(self.width/2)
+
+        # le calcul des coordonnées du point avant droit du robot
+        droit_x = x_intermediaire + vect_droite[0]*(self.width/2)
+        droit_y = y_intermediaire + vect_droite[1]*(self.width/2)
+
+        if gauche_x <= 0 or droit_x <= 0 : # vérifie si le robot touche dejà la bord gauche
             return False
-        if (newx + maxi) > 600 or (newy + maxi) > 400 :
+        
+        if gauche_x >= 600 or droit_x >= 600 : # vérifie si le robot touche déjà le bord droit
             return False
+        
+        if gauche_y <= 0 or droit_y <= 0 : # vérifie si le robot touche déjà le bord bas
+            return False
+        
+        if gauche_y >= 400 or droit_y >= 400 : # vérifie si le robot touche déjà le bord haut
+            return False
+        
         return True
+
 
     def avancerDirection(self):
 
