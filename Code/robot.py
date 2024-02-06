@@ -118,7 +118,7 @@ class Robot :
         if self.robotDansCadre() :
             self.x = self.x + self.direction[0]*self.distance
             self.y = self.y + self.direction[1]*self.distance
-            
+
     
     def addTour(self) :
         """
@@ -169,9 +169,11 @@ class Robot :
 
         """
         self.roueG=nbTours
+        self.refreshVitesse()
 
     def setTourD(self, nbTours):
         """
 
         """
         self.roueD=nbTours
+        self.refreshVitesse()
