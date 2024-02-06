@@ -228,9 +228,6 @@ def z():
     root.after(int(1000/30), z)
 
 # Key binds
-root.bind("<Right>", rotationRobotD)
-root.bind("<Left>", rotationRobotG)
-root.bind("<Up>", avancerRobot)
 root.bind("<space>", test)
 
 
