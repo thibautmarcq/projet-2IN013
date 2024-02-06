@@ -99,7 +99,7 @@ class Environnement:
         """
         temps = time.time()
 
-        if self.last_refresh = 0 : # donc si c'est la première fois qu'on fait le rafraichissement
+        if self.last_refresh == 0 : # donc si c'est la première fois qu'on fait le rafraichissement
             self.last_refresh = temps
 
         for rob in self.robots : # on fait avancer tous les robots de l'environnement 
