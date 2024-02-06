@@ -65,12 +65,10 @@ class Robot :
             else :
                 self.direction = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle)) # Rotation du vecteur directeur
 
-    def robotDansCadre(self, newx, newy) :
+    def robotDansCadre(self) :
 
         """ Détermine si le robot resterait bien dans le cadre après déplacement en (xnew, ynew)
-            (pour l'instant juste pour le canva de tkinter)
-            :param xnew: la coordonnée x où on souhaite se déplacer
-            :param ynew: la coordonnée y où on souhaite se déplacer
+            (pour l'instant adaptée juste pour le canva de tkinter)
             :returns: True si le déplacement est possible, False sinon
         """
 
