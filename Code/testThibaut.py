@@ -36,8 +36,8 @@ frame_gauche.grid(row=1, column=0, padx=5, pady=5)
 frame_up = LabelFrame(frame_gauche, bd=0)
 frame_up.grid(row=0)
 
-frame_stats = LabelFrame(frame_up, text='Stats', width=350, height=200) # btn_vitesse + coordonnées
-frame_stats.grid(row=0, column=0, padx=10, pady=10)
+frame_vitesses = LabelFrame(frame_up, text='Vitesses', width=350, height=200) # btn_vitesse + coordonnées
+frame_vitesses.grid(row=0, column=0, padx=10, pady=10)
 
 frame_coordonnees = LabelFrame(frame_up, text='Coordonnées', )
 frame_coordonnees.grid(row=0, column=1)
@@ -234,9 +234,19 @@ root.bind("<Up>", avancerRobot)
 root.bind("<space>", test)
 
 # Slider de vitesse
-btn_vitesse = Scale(frame_stats, from_=1, to=100,  orient=HORIZONTAL, label="Vitesse", command=robot.setVitesse)
-btn_vitesse.set(robot.vitesse) # permet d'initialiser le slider a la vitesse initiale du robot
-btn_vitesse.grid(row=0, column=0, padx=5, pady=5)
+# btn_vitesse = Scale(frame_vitesses, from_=1, to=100,  orient=HORIZONTAL, label="Vitesse", command=robot.setVitesse)
+# btn_vitesse.set(robot.vitesse) # permet d'initialiser le slider a la vitesse initiale du robot
+# btn_vitesse.grid(row=0, column=0, padx=5, pady=5)
+
+
+# Slider des vitesses des roues gauche et droite respectivement
+btn_tourG = Scale(frame_vitesses, from_=50, to=0, orient=VERTICAL, label="Vitesse \nroue G", command=robot.setTourG)
+btn_tourG.config(length=70)
+btn_tourG.grid(row=0, column=0, padx=5, pady=5)
+
+btn_tourD = Scale(frame_vitesses, from_=50, to=0, orient=VERTICAL, command=robot.setTourD)
+btn_tourD.config(length=70)
+btn_tourD.grid(row=0, column=1, padx=5, pady=5)
 
 # Boucle de la fenètre principale
 root.mainloop()
