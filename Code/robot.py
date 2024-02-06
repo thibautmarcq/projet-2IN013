@@ -24,7 +24,7 @@ class Robot :
         self.y = y
         self.width = width
         self.length = length
-        self.tailleRoue = tailleRoue/100 # taille des roues en m donc 1 m = 1/100 cm
+        self.tailleRoue = tailleRoue # taille des roues en m donc 1 m = 1/100 cm
 
         self.vitesse = 0 # Vitesse du robot initialisée à 0
         self.direction = (0,-1) # vecteur directeur du robot
@@ -52,8 +52,9 @@ class Robot :
             :returns: ne retourne rien, on modifie juste la direction du robot
         """
         x, y = self.direction
-        nbTour = (int(self.roueD) + int(self.roueG))/2 # la moyenne des deux roues
-        angulaire = 2*math.pi*(nbTour/60) # Calule de la vitesse angulaire
+        nbTour = max(int(self.roueD), int(self.roueG)) - min(int(self.roueD), int(self.roueG))
+        # (int(self.roueD) + int(self.roueG))/2 # la moyenne des deux roues
+        angulaire = 2*math.pi*nbTour # Calule de la vitesse angulaire
         angle = angulaire*(180/math.pi) 
         if ( angle > 40 ) :
             angle = 40

@@ -72,7 +72,7 @@ canv.grid(row=3, column=0)
 # -------------------------------------------------------
 
 # on crée le robot en 150 100
-robot = Robot("Claude", 150, 100, 50, 80, 30)
+robot = Robot("Claude", 150, 100, 50, 80, 15)
 
 # Afficheur de coordonnées
 # global lab_coord_nom, lab_coord_x, lab_coord_y
@@ -224,8 +224,7 @@ def test(event):
 def tic_tac():
     env.refresh_env()
     refresh_position_robot_visuel(canv, robot)
-    #print("tic tac")
-    root.after(int(1000/60), tic_tac)
+    root.after(int(500), tic_tac)
 
 def lancement(event) :
     tic_tac()
