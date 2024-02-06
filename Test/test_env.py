@@ -19,9 +19,9 @@ class TestEnvironnement(unittest.TestCase):
         self.assertEqual(self.env.scale, 5)
         
 
-    def test_addRobot(self):
+    def test_createRobot(self):
         self.assertEqual(len(self.env.robots), 0)
-        self.env.addRobot("Bobby", 18, 14.5, 5, 8, 0)
+        self.env.createRobot("Bobby", 18, 14.5, 5, 8, 0)
         self.assertEqual(len(self.env.robots), 1)
         self.assertIsInstance(self.env.robots[0], Robot)
         # Ajouter test après condition dehors environnement
