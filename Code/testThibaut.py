@@ -232,6 +232,10 @@ def tic_tac():
 # Key binds
 root.bind("<space>", tic_tac)
 
+# Setup de l'environnement
+env = Environnement(400, 600, 1) # un environnement qui reprend grossièrement la taille du canva test, et avec une échelle de 1, c'est pas représentatif c'est juste pour intégrer l'environnement
+env.addRobot(robot)
+
 
 # Slider des vitesses des roues gauche et droite respectivement
 btn_tourG = Scale(frame_vitesses, from_=50, to=0, orient=VERTICAL, label="Vitesse \nroue G", command=robot.setTourG)
