@@ -30,4 +30,10 @@ class TestRobot(unittest.TestCase):
         self.rob.avancerDirection()
         self.assertEqual(self.rob.x, 10)
         self.assertEqual(self.rob.y, 7)
+
+    def test_reculer(self):
+        self.rob.reculerDirection()
+        self.assertEqual(self.rob.x, 10)
+        self.assertEqual(self.rob.y, 23)
+
     
