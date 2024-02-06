@@ -176,15 +176,17 @@ class Robot :
         self.roueD -= 1
     
     def setTourG(self, nbTours):
-        """
-
+        """ Modifie le nombre de tours de la roue gauche
+            :param nbTours: le nombre de tours qu'on veut donner à la roue gauche
+            :returns: ne retourne rien, on modifie la valeur de roueG
         """
         self.roueG=nbTours
         self.refreshVitesse()
 
     def setTourD(self, nbTours):
-        """
-
+        """ Modifie le nombre de tours de la roue droite
+            :param nbTours: le nombre de tours qu'on veut donner à la roue droite
+            :returns: ne retourne rien, on modifie la valeur de roueD
         """
         self.roueD=nbTours
         self.refreshVitesse()
