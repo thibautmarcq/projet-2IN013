@@ -49,7 +49,6 @@ class Robot :
 
     def rotation(self):
         """ Determine angle/sec que va faire le robot
-            :param
             :returns: ne retourne rien, on modifie juste la direction du robot
         """
         x, y = self.direction

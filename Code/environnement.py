@@ -25,9 +25,9 @@ class Environnement:
         self.scale = scale #echelle en int positif 
         self.last_refresh = 0 # initialise la dernière fois où l'environnement a été rafraîchi à 0 pour savoir quand on le fait pour la première fois
 
-    def addRobot(self, nom, x, y, width, length, vitesse):
+    def createRobot(self, nom, x, y, width, length, vitesse):
 
-        """ Ajoute un robot a notre environnement
+        """ Crée un robot et l'ajoute à notre environnement
             :param nom: nom du robot
             :param x: la coordonnée x où on veut placer le robot au départ
             :param y: la coordonnée y où on veut placer le robot au départ
@@ -40,6 +40,16 @@ class Environnement:
         rob = Robot(nom, x, y, width, length, vitesse)
         self.robots.append(rob)
         self.matrice[int(x/self.scale)][int(y/self.scale)] = 1 # Ajoute le robot représenté par le chiffre 1 dans la matrice
+
+    def addRobot(self, rob) :
+
+        """ Ajoute le robot rob à l'environnement et le place dans la matrice
+            :param rob: le robot qu'on veut ajouter à l'environnement
+            :returns: ne retourne rien
+        """
+
+        self.robots.append(rob)
+        self.matrice[int(rob.x/self.scale)][int(rob.y/self.scale)] = 1 # Ajoute à la matrice le robot grâce a sa position en le représentant par un 1
 
     def addObstacle(self,nom):
 

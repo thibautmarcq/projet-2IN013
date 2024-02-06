@@ -227,6 +227,8 @@ def tic_tac():
     refresh_position_robot_visuel(canv, robot)
     root.after(int(1000/30), tic_tac)
 
+
+
 # Key binds
 root.bind("<space>", tic_tac)
 
