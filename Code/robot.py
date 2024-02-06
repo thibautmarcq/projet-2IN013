@@ -52,7 +52,7 @@ class Robot :
             :returns: ne retourne rien, on modifie juste la direction du robot
         """
         x, y = self.direction
-        nbTour = max(self.roueD, self.roueG) - min(self.roueD, self.roueG) # La différence entre les 2 roues
+        nbTour = (self.roueD + self.roueG)/2 # la moyenne des deux roues
         angulaire = 2*math.pi*(nbTour/60) # Calule de la vitesse angulaire
         angle = angulaire*(180/math.pi) 
         if ( angle > 40 ) :
