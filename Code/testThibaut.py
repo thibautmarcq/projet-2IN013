@@ -201,8 +201,7 @@ def test(event):
     root.after(int(1000/60), z)
 
 def z():
-    print("prout")
-    robot.avancerDirection()
+    robot.avancerDirection(robot.roueD+robot.roueG)
     robot.rotation()
     refresh_position_robot_visuel(canv, robot)
     root.after(int(1000/30), z)
