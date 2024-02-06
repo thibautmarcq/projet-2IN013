@@ -1,8 +1,8 @@
 import math
 from tkinter import *
 
-from .Code.environnement import Environnement
-from .Code.robot import Robot
+from Code.environnement import Environnement
+from Code.robot import Robot
 
 # Configs de la fenêtre
 root=Tk()
