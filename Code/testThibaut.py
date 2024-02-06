@@ -218,17 +218,17 @@ def test(event):
     print("Add tourG", robot.direction)
     robot.rotation()
     print("rotation", robot.direction)"""
-    root.after(int(1000/60), z)
+    root.after(int(1000/60), tic_tac)
 
-def z():
+def tic_tac():
     print("prout")
     robot.avancerDirection()
     robot.rotation()
     refresh_position_robot_visuel(canv, robot)
-    root.after(int(1000/30), z)
+    root.after(int(1000/30), tic_tac)
 
 # Key binds
-root.bind("<space>", test)
+root.bind("<space>", tic_tac)
 
 
 # Slider des vitesses des roues gauche et droite respectivement
