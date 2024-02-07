@@ -193,3 +193,19 @@ class Robot :
         self.nbToursRoueD=nbTours
         self.refreshVitesse()
         self.rotation()
+
+    def getVitesseRoueD(self) :
+
+        """ Calcule et renvoie la vitesse d'un point qui serait sur la roue droite
+            :returns: la vitesse d'un point sur la roue droite
+        """
+
+        return self.nbToursRoueD*2*math.pi*self.rayonRoue
+    
+    def getVitesseRoueG(self) :
+
+        """ Calcule et renvoie la vitesse d'un point qui serait sur la roue droite
+            :returns: la vitesse d'un point sur la roue droite
+        """
+
+        return self.nbToursRoueD*2*math.pi*self.rayonRoue
