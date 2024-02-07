@@ -1,7 +1,7 @@
-from tkinter import *
-from robot import Robot
 import math
+from tkinter import *
 
+from robot import Robot
 
 # Configs de la fenêtre
 root=Tk()
@@ -164,6 +164,7 @@ def rotationRobotD(event):
     mais pas utilisé
     """
     robot.addTourD()
+    robot.subTourG()
     robot.setVitesse()
     rotationRobot()
 
