@@ -183,6 +183,7 @@ class Robot :
         """
         self.roueG=nbTours
         self.refreshVitesse()
+        self.rotation()
 
     def setTourD(self, nbTours):
         """ Modifie le nombre de tours de la roue droite
@@ -191,3 +192,4 @@ class Robot :
         """
         self.roueD=nbTours
         self.refreshVitesse()
+        self.rotation()

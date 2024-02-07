@@ -106,7 +106,6 @@ class Environnement:
             duree = temps - self.last_refresh
             distance = rob.vitesse*duree
             rob.avancerDirection(distance)
-            rob.rotation()
 
         self.last_refresh = temps # on met à jour l'heure du dernier rafraichissement 
 
