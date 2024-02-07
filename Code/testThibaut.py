@@ -200,6 +200,7 @@ def test(event):
     print("Add tourG", robot.direction)
     robot.rotation()
     print("rotation", robot.direction)"""
+    robot.addTour()
     root.after(int(1000/60), z)
 
 def z():
