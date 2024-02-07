@@ -175,6 +175,7 @@ def rotationRobotG(event):
     mais il nous est pas utile
     """
     robot.addTourG()
+    robot.subTourD()
     robot.setVitesse()
     rotationRobot()
 
