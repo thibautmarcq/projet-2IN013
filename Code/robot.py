@@ -5,7 +5,7 @@ import math
 class Robot :
     """Robot - Objet aux coordonnées continues, se place dans l'environnement, avance selon une direction"""
 
-    def __init__(self, nom, x, y, width, length, tailleRoue):
+    def __init__(self, nom, x, y, width, length, rayonRoue):
 
         """ Initialise le robot grâce avec les paramètres passés en argument
             Initialise la direction du robot à (0, -1), donc vers le bas
@@ -15,7 +15,7 @@ class Robot :
             :param width: la largeur du robot
             :param length: la longueur du robot
             :param vitesse: la vitesse initiale du robot
-            :param tailleRoue: la taille des roue
+            :param rayonRoue: la taille des roue
             :returns: ne retourne rien, ça initalise et initaialise seulement le robot
         """
 
@@ -24,7 +24,7 @@ class Robot :
         self.y = y
         self.width = width
         self.length = length
-        self.tailleRoue = tailleRoue # taille des roues en m donc 1 m = 1/100 cm
+        self.rayonRoue = rayonRoue # taille des roues en m donc 1 m = 1/100 cm
 
         self.vitesse = 0 # Vitesse du robot initialisée à 0
         self.direction = (0,-1) # vecteur directeur du robot
@@ -43,7 +43,7 @@ class Robot :
         #     nbTour = self.roueD
         nbTour = (int(self.roueD) + int(self.roueG))/2
         angulaire = 2*math.pi*(nbTour/60) # Calcul de la vitesse angulaire : w = 2*pi*(tours/60)
-        self.vitesse = self.tailleRoue*angulaire # Calcul de la vitesse linéaire : v = tailleRoue * vitesse_angulaire
+        self.vitesse = self.rayonRoue*angulaire # Calcul de la vitesse linéaire : v = rayonRoue * vitesse_angulaire
         logging.info("Vitesse changée à "+ str(self.vitesse))
 
 
