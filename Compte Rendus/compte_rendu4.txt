@@ -1,0 +1,36 @@
+Attention aux tests unitaires, surtout si on remove des methodes
+
+Vecteur directeur - vitesse angulaire - norme (av reculer) - angle rotation
+en fonction du ch de v des roues : changement de la rotation(angle) du vect directeur -> trouver le calcul (4lignes)
+> Tests : cas élémentaires avec solution intuitive : 2roues meme vitesse- tourner en rond centre - etcc + faire un cas au hasard à la main (valider les equations)
+
+
+Trello -
+Ecrire les taches dans un langage correct - tt le monde doit comprendre
+Avancer progressivement sur les taches - si pas d'obstacles > pas de matrice de gestion des obstacles (on avance que sur ce qu'on va montrer)
+
+Compléter le Trello - claude !!!
+
+Une belle démo ! - C'est subjectif 
+
+
+Github-
+Attention aux attributs - roueD et G > faire un truc plus concret
+Attention aux noms de commit github
+Embettant d'avoir des bugs à droite à gauche - diviser en taches pour ne pas avoir de commits sur plusieurs fichiers
+Attention aux noms des commits -> explicites, gitignore pour 
+
+Code-
+Rotation ? 40? 6000? 
+robotDansCadre ? Attention -> Modifier pour s'adapter à tous les canva
+Pb de simulation 
+
+Semaine prochaine-
+Tout doit etre corrigé - physique - branches - modules -> très rapidement 
+Vraiment rajouter obstacles : capteur d'obstacles (distance) 
+Début de controlleur - fait un carré - avance proche du mur (va faire apparaitre des problèmes etcc)
+
+
+
+
+
