@@ -1,3 +1,5 @@
+# python3 -m unittest Test/test_robot.py -v
+
 import unittest
 import math 
 
@@ -5,7 +7,7 @@ from Code.robot import Robot
 
 class TestRobot(unittest.TestCase):
     def setUp(self) :
-        self.rob = Robot("Rob", 10, 15, 5, 7, 8)
+        self.rob = Robot("Rob", 10, 15, 5, 7, 8) 
     
     def test_constructeur(self):
         self.assertEqual(self.rob.nom, "Rob")
@@ -15,6 +17,7 @@ class TestRobot(unittest.TestCase):
         self.assertEqual(self.rob.length, 7)
         self.assertEqual(self.rob.vitesse, 0)
         self.assertEqual(self.rob.direction, (0,-1))
+        self.assertEqual(self.rob.rayonRoue, 8)
 
     def test_setVitesse(self):
         self.rob.setVitesse(12)

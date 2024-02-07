@@ -1,3 +1,5 @@
+# python3 -m unittest Test/test_obs.py -v
+
 import unittest
 
 from Code.obstacle import Obstacle 
