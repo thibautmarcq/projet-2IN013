@@ -46,6 +46,15 @@ class Robot :
         self.vitesse = self.rayonRoue*angulaire # Calcul de la vitesse linéaire : v = rayonRoue * vitesse_angulaire
         logging.info("Vitesse changée à "+ str(self.vitesse))
 
+    
+    def setVitesse(self, vitesse) :
+
+        """ Modifie la vitesse à la valeur donnée en argument
+            :param vitesse: la vitesse qu'on veut donner au robot
+            :returns: ne retourne rien, on fait juste la modification de la vitesse
+        """
+        self.vitesse = vitesse
+
 
     def rotation(self):
         """ Determine angle/sec que va faire le robot
