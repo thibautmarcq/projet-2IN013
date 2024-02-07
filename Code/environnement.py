@@ -10,17 +10,18 @@ logging.basicConfig(filename='Code/Logs/log-environnement.log', level=logging.DE
 
 class Environnement:
     
-    def __init__(self, width, height, scale): 
+    def __init__(self, width, length, scale): 
         
         """ Initialise l'environnement où l'on va se placer, où on considère que l'environnement dans lequel évolue le robot est un rectangle
             :param width: largeur de l'environnement
-            :param height: longueur de l'environnement
+            :param length: longueur de l'environnement
             :param scale: l'échelle qui permet de passer de l'environnement à la matrice, c'est la correspondance de la taille d'un côté d'une case de la matrice dans le rectangle
             :returns: ne retourne rien, fait juste l'initialisation
         """
         
-        self.width=width; self.height=height
-        self.matrice = np.empty([int(width/scale), int(height/scale)], dtype=int) # Création d'une matrice int(width/scale)*int(height/scale) grâce à np.empty
+        self.width=width
+        self.length=length
+        self.matrice = np.empty([int(width/scale), int(length/scale)], dtype=int) # Création d'une matrice int(width/scale)*int(length/scale) grâce à np.empty
         self.robots = []
         self.robotSelect = 0 # robot selectionné pour bouger
         self.scale = scale #echelle en int positif 
@@ -62,7 +63,7 @@ class Environnement:
         obs_place = False
         while( obs_place == False ) :
             random_x = random.randrange(0,self.width) #prend des coordonnees aleatoires pour l'obstacle
-            random_y = random.randrange(0,self.height)
+            random_y = random.randrange(0,self.length)
             x = int(random_x/self.scale)
             y = int(random_y/self.scale)
             if ( self.matrice[x][y] != 1 | self.matrice[x][y] != 2) :

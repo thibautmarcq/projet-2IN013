@@ -28,8 +28,8 @@ class Robot :
 
         self.vitesse = 0 # Vitesse du robot initialisée à 0
         self.direction = (0,-1) # vecteur directeur du robot
-        self.roueD = 0 # Nombre de tours/min de la roue droite initialisée à 0
-        self.roueG = 0 # Nombre de toues/min de la roue gauche initialisée à 0
+        self.nbToursRoueD = 0 # Nombre de tours/min de la roue droite initialisée à 0
+        self.nbToursRoueG = 0 # Nombre de toues/min de la roue gauche initialisée à 0
 
     def refreshVitesse(self):
 
@@ -37,11 +37,11 @@ class Robot :
             :returns: rien du tout, modifie juste la vitesse du robot
         """
         
-        # if ( self.roueG != self.roueD) : # Si les 2 roues n'ont pas les memes tours/min, on prends la différence entre les 2 roues
-        #     nbTour = max(self.roueD, self.roueG) - min(self.roueD, self.roueG)
+        # if ( self.nbToursRoueG != self.nbToursRoueD) : # Si les 2 roues n'ont pas les memes tours/min, on prends la différence entre les 2 roues
+        #     nbTour = max(self.nbToursRoueD, self.nbToursRoueG) - min(self.nbToursRoueD, self.nbToursRoueG)
         # else : # Si les roues ont le même nombre de tour/min alors prends le tours/min d'une des deux roues
-        #     nbTour = self.roueD
-        nbTour = (int(self.roueD) + int(self.roueG))/2
+        #     nbTour = self.nbToursRoueD
+        nbTour = (int(self.nbToursRoueD) + int(self.nbToursRoueG))/2
         angulaire = 2*math.pi*(nbTour/60) # Calcul de la vitesse angulaire : w = 2*pi*(tours/60)
         self.vitesse = self.rayonRoue*angulaire # Calcul de la vitesse linéaire : v = rayonRoue * vitesse_angulaire
         logging.info("Vitesse changée à "+ str(self.vitesse))
@@ -52,14 +52,14 @@ class Robot :
             :returns: ne retourne rien, on modifie juste la direction du robot
         """
         x, y = self.direction
-        nbTour = max(int(self.roueD), int(self.roueG)) - min(int(self.roueD), int(self.roueG))
-        # (int(self.roueD) + int(self.roueG))/2 # la moyenne des deux roues
+        nbTour = max(int(self.nbToursRoueD), int(self.nbToursRoueG)) - min(int(self.rnbToursRoueD), int(self.nbToursRoueG))
+        # (int(self.nbToursRoueD) + int(self.nbToursRoueG))/2 # la moyenne des deux roues
         angulaire = 2*math.pi*nbTour # Calule de la vitesse angulaire
         angle = angulaire*(180/math.pi) 
         if ( angle > 40 ) :
             angle = 40
         else  :
-            if ( int(self.roueG) < int(self.roueD) ):
+            if ( int(self.nbToursRoueG) < int(self.nbToursRoueD) ):
                 angle = -angle
                 self.direction = ((x*math.cos(angle)-y*math.sin(angle)), (x*math.sin(angle)+y*math.cos(angle))) # Rotation du vecteur directeur
             else :
@@ -137,51 +137,51 @@ class Robot :
             Augmente de 1 tour sur les 2 roues
             :returns: rien, on va modifier directement les 2 roues
         """
-        self.roueG += 1
-        self.roueD += 1
+        self.nbToursRoueG += 1
+        self.nbToursRoueD += 1
 
     def addTourG(self) :
         """
             Augmente de 1 tour sur la roue gauche
             :returns: rien, on va modifier directement la roue gauche
         """
-        self.roueG += 1
+        self.nbToursRoueG += 1
 
     def addTourD(self) :
         """
             Augmente de 1 tour sur la roue droite
             :returns: rien, on va modifier directement la roue droite
         """
-        self.roueD += 1
+        self.nbToursRoueD += 1
 
     def subTour(self) :
         """
             Réduit de 1 tour sur les 2 roues
             :returns: rien, on va modifier directement les 2 roues
         """
-        self.roueG -= 1
-        self.roueD -= 1
+        self.nbToursRoueG -= 1
+        self.nbToursRoueD -= 1
 
     def subTourG(self) :
         """
             Réduit de 1 tour sur la roue gauche
             :returns: rien, on va modifier directement la roue gauche
         """
-        self.roueG -= 1
+        self.nbToursRoueG -= 1
 
     def subTourD(self) :
         """
             Réduit de 1 tour sur la roue droite
             :returns: rien, on va modifier directement la roue droite
         """
-        self.roueD -= 1
+        self.nbToursRoueD -= 1
     
     def setTourG(self, nbTours):
         """ Modifie le nombre de tours de la roue gauche
             :param nbTours: le nombre de tours qu'on veut donner à la roue gauche
-            :returns: ne retourne rien, on modifie la valeur de roueG
+            :returns: ne retourne rien, on modifie la valeur de nbToursRoueG
         """
-        self.roueG=nbTours
+        self.nbToursRoueG=nbTours
         self.refreshVitesse()
         self.rotation()
 
@@ -190,6 +190,6 @@ class Robot :
             :param nbTours: le nombre de tours qu'on veut donner à la roue droite
             :returns: ne retourne rien, on modifie la valeur de roueD
         """
-        self.roueD=nbTours
+        self.nbToursRoueD=nbTours
         self.refreshVitesse()
         self.rotation()
