@@ -30,9 +30,9 @@ class TestRobot(unittest.TestCase):
         self.assertAlmostEqual(diry, -1)
 
     def test_avancer(self):
-        self.rob.avancerDirection()
+        self.rob.avancerDirection(10)
         self.assertEqual(self.rob.x, 10)
-        self.assertEqual(self.rob.y, 7)
+        self.assertEqual(self.rob.y, 5)
 
     def test_reculer(self):
         self.rob.setVitesse(8)
