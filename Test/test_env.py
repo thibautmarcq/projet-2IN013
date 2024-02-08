@@ -13,7 +13,7 @@ class TestEnvironnement(unittest.TestCase):
 
     def test_constructeur(self):
         self.assertEqual(self.env.width, 40)
-        self.assertEqual(self.env.height, 30)
+        self.assertEqual(self.env.length, 30)
         self.assertIsInstance(self.env.matrice, np.ndarray)
         self.assertEqual(len(self.env.robots), 0)
         self.assertEqual(self.env.scale, 5)
