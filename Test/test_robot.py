@@ -24,10 +24,10 @@ class TestRobot(unittest.TestCase):
         self.assertEqual(self.rob.vitesse, 12)
 
     def test_rotation(self):
-        self.rob.rotation(math.pi/6)
+        self.rob.rotation()
         dirx,diry = self.rob.direction
-        self.assertAlmostEqual(dirx, 1.0/2)
-        self.assertAlmostEqual(diry, -math.sqrt(3)/2.0)
+        self.assertAlmostEqual(dirx, 0)
+        self.assertAlmostEqual(diry, -1)
 
     def test_avancer(self):
         self.rob.avancerDirection()
@@ -35,8 +35,8 @@ class TestRobot(unittest.TestCase):
         self.assertEqual(self.rob.y, 7)
 
     def test_reculer(self):
-        self.rob.reculerDirection()
         self.rob.setVitesse(8)
+        self.rob.reculerDirection()
         self.assertEqual(self.rob.x, 10)
         self.assertEqual(self.rob.y, 23)
 
