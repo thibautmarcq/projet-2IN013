@@ -18,6 +18,8 @@ class TestRobot(unittest.TestCase):
         self.assertEqual(self.rob.vitesse, 0)
         self.assertEqual(self.rob.direction, (0,-1))
         self.assertEqual(self.rob.rayonRoue, 8)
+        self.assertEqual(self.rob.nbToursRoueD, 0)
+        self.assertEqual(self.rob.nbToursRoueG, 0)
 
     def test_setVitesse(self):
         self.rob.setVitesse(12)
@@ -39,5 +41,20 @@ class TestRobot(unittest.TestCase):
         self.rob.reculerDirection()
         self.assertEqual(self.rob.x, 10)
         self.assertEqual(self.rob.y, 23)
+
+    def test_vitesses_roues(self) :
+        self.rob.setTourG(9)
+        self.rob.setTourD(4)
+        self.assertEqual(self.rob.nbToursRoueG, 9)
+        self.assertEqual(self.rob.nbToursRoueD, 4)
+
+        self.rob.addTour()
+        self.assertEqual(self.rob.nbToursRoueG, 10)
+        self.assertEqual(self.rob.nbToursRoueD, 5)
+
+        vitG = self.rob.getVitesseRoueG()
+        vitD = self.rob.getVitesseRoueD()
+        self.assertLess(abs(vitG - 502.65), 0.01)
+        self.assertLess(abs(vitD - 251.33), 0.01)
 
     

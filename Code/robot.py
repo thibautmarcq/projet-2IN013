@@ -217,4 +217,4 @@ class Robot :
             :returns: la vitesse d'un point sur la roue droite
         """
 
-        return self.nbToursRoueD*2*math.pi*self.rayonRoue
+        return self.nbToursRoueG*2*math.pi*self.rayonRoue
