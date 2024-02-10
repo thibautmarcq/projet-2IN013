@@ -41,9 +41,11 @@ class Robot :
         #     nbTour = max(self.nbToursRoueD, self.nbToursRoueG) - min(self.nbToursRoueD, self.nbToursRoueG)
         # else : # Si les roues ont le même nombre de tour/min alors prends le tours/min d'une des deux roues
         #     nbTour = self.nbToursRoueD
-        nbTour = (int(self.nbToursRoueD) + int(self.nbToursRoueG))/2
-        angulaire = 2*math.pi*(nbTour/60) # Calcul de la vitesse angulaire : w = 2*pi*(tours/60)
-        self.vitesse = self.rayonRoue*angulaire # Calcul de la vitesse linéaire : v = rayonRoue * vitesse_angulaire
+        VitAngD = 2*math.pi*(self.nbToursRoueD/60) # Vitesse angulaire de la roue droite en rad/min
+        VitAngG = 2*math.pi*(self.nbToursRoueG/60) # Vitesse angulaire de la roue gauche en rad/min
+        VitesseD = self.rayonRoue*VitAngD # Vitesse de la roue droite en m/min
+        VitesseG = self.rayonRoue*VitAngG # Vitesse de la roue gauche en m/min
+        self.vitesse = (VitesseD + VitesseG)/2
         logging.info("Vitesse changée à "+ str(self.vitesse))
 
     
