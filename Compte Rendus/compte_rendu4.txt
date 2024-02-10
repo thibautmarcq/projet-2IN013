@@ -1,3 +1,22 @@
+Ressenti global : on a pas beaucoup avancé cette semaine. Les profs nous trouvent en stagnation, ce qu'on leur a montré n'était pas à la hauteur de leurs espérances.
+
+Il faut que l'on comprenne vraiment comment implémenter la physique du robot. Il nous manque une formule basique (4lignes).
+Il faut qu'on teste aussi ces fonctions de physique : avec des scénarios différents (roue à 0, même vitesse G&D, cas à la main)
+
+Organisation : Les taches doivent être explicites, tout le monde doit les comprendre.
+L'avancement du projet doit être cohérent. Si l'on n'implémente pas totalement les obstacles : pas de matrice obstacles etcc..
+Tout le monde doit communiquer sur son avancement - compléter Trello.
+
+Github : Faire attention à la compréhensibilité de nos variables, de nos commits (doivent être explicites, pas "Correction du bug").
+Gérer les bugs : diviser en plusieurs sous-tâches si besoin de modifier plusieurs choses.
+
+Code : Que signifient certaines variables/constantes? Ils ont l'impression qu'on a modelé notre code en expérimentant, pas en comprenant réellement.
+Modifier certaines fonctions qui ne sont pas globales (forment des cas spécifiques - robotDansCadre).
+
+(Objectifs de la semaine prochaine)
+
+
+                --- BROUILLON ---
 Attention aux tests unitaires, surtout si on remove des methodes
 
 Vecteur directeur - vitesse angulaire - norme (av reculer) - angle rotation
