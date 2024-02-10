@@ -1,15 +1,20 @@
 from tkinter import *
 import math
+
+from Code.environnement import Environnement
+
 class Interface:
 
-    def __init__(self, env):
+    def __init__(self, width, length, scale):
 
         """ Constructeur de la classe interface, avec l'initialisation de la fenêtre 
-            :param env: l'environnement que l'on veut intégrer à l'interface et représenter graphiquement
+            :param width: largeur de l'environnement
+            :param length; longueur de l'environnement
+            :param scale: echelle de l'environnement (permet de passer de l'environnement à la matrice) = nbr de cases de matrice par coté d'environnement
             :returns: ne retourne rien, initialise seulement l'interface
         """
 
-        self.env = env # notre environnement a représenter graphiquement
+        self.env = Environnement(width, length, scale) # notre environnement a représenter graphiquement
 
         #initilisation de la fenetre
         self.root=Tk()
@@ -64,6 +69,8 @@ class Interface:
         """ Fonction main qui permet de créer le robot et ajouter les différents outils dans la fenêtre
             :returns: ne retourne rien
         """
+
+        self.env.createRobot("Bob", 550, 45, 30, 55, 0)
 
         # on crée le robot en 150 100
         for rob in self.env.robots:
@@ -121,10 +128,10 @@ class Interface:
             :param robot: le robot qu'on veut représenter sur l'interface graphique
             :returns: ne retourne rien
         """
-        robot.points = [robot.posx-(robot.width/2), robot.posy-(robot.height/2),
-                        robot.posx+(robot.width/2), robot.posy-(robot.height/2),
-                        robot.posx+(robot.width/2), robot.posy+(robot.height/2),
-                        robot.posx-(robot.width/2), robot.posy+(robot.height/2)]
+        robot.points = [robot.x-(robot.width/2), robot.y-(robot.length/2),
+                        robot.x+(robot.width/2), robot.y-(robot.length/2),
+                        robot.x+(robot.width/2), robot.y+(robot.length/2),
+                        robot.x-(robot.width/2), robot.y+(robot.length/2)]
         robot.rect = self.canv.create_polygon(robot.points, fill="orange")
 
     def rotationVecteur(self, v, angle):
@@ -148,9 +155,9 @@ class Interface:
         """
 
         for i in range(0, 8, 2):
-            v = self.rotationVecteur((robot.points[i]-robot.posx, robot.points[i+1]-robot.posy), angle)
-            robot.points[i] = v[0] + robot.posx
-            robot.points[i+1] = v[1] + robot.posy
+            v = self.rotationVecteur((robot.points[i]-robot.x, robot.points[i+1]-robot.y), angle)
+            robot.points[i] = v[0] + robot.x
+            robot.points[i+1] = v[1] + robot.y
         self.canv.coords(robot.rect, robot.points)
 
     def refresh_position_robot_visuel(self, robot):
@@ -165,7 +172,7 @@ class Interface:
             robot.points[i] = robot.points[i]+robot.speed*robot.direction[0]
             robot.points[i+1] = robot.points[i+1]+robot.speed*robot.direction[1]
         self.canv.coords(robot.rect, robot.points)
-        self.canv.coords(robot.robot_vec, robot.posx, robot.posy, robot.posx+(75*robot.direction[0]), robot.posy+(75*robot.direction[1]))
+        self.canv.coords(robot.robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
     
     def rotationRobot(self, angle):
 
@@ -176,7 +183,7 @@ class Interface:
        
         self.env.robots[0].rotation(angle)
         r = self.env.robots[self.env.robotSelect]
-        self.canv.coords(r.robot_vec, r.posx, r.posy, r.posx+(75*r.direction[0]), r.posy+(75*r.direction[1]))
+        self.canv.coords(r.robot_vec, r.x, r.y, r.x+(75*r.direction[0]), r.y+(75*r.direction[1]))
         self.rotate_robot_rect(r, angle)
 
 # Frames
