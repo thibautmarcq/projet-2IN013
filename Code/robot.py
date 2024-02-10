@@ -28,8 +28,8 @@ class Robot :
 
         self.vitesse = 0 # Vitesse du robot initialisée à 0
         self.direction = (0,-1) # vecteur directeur du robot
-        self.nbToursRoueD = 0 # Nombre de tours/min de la roue droite initialisée à 0
-        self.nbToursRoueG = 0 # Nombre de toues/min de la roue gauche initialisée à 0
+        self.nbToursRoueD = 0 # Nombre de tours de la roue droite initialisée à 0
+        self.nbToursRoueG = 0 # Nombre de toues de la roue gauche initialisée à 0
 
     def refreshVitesse(self):
 
