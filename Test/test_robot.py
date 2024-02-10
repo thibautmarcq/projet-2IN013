@@ -57,4 +57,13 @@ class TestRobot(unittest.TestCase):
         self.assertLess(abs(vitG - 502.65), 0.01)
         self.assertLess(abs(vitD - 251.33), 0.01)
 
+    def test_normalisation(self) :
+        self.rob.direction = (13, 8)
+        norme = math.sqrt(self.rob.direction[0]**2 + self.rob.direction[1]**2)
+        self.assertNotAlmostEqual(1, norme)
+        
+        self.rob.direction = self.rob.normaliserVecteur(self.rob.direction)
+        norme = math.sqrt(self.rob.direction[0]**2 + self.rob.direction[1]**2)
+        self.assertAlmostEqual(norme, 1)
+
     
