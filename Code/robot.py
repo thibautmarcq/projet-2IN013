@@ -231,3 +231,19 @@ class Robot :
 
         return self.nbToursRoueG*2*math.pi*self.rayonRoue
     
+    def getVitesseAngulaireGauche(self) :
+
+        """ Donne la vitesse angulaire de la roue gauche 
+            :returns: la vitesse angulaire de la roue gauche
+        """
+
+        return 2*math.pi*self.nbToursRoueG
+    
+    def getVitesseAngulaireDroite(self) :
+
+        """ Donne la vitesse angulaire de la roue droite 
+            :returns: la vitesse angulaire de la roue droite
+        """
+        
+        return 2*math.pi*self.nbToursRoueD
+    
