@@ -14,7 +14,6 @@ class Robot :
             :param y: coordonnée y à laquelle on veut initialiser le robot
             :param width: la largeur du robot
             :param length: la longueur du robot
-            :param vitesse: la vitesse initiale du robot
             :param rayonRoue: la taille des roue
             :returns: ne retourne rien, ça initalise et initaialise seulement le robot
         """
@@ -30,6 +29,7 @@ class Robot :
         self.direction = (0,-1) # vecteur directeur du robot
         self.nbToursRoueD = 0 # Nombre de tours de la roue droite initialisée à 0
         self.nbToursRoueG = 0 # Nombre de toues de la roue gauche initialisée à 0
+
 
     def refreshVitesse(self):
 
@@ -48,6 +48,7 @@ class Robot :
     def refresh(self, duree) :
 
         """ Fonction de mise à jour du robot, qui va donc mettre à jour les coordonnées du robot en fonction du mouvement des ses roues et du temps écoulé depuis la dernière mise à jour
+            :param duree: la durée sur laquelle on veut actualiser le mouvement, donc combien de temps le robot a évolué
             :returns: ne retourne rien, on met juste à jour le robot 
         """
 
@@ -94,8 +95,6 @@ class Robot :
 
         self.x = self.x + newVectVit[0]*duree
         self.y = self.y + newVectVit[1]*duree
-
-
 
     
     def setVitesse(self, vitesse) :
