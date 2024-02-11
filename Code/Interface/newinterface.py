@@ -7,7 +7,6 @@ from Code.robot import Robot
 class Interface:
 
     def __init__(self, width, length, scale):
-
         """ Constructeur de la classe interface, avec l'initialisation de la fenêtre et de ses composants
             :param width: largeur de l'environnement
             :param length; longueur de l'environnement
@@ -78,7 +77,7 @@ class Interface:
                         robot.x+(robot.width/2), robot.y-(robot.length/2),
                         robot.x+(robot.width/2), robot.y+(robot.length/2),
                         robot.x-(robot.width/2), robot.y+(robot.length/2)]
-        robot.rect = self.canv.create_polygon(robot.points, fill="lightblue")
+        robot.rect = self.canv.create_polygon(robot.points, fill=(robot.couleur))
 
 
     def update_coord_affichage(self):
@@ -209,7 +208,7 @@ class Interface:
         self.tic_tac()
 
 
-    def initRobot(self, nom, x, y, width, length, vitesse):
+    def initRobot(self, nom, x, y, width, length, vitesse, couleur):
         """ Initialise toutes les fonctionnalités en lien avec le robot (dans l'env et dans tkinter)
             :param nom: nom du robot
             :param x: la coordonnée x où on veut placer le robot au départ
@@ -217,17 +216,25 @@ class Interface:
             :param width: la largeur du robot
             :param length: la longueur du robot
             :param vitesse: la vitesse initiale du robot
+            :param couleur: couleur du robot dans tkinter
             :returns: rien, on crée juste un robot qu'on ajoute a la liste des robots de l'environnement
         """
         self.env.createRobot(nom, x, y, width, length, vitesse)
-
+        self.env.robots[self.env.robotSelect].couleur = couleur
+        bob = self.env.robots[self.env.robotSelect]
+        self.robot_vec = self.canv.create_line(bob.x, bob.y, bob.x+(75*bob.direction[0]), bob.y+(75*bob.direction[1]))
         for rob in self.env.robots:
             self.create_robot_rect(rob) 
             rob.robot_vec = self.canv.create_line(rob.x, rob.y, rob.x+(75*rob.direction[0]), rob.y+(75*rob.direction[1]))
-        # Slider de vitesse
-        self.btn_vitesse = Scale(self.frame_up, from_=1, to=100,  orient=HORIZONTAL, label="Vitesse", command=self.env.robots[self.env.robotSelect].setVitesse)
-        self.btn_vitesse.set(self.env.robots[self.env.robotSelect].vitesse) # permet d'initialiser le slider a la vitesse initiale du robot
-        self.btn_vitesse.grid(row=0, column=0, padx=5, pady=5)
+        
+        # Slider des vitesses des roues gauche et droite respectivement
+        btn_tourG = Scale(self.frame_vitesses, from_=50, to=0, orient=VERTICAL, label="Vitesse \nroue G", command=self.env.robots[self.env.robotSelect].setTourG)
+        btn_tourG.config(length=70)
+        btn_tourG.grid(row=0, column=0, padx=5, pady=5)
+
+        btn_tourD = Scale(self.frame_vitesses, from_=50, to=0, orient=VERTICAL, label="Vitesse \nroue D", command=self.env.robots[self.env.robotSelect].setTourD)
+        btn_tourD.config(length=70)
+        btn_tourD.grid(row=0, column=1, padx=5, pady=5)
         # Afficheur de coordonnées
         self.lab_coord_nom = Label(self.frame_coordonnees, text=("Coordonnées du robot "+self.env.robots[self.env.robotSelect].nom+" :")).grid(row=0, column=0, padx=5, pady=5)
         self.lab_coord_x = Label(self.frame_coordonnees, text=("x ="+str(self.env.robots[self.env.robotSelect].x))).grid(row=1, column=0)
