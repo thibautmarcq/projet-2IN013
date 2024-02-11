@@ -59,13 +59,11 @@ class Robot :
         # On calcule le vecteur vitesse de la roue droite et la roue gauche
         vitD = self.getVitesseRoueD()
         vectVitD = vectDirNorm
-        vectVitD[0] = vitD*vectVitD[0]
-        vectVitD[1] = vitD*vectVitD[1]
+        vectVitD = (vectVitD[0]*vitD, vectVitD[1]*vitD)
 
         vitG = self.getVitesseRoueG()
         vectVitG = vectDirNorm
-        vectVitG[0] = vitG*vectVitG[0]
-        vectVitG[1] = vitG*vectVitG[1]
+        vectVitG = (vitG*vectVitG[0], vitG*vectVitG[1])
 
         dirD = (vectDirNorm[1], -vectDirNorm[0]) # le vecteur directeur tourné de 90° dans le sens horaire, donc vers la droite
         dirG = (-vectDirNorm[1], vectDirNorm[0]) # le vecteur directeur tourné de 90° dans le sens anti-horaire, donc vers la gauche
@@ -89,12 +87,10 @@ class Robot :
         vect_relie = (new_x_gauche - new_x_droit, new_y_gauche - new_y_droit)
 
         newVectDir = (vect_relie[1], -vect_relie[0]) # on tourne le vecteur précédent de 90° dans le sens horaire pour obtenir un nouveau vecteur directeur du robot
-
+        newVectDir = self.normaliserVecteur(newVectDir)
         self.direction = newVectDir # on définit la nouvelle direction du vecteur comme étant celle-ci
 
-        newVectVit = self.normaliserVecteur(newVectDir)
-        newVectVit[0] = newVectDir[0]*self.vitesse
-        newVectVit[1] = newVectDir[1]*self.vitesse
+        newVectVit = (newVectDir[0]*self.vitesse, newVectDir[1]*self.vitesse)
 
         self.x = self.x + newVectVit[0]*duree
         self.y = self.y + newVectVit[1]*duree
