@@ -260,9 +260,16 @@ class Interface:
 		self.root.bind('e', lambda event: self.env.robots[self.env.robotSelect].addTourD()) # + droit
 		self.root.bind('d', lambda event: self.env.robots[self.env.robotSelect].subTourG()) # - droit
 
+		self.root.bind("<Left>", lambda event: self.env.robots[self.env.robotSelect].tourneGauche()) # rotG
+		self.root.bind("<Right>", lambda event: self.env.robots[self.env.robotSelect].tourneDroite()) # rotD
+
+		# -------------------------------------------------------------------
+		# 						NOUVEAUX AFFICHAGES							
+		# -------------------------------------------------------------------
 		self.lab_vitesse = Label(self.frame_vitesses, text=("Vitesse globale : "+str(self.env.robots[self.env.robotSelect].vitesse))).grid(row=0, column=0, padx=5, pady=2)
 		self.lab_vitesseG = Label(self.frame_vitesses, text=("Vitesse roue G : "+str(self.env.robots[self.env.robotSelect].getVitesseRoueG()))).grid(row=1, column=0, padx=5, pady=2)
 		self.lab_vitesseD = Label(self.frame_vitesses, text=("Vitesse roue D : "+str(self.env.robots[self.env.robotSelect].getVitesseRoueD()))).grid(row=2, column=0, padx=5, pady=2)
+
 
 
 		# Boucle de la fenètre principale
