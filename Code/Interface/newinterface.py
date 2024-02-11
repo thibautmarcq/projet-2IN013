@@ -17,7 +17,7 @@ class Interface:
 
 		# Config fenêtre
 		self.root=Tk()
-		self.root.geometry(str(width+650)+"x"+str(max(600,length+100))) # Adapatation de la taille de la fenetre en fct de celle de l'environnement
+		self.root.geometry(str(width+450)+"x"+str(max(600,length+100))) # Adapatation de la taille de la fenetre en fct de celle de l'environnement
 		self.root.title("Simulation - Robocar Poli")
 
 
@@ -40,10 +40,12 @@ class Interface:
 		self.frame_up = LabelFrame(self.frame_gauche, bd=0)
 		self.frame_up.grid(row=0)
 
-		self.frame_vitesses = LabelFrame(self.frame_up, text='Vitesses', width=350, height=200) # btn_vitesse + coordonnées
+		self.frame_vitesses = LabelFrame(self.frame_up, text='Vitesses', width=150, height=100) # btn_vitesse + coordonnées
+		self.frame_vitesses.grid_propagate(False)
 		self.frame_vitesses.grid(row=0, column=0, padx=10, pady=10)
 
-		self.frame_coordonnees = LabelFrame(self.frame_up, text='Coordonnées', )
+		self.frame_coordonnees = LabelFrame(self.frame_up, text='Coordonnées', width= 20, height=100)
+		self.frame_vitesses.grid_propagate(False)
 		self.frame_coordonnees.grid(row=0, column=1)
 
 		self.frame_tutorial = LabelFrame(self.frame_gauche, text="Tutorial", bd=1)
@@ -80,7 +82,7 @@ class Interface:
 		robot.rect = self.canv.create_polygon(robot.points, fill=(robot.couleur))
 
 
-	def update_coord_affichage(self):
+	def update_stats_affichage(self):
 		""" Met à jour l'affichage des coordonnées dans l'affichage (implémenter chaque avancement)
 			:returns: ne retourne rien, fait juste l'affichage à jour des coordonnées
 		"""
@@ -88,6 +90,9 @@ class Interface:
 		# Update labels
 		self.lab_coord_x.config(text=("x ="+str(round(self.env.robots[self.env.robotSelect].x, 2))))
 		self.lab_coord_y.config(text=("y ="+str(round(self.env.robots[self.env.robotSelect].y, 2))))
+		self.lab_vitesse.config(text=("Vitesse globale : "+str(round(self.env.robots[self.env.robotSelect].vitesse))))
+		self.lab_vitesseG.config(text=("Vitesse roue G : "+str(round(self.env.robots[self.env.robotSelect].getVitesseRoueG))))
+		self.lab_vitesseD.config(text=("Vitesse roue G : "+str(round(self.env.robots[self.env.robotSelect].getVitesseRoueD))))
 
 
 	def rotationVecteur(v, angle):
@@ -118,7 +123,7 @@ class Interface:
 		canvas.coords(robot.rect, robot.points)
 
 
-	def refresh_position_robot_visuel(self, canvas, robot):
+	def refresh_position_robot_visuel(self, canvas, robot): 
 
 		""" Update la position du visuel du robot
 			:param canvas: la fenêtre visuelle sur laquelle on est et qu'on veut mettre à jour
@@ -140,7 +145,7 @@ class Interface:
 					robot.y-(robot.width/2)*(dx)+(robot.length/2)*dy
 					)
 		canvas.coords(self.robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
-		self.update_coord_affichage()
+		self.update_stats_affichage()
 		#root.after(1000/60, refresh_position_robot_visuel(canv, robot))
 
 
@@ -227,7 +232,7 @@ class Interface:
 			self.create_robot_rect(rob) 
 			rob.robot_vec = self.canv.create_line(rob.x, rob.y, rob.x+(75*rob.direction[0]), rob.y+(75*rob.direction[1]))
 		
-		# # Slider des vitesses des roues gauche et droite respectivement
+		# # Anciens sliders des vitesses des roues gauche et droite respectivement
 		# btn_tourG = Scale(self.frame_vitesses, from_=50, to=0, orient=VERTICAL, label="Vitesse roue G", command=self.env.robots[self.env.robotSelect].setTourG)
 		# btn_tourG.config(length=70)
 		# btn_tourG.grid(row=0, column=0, padx=5, pady=5)
@@ -254,6 +259,10 @@ class Interface:
 		self.root.bind('s', lambda event: self.env.robots[self.env.robotSelect].subTour()) # - tout
 		self.root.bind('e', lambda event: self.env.robots[self.env.robotSelect].addTourD()) # + droit
 		self.root.bind('d', lambda event: self.env.robots[self.env.robotSelect].subTourG()) # - droit
+
+		self.lab_vitesse = Label(self.frame_vitesses, text=("Vitesse globale : "+str(self.env.robots[self.env.robotSelect].vitesse))).grid(row=0, column=0, padx=5, pady=2)
+		self.lab_vitesseG = Label(self.frame_vitesses, text=("Vitesse roue G : "+str(self.env.robots[self.env.robotSelect].getVitesseRoueG()))).grid(row=1, column=0, padx=5, pady=2)
+		self.lab_vitesseD = Label(self.frame_vitesses, text=("Vitesse roue D : "+str(self.env.robots[self.env.robotSelect].getVitesseRoueD()))).grid(row=2, column=0, padx=5, pady=2)
 
 
 		# Boucle de la fenètre principale
