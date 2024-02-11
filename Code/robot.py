@@ -37,12 +37,9 @@ class Robot :
             :returns: rien du tout, modifie juste la vitesse du robot
         """
         
-        # if ( self.nbToursRoueG != self.nbToursRoueD) : # Si les 2 roues n'ont pas les memes tours/min, on prends la différence entre les 2 roues
-        #     nbTour = max(self.nbToursRoueD, self.nbToursRoueG) - min(self.nbToursRoueD, self.nbToursRoueG)
-        # else : # Si les roues ont le même nombre de tour/min alors prends le tours/min d'une des deux roues
-        #     nbTour = self.nbToursRoueD
-        VitAngD = 2*math.pi*(self.nbToursRoueD/60) # Vitesse angulaire de la roue droite en rad/min
-        VitAngG = 2*math.pi*(self.nbToursRoueG/60) # Vitesse angulaire de la roue gauche en rad/min
+        
+        VitAngD = self.getVitesseAngulaireDroite() # Vitesse angulaire de la roue droite 
+        VitAngG = self.getVitesseAngulaireDroite() # Vitesse angulaire de la roue gauche en rad/min
         VitesseD = self.rayonRoue*VitAngD # Vitesse de la roue droite en m/min
         VitesseG = self.rayonRoue*VitAngG # Vitesse de la roue gauche en m/min
         self.vitesse = (VitesseD + VitesseG)/2
@@ -215,21 +212,6 @@ class Robot :
         self.refreshVitesse()
         self.rotation()
 
-    def getVitesseRoueD(self) :
-
-        """ Calcule et renvoie la vitesse d'un point qui serait sur la roue droite
-            :returns: la vitesse d'un point sur la roue droite
-        """
-
-        return self.nbToursRoueD*2*math.pi*self.rayonRoue
-    
-    def getVitesseRoueG(self) :
-
-        """ Calcule et renvoie la vitesse d'un point qui serait sur la roue droite
-            :returns: la vitesse d'un point sur la roue droite
-        """
-
-        return self.nbToursRoueG*2*math.pi*self.rayonRoue
     
     def getVitesseAngulaireGauche(self) :
 
@@ -246,4 +228,21 @@ class Robot :
         """
         
         return 2*math.pi*self.nbToursRoueD
+    
+
+    def getVitesseRoueD(self) :
+
+        """ Calcule et renvoie la vitesse d'un point qui serait sur la roue droite
+            :returns: la vitesse d'un point sur la roue droite
+        """
+
+        return self.getVitesseAngulaireDroite()*self.rayonRoue
+    
+    def getVitesseRoueG(self) :
+
+        """ Calcule et renvoie la vitesse d'un point qui serait sur la roue droite
+            :returns: la vitesse d'un point sur la roue droite
+        """
+
+        return self.getVitesseAngulaireGauche()*self.rayonRoue
     
