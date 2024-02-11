@@ -213,6 +213,8 @@ class Robot :
         """
         self.nbToursRoueG += 1
         self.nbToursRoueD += 1
+        self.refreshVitesse()
+        self.rotation()
 
     def addTourG(self) :
         """
@@ -220,6 +222,8 @@ class Robot :
             :returns: rien, on va modifier directement la roue gauche
         """
         self.nbToursRoueG += 1
+        self.refreshVitesse()
+        self.rotation()
 
     def addTourD(self) :
         """
@@ -227,6 +231,8 @@ class Robot :
             :returns: rien, on va modifier directement la roue droite
         """
         self.nbToursRoueD += 1
+        self.refreshVitesse()
+        self.rotation()
 
     def subTour(self) :
         """
@@ -235,6 +241,8 @@ class Robot :
         """
         self.nbToursRoueG -= 1
         self.nbToursRoueD -= 1
+        self.refreshVitesse()
+        self.rotation()
 
     def subTourG(self) :
         """
@@ -242,6 +250,8 @@ class Robot :
             :returns: rien, on va modifier directement la roue gauche
         """
         self.nbToursRoueG -= 1
+        self.refreshVitesse()
+        self.rotation()
 
     def subTourD(self) :
         """
@@ -249,6 +259,26 @@ class Robot :
             :returns: rien, on va modifier directement la roue droite
         """
         self.nbToursRoueD -= 1
+        self.refreshVitesse()
+        self.rotation()
+
+    def tourneGauche(self):
+        """ Réduit de 1 tour la roue gauche et augmente de 1 la roue droite, permet de tourner plus facilement à gauche
+            :returns: rien, on modifie seulement les tours
+        """
+        self.subTourG()
+        self.addTourD()
+        self.refreshVitesse()
+        self.rotation()
+
+    def tourneDroite(self):
+        """ Réduit de 1 tour la roue droite et augmente de 1 la roue gauche, permet de tourner plus facilement à droite
+            :returns: rien, on modifie seulement les tours
+        """
+        self.subTourD()
+        self.addTourG()
+        self.refreshVitesse()
+        self.rotation()
     
     def setTourG(self, nbTours):
         """ Modifie le nombre de tours de la roue gauche
