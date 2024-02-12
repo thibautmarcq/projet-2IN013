@@ -43,9 +43,14 @@ class TestRobot(unittest.TestCase):
         self.assertEqual(self.rob.y, 23)
 
     def test_vitesses_roues(self) :
-        self.rob.setTourG(9)
-        self.rob.setTourD(4)
+        self.rob.setTourG(8)
+        self.rob.setTourD(3)
+        self.assertEqual(self.rob.nbToursRoueG, 8)
+        self.assertEqual(self.rob.nbToursRoueD, 3)
+
+        self.rob.addTourG()
         self.assertEqual(self.rob.nbToursRoueG, 9)
+        self.rob.addTourD()
         self.assertEqual(self.rob.nbToursRoueD, 4)
 
         self.rob.addTour()

@@ -214,7 +214,7 @@ class Interface:
 		self.tic_tac()
 
 
-	def initRobot(self, nom, x, y, width, length, vitesse, couleur):
+	def initRobot(self, nom, x, y, width, length, rayonRoue, couleur):
 		""" Initialise toutes les fonctionnalités en lien avec le robot (dans l'env et dans tkinter)
 			:param nom: nom du robot
 			:param x: la coordonnée x où on veut placer le robot au départ
@@ -225,7 +225,7 @@ class Interface:
 			:param couleur: couleur du robot dans tkinter
 			:returns: rien, on crée juste un robot qu'on ajoute a la liste des robots de l'environnement
 		"""
-		self.env.createRobot(nom, x, y, width, length, vitesse)
+		self.env.createRobot(nom, x, y, width, length, rayonRoue)
 		self.env.robots[self.env.robotSelect].couleur = couleur
 		bob = self.env.robots[self.env.robotSelect]
 		self.robot_vec = self.canv.create_line(bob.x, bob.y, bob.x+(75*bob.direction[0]), bob.y+(75*bob.direction[1]))
