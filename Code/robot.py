@@ -1,5 +1,6 @@
 import logging
 import math
+from time import *
 
 
 class Robot :
@@ -206,8 +207,8 @@ class Robot :
             Augmente de 1 tour sur les 2 roues
             :returns: rien, on va modifier directement les 2 roues
         """
-        self.nbToursRoueG += 1
-        self.nbToursRoueD += 1
+        self.nbToursRoueG += 0.1
+        self.nbToursRoueD += 0.1
         self.refreshVitesse()
         self.rotation()
 
@@ -216,7 +217,7 @@ class Robot :
             Augmente de 1 tour sur la roue gauche
             :returns: rien, on va modifier directement la roue gauche
         """
-        self.nbToursRoueG += 1
+        self.nbToursRoueG += 0.1
         self.refreshVitesse()
         self.rotation()
 
@@ -225,7 +226,7 @@ class Robot :
             Augmente de 1 tour sur la roue droite
             :returns: rien, on va modifier directement la roue droite
         """
-        self.nbToursRoueD += 1
+        self.nbToursRoueD += 0.1
         self.refreshVitesse()
         self.rotation()
 
@@ -234,8 +235,8 @@ class Robot :
             Réduit de 1 tour sur les 2 roues
             :returns: rien, on va modifier directement les 2 roues
         """
-        self.nbToursRoueG -= 1
-        self.nbToursRoueD -= 1
+        self.nbToursRoueG -= 0.1
+        self.nbToursRoueD -= 0.1
         self.refreshVitesse()
         self.rotation()
 
@@ -244,7 +245,7 @@ class Robot :
             Réduit de 1 tour sur la roue gauche
             :returns: rien, on va modifier directement la roue gauche
         """
-        self.nbToursRoueG -= 1
+        self.nbToursRoueG -= 0.1
         self.refreshVitesse()
         self.rotation()
 
@@ -253,7 +254,7 @@ class Robot :
             Réduit de 1 tour sur la roue droite
             :returns: rien, on va modifier directement la roue droite
         """
-        self.nbToursRoueD -= 1
+        self.nbToursRoueD -= 0.1
         self.refreshVitesse()
         self.rotation()
 
@@ -265,13 +266,24 @@ class Robot :
         self.addTourD()
         self.refreshVitesse()
         self.rotation()
+        sleep(0.05)
+        self.subTourD()
+        self.subTourG()
+        self.refreshVitesse()
+        self.rotation()
 
     def tourneDroite(self):
         """ Réduit de 1 tour la roue droite et augmente de 1 la roue gauche, permet de tourner plus facilement à droite
             :returns: rien, on modifie seulement les tours
         """
+        print('prout')
         self.subTourD()
         self.addTourG()
+        self.refreshVitesse()
+        self.rotation()
+        sleep(1)
+        self.subTourG()
+        self.addTourD()
         self.refreshVitesse()
         self.rotation()
     
