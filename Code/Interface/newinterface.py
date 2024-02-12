@@ -91,8 +91,8 @@ class Interface:
 		self.lab_coord_x.config(text=("x ="+str(round(self.env.robots[self.env.robotSelect].x, 2))))
 		self.lab_coord_y.config(text=("y ="+str(round(self.env.robots[self.env.robotSelect].y, 2))))
 		self.lab_vitesse.config(text=("Vitesse globale : "+str(round(self.env.robots[self.env.robotSelect].vitesse))))
-		self.lab_vitesseG.config(text=("Vitesse roue G : "+str(round(self.env.robots[self.env.robotSelect].getVitesseRoueG))))
-		self.lab_vitesseD.config(text=("Vitesse roue G : "+str(round(self.env.robots[self.env.robotSelect].getVitesseRoueD))))
+		self.lab_vitesseG.config(text=("Vitesse roue G : "+str(round(self.env.robots[self.env.robotSelect].getVitesseRoueG()))))
+		self.lab_vitesseD.config(text=("Vitesse roue G : "+str(round(self.env.robots[self.env.robotSelect].getVitesseRoueD()))))
 
 
 	def rotationVecteur(v, angle):
@@ -206,6 +206,7 @@ class Interface:
 
 	def tic_tac(self):
 		self.env.refresh_env()
+		print("aaa")
 		self.refresh_position_robot_visuel(self.canv, self.env.robots[self.env.robotSelect])
 		self.root.after(int(500), self.tic_tac)
 
@@ -243,9 +244,12 @@ class Interface:
 
 		# ---------------------------
 		# Afficheur de coordonnées
-		self.lab_coord_nom = Label(self.frame_coordonnees, text=("Coordonnées du robot "+self.env.robots[self.env.robotSelect].nom+" :")).grid(row=0, column=0, padx=5, pady=5)
-		self.lab_coord_x = Label(self.frame_coordonnees, text=("x ="+str(self.env.robots[self.env.robotSelect].x))).grid(row=1, column=0)
-		self.lab_coord_y = Label(self.frame_coordonnees, text=("y ="+str(self.env.robots[self.env.robotSelect].y))).grid(row=1, column=1)
+		self.lab_coord_nom = Label(self.frame_coordonnees, text=("Coordonnées du robot "+self.env.robots[self.env.robotSelect].nom+" :"))
+		self.lab_coord_nom.grid(row=0, column=0, padx=5, pady=5)
+		self.lab_coord_x = Label(self.frame_coordonnees, text=("x ="+str(self.env.robots[self.env.robotSelect].x)))
+		self.lab_coord_x.grid(row=1, column=0)
+		self.lab_coord_y = Label(self.frame_coordonnees, text=("y ="+str(self.env.robots[self.env.robotSelect].y)))
+		self.lab_coord_y.grid(row=1, column=1)
 
 		# Key binds
 
@@ -267,9 +271,12 @@ class Interface:
 		# -------------------------------------------------------------------
 		# 						NOUVEAUX AFFICHAGES							
 		# -------------------------------------------------------------------
-		self.lab_vitesse = Label(self.frame_vitesses, text=("Vitesse globale : "+str(self.env.robots[self.env.robotSelect].vitesse))).grid(row=0, column=0, padx=5, pady=2)
-		self.lab_vitesseG = Label(self.frame_vitesses, text=("Vitesse roue G : "+str(self.env.robots[self.env.robotSelect].getVitesseRoueG()))).grid(row=1, column=0, padx=5, pady=2)
-		self.lab_vitesseD = Label(self.frame_vitesses, text=("Vitesse roue D : "+str(self.env.robots[self.env.robotSelect].getVitesseRoueD()))).grid(row=2, column=0, padx=5, pady=2)
+		self.lab_vitesse = Label(self.frame_vitesses, text=("Vitesse globale : "+str(self.env.robots[self.env.robotSelect].vitesse)))
+		self.lab_vitesse.grid(row=0, column=0, padx=5, pady=2)
+		self.lab_vitesseG = Label(self.frame_vitesses, text=("Vitesse roue G : "+str(self.env.robots[self.env.robotSelect].getVitesseRoueG())))
+		self.lab_vitesseG.grid(row=1, column=0, padx=5, pady=2)
+		self.lab_vitesseD = Label(self.frame_vitesses, text=("Vitesse roue D : "+str(self.env.robots[self.env.robotSelect].getVitesseRoueD())))
+		self.lab_vitesseD.grid(row=2, column=0, padx=5, pady=2)
 
 
 
