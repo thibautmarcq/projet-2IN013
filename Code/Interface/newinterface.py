@@ -263,7 +263,7 @@ class Interface:
 		self.root.bind("<Left>", lambda event: self.env.robots[self.env.robotSelect].tourneGauche()) # rotG
 		self.root.bind("<Right>", lambda event: self.env.robots[self.env.robotSelect].tourneDroite()) # rotD
 
-		self.root.bind("<space>", lambda event: self.lancement())
+		self.root.bind("<space>", lambda event: self.lancement(event))
 		# -------------------------------------------------------------------
 		# 						NOUVEAUX AFFICHAGES							
 		# -------------------------------------------------------------------
