@@ -262,7 +262,7 @@ class Interface:
 		self.root.bind('z', lambda event: self.env.robots[self.env.robotSelect].addTour()) # + tout
 		self.root.bind('s', lambda event: self.env.robots[self.env.robotSelect].subTour()) # - tout
 		self.root.bind('e', lambda event: self.env.robots[self.env.robotSelect].addTourD()) # + droit
-		self.root.bind('d', lambda event: self.env.robots[self.env.robotSelect].subTourG()) # - droit
+		self.root.bind('d', lambda event: self.env.robots[self.env.robotSelect].subTourD()) # - droit
 
 		self.root.bind("<Left>", lambda event: self.env.robots[self.env.robotSelect].tourneGauche()) # rotG
 		self.root.bind("<Right>", lambda event: self.env.robots[self.env.robotSelect].tourneDroite()) # rotD
