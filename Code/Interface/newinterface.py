@@ -207,7 +207,7 @@ class Interface:
 	def tic_tac(self):
 		self.env.refresh_env()
 		self.refresh_position_robot_visuel(self.canv, self.env.robots[self.env.robotSelect])
-		self.root.after(10, self.tic_tac)
+		self.root.after(int(1000/60), self.tic_tac)
 
 	def lancement(self, event) :
 		self.tic_tac()
