@@ -2,10 +2,13 @@ import random
 import logging
 import numpy as np
 import time
+import os
 
 from .obstacle import Obstacle
 from .robot import Robot
 
+if not os.path.isfile('Code/Logs/log-environnement.log'):
+    os.mkdir("Code/Logs/")
 logging.basicConfig(filename='Code/Logs/log-environnement.log', level=logging.DEBUG, format='%(asctime)s:%(levelname)s:%(message)s') # niveaux : DEBUG INFO WARNING ERROR CRITICAL
 
 class Environnement:

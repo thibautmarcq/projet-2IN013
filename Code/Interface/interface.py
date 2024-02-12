@@ -5,16 +5,15 @@ from Code.environnement import Environnement
 
 class Interface:
 
-    def __init__(self, width, length, scale):
+    def __init__(self, env):
 
         """ Constructeur de la classe interface, avec l'initialisation de la fenêtre 
-            :param width: largeur de l'environnement
-            :param length; longueur de l'environnement
-            :param scale: echelle de l'environnement (permet de passer de l'environnement à la matrice) = nbr de cases de matrice par coté d'environnement
+            :param env: Environnement
             :returns: ne retourne rien, initialise seulement l'interface
         """
 
-        self.env = Environnement(width, length, scale) # notre environnement a représenter graphiquement
+        #self.env = Environnement(width, length, scale) # notre environnement a représenter graphiquement
+        self.env = env
 
         #initilisation de la fenetre
         self.root=Tk()

@@ -6,18 +6,18 @@ from Code.robot import Robot
 
 class Interface:
 
-	def __init__(self, width, length, scale):
+	def __init__(self, env):
 		""" Constructeur de la classe interface, avec l'initialisation de la fenêtre et de ses composants
 			:param width: largeur de l'environnement
 			:param length; longueur de l'environnement
 			:param scale: echelle de l'environnement (permet de passer de l'environnement à la matrice) = nbr de cases de matrice par coté d'environnement
 			:returns: ne retourne rien, initialise seulement l'interface
 		"""
-		self.env = Environnement(width, length, scale) # notre environnement a représenter graphiquement
+		self.env = env# notre environnement a représenter graphiquement
 
 		# Config fenêtre
 		self.root=Tk()
-		self.root.geometry(str(width+450)+"x"+str(max(600,length+100))) # Adapatation de la taille de la fenetre en fct de celle de l'environnement
+		self.root.geometry(str(self.env.width+450)+"x"+str(max(600,self.env.length+100))) # Adapatation de la taille de la fenetre en fct de celle de l'environnement
 		self.root.title("Simulation - Robocar Poli")
 
 
@@ -66,7 +66,7 @@ class Interface:
 		self.lab = Label(self.frame_titre, text="Robocar Poli - Simulation Robot 2D", font=('Helvetica', 20), justify=LEFT).pack()
 
 		# Création du canva
-		self.canv = Canvas(self.frame_canva, width=width , height=length, bg="white" ) # Le canva prend en compte la taille de l'environnement
+		self.canv = Canvas(self.frame_canva, width=self.env.width , height=self.env.length, bg="white" ) # Le canva prend en compte la taille de l'environnement
 		self.canv.grid(row=3, column=0)
 
 
