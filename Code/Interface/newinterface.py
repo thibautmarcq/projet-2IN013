@@ -92,7 +92,7 @@ class Interface:
 		self.lab_coord_y.config(text=("y ="+str(round(self.env.robots[self.env.robotSelect].y, 2))))
 		self.lab_vitesse.config(text=("Vitesse globale : "+str(round(self.env.robots[self.env.robotSelect].vitesse))))
 		self.lab_vitesseG.config(text=("Vitesse roue G : "+str(round(self.env.robots[self.env.robotSelect].getVitesseRoueG()))))
-		self.lab_vitesseD.config(text=("Vitesse roue G : "+str(round(self.env.robots[self.env.robotSelect].getVitesseRoueD()))))
+		self.lab_vitesseD.config(text=("Vitesse roue D : "+str(round(self.env.robots[self.env.robotSelect].getVitesseRoueD()))))
 
 
 	def rotationVecteur(v, angle):
@@ -130,9 +130,9 @@ class Interface:
 			:param robot: le robot dont on veut mettre à jour la représentation sur le canva
 			:returns: rien, on met juste à jour la fenêtre de représentation du robot et de l'environnement
 		"""
-		for i in range(0,8,2):
+		"""for i in range(0,8,2):
 			robot.points[i] = robot.points[i]+robot.vitesse*robot.direction[0]
-			robot.points[i+1] = robot.points[i+1]+robot.vitesse*robot.direction[1]
+			robot.points[i+1] = robot.points[i+1]+robot.vitesse*robot.direction[1]"""
 		dx, dy = robot.direction
 		canvas.coords(robot.rect,
 					robot.x-(robot.width/2)*(-dy)-(robot.length/2)*dx,
