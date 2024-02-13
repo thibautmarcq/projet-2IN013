@@ -248,7 +248,7 @@ class Interface:
 		self.lab_coord_x = Label(self.frame_coordonnees, text=("x ="+str(self.env.robots[self.env.robotSelect].x)))
 		self.lab_coord_x.grid(row=1, column=0)
 		self.lab_coord_y = Label(self.frame_coordonnees, text=("y ="+str(self.env.robots[self.env.robotSelect].y)))
-		self.lab_coord_y.grid(row=1, column=1)
+		self.lab_coord_y.grid(row=2, column=0)
 
 		# Key binds
 
