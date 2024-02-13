@@ -108,7 +108,8 @@ class Environnement:
 
         for rob in self.robots : # on fait avancer tous les robots de l'environnement 
             duree = temps - self.last_refresh
-            rob.refresh(duree)
+            #rob.refresh(duree, canv)
+            rob.refreshTest(duree)
 
         self.last_refresh = temps # on met à jour l'heure du dernier rafraichissement 
 

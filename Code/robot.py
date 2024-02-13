@@ -31,6 +31,8 @@ class Robot :
         self.nbToursRoueD = 0 # Nombre de tours de la roue droite initialisée à 0
         self.nbToursRoueG = 0 # Nombre de toues de la roue gauche initialisée à 0
 
+        self.TEST = None # pour les test il faut la supprimer après
+
 
     def refreshVitesse(self):
 
@@ -40,13 +42,13 @@ class Robot :
         
         
         VitAngD = self.getVitesseAngulaireDroite() # Vitesse angulaire de la roue droite 
-        VitAngG = self.getVitesseAngulaireDroite() # Vitesse angulaire de la roue gauche en rad/min
+        VitAngG = self.getVitesseAngulaireGauche() # Vitesse angulaire de la roue gauche en rad/min
         VitesseD = self.rayonRoue*VitAngD # Vitesse de la roue droite en m/min
         VitesseG = self.rayonRoue*VitAngG # Vitesse de la roue gauche en m/min
         self.vitesse = (VitesseD + VitesseG)/2
         logging.info("Vitesse changée à "+ str(self.vitesse))
 
-    def refresh(self, duree) :
+    def refresh(self, duree, canv):
 
         """ Fonction de mise à jour du robot, qui va donc mettre à jour les coordonnées du robot en fonction du mouvement des ses roues et du temps écoulé depuis la dernière mise à jour
             :param duree: la durée sur laquelle on veut actualiser le mouvement, donc combien de temps le robot a évolué
@@ -97,6 +99,40 @@ class Robot :
         self.x = self.x + newVectVit[0]*duree
         self.y = self.y + newVectVit[1]*duree
 
+
+    def refreshTest(self, duree):
+        self.refreshVitesse()
+        #self.vitesse = (self.getVitesseRoueG()+ self.getVitesseRoueD())/2
+        dirBasex, dirBasey = self.direction
+        orto = [dirBasex*math.cos(math.pi/2)-dirBasey*math.sin(math.pi/2),
+                dirBasex*math.sin(math.pi/2)+dirBasey*math.cos(math.pi/2)]
+        coordRG = (self.x-(orto[0]*(self.width/2)), self.y-(orto[1]*(self.width/2)))
+        coordRD = (self.x+orto[0]*(self.width/2), self.y+orto[1]*(self.width/2))
+
+        vg = self.getVitesseRoueG()
+        vg = (vg*dirBasex*duree, vg*dirBasey*duree)
+        vd = self.getVitesseRoueD()
+        vd = (vd*dirBasex*duree, vd*dirBasey*duree)
+        newg = (coordRG[0] + vg[0], coordRG[1] + vg[1])
+        newd = (coordRD[0] + vd[0], coordRD[1] + vd[1])
+
+
+        pente = ((newg[1] - newd[1])/(newg[0] - newd[0]))
+        if newg[0] > newd[0]:
+            print("pente", pente)
+            pente = [-1, -pente]
+            print("newpente", pente)
+        else:
+            pente = [1, pente]
+
+        penteOrto = [pente[0]*math.cos((3*math.pi)/2)-pente[1]*math.sin((3*math.pi)/2),
+                pente[0]*math.sin((3*math.pi)/2)+pente[1]*math.cos((3*math.pi)/2)]
+        penteOrto = self.normaliserVecteur(penteOrto)
+
+        self.direction = penteOrto
+        self.x += self.direction[0]*self.vitesse*duree
+        self.y += self.direction[1]*self.vitesse*duree
+        
     
     def setVitesse(self, vitesse) :
 
