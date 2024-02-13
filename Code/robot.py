@@ -46,59 +46,7 @@ class Robot :
         self.vitesse = (VitesseD + VitesseG)/2
         logging.info("Vitesse changée à "+ str(self.vitesse))
 
-    def refresh(self, duree, canv):
-
-        """ Fonction de mise à jour du robot, qui va donc mettre à jour les coordonnées du robot en fonction du mouvement des ses roues et du temps écoulé depuis la dernière mise à jour
-            :param duree: la durée sur laquelle on veut actualiser le mouvement, donc combien de temps le robot a évolué
-            :returns: ne retourne rien, on met juste à jour le robot 
-        """
-
-        # On commence par rafrîchir la vitesse du robot
-        self.refreshVitesse()
-
-        vectDirNorm = self.normaliserVecteur(self.direction)
-
-        # On calcule le vecteur vitesse de la roue droite et la roue gauche
-        vitD = self.getVitesseRoueD()
-        vectVitD = vectDirNorm
-        vectVitD = (vectVitD[0]*vitD, vectVitD[1]*vitD)
-
-        vitG = self.getVitesseRoueG()
-        vectVitG = vectDirNorm
-        vectVitG = (vitG*vectVitG[0], vitG*vectVitG[1])
-
-        dirD = (vectDirNorm[1], -vectDirNorm[0]) # le vecteur directeur tourné de 90° dans le sens horaire, donc vers la droite
-        dirG = (-vectDirNorm[1], vectDirNorm[0]) # le vecteur directeur tourné de 90° dans le sens anti-horaire, donc vers la gauche
-
-        # calcul des coordonnées des roues droite et gauche
-
-        x_droit = self.x + (dirD[0]*self.width/2) 
-        y_droit = self.y + (dirD[1]*self.width/2) 
-
-        x_gauche = self.x + (dirG[0]*self.width/2) # pour cette ligne et la suivante, on peut aussi utiliser dirD uniquement et faire des - au lieu des +
-        y_gauche = self.y + (dirG[1]*self.width/2)
-
-        #calcul des "nouvelles" coordonnées des roue gauches et droite si elles suivaient uniquement les vecteurs vitesse des roues gauche et droite
-        new_x_gauche = x_gauche + vectVitG[0]
-        new_y_gauche = y_gauche + vectVitG[1]
-
-        new_x_droit = x_droit + vectVitD[0]
-        new_y_droit = y_droit + vectVitD[1]
-
-        # calcul du vecteur qui part du "nouveau point droit" au "nouveau point gauche"
-        vect_relie = (new_x_gauche - new_x_droit, new_y_gauche - new_y_droit)
-
-        newVectDir = (vect_relie[1], -vect_relie[0]) # on tourne le vecteur précédent de 90° dans le sens horaire pour obtenir un nouveau vecteur directeur du robot
-        newVectDir = self.normaliserVecteur(newVectDir)
-        self.direction = newVectDir # on définit la nouvelle direction du vecteur comme étant celle-ci
-
-        newVectVit = (newVectDir[0]*self.vitesse, newVectDir[1]*self.vitesse)
-
-        self.x = self.x + newVectVit[0]*duree
-        self.y = self.y + newVectVit[1]*duree
-
-
-    def refreshTest(self, duree):
+    def refresh(self, duree):
         self.refreshVitesse() # on rafraichit la vitesse
         dirBasex, dirBasey = self.direction
 
@@ -124,9 +72,7 @@ class Robot :
 
         # ceci nous permet de regler le probleme de saut lorsqu'on passe dans le cadran du bas [pi, 2pi]
         if newg[0] > newd[0]:
-            print("pente", pente)
             pente = [-1, -pente]
-            print("newpente", pente)
         else:
             pente = [1, pente]
 
