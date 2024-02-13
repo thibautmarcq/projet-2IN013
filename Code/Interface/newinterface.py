@@ -46,7 +46,7 @@ class Interface:
 
 		self.frame_coordonnees = LabelFrame(self.frame_up, text='Coordonnées', width= 20, height=100)
 		self.frame_vitesses.grid_propagate(False)
-		self.frame_coordonnees.grid(row=0, column=1)
+		self.frame_coordonnees.grid(row=1, column=0)
 
 		self.frame_tutorial = LabelFrame(self.frame_gauche, text="Tutorial", bd=1)
 		self.frame_tutorial.grid(row=1)
