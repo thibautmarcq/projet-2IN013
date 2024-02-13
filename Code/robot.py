@@ -349,7 +349,7 @@ class Robot :
                 obs = True
             else :
                 # Vérification de la direction du vecteur et d'avancer en concéquence
-                if ( vecteur[1] < 0 & round(self.y/env.scale) < (env.lenght/env.scale) ) : # Vérifie si le vecteur va vers le bas et si le point y du selfot est < à la longueur de la matrice
+                if ( vecteur[1] < 0 & round(self.y/env.scale) < (env.length/env.scale) ) : # Vérifie si le vecteur va vers le bas et si le point y du selfot est < à la longueur de la matrice
                     point1Vecteur = (point1Vecteur[0], point2Vecteur[1]+1) # Calcul du 1e point du vecteur
                     point2Vecteur = (point2Vecteur[0], point2Vecteur[1]+1) # Calcul du 2e point du vecteur
                     vecteur = (point2Vecteur[0]-point1Vecteur[0] ,point2Vecteur[1]-point1Vecteur[1]) # Calcul du vecteur grâce aux 2 vecteurs
@@ -379,7 +379,7 @@ class Robot :
                     vecteur = (point2Vecteur[0]-point1Vecteur[0] ,point2Vecteur[1]-point1Vecteur[1])
                     distance += 1
 
-                if ( vecteur[0] == -vecteur[1] & round(self.x/env.scale) < (env.width/env.scale) & round(self.y/env.scale) < (env.lenght/env.scale) ): # Vérifie si le vecteur va vers en bas à droite et si le selfot n'est pas dans le coin inférieur droit
+                if ( vecteur[0] == -vecteur[1] & round(self.x/env.scale) < (env.width/env.scale) & round(self.y/env.scale) < (env.length/env.scale) ): # Vérifie si le vecteur va vers en bas à droite et si le selfot n'est pas dans le coin inférieur droit
                     point1Vecteur = (point1Vecteur[0]+1, point2Vecteur[1]+1)
                     point2Vecteur = (point2Vecteur[0]+1, point2Vecteur[1]+1)
                     vecteur = (point2Vecteur[0]-point1Vecteur[0] ,point2Vecteur[1]-point1Vecteur[1])
@@ -391,7 +391,7 @@ class Robot :
                     vecteur = (point2Vecteur[0]-point1Vecteur[0] ,point2Vecteur[1]-point1Vecteur[1])
                     distance += 1
 
-                if ( -vecteur[0] == -vecteur[1] & round(self.x/env.scale) > 0 & round(self.y/env.scale) < (env.lenght/env.scale)): # Vérifie si le vecteur va vers en bas à gauche et si le selfot n'est pas dans le coin inférieur gauche
+                if ( -vecteur[0] == -vecteur[1] & round(self.x/env.scale) > 0 & round(self.y/env.scale) < (env.length/env.scale)): # Vérifie si le vecteur va vers en bas à gauche et si le selfot n'est pas dans le coin inférieur gauche
                     point1Vecteur = (point1Vecteur[0]-1, point2Vecteur[1]+1)
                     point2Vecteur = (point2Vecteur[0]-1, point2Vecteur[1]+1)
                     vecteur = (point2Vecteur[0]-point1Vecteur[0] ,point2Vecteur[1]-point1Vecteur[1])
