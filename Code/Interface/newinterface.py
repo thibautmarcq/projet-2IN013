@@ -144,7 +144,7 @@ class Interface:
 					robot.x-(robot.width/2)*(-dy)+(robot.length/2)*dx,
 					robot.y-(robot.width/2)*(dx)+(robot.length/2)*dy
 					)
-		canvas.coords(self.robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
+		canvas.coords(robot.robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
 		self.update_stats_affichage()
 		#root.after(1000/60, refresh_position_robot_visuel(canv, robot))
 
@@ -227,9 +227,9 @@ class Interface:
 		self.env.createRobot(nom, x, y, width, length, rayonRoue)
 		self.env.robots[self.env.robotSelect].couleur = couleur
 		bob = self.env.robots[self.env.robotSelect]
-		self.robot_vec = self.canv.create_line(bob.x, bob.y, bob.x+(75*bob.direction[0]), bob.y+(75*bob.direction[1]))
+		#self.robot_vec = self.canv.create_line(bob.x, bob.y, bob.x+(75*bob.direction[0]), bob.y+(75*bob.direction[1]))
 		for rob in self.env.robots:
-			self.create_robot_rect(rob) 
+			self.create_robot_rect(rob)
 			rob.robot_vec = self.canv.create_line(rob.x, rob.y, rob.x+(75*rob.direction[0]), rob.y+(75*rob.direction[1]))
 		
 		# # Anciens sliders des vitesses des roues gauche et droite respectivement
