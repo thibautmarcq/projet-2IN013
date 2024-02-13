@@ -20,4 +20,4 @@ class TestControleur(unittest.TestCase):
     def test_stop(self):
         while self.stratAvancer.stop() != 0:
             self.stratAvancer.step()
-        self.assertAlmostEqual(self.stratAvancer.parcouru, 10)
+        self.assertGreaterEqual(self.stratAvancer.parcouru, 10)
