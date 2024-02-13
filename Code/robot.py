@@ -266,7 +266,6 @@ class Robot :
         """ Réduit de 1 tour la roue droite et augmente de 1 la roue gauche, permet de tourner plus facilement à droite
             :returns: rien, on modifie seulement les tours
         """
-        print('prout')
         self.subTourD()
         self.addTourG()
         self.refreshVitesse()
