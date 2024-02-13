@@ -1,6 +1,6 @@
 from Code.Interface.newinterface import Interface
 from Code.environnement import Environnement
 
-env = Environnement(850, 650, 25)
-run = Interface(env)
-run.initRobot("Bob", 150, 45, 30, 55, 1, "pink")
+env = Environnement(750, 550, 25) # Initialisation de l'env
+run = Interface(env) # Lancement de l'interface
+run.initRobot("Bob", 150, 45, 30, 55, 1, "pink") # Initialisation du robot dans l'interface

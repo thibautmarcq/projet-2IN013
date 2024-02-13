@@ -375,3 +375,77 @@ class Robot :
 
         return self.getVitesseAngulaireGauche()*self.rayonRoue
     
+    def capteurDistance(self, env, matrice) :
+        """
+            Capteur de distance, donne la distance entre le robot et le 1er obstacle/mur
+            :returns: renvoie la distance entre le robot et un obstacle/mur
+        """
+        coordonnees_rob = (round(self.x/env.scale), round(self.x/env.scale)) # Coordonnées du selfot
+        vecteur = self.direction # Vecteur que l'on va envoyé pour connaître la distance
+        point1Vecteur = coordonnees_rob # 1er point du vecteur
+        point2Vecteur = (vecteur[0]+self.x, vecteur[1]+self.y) # 2e point du vecteur = tête du vecteur
+        distance = 0 # Compteur de distance
+        obs = False # Variable : si il y a un obstacle/mur = True sinon False
+
+        while( obs == False ) :
+            if ( (point2Vecteur[0] >= (env.width/env.scale)-1) | (point2Vecteur[1] >= (env.width/env.scale)-1 )) : # Si le x de la tête du vecteur >= à la largeur de la matrice ou si le y de la tête du vecteur >= à la longueur de la matrice, c'est que le vecteur à atteint un mur
+                obs = True
+            elif ( (point2Vecteur[0] < 0 | (point2Vecteur[1] < 0 )) ) : # Si le x de la tête du vecteur < 0 ou si le y de la tête du vecteur < 0,  c'est que le vecteur à atteint un mur
+                obs = True
+            elif ( env.matrice[point2Vecteur[0]][point2Vecteur[1]] == 2) : # Vérifie si la tête du vecteur est à la même position qu'un osbtacle
+                obs = True
+            else :
+                # Vérification de la direction du vecteur et d'avancer en concéquence
+                if ( vecteur[1] < 0 & round(self.y/env.scale) < (env.lenght/env.scale) ) : # Vérifie si le vecteur va vers le bas et si le point y du selfot est < à la longueur de la matrice
+                    point1Vecteur = (point1Vecteur[0], point2Vecteur[1]+1) # Calcul du 1e point du vecteur
+                    point2Vecteur = (point2Vecteur[0], point2Vecteur[1]+1) # Calcul du 2e point du vecteur
+                    vecteur = (point2Vecteur[0]-point1Vecteur[0] ,point2Vecteur[1]-point1Vecteur[1]) # Calcul du vecteur grâce aux 2 vecteurs
+                    distance += 1 # Incrémentation de la distance
+
+                if ( vecteur[1] > 0 & round(self.y/env.scale) > 0 ) : # Vérifie si le vecteur va vers le haut et si le point y du selfot est > à 0
+                    point1Vecteur = (point1Vecteur[0], point2Vecteur[1]-1)
+                    point2Vecteur = (point2Vecteur[0], point2Vecteur[1]-1)
+                    vecteur = (point2Vecteur[0]-point1Vecteur[0] ,point2Vecteur[1]-point1Vecteur[1])
+                    distance += 1
+
+                if ( vecteur[0] > 0 & round(self.x/env.scale) < (env.width/env.scale) ) : # Vérifie si le vecteur va vers la droite et si le point x du selfot est < à la largeur de la matrice
+                    point1Vecteur = (point1Vecteur[0]+1, point2Vecteur[1])
+                    point2Vecteur = (point2Vecteur[0]+1, point2Vecteur[1])
+                    vecteur = (point2Vecteur[0]-point1Vecteur[0] ,point2Vecteur[1]-point1Vecteur[1])
+                    distance += 1
+
+                if ( vecteur[0] < 0 & round(self.x/env.scale) > 0 ) : # Vérifie si le vecteur va vers la gauche et si le point x du selfot est > à 0
+                    point1Vecteur = (point1Vecteur[0]-1, point2Vecteur[1])
+                    point2Vecteur = (point2Vecteur[0]-1, point2Vecteur[1])
+                    vecteur = (point2Vecteur[0]-point1Vecteur[0] ,point2Vecteur[1]-point1Vecteur[1])
+                    distance += 1
+
+                if ( vecteur[0] == vecteur[1] & round(self.x/env.scale) < (env.width/env.scale) & round(self.y/env.scale) > 0): # Vérifie si le vecteur va vers en haut à droite et si le selfot n'est pas dans le coin supérieur droite
+                    point1Vecteur = (point1Vecteur[0]+1, point2Vecteur[1]-1)
+                    point2Vecteur = (point2Vecteur[0]+1, point2Vecteur[1]-1)
+                    vecteur = (point2Vecteur[0]-point1Vecteur[0] ,point2Vecteur[1]-point1Vecteur[1])
+                    distance += 1
+
+                if ( vecteur[0] == -vecteur[1] & round(self.x/env.scale) < (env.width/env.scale) & round(self.y/env.scale) < (env.lenght/env.scale) ): # Vérifie si le vecteur va vers en bas à droite et si le selfot n'est pas dans le coin inférieur droit
+                    point1Vecteur = (point1Vecteur[0]+1, point2Vecteur[1]+1)
+                    point2Vecteur = (point2Vecteur[0]+1, point2Vecteur[1]+1)
+                    vecteur = (point2Vecteur[0]-point1Vecteur[0] ,point2Vecteur[1]-point1Vecteur[1])
+                    distance += 1
+
+                if ( -vecteur[0] == vecteur[1] & round(self.x/env.scale) > 0 & round(self.y/env.scale) > 0): # Vérifie si le vecteur va vers en haut à gauche et si le selfot n'est pas dans le coin supérieur gauche
+                    point1Vecteur = (point1Vecteur[0]-1, point2Vecteur[1]-1)
+                    point2Vecteur = (point2Vecteur[0]-1, point2Vecteur[1]-1)
+                    vecteur = (point2Vecteur[0]-point1Vecteur[0] ,point2Vecteur[1]-point1Vecteur[1])
+                    distance += 1
+
+                if ( -vecteur[0] == -vecteur[1] & round(self.x/env.scale) > 0 & round(self.y/env.scale) < (env.lenght/env.scale)): # Vérifie si le vecteur va vers en bas à gauche et si le selfot n'est pas dans le coin inférieur gauche
+                    point1Vecteur = (point1Vecteur[0]-1, point2Vecteur[1]+1)
+                    point2Vecteur = (point2Vecteur[0]-1, point2Vecteur[1]+1)
+                    vecteur = (point2Vecteur[0]-point1Vecteur[0] ,point2Vecteur[1]-point1Vecteur[1])
+                    distance += 1
+                
+                else : # Ou sinon il y a mur
+                    obs = True
+
+        return distance*env.scale
+
