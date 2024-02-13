@@ -13,11 +13,11 @@ class TestControleur(unittest.TestCase):
         self.assertEqual(self.stratAvancer.parcouru, 0)
         self.assertEqual(self.stratAvancer.distance, 10)
 
-    def test_step(self):
+    def test_anvancer_step(self):
         self.stratAvancer.step()
         self.assertEqual(self.stratAvancer.parcouru, 1)
 
-    def test_stop(self):
+    def test_avancer_stop(self):
         while self.stratAvancer.stop() != 0:
             self.stratAvancer.step()
         self.assertGreaterEqual(self.stratAvancer.parcouru, 10)
