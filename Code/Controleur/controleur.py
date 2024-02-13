@@ -1,22 +1,20 @@
 from ..robot import Robot
 
 class StrategieAvancer:
-    def __init__(self, distance, vitesse, rob):
+    def __init__(self, distance, rob):
         """ Statégie qui fait avancer le robot d'une distance donnée"""
         self.distance = distance
-        self.vitesse = vitesse
         self.rob = rob 
         self.parcouru = 0
         #argument temporaire
     
-    def refresh(self): #Changement de vitesse ?
-        pass
 
-    def step(self): #Fait augmenter la distance parcourue ?
-        pass
+    def step(self): #Fait augmenter la distance parcourue
+        self.parcouru += 1
+        self.rob.avancerDirection(1)
 
-    def stop(self): # Fait arreter le robot quand la distance est inferieure a parcourue ?
-        pass
+    def stop(self): # Fait arreter le robot quand la distance est inferieure a parcourue 
+        return self.parcouru >= self.distance
 
 
 class StrategieTourner:
@@ -26,9 +24,9 @@ class StrategieTourner:
         self.angle = angle
         #argument temporaire
 
-    def tourne(self): #appelle la fonction tourner d robot?
+    def step(self): #appelle la fonction tourner d robot
         pass
 
-    def stop(self): #fait arreter le robot quand il a tourné ?
+    def stop(self): #fait arreter le robot quand il a tourné
         pass
 
