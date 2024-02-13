@@ -40,7 +40,7 @@ class Interface:
 		self.frame_up = LabelFrame(self.frame_gauche, bd=0)
 		self.frame_up.grid(row=0)
 
-		self.frame_vitesses = LabelFrame(self.frame_up, text='Vitesses', width=150, height=100) # btn_vitesse + coordonnées
+		self.frame_vitesses = LabelFrame(self.frame_up, text='Vitesses', width=200, height=100) # btn_vitesse + coordonnées
 		self.frame_vitesses.grid_propagate(False)
 		self.frame_vitesses.grid(row=0, column=0, padx=10, pady=10)
 
