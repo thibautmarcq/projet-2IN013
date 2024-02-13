@@ -31,8 +31,6 @@ class Robot :
         self.nbToursRoueD = 0 # Nombre de tours de la roue droite initialisée à 0
         self.nbToursRoueG = 0 # Nombre de toues de la roue gauche initialisée à 0
 
-        self.TEST = None # pour les test il faut la supprimer après
-
 
     def refreshVitesse(self):
 
