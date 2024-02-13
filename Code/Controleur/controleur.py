@@ -14,7 +14,9 @@ class StrategieAvancer:
         self.rob.avancerDirection(1)
 
     def stop(self): # Fait arreter le robot quand la distance est inferieure a parcourue 
-        return self.parcouru >= self.distance
+        if self.parcouru >= self.distance:
+            self.rob.setVitesse(0)
+            return 0
 
 
 class StrategieTourner:
