@@ -17,7 +17,7 @@ class Interface:
 
 		# Config fenêtre
 		self.root=Tk()
-		self.root.geometry(str(self.env.width+450)+"x"+str(max(600,self.env.length+100))) # Adapatation de la taille de la fenetre en fct de celle de l'environnement
+		self.root.geometry(str(self.env.width+500)+"x"+str(max(600,self.env.length+100))) # Adapatation de la taille de la fenetre en fct de celle de l'environnement
 		self.root.title("Simulation - Robocar Poli")
 
 
