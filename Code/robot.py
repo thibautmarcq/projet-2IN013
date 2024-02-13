@@ -101,23 +101,30 @@ class Robot :
 
 
     def refreshTest(self, duree):
-        self.refreshVitesse()
-        #self.vitesse = (self.getVitesseRoueG()+ self.getVitesseRoueD())/2
+        self.refreshVitesse() # on rafraichit la vitesse
         dirBasex, dirBasey = self.direction
+
+        # on récupère les coordonnées des deux roues sous la forme de point
+
         orto = [dirBasex*math.cos(math.pi/2)-dirBasey*math.sin(math.pi/2),
                 dirBasex*math.sin(math.pi/2)+dirBasey*math.cos(math.pi/2)]
         coordRG = (self.x-(orto[0]*(self.width/2)), self.y-(orto[1]*(self.width/2)))
         coordRD = (self.x+orto[0]*(self.width/2), self.y+orto[1]*(self.width/2))
 
+        # on calcule le vecteur vitesse de chaque roue
         vg = self.getVitesseRoueG()
         vg = (vg*dirBasex*duree, vg*dirBasey*duree)
         vd = self.getVitesseRoueD()
         vd = (vd*dirBasex*duree, vd*dirBasey*duree)
+
+        # on obtient les points qui sont au bout des vecteurs vitesse des roues
         newg = (coordRG[0] + vg[0], coordRG[1] + vg[1])
         newd = (coordRD[0] + vd[0], coordRD[1] + vd[1])
 
-
+        # ce qui nous permet d'obtenir la pente entre ces deux points 
         pente = ((newg[1] - newd[1])/(newg[0] - newd[0]))
+
+        # ceci nous permet de regler le probleme de saut lorsqu'on passe dans le cadran du bas [pi, 2pi]
         if newg[0] > newd[0]:
             print("pente", pente)
             pente = [-1, -pente]
@@ -125,11 +132,14 @@ class Robot :
         else:
             pente = [1, pente]
 
+        # on trouve le vecteur ortogonal a notre pente
         penteOrto = [pente[0]*math.cos((3*math.pi)/2)-pente[1]*math.sin((3*math.pi)/2),
                 pente[0]*math.sin((3*math.pi)/2)+pente[1]*math.cos((3*math.pi)/2)]
-        penteOrto = self.normaliserVecteur(penteOrto)
+        penteOrto = self.normaliserVecteur(penteOrto) # on le normalise
 
-        self.direction = penteOrto
+        self.direction = penteOrto # il devient notre nouvelle direction
+
+        # et on fait notre déplacement
         self.x += self.direction[0]*self.vitesse*duree
         self.y += self.direction[1]*self.vitesse*duree
         
