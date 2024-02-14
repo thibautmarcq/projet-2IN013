@@ -115,13 +115,18 @@ class Environnement:
         self.last_refresh = temps # on met à jour l'heure du dernier rafraichissement 
 
     def collision(self, rob) :
-        
+        """
+            Vérification de la collision
+            :returns: renvoie True si il y a une collision, False sinon
+        """
+        # Savoir si il y a une collision si le robot va vers le bas
         if ( rob.direction[1] < 0 ) :
+            # Calcul des coins du robot
             avant_droit = ((rob.x/self.scale)-1, (rob.y/self.scale)+1)
             avant_gauche = ((rob.x/self.scale)+1, (rob.y/self.scale)+1)
             arriere_droit = (avant_droit[0], avant_droit[1]-rob.length)
             arriere_gauche = (avant_droit[0], avant_droit[1]-rob.length)
-
+            # Vérification de la collision
             if ( (avant_droit[0] < 0) | (avant_droit[1] > (self.length/self.scale)) ) :
                 return True
             if ( (avant_gauche[0] > (self.width/self.scale)) | (avant_gauche[1] > (self.length/self.scale)) ) :
@@ -134,11 +139,15 @@ class Environnement:
                 | self.matrice[int(arriere_gauche[0])][int(arriere_gauche[1])] == 2 | self.matrice[int(arriere_droit[0])][int(arriere_droit[1])] == 2 # Si l'arriere du robot est en contact avec un obstacle
                 ) :
                 return True
+            
+        # Savoir si il y a une collision si le robot va vers le haut
         if ( rob.direction[1] > 0 ) :
+            # Calcul des coins du robot
             avant_droit = ((rob.x/self.scale)+1, (rob.y/self.scale)-1)
             avant_gauche = ((rob.x/self.scale)-1, (rob.y/self.scale)-1)
             arriere_droit = (avant_droit[0], avant_droit[1]+rob.length)
             arriere_gauche = (avant_gauche[0], avant_gauche[1]+rob.length)
+            # Vérification de la collision
             if ( (arriere_gauche[0] < 0) | (arriere_gauche[1] > (self.length/self.scale)) ) :
                 return True
             if ( (arriere_droit[0] > (self.width/self.scale)) | (arriere_droit[1] > (self.length/self.scale)) ) :
@@ -151,11 +160,14 @@ class Environnement:
                 | self.matrice[int(arriere_gauche[0])][int(arriere_gauche[1])] == 2 | self.matrice[int(arriere_droit[0])][int(arriere_droit[1])] == 2 # Si l'arriere du robot est en contact avec un obstacle
                 ) :
                 return True
+        # Savoir si il y a une collision si le robot va vers la droite
         if ( rob.direction[0] > 0 ) :
+            # Calcul des coins du robot
             avant_droit = ((rob.x/self.scale)+1, (rob.y/self.scale)+1)
             avant_gauche = ((rob.x/self.scale)+1, (rob.y/self.scale)-1)
             arriere_droit = (avant_droit[0]-rob.length, avant_droit[1])
             arriere_gauche = (avant_gauche[0]-rob.length, avant_gauche[1])
+            # Vérification de la collision
             if ( (arriere_droit[0] < 0) | (arriere_droit[1] > (self.length/self.scale)) ) :
                 return True
             if ( (avant_droit[0] > (self.width/self.scale)) | (avant_droit[1] > (self.length/self.scale)) ) :
@@ -168,11 +180,14 @@ class Environnement:
                 | self.matrice[int(arriere_gauche[0])][int(arriere_gauche[1])] == 2 | self.matrice[int(arriere_droit[0])][int(arriere_droit[1])] == 2 # Si l'arriere du robot est en contact avec un obstacle
                 ) :
                 return True
+        # Savoir si il y a une collision si le robot va vers la gauche
         if ( rob.direction[0] < 0 ) :
+            # Calcul des coins du robot
             avant_droit = ((rob.x/self.scale)-1, (rob.y/self.scale)-1)
             avant_gauche = ((rob.x/self.scale)-1, (rob.y/self.scale)+1)
             arriere_droit = (avant_droit[0]+rob.length, avant_droit[1])
             arriere_gauche = (avant_gauche[0]+rob.length, avant_gauche[1])
+            # Vérification de la collision
             if ( (avant_gauche[0] < 0) | (avant_gauche[1] > (self.length/self.scale)) ) :
                 return True
             if ( (arriere_gauche[0] > (self.width/self.scale)) | (arriere_gauche[1] > (self.length/self.scale)) ) :
@@ -185,12 +200,14 @@ class Environnement:
                 | self.matrice[int(arriere_gauche[0])][int(arriere_gauche[1])] == 2 | self.matrice[int(arriere_droit[0])][int(arriere_droit[1])] == 2 # Si l'arriere du robot est en contact avec un obstacle
                 ) :
                 return True
-        
+        # Savoir si il y a une collision si le robot va vers en haut a droite
         if ( rob.direction[0] == rob.direction[1] & rob.direction[0] > 0 ) :
+            # Calcul des coins du robot
             avant_droit = ((rob.x/self.scale)+(rob.width/self.scale), (rob.y/self.scale))
             avant_gauche = ((rob.x/self.scale), (rob.y/self.scale)-(rob.lenght/self.scale))
             arriere_droit = ((rob.x/self.scale), (rob.y/self.scale)+(rob.lenght/self.scale))
             arriere_gauche = ((rob.x/self.scale)-(rob.width/self.scale), (rob.y/self.scale))
+            # Vérification de la collision
             if ( avant_droit[0] > (self.width/self.scale) ) :
                 return True
             if ( avant_gauche[1] < 0 ) :
@@ -203,11 +220,14 @@ class Environnement:
                 | self.matrice[int(arriere_gauche[0])][int(arriere_gauche[1])] == 2 | self.matrice[int(arriere_droit[0])][int(arriere_droit[1])] == 2 # Si l'arriere du robot est en contact avec un obstacle
                 ) :
                 return True
+        # Savoir si il y a une collision si le robot va vers en bas a gauche
         if ( rob.direction[0] == rob.direction[1] & rob.direction[0] < 0 ) :
+            # Calcul des coins du robot
             avant_droit = ((rob.x/self.scale)-(rob.width/self.scale), (rob.y/self.scale))
             avant_gauche = ((rob.x/self.scale), (rob.y/self.scale)+(rob.lenght/self.scale))
             arriere_droit = ((rob.x/self.scale), (rob.y/self.scale)-(rob.lenght/self.scale))
             arriere_gauche = ((rob.x/self.scale)+(rob.width/self.scale), (rob.y/self.scale))
+            # Vérification de la collision
             if ( arriere_gauche[0] > (self.width/self.scale) ) :
                 return True
             if ( arriere_droit[1] < 0 ) :
@@ -220,11 +240,14 @@ class Environnement:
                 | self.matrice[int(arriere_gauche[0])][int(arriere_gauche[1])] == 2 | self.matrice[int(arriere_droit[0])][int(arriere_droit[1])] == 2 # Si l'arriere du robot est en contact avec un obstacle
                 ) :
                 return True
+        # Savoir si il y a une collision si le robot va vers en haut a gauche
         if ( rob.direction[0] == -(rob.direction[1]) ) :
+            # Calcul des coins du robot
             avant_droit = ((rob.x/self.scale), (rob.y/self.scale)-(rob.lenght/self.scale))
             avant_gauche = ((rob.x/self.scale)-(rob.width/self.scale), (rob.y/self.scale))
             arriere_droit = ((rob.x/self.scale)+(rob.width/self.scale), (rob.y/self.scale))
             arriere_gauche = ((rob.x/self.scale), (rob.y/self.scale)+(rob.length/self.scale))
+            # Vérification de la collision
             if ( arriere_droit[0] > (self.width/self.scale) ) :
                 return True
             if ( avant_droit[1] < 0 ) :
@@ -237,11 +260,14 @@ class Environnement:
                 | self.matrice[int(arriere_gauche[0])][int(arriere_gauche[1])] == 2 | self.matrice[int(arriere_droit[0])][int(arriere_droit[1])] == 2 # Si l'arriere du robot est en contact avec un obstacle
                 ) :
                 return True
+        # Savoir si il y a une collision si le robot va vers en bas a droite
         if ( -rob.direction[0] == (rob.direction[1]) ) :
+            # Calcul des coins du robot
             avant_droit = ((rob.x/self.scale), (rob.y/self.scale)+(rob.lenght/self.scale))
             avant_gauche = ((rob.x/self.scale)+(rob.width/self.scale), (rob.y/self.scale))
             arriere_droit = ((rob.x/self.scale)-(rob.width/self.scale), (rob.y/self.scale))
             arriere_gauche = ((rob.x/self.scale), (rob.y/self.scale)-(rob.length/self.scale))
+            # Vérification de la collision
             if ( avant_gauche[0] > (self.width/self.scale) ) :
                 return True
             if ( arriere_gauche[1] < 0 ) :
