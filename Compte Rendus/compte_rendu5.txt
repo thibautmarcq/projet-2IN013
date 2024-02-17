@@ -1,0 +1,108 @@
+Objectifs prochaine séance : 
+Avoir une doc sur la physique du robot.
+Avoir les obstacles/collisions qui marchent bien. 
+Avoir un capteur de distance. 
+Changer la physique de la roue. Il faut modifier directement les vitesses ang, pas le nb tours.
+Avoir un controleur qui marche (début).
+
+Trello : 
+Attention à nos taches! Tout ce qui a été fait doit être vérfié. 
+On ne peut pas montrer qqch dont tout n'a pas été vérifié -> que du validé. (presques ttes les choses importantes dans En Cours..)
+
+Github / Code : 
+Collision - 160lignes commit en un seul coup? La gestion est faite en cas alors que l'on voudrait du continu. (La physique ne fait pas de if)
+Le nom de test_refresh n'est pas adapté. Il faut avoir des tests qui testent vrmt plein de scénarios pour les roues.
+Des choses se répètent dans nos refresh : il faut se poser et remettre en forme les choses. (5lignes attendues)
+Question sur la strat carré : si un obstacle => s'arreter, ce n'est pas une ia.
+Si on développe des choses dont on n'est pas sur : branche puis merge.
+Si on a besoin de choses qui ne correspondent pas aux classes : faire un module outil (ne pas tout y mettre!)
+La gestion de la vitesse est foireuse avec les tours : rentrer direct la vitesse avec des setters.
+
+Il faut que l'on s'arrange pour vraiment comprendre es stratégies.
+La classe environnement ne doit pas tout gérer : il vaudrait mieux une classe simulation qui met à jour l'env et les robots.
+
+A réfléchir : essayer de réfléchir à changer le robot simulé par un vrai.
+
+
+----------- BROUILLON ----------
+
+Toby
+
+Controleur, capteur de distance !!
+Trello : en cours done attention. Valider les taches 
+On ne montre que des choses validées
+
+Git: Choses amusantes ?
+Jerome : collision 160lignes, grands cas /sous-cas. Trop de sous-cas, que faire si c'était continu ? -> Se mettre au tableau et réfléchir : géométrie, la physique ne fait pas de if 
+test refresh : nom pas adapté ? Roues normales, roues en rond, roues v+ et v-, etc
+Travailler sur les tests et les mettre à jour : besoin de garanties.
+
+Pas de bouton interface : baskiotis O_O
+Controleur agit sur le robot qui agit sur l'environnement.
+Faire un carré : si obstacle s'arreter. Au pire on fait une autre stratégie pour faire le carré avec gestion obstacle.
+Controleur : regarde la situation, decide quoi faire en fct de la simu
+Faire une branche quand on développe un truc dont on est pas sur que ça marche, la merge après.
+Pas d'obstacles.
+
+On a moins avancé que ce qu'on avait prévu.
+
+Utiliser un getter plutot que d'utiliser une variable locale.
+Pourquoi calculer la vitesse 
+Prochaine fois : démonstration des formules de Claude 
+Des choses qui se répètent entre les refresh. On doit faire un code en 5lignes.
+Possible de faire un module outil != pas une class
+Problème avec les addTour : on aura des setVitesse : pas des addTour -> Passer des vitesses angulaires au simulateur
+
+Les stratégies devront donner des vitesses angulaires directement
+Simulation -> maj env, Env -> maj simu
+Encore le commit de collision qui marche pas. 
+
+Objectifs : obstacles, controleur, physique, gestion collisions, 
+Chaine de traitement de l'information entre robot env simu
+Faire des getters, pas de fct
+Pour la fois d'après : on devrait gérer le robot simu comme le robot réel > commencer à réfléchir au chgt entre les deux 
+
+
+Ines 
+
+Capteurs de distance et contrôleurs absolument à faire 
+Bcp de choses en cours | done : pourquoi on dit que la physique fonctionne alors que la tâche n'est pas validée ?
+Rien de ce qui est important est validé en fait, pas bien
+Il faut absolument que tout soit validé, on ne montre au client que ce qui est validé, si on a un bug devant le client c'est pas bien
+
+Fonction de collision à refaire : comment gérer la collision avec la physique ? la physique ne fait pas de if 
+si on augmente le nb de direction ça va pas passer à l'échelle
+
+On peut rajouter plus de cas pour les tests par exemple pour le unitest test_refresh faire d'autres cas a part celui-là
+
+Il faut travailler sur les tests pour être sur qu'ils servent à quelque chose 
+
+Il faut s'arranger pour que les stratégies soient plus claires, qu'on comprenne vraiment le fonctionnement et ce qu'on veut faire précisemment
+
+Quand on veut faire un carré le contrôleur prend la main et va lancer faire un carré, si il y a un obstacle sur le chemin, tant pis il s'arrête, c'est le rôle d'une autre stratégie de s'occuper de la gestion de ce qu'il se passe si on rencontre un obstacle, d'essayer de recommencer à faire un carré ou autre. 
+
+Le contrôleur regarde la situation à t, décide quoi faire à t, puis rend la main
+
+Il faut vraiment qu'on leur montre 
+
+On peut faire un module outil dans lequel on met les fonctions 
+
+Les stratégies avancer et tourner doivent donner une vitesse angulaire au robot pour chacune des deux roues 
+
+c'est plus propre si on a une classe simulation qui met a jour l'environnement et les robots, plutôt que d'avoir une classe environnement qui fait tout 
+
+
+Pour la prochaine fois : 
+controleur 
+capteur distance
+obstacles
+physique de la roue
+gestion des collisions 
+
+réfléchir a la chaine de commandement entre contrôleur environnement robot
+
+faire des get vitesse au lieu des attributs qui servent a rien
+
+
+pour la fois d'après il faut anticiper que il faut pouvoir remplacer le robot simulé par le vrai
+simuler a la fois le robot simulé ou bien le robot réel
