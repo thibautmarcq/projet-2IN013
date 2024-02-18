@@ -5,7 +5,7 @@ import time
 
 import numpy as np
 
-from .obstacle import Obstacle
+# from .obstacle import Obstacle
 from .robot import Robot
 
 if not os.path.isdir('Code/Logs'):
@@ -57,23 +57,23 @@ class Environnement:
         self.robots.append(rob)
         self.matrice[int(rob.x/self.scale)][int(rob.y/self.scale)] = 1 # Ajoute à la matrice le robot grâce a sa position en le représentant par un 1
 
-    def addObstacle(self,nom):
+    # def addObstacle(self,nom):
 
-        """ Ajout d'un obstacle dans la matrice, l'obstacle est représenté par '2' dans la matrice
-            :param nom: nom de l'obstacle
-            :returns: ne retourne rien, place juste un obstacle aléatoirement dans la matrice
-        """
+    #     """ Ajout d'un obstacle dans la matrice, l'obstacle est représenté par '2' dans la matrice
+    #         :param nom: nom de l'obstacle
+    #         :returns: ne retourne rien, place juste un obstacle aléatoirement dans la matrice
+    #     """
 
-        obs_place = False
-        while( obs_place == False ) :
-            random_x = random.randrange(0,self.width) #prend des coordonnees aleatoires pour l'obstacle
-            random_y = random.randrange(0,self.length)
-            x = int(random_x/self.scale)
-            y = int(random_y/self.scale)
-            if ( self.matrice[x][y] != 1 | self.matrice[x][y] != 2) :
-                Obstacle(nom, x, y)
-                self.matrice[x][y] = 2 #  Ajoute l'obstacle représenté par le chiffre 2 dans la matrice
-                obs_place = True
+    #     obs_place = False
+    #     while( obs_place == False ) :
+    #         random_x = random.randrange(0,self.width) #prend des coordonnees aleatoires pour l'obstacle
+    #         random_y = random.randrange(0,self.length)
+    #         x = int(random_x/self.scale)
+    #         y = int(random_y/self.scale)
+    #         if ( self.matrice[x][y] != 1 | self.matrice[x][y] != 2) :
+    #             Obstacle(nom, x, y)
+    #             self.matrice[x][y] = 2 #  Ajoute l'obstacle représenté par le chiffre 2 dans la matrice
+    #             obs_place = True
 
     def detect_obs(self, rob) :
 
