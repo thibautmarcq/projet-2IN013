@@ -81,6 +81,10 @@ class Interface:
 						robot.x-(robot.width/2), robot.y+(robot.length/2)]
 		robot.rect = self.canv.create_polygon(robot.points, fill=(robot.couleur))
 
+	def create_obs(self, env):
+		for obs in env.listeObs:
+			self.canv.create_polygon(obs.lstPoints, fill=('grey'))
+
 
 	def update_stats_affichage(self):
 		""" Met à jour l'affichage des coordonnées dans l'affichage (implémenter chaque avancement)
@@ -231,6 +235,8 @@ class Interface:
 		for rob in self.env.robots:
 			self.create_robot_rect(rob)
 			rob.robot_vec = self.canv.create_line(rob.x, rob.y, rob.x+(75*rob.direction[0]), rob.y+(75*rob.direction[1]))
+		
+		self.create_obs(self.env)
 		
 		# # Anciens sliders des vitesses des roues gauche et droite respectivement
 		# btn_tourG = Scale(self.frame_vitesses, from_=50, to=0, orient=VERTICAL, label="Vitesse roue G", command=self.env.robots[self.env.robotSelect].setTourG)
