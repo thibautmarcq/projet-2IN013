@@ -40,7 +40,7 @@ class Environnement:
             :returns: ne retourne rien, place juste un obstacle aléatoirement dans la matrice
         """
         self.listeObs.append(Obstacle(nom,lstPoints))
-        if any(x > self.width or y > self.length for (x, y) in lstPoints):
+        if any(x > self.width or x < 0 or y > self.length or y < 0 for (x, y) in lstPoints):
             return print("Obstacle hors environnement")
 
 
@@ -50,7 +50,7 @@ class Environnement:
             x2, y2 = lstPoints[(i+1)%len(lstPoints)] # Cas où i est le dernier indice de la liste - Point d'arrivée
 
             self.matrice[int(x1/self.scale)][int(y1/self.scale)] = 2 # Place le pt de départ dans la matrice
-            print('\nOBJECTIF :', x2, y2)
+            #print('\nOBJECTIF :', x2, y2)
 
             while (round(x1), round(y1)) != (round(x2), round(y2)):
                 long = math.sqrt((x2-x1)**2 + (y2-y1)**2) # Longueur du vect dir
@@ -59,15 +59,15 @@ class Environnement:
                 x1,y1 = (round((x1+dir[0]), 2), round((y1+dir[1]), 2)) # arrondi à 10
                 # x1,y1 = ((x1+dir[0]), (y1+dir[1]))
 
-                print('int', int(x1),int(y1))
-                print('float', x1,y1)
-                time.sleep(0.025)
+                #print('int', int(x1),int(y1))
+                #print('float', x1,y1)
+                #time.sleep(0.025)
 
                 self.matrice[int(x1/self.scale)][int(y1/self.scale)] = 2 # Update la matrice
                 self.matrice[int(x1/self.scale)+1][int(y1/self.scale)+1] = 2 # Deuxieme couche pour aucun pb de hitbox
 
-            print('Arrivé en :', x1, y1)
-        time.sleep(1)
+            #print('Arrivé en :', x1, y1)
+        #time.sleep(1)
 
     def print_matrix(self):
         for row in self.env.matrice:
