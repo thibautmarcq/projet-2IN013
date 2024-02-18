@@ -33,8 +33,13 @@ class Environnement:
         self.last_refresh = 0 # initialise la dernière fois où l'environnement a été rafraîchi à 0 pour savoir quand on le fait pour la première fois
         self.listeObs =[]
 
-    def addObstacle(self, lstPoints):
-        self.listeObs.append(Obstacle('P',lstPoints))
+    def addObstacle(self,nom, lstPoints):
+        """ Ajout d'un obstacle dans la matrice, l'obstacle est représenté par '2' dans la matrice
+            :param nom: nom de l'obstacle
+            :param lstPoints: liste des points (x,y) qui définissent la forme de l'obstacle 
+            :returns: ne retourne rien, place juste un obstacle aléatoirement dans la matrice
+        """
+        self.listeObs.append(Obstacle(nom,lstPoints))
         if any(x > self.width or y > self.length for (x, y) in lstPoints):
             return print("Obstacle hors environnement")
 

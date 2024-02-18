@@ -15,7 +15,6 @@ class Obstacle :
 
         """ Constructeur de l'obstacle, il crée et initialise un obstacle en fonction des coordonnées passées en paramètre
             :param listePoints: liste des points (x,y) qui définissent la forme de l'obstacle
-            :param env: environnement dans lequel placer l'obstacle
             :returns: ne retourne rien, crée uniquement l'obstacle
         """
         
