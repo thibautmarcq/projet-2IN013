@@ -5,8 +5,9 @@ import time
 
 import numpy as np
 
-# from .obstacle import Obstacle
+from .obstacle import Obstacle
 from .robot import Robot
+import math
 
 if not os.path.isdir('Code/Logs'):
     os.mkdir("Code/Logs/")
@@ -30,6 +31,42 @@ class Environnement:
         self.robotSelect = 0 # robot selectionné pour bouger
         self.scale = scale #echelle en int positif 
         self.last_refresh = 0 # initialise la dernière fois où l'environnement a été rafraîchi à 0 pour savoir quand on le fait pour la première fois
+        self.listeObs =[]
+
+    def addObstacle(self, lstPoints):
+        self.listeObs.append(Obstacle('P',lstPoints))
+        if any(x > self.width or y > self.length for (x, y) in lstPoints):
+            return print("Obstacle hors environnement")
+
+
+        # Placement des bordures de l'obstacle dans l'environnement
+        for i in range(len(lstPoints)): # Parcours la liste des points
+            x1, y1 = lstPoints[i]
+            x2, y2 = lstPoints[(i+1)%len(lstPoints)] # Cas où i est le dernier indice de la liste - Point d'arrivée
+
+            self.matrice[int(x1/self.scale)][int(y1/self.scale)] = 2 # Place le pt de départ dans la matrice
+            print('\nOBJECTIF :', x2, y2)
+
+            while (int(x1), int(y1)) != (int(x2), int(y2)):
+                long = math.sqrt((x2-x1)**2 + (y2-y1)**2) # Longueur du vect dir
+                dir = ((x2-x1)/long ,(y2-y1)/long) # Vect dir normalisé
+                
+                # x1,y1 = (round((x1+dir[0]), 10), round((y1+dir[1]), 10)) # arrondi à 10
+                x1,y1 = ((x1+dir[0]), (y1+dir[1]))
+
+                print('int', int(x1),int(y1))
+                print('float', x1,y1)
+                time.sleep(0.025)
+
+                self.matrice[int(x1/self.scale)][int(y1/self.scale)] = 2 # Update la matrice
+                self.matrice[int(x1/self.scale)+1][int(y1/self.scale)+1] = 2 # Deuxieme couche pour aucun pb de hitbox
+
+            print('Arrivé en :', x1, y1)
+        time.sleep(1)
+
+    def print_matrix(self):
+        for row in self.env.matrice:
+            print(' '.join(str(item) for item in row))
 
     def createRobot(self, nom, x, y, width, length, rayonRoue):
 
