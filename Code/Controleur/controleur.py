@@ -45,12 +45,12 @@ class StrategieSeq:
         self.listeStrat = listeStrat
         self.indice = -1
 
-    def step(self):
-        if self.indice < 0 or self.listeStrat[self.indice].stop():
+    def step(self): # Tant que la strategie en cours n'est pas arreter on passe pas a la prochaine strategie
+        if self.indice < 0 or self.listeStrat[self.indice].stop(): 
             self.indice += 1
         self.listeStrat[self.indice].step()
 
 
-    def stop(self):
-        return self.indice == len(self.listeStrat)-1 and self.listeStrat[self.indice].stop()
+    def stop(self): # S'arrete quand l'indice est sur la dernière strat de la liste et que celle-ci est arreté
+        return self.indice == len(self.listeStrat)-1 and self.listeStrat[self.indice].stop() 
 
