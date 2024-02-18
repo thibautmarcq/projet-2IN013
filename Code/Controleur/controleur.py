@@ -12,7 +12,7 @@ class StrategieAvancer:
         self.parcouru = 0
     
 
-    def step(self): #Fait augmenter la distance parcourue + appelle la fonction avancerdirection 
+    def step(self): #Fait augmenter la distance parcourue + appelle la fonction avancerdirection
         self.parcouru += 1
         self.rob.avancerDirection(1)
 
@@ -34,4 +34,23 @@ class StrategieTourner:
 
     def stop(self): #fait arreter le robot quand l'angle parcouru est supérieur ou égale à l'angle
         pass
+
+
+class StrategieSeq:
+    """ Statégie sequentielle
+            :param listeStrat: liste de strategies qui vont etre executé à la suite
+            :param indice: qui permet de parcourir la liste de strategies
+    """
+    def __init__(self, listeStrat):
+        self.listeStrat = listeStrat
+        self.indice = -1
+
+    def step(self):
+        if self.indice < 0 or self.listeStrat[self.indice].stop():
+            self.indice += 1
+        self.listeStrat[self.indice].step()
+
+
+    def stop(self):
+        return self.indice == len(self.listeStrat)-1 and self.listeStrat[self.indice].stop()
 
