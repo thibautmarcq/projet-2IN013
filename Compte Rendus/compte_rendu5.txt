@@ -18,7 +18,7 @@ Si on développe des choses dont on n'est pas sur : branche puis merge.
 Si on a besoin de choses qui ne correspondent pas aux classes : faire un module outil (ne pas tout y mettre!)
 La gestion de la vitesse est foireuse avec les tours : rentrer direct la vitesse avec des setters.
 
-Il faut que l'on s'arrange pour vraiment comprendre es stratégies.
+Il faut que l'on s'arrange pour vraiment comprendre les stratégies.
 La classe environnement ne doit pas tout gérer : il vaudrait mieux une classe simulation qui met à jour l'env et les robots.
 
 A réfléchir : essayer de réfléchir à changer le robot simulé par un vrai.

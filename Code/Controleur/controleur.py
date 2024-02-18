@@ -29,7 +29,7 @@ class StrategieTourner:
         self.angle = angle
         self.angle_parcouru = 0
 
-    def step(self): # Fais augmenter l'angle parcouru + appelle la fonction touner de robot
+    def step(self): # Fait augmenter l'angle parcouru + appelle la fonction touner de robot
         pass
 
     def stop(self): #fait arreter le robot quand l'angle parcouru est supérieur ou égale à l'angle
