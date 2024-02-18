@@ -52,12 +52,12 @@ class Environnement:
             self.matrice[int(x1/self.scale)][int(y1/self.scale)] = 2 # Place le pt de départ dans la matrice
             print('\nOBJECTIF :', x2, y2)
 
-            while (int(x1), int(y1)) != (int(x2), int(y2)):
+            while (round(x1), round(y1)) != (round(x2), round(y2)):
                 long = math.sqrt((x2-x1)**2 + (y2-y1)**2) # Longueur du vect dir
                 dir = ((x2-x1)/long ,(y2-y1)/long) # Vect dir normalisé
                 
-                # x1,y1 = (round((x1+dir[0]), 10), round((y1+dir[1]), 10)) # arrondi à 10
-                x1,y1 = ((x1+dir[0]), (y1+dir[1]))
+                x1,y1 = (round((x1+dir[0]), 2), round((y1+dir[1]), 2)) # arrondi à 10
+                # x1,y1 = ((x1+dir[0]), (y1+dir[1]))
 
                 print('int', int(x1),int(y1))
                 print('float', x1,y1)
