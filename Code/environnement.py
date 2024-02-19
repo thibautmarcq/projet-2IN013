@@ -26,7 +26,7 @@ class Environnement:
         
         self.width=width
         self.length=length
-        self.matrice = np.empty([int(width/scale), int(length/scale)], dtype=int) # Création d'une matrice int(width/scale)*int(length/scale) grâce à np.empty
+        self.matrice = np.zeros([int(width/scale), int(length/scale)], dtype=int) # Création d'une matrice int(width/scale)*int(length/scale) grâce à np.empty
         self.robots = []
         self.robotSelect = 0 # robot selectionné pour bouger
         self.scale = scale #echelle en int positif 
@@ -49,7 +49,7 @@ class Environnement:
             x1, y1 = lstPoints[i]
             x2, y2 = lstPoints[(i+1)%len(lstPoints)] # Cas où i est le dernier indice de la liste - Point d'arrivée
 
-            self.matrice[int(x1/self.scale)][int(y1/self.scale)] = 2 # Place le pt de départ dans la matrice
+            self.matrice[int(y1/self.scale)][int(x1/self.scale)] = 2 # Place le pt de départ dans la matrice
             #print('\nOBJECTIF :', x2, y2)
 
             while (round(x1), round(y1)) != (round(x2), round(y2)):
@@ -63,14 +63,15 @@ class Environnement:
                 #print('float', x1,y1)
                 #time.sleep(0.025)
 
-                self.matrice[int(x1/self.scale)][int(y1/self.scale)] = 2 # Update la matrice
-                self.matrice[int(x1/self.scale)+1][int(y1/self.scale)+1] = 2 # Deuxieme couche pour aucun pb de hitbox
+                self.matrice[int(y1/self.scale)][int(x1/self.scale)] = 2 # Update la matrice
+                self.matrice[int(y1/self.scale)][int(x1/self.scale)+1] = 2 # Deuxieme couche pour aucun pb de hitbox
+                self.matrice[int(y1/self.scale)+1][int(x1/self.scale)] = 2
 
             #print('Arrivé en :', x1, y1)
         #time.sleep(1)
 
     def print_matrix(self):
-        for row in self.env.matrice:
+        for row in self.matrice:
             print(' '.join(str(item) for item in row))
 
     def createRobot(self, nom, x, y, width, length, rayonRoue):
