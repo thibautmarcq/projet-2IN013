@@ -56,12 +56,7 @@ class Environnement:
                 long = math.sqrt((x2-x1)**2 + (y2-y1)**2) # Longueur du vect dir
                 dir = ((x2-x1)/long ,(y2-y1)/long) # Vect dir normalisé
                 
-                x1,y1 = (round((x1+dir[0]), 2), round((y1+dir[1]), 2)) # arrondi à 10
-                # x1,y1 = ((x1+dir[0]), (y1+dir[1]))
-
-                #print('int', int(x1),int(y1))
-                #print('float', x1,y1)
-                #time.sleep(0.025)
+                x1,y1 = ((x1+dir[0]), (y1+dir[1]))
 
                 self.matrice[int(y1/self.scale)][int(x1/self.scale)] = 2 # Update la matrice
                 self.matrice[int(y1/self.scale)][int(x1/self.scale)+1] = 2 # Deuxieme couche pour aucun pb de hitbox

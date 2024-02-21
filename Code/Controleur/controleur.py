@@ -1,7 +1,7 @@
 from ..robot import Robot
 
 class StrategieAvancer:
-    def __init__(self, distance, rob):
+    def __init__(self, rob,distance):
         """ Statégie qui fait avancer le robot d'une distance donnée
             :param distance: la distance que doit parcourir le robot  
             :param rob: le robot qui va avancer
@@ -19,7 +19,7 @@ class StrategieAvancer:
     def stop(self): # Fait arreter le robot quand la distance parcourue est supérieur ou égale à la distance
         if self.parcouru >= self.distance:
             self.rob.setVitesse(0)
-            return 0
+            return True
 
 
 class StrategieTourner:
@@ -37,11 +37,11 @@ class StrategieTourner:
 
 
 class StrategieSeq:
-    """ Statégie sequentielle
+    def __init__(self, listeStrat):
+        """ Statégie sequentielle
             :param listeStrat: liste de strategies qui vont etre executé à la suite
             :param indice: qui permet de parcourir la liste de strategies
-    """
-    def __init__(self, listeStrat):
+        """
         self.listeStrat = listeStrat
         self.indice = -1
 
