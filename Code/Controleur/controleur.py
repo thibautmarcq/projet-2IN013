@@ -1,7 +1,7 @@
 from ..robot import Robot
 
 class StrategieAvancer:
-    def __init__(self, rob,distance):
+    def __init__(self, rob, distance):
         """ Statégie qui fait avancer le robot d'une distance donnée
             :param distance: la distance que doit parcourir le robot  
             :param rob: le robot qui va avancer

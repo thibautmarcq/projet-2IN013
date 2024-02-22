@@ -30,6 +30,8 @@ class Robot :
         self.direction = (0,-1) # vecteur directeur du robot
         self.nbToursRoueD = 0 # Nombre de tours de la roue droite initialisée à 0
         self.nbToursRoueG = 0 # Nombre de toues de la roue gauche initialisée à 0
+        self.vitAngG = 0 # Vitesses angulaires des deux roues initialisées à 0
+        self.vitAngD = 0 
 
 
     def refreshVitesse(self):
@@ -345,4 +347,17 @@ class Robot :
                 obs = True
 
         return distance*env.scale
+    
+    def setVitAngG(self, vit) :
+        """ Setter de vitesse angulaire de la roue gauche
+            :param vit: la vitesse anngulaire qu'on veut donner à la roue gauche
+            :returns: ne retourne rien, on met juste à jour la vitesse angulaire de la roue gauche
+        """
+        self.vitAngG = vit
 
+    def setVitAngD(self, vit) :
+        """ Setter de vitesse angulaire de la roue droite
+            :param vit: vitesse angulaire que l'on veut donner à la roue droite
+            :returns: ne retourne rien, on change juste la vitesse angulaire de la roue droite
+        """
+        self.vitAngD = vit
