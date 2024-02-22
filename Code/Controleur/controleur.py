@@ -1,5 +1,6 @@
 from ..robot import Robot
 
+
 class StrategieAvancer:
     def __init__(self, rob, distance):
         """ Statégie qui fait avancer le robot d'une distance donnée
@@ -30,10 +31,17 @@ class StrategieTourner:
         self.angle_parcouru = 0
 
     def step(self): # Fait augmenter l'angle parcouru + appelle la fonction touner de robot
-        pass
+        if (self.angle > 0) :
+            self.angle_parcouru += 1
+            self.rob.TourneGauche()
+        if (self.angle < 0) :
+            self.angle_parcouru -= 1
+            self.rob.TourneDroite()
 
     def stop(self): #fait arreter le robot quand l'angle parcouru est supérieur ou égale à l'angle
-        pass
+        if self.angle_parcouru >= self.angle or self.angle_parcouru <= self.angle:
+            self.rob.setVitesse(0)
+            return True
 
 
 class StrategieSeq:
