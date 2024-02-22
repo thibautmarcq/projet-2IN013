@@ -335,7 +335,7 @@ class Robot :
         while( (obs[0] == -1) & (obs[1] == -1) ) :
             rayon = (rayon[0]+self.direction[0], rayon[1]+self.direction[1]) # On avance dans la direction du robot
             # Si on est sur un bord ou si on est sur un obstacle
-            if ( (rayon[0] == 0) | (rayon[0] == env.width/env.scale) | (rayon[1] == 0) | (rayon[1] == env.length/env.scale) | (env.matrice[rayon[0]][rayon[1]] == 2) ) :
+            if ( (rayon[0] <= 0) | (rayon[0] >= env.width/env.scale) | (rayon[1] <= 0) | (rayon[1] >= env.length/env.scale) | (env.matrice[rayon[0]][rayon[1]] == 2) ) :               
                 obs = (rayon[0], rayon[1]) # On sauvegarde les coordonnées de l'obstacle
                 distance = math.sqrt((obs[0]-int(self.x/env.scale))**2 + (obs[1]-int(self.y/env.scale))**2)*env.scale # On calcule la distance entre le robot et l'obstacle
 
