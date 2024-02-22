@@ -170,7 +170,7 @@ class Robot :
 
     def avancerDirection(self, distance):
 
-        """ Fait avancer le robot en suivant son vecteur directeur et de sa vitesse
+        """ Fait avancer le robot en suivant son vecteur directeur
             :param distance: distance de laquelle on veut faire avancer le robot
             :returns: ne retourne rien, on modifie juste les coordonées du robot
         """
@@ -181,7 +181,7 @@ class Robot :
 
     def reculerDirection(self):
 
-        """ Fait reculer le robot en suivant son vecteur directeur et de sa vitesse
+        """ Fait reculer le robot en suivant son vecteur directeur
             :returns: True si le déplacement a réussi, False sinon
         """
         
@@ -195,7 +195,7 @@ class Robot :
     def addTour(self) :
         """
             Augmente de 1 tour sur les 2 roues
-            :returns: rien, on va modifier directement les 2 roues
+            :returns: rien, on va modifier directement les 2 roues et faire les rafraichissements nécessaires
         """
         self.nbToursRoueG += 0.1
         self.nbToursRoueD += 0.1
@@ -205,7 +205,7 @@ class Robot :
     def addTourG(self) :
         """
             Augmente de 1 tour sur la roue gauche
-            :returns: rien, on va modifier directement la roue gauche
+            :returns: rien, on va modifier directement la roue gauche et faire les rafraichissements nécessaires
         """
         self.nbToursRoueG += 0.1
         self.refreshVitesse()
@@ -288,7 +288,7 @@ class Robot :
     def setTourD(self, nbTours):
         """ Modifie le nombre de tours de la roue droite
             :param nbTours: le nombre de tours qu'on veut donner à la roue droite
-            :returns: ne retourne rien, on modifie la valeur de roueD
+            :returns: ne retourne rien, on modifie la valeur de nbToursRoueD
         """
         self.nbToursRoueD=nbTours
         self.refreshVitesse()
