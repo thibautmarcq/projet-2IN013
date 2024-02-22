@@ -332,24 +332,15 @@ class Robot :
         rayon = (int(self.x/env.scale), int(self.y/env.scale)) # Coordonnées du rayon dans la matrice
         distance = 0 # Compteur de distance
 
-        # while( not obs ) :
-        #     rayon = (rayon[0]+self.direction[0], rayon[1]+self.direction[1]) # Calcul du nouveau coordonnées grâce au vecteur direction
-        #     if self.direction[0] != 0 and self.direction[1] != 0: # Mouvement en diagonale
-        #         distance += math.sqrt(2)
-        #     else: # Mouvement horizontal ou vertical
-        #         distance += 1 # Incrémentation de la distance
-        #     # Test si il y a un mur/obstacle
-        #     if ( (rayon[0] <= 0) | (rayon[0] >= env.width/env.scale) | (rayon[1] <= 0) | (rayon[1] >= env.length/env.scale) | (env.matrice[rayon[0]][rayon[1]] == 2) ) :
-        #         obs = True
-
-        # return distance*env.scale
-
-        while( obs[0] == -1 & obs[1] == -1) :
-            rayon = (rayon[0]+self.direction[0], rayon[1]+self.direction[1])
-            if ( env.matrice[rayon[0]][rayon[1]] == 2 ) :
-                distance = math.sqrt((obs[0]-int(self.x/env.scale))**2 + (obs[1]-int(self.y/env.scale))**2)*env.scale
+        while( (obs[0] == -1) & (obs[1] == -1) ) :
+            rayon = (rayon[0]+self.direction[0], rayon[1]+self.direction[1]) # On avance dans la direction du robot
+            # Si on est sur un bord ou si on est sur un obstacle
+            if ( (rayon[0] == 0) | (rayon[0] == env.width/env.scale) | (rayon[1] == 0) | (rayon[1] == env.length/env.scale) | (env.matrice[rayon[0]][rayon[1]] == 2) ) :
+                obs = (rayon[0], rayon[1]) # On sauvegarde les coordonnées de l'obstacle
+                distance = math.sqrt((obs[0]-int(self.x/env.scale))**2 + (obs[1]-int(self.y/env.scale))**2)*env.scale # On calcule la distance entre le robot et l'obstacle
 
         return distance
+
     def setVitAngG(self, vit) :
         """ Setter de vitesse angulaire de la roue gauche
             :param vit: la vitesse anngulaire qu'on veut donner à la roue gauche
