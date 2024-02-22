@@ -325,6 +325,7 @@ class Robot :
     def capteurDistance(self, env) :
         """
             Capteur de distance, donne la distance entre le robot et le 1er obstacle/mur
+            :param env: l'environnement dans lequel on se trouve
             :returns: renvoie la distance entre le robot et un obstacle/mur
         """
         obs = False # True si il y a un mur/obstacle, False sinon
@@ -333,7 +334,10 @@ class Robot :
 
         while( not obs ) :
             rayon = (rayon[0]+self.direction[0], rayon[1]+self.direction[1]) # Calcul du nouveau coordonnées grâce au vecteur direction
-            distance += 1 # Incrémentation de la distance
+            if self.direction[0] != 0 and self.direction[1] != 0: # Mouvement en diagonale
+                distance += math.sqrt(2)
+            else: # Mouvement horizontal ou vertical
+                distance += 1 # Incrémentation de la distance
             # Test si il y a un mur/obstacle
             if ( (rayon[0] <= 0) | (rayon[0] >= env.width/env.scale) | (rayon[1] <= 0) | (rayon[1] >= env.length/env.scale) | (env.matrice[rayon[0]][rayon[1]] == 2) ) :
                 obs = True
