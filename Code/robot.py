@@ -258,11 +258,7 @@ class Robot :
         self.addTourD()
         self.refreshVitesse()
         self.rotation()
-        sleep(0.05)
-        self.subTourD()
-        self.subTourG()
-        self.refreshVitesse()
-        self.rotation()
+        
 
     def tourneDroite(self):
         """ Réduit de 1 tour la roue droite et augmente de 1 la roue gauche, permet de tourner plus facilement à droite
@@ -272,11 +268,7 @@ class Robot :
         self.addTourG()
         self.refreshVitesse()
         self.rotation()
-        sleep(1)
-        self.subTourG()
-        self.addTourD()
-        self.refreshVitesse()
-        self.rotation()
+        # print("tourne d")
     
     def setTourG(self, nbTours):
         """ Modifie le nombre de tours de la roue gauche
