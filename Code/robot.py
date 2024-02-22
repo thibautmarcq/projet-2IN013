@@ -328,22 +328,28 @@ class Robot :
             :param env: l'environnement dans lequel on se trouve
             :returns: renvoie la distance entre le robot et un obstacle/mur
         """
-        obs = False # True si il y a un mur/obstacle, False sinon
+        obs = (-1, -1) # True si il y a un mur/obstacle, False sinon
         rayon = (int(self.x/env.scale), int(self.y/env.scale)) # Coordonnées du rayon dans la matrice
         distance = 0 # Compteur de distance
 
-        while( not obs ) :
-            rayon = (rayon[0]+self.direction[0], rayon[1]+self.direction[1]) # Calcul du nouveau coordonnées grâce au vecteur direction
-            if self.direction[0] != 0 and self.direction[1] != 0: # Mouvement en diagonale
-                distance += math.sqrt(2)
-            else: # Mouvement horizontal ou vertical
-                distance += 1 # Incrémentation de la distance
-            # Test si il y a un mur/obstacle
-            if ( (rayon[0] <= 0) | (rayon[0] >= env.width/env.scale) | (rayon[1] <= 0) | (rayon[1] >= env.length/env.scale) | (env.matrice[rayon[0]][rayon[1]] == 2) ) :
-                obs = True
+        # while( not obs ) :
+        #     rayon = (rayon[0]+self.direction[0], rayon[1]+self.direction[1]) # Calcul du nouveau coordonnées grâce au vecteur direction
+        #     if self.direction[0] != 0 and self.direction[1] != 0: # Mouvement en diagonale
+        #         distance += math.sqrt(2)
+        #     else: # Mouvement horizontal ou vertical
+        #         distance += 1 # Incrémentation de la distance
+        #     # Test si il y a un mur/obstacle
+        #     if ( (rayon[0] <= 0) | (rayon[0] >= env.width/env.scale) | (rayon[1] <= 0) | (rayon[1] >= env.length/env.scale) | (env.matrice[rayon[0]][rayon[1]] == 2) ) :
+        #         obs = True
 
-        return distance*env.scale
-    
+        # return distance*env.scale
+
+        while( obs[0] == -1 & obs[1] == -1) :
+            rayon = (rayon[0]+self.direction[0], rayon[1]+self.direction[1])
+            if ( env.matrice[rayon[0]][rayon[1]] == 2 ) :
+                distance = math.sqrt((obs[0]-int(self.x/env.scale))**2 + (obs[1]-int(self.y/env.scale))**2)*env.scale
+
+        return distance
     def setVitAngG(self, vit) :
         """ Setter de vitesse angulaire de la roue gauche
             :param vit: la vitesse anngulaire qu'on veut donner à la roue gauche
