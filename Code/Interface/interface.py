@@ -210,14 +210,14 @@ class Interface:
 
 	def tic_tac(self):
 		self.env.refresh_env()
-		self.refresh_position_robot_visuel(self.canv, self.env.robots[self.env.robotSelect])
+		for robot in self.env.robots:
+			self.refresh_position_robot_visuel(self.canv, robot)
 		self.root.after(int(1000/60), self.tic_tac)
 
 	def lancement(self, event) :
 		self.tic_tac()
 
-
-	def initRobot(self, nom, x, y, width, length, rayonRoue, couleur):
+	def mainloop(self):
 		""" Initialise toutes les fonctionnalités en lien avec le robot (dans l'env et dans tkinter)
 			:param nom: nom du robot
 			:param x: la coordonnée x où on veut placer le robot au départ
@@ -228,9 +228,7 @@ class Interface:
 			:param couleur: couleur du robot dans tkinter
 			:returns: rien, on crée juste un robot qu'on ajoute a la liste des robots de l'environnement
 		"""
-		self.env.createRobot(nom, x, y, width, length, rayonRoue)
-		self.env.robots[self.env.robotSelect].couleur = couleur
-		bob = self.env.robots[self.env.robotSelect]
+		#bob = self.env.robots[self.env.robotSelect]
 		#self.robot_vec = self.canv.create_line(bob.x, bob.y, bob.x+(75*bob.direction[0]), bob.y+(75*bob.direction[1]))
 		for rob in self.env.robots:
 			self.create_robot_rect(rob)
@@ -273,6 +271,8 @@ class Interface:
 		self.root.bind("<Right>", lambda event: self.env.robots[self.env.robotSelect].tourneDroite()) # rotD
 
 		self.root.bind("<space>", lambda event: self.lancement(event))
+		self.root.bind("x", lambda event: self.env.addRobotSelect(1))
+		self.root.bind("w", lambda event: self.env.addRobotSelect(-1))
 		# -------------------------------------------------------------------
 		# 						NOUVEAUX AFFICHAGES							
 		# -------------------------------------------------------------------
