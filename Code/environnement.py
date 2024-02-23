@@ -69,7 +69,7 @@ class Environnement:
         for row in self.matrice:
             print(' '.join(str(item) for item in row))
 
-    def createRobot(self, nom, x, y, width, length, rayonRoue):
+    def setRobot(self, robot, couleur):
 
         """ Crée un robot et l'ajoute à notre environnement
             :param nom: nom du robot
@@ -80,10 +80,9 @@ class Environnement:
             :param rayonRoue: le rayon des roues 
             :returns: rien, on crée juste un robot qu'on ajoute a la liste des robots de l'environnement
         """
-
-        rob = Robot(nom, x, y, width, length, rayonRoue)
-        self.robots.append(rob)
-        self.matrice[int(x/self.scale)][int(y/self.scale)] = 1 # Ajoute le robot représenté par le chiffre 1 dans la matrice
+        robot.couleur = couleur
+        self.robots.append(robot)
+        #self.matrice[int(x/self.scale)][int(y/self.scale)] = 1 # Ajoute le robot représenté par le chiffre 1 dans la matrice
 
     def addRobot(self, rob) :
 
