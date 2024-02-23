@@ -33,6 +33,10 @@ class Environnement:
         self.last_refresh = 0 # initialise la dernière fois où l'environnement a été rafraîchi à 0 pour savoir quand on le fait pour la première fois
         self.listeObs =[]
 
+    def addRobotSelect(self, n):
+        self.robotSelect = (self.robotSelect + n)% len(self.robots)
+    
+
     def addObstacle(self,nom, lstPoints):
         """ Ajout d'un obstacle dans la matrice, l'obstacle est représenté par '2' dans la matrice
             :param nom: nom de l'obstacle
