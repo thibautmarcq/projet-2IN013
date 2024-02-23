@@ -92,6 +92,7 @@ class Interface:
 		"""
 
 		# Update labels
+		self.lab_coord_nom.config(text=("Coordonnées du robot "+self.env.robots[self.env.robotSelect].nom+" :"))
 		self.lab_coord_x.config(text=("x ="+str(round(self.env.robots[self.env.robotSelect].x, 2))))
 		self.lab_coord_y.config(text=("y ="+str(round(self.env.robots[self.env.robotSelect].y, 2))))
 		self.lab_vitesse.config(text=("Vitesse globale : "+str(round(self.env.robots[self.env.robotSelect].vitesse))))
@@ -149,7 +150,6 @@ class Interface:
 					robot.y-(robot.width/2)*(dx)+(robot.length/2)*dy
 					)
 		canvas.coords(robot.robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
-		self.update_stats_affichage()
 		#root.after(1000/60, refresh_position_robot_visuel(canv, robot))
 
 
@@ -192,32 +192,15 @@ class Interface:
 		if self.env.robots[self.env.robotSelect].avancerDirection() :
 			self.refresh_position_robot_visuel(self.canv, self.env.robots[self.env.robotSelect])
 
-	def test(self, event):
-		"""print("avant", robot.direction)
-		robot.addTourD()
-		print("Add tourD", robot.direction)
-		robot.rotation()
-		print("rotation", robot.direction)
-		robot.addTourG()
-		print("Add tourG", robot.direction)
-		robot.rotation()
-		print("rotation", robot.direction)
-		robot.addTourG()
-		print("Add tourG", robot.direction)
-		robot.rotation()
-		print("rotation", robot.direction)"""
-		self.root.after(int(1000/60), self.tic_tac)
-
 	def tic_tac(self):
 		self.env.refresh_env()
-		self.refresh_position_robot_visuel(self.canv, self.env.robots[self.env.robotSelect])
+		self.update_stats_affichage()
+		for robot in self.env.robots:
+			self.refresh_position_robot_visuel(self.canv, robot)
 		self.root.after(int(1000/60), self.tic_tac)
 
-	def lancement(self, event) :
-		self.tic_tac()
 
-
-	def initRobot(self, nom, x, y, width, length, rayonRoue, couleur):
+	def mainloop(self):
 		""" Initialise toutes les fonctionnalités en lien avec le robot (dans l'env et dans tkinter)
 			:param nom: nom du robot
 			:param x: la coordonnée x où on veut placer le robot au départ
@@ -228,9 +211,7 @@ class Interface:
 			:param couleur: couleur du robot dans tkinter
 			:returns: rien, on crée juste un robot qu'on ajoute a la liste des robots de l'environnement
 		"""
-		self.env.createRobot(nom, x, y, width, length, rayonRoue)
-		self.env.robots[self.env.robotSelect].couleur = couleur
-		bob = self.env.robots[self.env.robotSelect]
+		#bob = self.env.robots[self.env.robotSelect]
 		#self.robot_vec = self.canv.create_line(bob.x, bob.y, bob.x+(75*bob.direction[0]), bob.y+(75*bob.direction[1]))
 		for rob in self.env.robots:
 			self.create_robot_rect(rob)
@@ -238,17 +219,9 @@ class Interface:
 		
 		self.create_obs(self.env)
 		
-		# # Anciens sliders des vitesses des roues gauche et droite respectivement
-		# btn_tourG = Scale(self.frame_vitesses, from_=50, to=0, orient=VERTICAL, label="Vitesse roue G", command=self.env.robots[self.env.robotSelect].setTourG)
-		# btn_tourG.config(length=70)
-		# btn_tourG.grid(row=0, column=0, padx=5, pady=5)
-
-		# btn_tourD = Scale(self.frame_vitesses, from_=50, to=0, orient=VERTICAL, label="Vitesse roue D", command=self.env.robots[self.env.robotSelect].setTourD)
-		# btn_tourD.config(length=70)
-		# btn_tourD.grid(row=0, column=1, padx=5, pady=5)
 
 		# ---------------------------
-		# Afficheur de coordonnées
+		# Afficheur de coordonnées du robot
 		self.lab_coord_nom = Label(self.frame_coordonnees, text=("Coordonnées du robot "+self.env.robots[self.env.robotSelect].nom+" :"))
 		self.lab_coord_nom.grid(row=0, column=0, padx=5, pady=5)
 		self.lab_coord_x = Label(self.frame_coordonnees, text=("x ="+str(self.env.robots[self.env.robotSelect].x)))
@@ -256,10 +229,8 @@ class Interface:
 		self.lab_coord_y = Label(self.frame_coordonnees, text=("y ="+str(self.env.robots[self.env.robotSelect].y)))
 		self.lab_coord_y.grid(row=2, column=0)
 
-		# Key binds
-
 		# -------------------------------------------------------------------		-------------
-		# 							NOUVEAUX BINDS,									| a | z | e |
+		# 								BINDS,										| a | z | e |
 		# Le lambda event permet de ne pas avoir de fct avec 'event' en param		| q | s | d |
 		# -------------------------------------------------------------------		-------------
 		self.root.bind('a', lambda event: self.env.robots[self.env.robotSelect].addTourG()) # + gauche
@@ -272,7 +243,8 @@ class Interface:
 		self.root.bind("<Left>", lambda event: self.env.robots[self.env.robotSelect].tourneGauche()) # rotG
 		self.root.bind("<Right>", lambda event: self.env.robots[self.env.robotSelect].tourneDroite()) # rotD
 
-		self.root.bind("<space>", lambda event: self.lancement(event))
+		self.root.bind("x", lambda event: self.env.addRobotSelect(1))
+		self.root.bind("w", lambda event: self.env.addRobotSelect(-1))
 		# -------------------------------------------------------------------
 		# 						NOUVEAUX AFFICHAGES							
 		# -------------------------------------------------------------------
@@ -283,8 +255,8 @@ class Interface:
 		self.lab_vitesseD = Label(self.frame_vitesses, text=("Vitesse roue D : "+str(self.env.robots[self.env.robotSelect].getVitesseRoueD())))
 		self.lab_vitesseD.grid(row=2, column=0, padx=5, pady=2)
 
-
-
+		# Lancement du tic tac
+		self.tic_tac()
 		# Boucle de la fenètre principale
 		self.root.mainloop()
 
