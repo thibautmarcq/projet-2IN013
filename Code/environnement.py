@@ -11,7 +11,7 @@ from .robot import Robot
 
 if not os.path.isdir('Code/Logs'):
     os.mkdir("Code/Logs/")
-logging.basicConfig(filename='Code/Logs/log-environnement.log', level=logging.DEBUG, format='%(asctime)s:%(levelname)s:%(message)s') # niveaux : DEBUG INFO WARNING ERROR CRITICAL
+logging.basicConfig(filename='Code/Logs/logs.log', level=logging.DEBUG, format='%(asctime)s:%(levelname)s:%(message)s') # niveaux : DEBUG INFO WARNING ERROR CRITICAL
 
 class Environnement:
     
