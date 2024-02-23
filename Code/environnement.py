@@ -26,12 +26,19 @@ class Environnement:
         
         self.width=width
         self.length=length
-        self.matrice = np.zeros([int(width/scale), int(length/scale)], dtype=int) # Création d'une matrice int(width/scale)*int(length/scale) grâce à np.empty
         self.robots = []
         self.robotSelect = 0 # robot selectionné pour bouger
         self.scale = scale #echelle en int positif 
         self.last_refresh = 0 # initialise la dernière fois où l'environnement a été rafraîchi à 0 pour savoir quand on le fait pour la première fois
         self.listeObs =[]
+        self.initMatrice()
+
+    def initMatrice(self):
+        self.matrice = np.zeros([int(self.width/self.scale), int(self.length/self.scale)], dtype=int) # Création d'une matrice int(width/scale)*int(length/scale) grâce à np.empty
+        self.matrice[0] = 2
+        self.matrice[-1] = 2
+        self.matrice[:, 0] = 2
+        self.matrice[:, -1] = 2
 
     def addRobotSelect(self, n):
         self.robotSelect = (self.robotSelect + n)% len(self.robots)
@@ -63,8 +70,11 @@ class Environnement:
                 x1,y1 = ((x1+dir[0]), (y1+dir[1]))
 
                 self.matrice[int(y1/self.scale)][int(x1/self.scale)] = 2 # Update la matrice
-                self.matrice[int(y1/self.scale)][int(x1/self.scale)+1] = 2 # Deuxieme couche pour aucun pb de hitbox
-                self.matrice[int(y1/self.scale)+1][int(x1/self.scale)] = 2
+                try:
+                    self.matrice[int(y1/self.scale)][int(x1/self.scale)+1] = 2 # Deuxieme couche pour aucun pb de hitbox
+                    self.matrice[int(y1/self.scale)+1][int(x1/self.scale)] = 2
+                except:
+                    pass
 
             #print('Arrivé en :', x1, y1)
         #time.sleep(1)
