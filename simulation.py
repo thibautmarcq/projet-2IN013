@@ -9,4 +9,8 @@ env.print_matrix()
 run = Interface(env) # Lancement de l'interface
 robot = Robot("Bob", 250, 250, 30, 55, 20)
 env.setRobot(robot, "lightgreen")
+
+#ajout d'un deuxieme robot pour test
+#robot = Robot("iiiiz", 400, 250, 30, 55, 20)
+#env.setRobot(robot, "red")
 run.mainloop() # Initialisation du robot dans l'interface
