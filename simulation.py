@@ -11,6 +11,6 @@ robot = Robot("Bob", 250, 250, 30, 55, 20)
 env.setRobot(robot, "lightgreen")
 
 #ajout d'un deuxieme robot pour test
-#robot = Robot("iiiiz", 400, 250, 30, 55, 20)
-#env.setRobot(robot, "red")
+robot2 = Robot("Stuart", 400, 250, 30, 55, 20)
+env.setRobot(robot2, "red")
 run.mainloop() # Initialisation du robot dans l'interface
