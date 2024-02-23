@@ -153,6 +153,11 @@ class Environnement:
         self.last_refresh = temps # on met à jour l'heure du dernier rafraichissement 
 
     def collision(self, rob) :
+        """
+            Vérifie si le robot rob est en collision avec un obstacle ou avec les bords de l'environnement
+            :param rob: le robot pour lequel on veut vérifier s'il est en collision
+            :returns: true si le robot est en collision, false sinon
+        """
         newPosRob = (rob.x + rob.direction[0], rob.y + rob.direction[1])
         return ((newPosRob[0] <= 0) | (newPosRob[0] >= self.width/self.scale) | (newPosRob[1] <= 0) | (newPosRob[1] >= self.length/self.scale) | self.matrice[int(newPosRob[0]/self.scale)][int(newPosRob[1]/self.scale)] == 2)
 
