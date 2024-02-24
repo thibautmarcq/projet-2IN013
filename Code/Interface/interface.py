@@ -211,14 +211,7 @@ class Interface:
 
 	def mainloop(self):
 		""" Initialise toutes les fonctionnalités en lien avec le robot (dans l'env et dans tkinter)
-			:param nom: nom du robot
-			:param x: la coordonnée x où on veut placer le robot au départ
-			:param y: la coordonnée y où on veut placer le robot au départ
-			:param width: la largeur du robot
-			:param length: la longueur du robot
-			:param vitesse: la vitesse initiale du robot
-			:param couleur: couleur du robot dans tkinter
-			:returns: rien, on crée juste un robot qu'on ajoute a la liste des robots de l'environnement
+			:returns: rien
 		"""
 		#bob = self.env.robots[self.env.robotSelect]
 		#self.robot_vec = self.canv.create_line(bob.x, bob.y, bob.x+(75*bob.direction[0]), bob.y+(75*bob.direction[1]))
