@@ -16,7 +16,7 @@ class Robot :
             :param width: la largeur du robot
             :param length: la longueur du robot
             :param rayonRoue: la taille des roue
-            :returns: ne retourne rien, ça initalise et initaialise seulement le robot
+            :returns: ne retourne rien, ça initalise seulement le robot
         """
 
         self.nom = nom
@@ -43,8 +43,9 @@ class Robot :
         self.vitesse = (self.getVitesseD() + self.getVitesseG())/2
         logging.info("Vitesse changée à "+ str(self.vitesse))
 
+
     def refresh(self, duree):
-        self.refreshVitesse() # on rafraichit la vitesse
+        vit = self.getVitesse()
         dirBasex, dirBasey = self.direction
 
         # on récupère les coordonnées des deux roues sous la forme de point
@@ -55,9 +56,9 @@ class Robot :
         coordRD = (self.x+orto[0]*(self.width/2), self.y+orto[1]*(self.width/2))
 
         # on calcule le vecteur vitesse de chaque roue
-        vg = self.getVitesseRoueG()
+        vg = self.getVitesseG()
         vg = (vg*dirBasex*duree, vg*dirBasey*duree)
-        vd = self.getVitesseRoueD()
+        vd = self.getVitesseD()
         vd = (vd*dirBasex*duree, vd*dirBasey*duree)
 
         # on obtient les points qui sont au bout des vecteurs vitesse des roues
@@ -81,9 +82,9 @@ class Robot :
         self.direction = penteOrto # il devient notre nouvelle direction
 
         # et on fait notre déplacement
-        self.x += self.direction[0]*self.vitesse*duree
-        self.y += self.direction[1]*self.vitesse*duree
-        
+        self.x += self.direction[0]*vit*duree
+        self.y += self.direction[1]*vit*duree
+
     
     def setVitesse(self, vitesse) :
 
@@ -407,11 +408,11 @@ class Robot :
         return self.vitAngD*self.rayonRoue
     
     def getVitesse(self) :
-        
+
         """ Getter de la vitesse du point central du robot
             :returns: la vitesse du robot en son centre
         """
-        return (self.getVitesseD() + self.getVitesseG)/2
+        return (self.getVitesseD() + self.getVitesseG())/2
     
 
     
