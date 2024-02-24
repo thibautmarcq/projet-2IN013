@@ -135,8 +135,8 @@ class Robot :
 
     def avancerDirection(self, distance):
 
-        """ Fait avancer le robot en suivant son vecteur directeur
-            :param distance: distance de laquelle on veut faire avancer le robot
+        """ Fait avancer le robot en suivant son vecteur directeur d'une distance donnée
+            :param distance: la distance sur laquelle on veut faire avancer le robot
             :returns: ne retourne rien, on modifie juste les coordonées du robot
         """
         
@@ -144,16 +144,17 @@ class Robot :
             self.x = self.x + self.direction[0]*distance
             self.y = self.y + self.direction[1]*distance
 
-    def reculerDirection(self):
+    def reculerDirection(self, distance):
 
-        """ Fait reculer le robot en suivant son vecteur directeur
-            :returns: True si le déplacement a réussi, False sinon
+        """ Fait reculer le robot d'une certaine distance en suivant son vecteur directeur
+            :param distance: la distance de recul que l'on veut faire parcourir au robot
+            :returns: ne retourne rien, on modifie juste les coordonnées du robot 
         """
-        
-    
+          
         if self.robotDansCadre() :
-            self.x = self.x - self.direction[0]*self.vitesse
-            self.y = self.y - self.direction[1]*self.vitesse
+            self.x = self.x - self.direction[0]*distance
+            self.y = self.y - self.direction[1]*distance
+
     
     def capteurDistance(self, env) :
         """
