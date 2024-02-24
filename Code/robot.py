@@ -327,9 +327,10 @@ class Robot :
         Capteur de distance du robot, donne la distance entre le pt milieu avant du robot (tete) et l'obstacle devant lui
         :param env: l'environnement dans lequel se trouve le robot
         :returns: retourne la distance entre la tete du robot et l'obstacle le plus proche devant lui"""
-        theta = math.atan2(self.direction[1], self.direction[0])
-        x1Bf, y1Bf = (self.x+self.width/2, self.y+self.length/2) # Point du robot grossier (sans prise en compte du vect dir du robot/angle)
-        x1, y1 = (x1Bf*math.cos(theta)-y1Bf*math.sin(theta), x1Bf*math.sin(theta)+y1Bf*math.cos(theta)) # Point de la tete du robot (depart) -> Prise en compte de la rot
+        #theta = math.atan2(self.direction[1], self.direction[0])
+        #x1Bf, y1Bf = (self.x+self.width/2, self.y+self.length/2) # Point du robot grossier (sans prise en compte du vect dir du robot/angle)
+        #x1, y1 = (x1Bf*math.cos(theta)-y1Bf*math.sin(theta), x1Bf*math.sin(theta)+y1Bf*math.cos(theta)) # Point de la tete du robot (depart) -> Prise en compte de la rot
+        x1, y1 = (self.x+self.direction[0]*(self.length/2), self.y+self.direction[1]*(self.length/2))
         mat = env.matrice
         (x2, y2) = (x1, y1) # Le pt d'avancement est, au début, au pt de départ
 
