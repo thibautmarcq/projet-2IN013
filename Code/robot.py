@@ -32,7 +32,13 @@ class Robot :
 
 
     def refresh(self, duree):
-        vit = self.getVitesse()
+
+        """ Méthode de update du robot, qui va modifier les coordonnées du robot et son vecteur directeur en fonction des vitesses angulaires des roues et du temps qui s'est écoulé depuis la dernière update.
+            :param duree: le temps qui s'est écoulé depuis la dernière mise à jour du robot
+            :returns: ne retourne rien, on met juste à jour le robot
+        """
+
+        vit = self.getVitesse() # on récupère la vitesse du centre du robot 
         dirBasex, dirBasey = self.direction
 
         # on récupère les coordonnées des deux roues sous la forme de point
