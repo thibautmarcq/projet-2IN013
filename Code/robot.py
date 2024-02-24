@@ -1,6 +1,7 @@
 import logging
 import math
 from time import *
+from Code.outil import *
 
 
 class Robot :
@@ -70,7 +71,7 @@ class Robot :
         # on trouve le vecteur ortogonal a notre pente
         penteOrto = [pente[0]*math.cos((3*math.pi)/2)-pente[1]*math.sin((3*math.pi)/2),
                 pente[0]*math.sin((3*math.pi)/2)+pente[1]*math.cos((3*math.pi)/2)]
-        penteOrto = self.normaliserVecteur(penteOrto) # on le normalise
+        penteOrto = normaliserVecteur(penteOrto) # on le normalise
 
         self.direction = penteOrto # il devient notre nouvelle direction
 
@@ -79,15 +80,15 @@ class Robot :
         self.y += self.direction[1]*vit*duree
 
 
-    def normaliserVecteur(self, vect) :
+    # def normaliserVecteur(self, vect) :
 
-        """ Prend en argument un vecteur et renvoie la normalisation de ce vecteur (pour avoir une longueur de 1)
-            :param vect: le vecteur que l'on souhaite normaliser
-            :returns: un vecteur correspondant au vecteur donné en argument, mais normalisé à 1 de longueur
-        """
-        x, y = vect
-        long = math.sqrt(x**2 + y**2) # la longueur du vecteur tel quel
-        return (x/long, y/long) # on divise chacune des coordonnées par la longueur du vecteur, de cette manière le vecteur sera de norme 1
+    #     """ Prend en argument un vecteur et renvoie la normalisation de ce vecteur (pour avoir une longueur de 1)
+    #         :param vect: le vecteur que l'on souhaite normaliser
+    #         :returns: un vecteur correspondant au vecteur donné en argument, mais normalisé à 1 de longueur
+    #     """
+    #     x, y = vect
+    #     long = math.sqrt(x**2 + y**2) # la longueur du vecteur tel quel
+    #     return (x/long, y/long) # on divise chacune des coordonnées par la longueur du vecteur, de cette manière le vecteur sera de norme 1
 
 
     def robotDansCadre(self) :
@@ -262,7 +263,7 @@ class Robot :
         (x2, y2) = (x1, y1) # Le pt d'avancement est, au début, au pt de départ
 
         while (mat[int(y2/env.scale)][int(x2/env.scale)]!=2): # Condition de boucle : tant qu'on est pas sur un obstacle
-            dirNorm = self.normaliserVecteur(self.direction)
+            dirNorm = normaliserVecteur(self.direction)
             x2, y2 = (x2+dirNorm[0], y2+dirNorm[1]) # on avance en case suivant le vect dir
 
         return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
