@@ -17,6 +17,8 @@ class StrategieAvancer:
         self.pt_depart = (self.rob.x, self.rob.y)
   
     def start(self) :
+        self.parcouru = 0
+        self.pt_depart = (self.rob.x, self.rob.y)
         self.rob.setVitAng(0) # On initialise les vitesses angulaires des deux roues à 0
         self.rob.changeVitAng(0.1) # Puis on augmente les vitesses angulaires de 0.1
 
@@ -52,6 +54,8 @@ class StrategieTourner:
         self.dir_depart = self.rob.direction
 
     def start(self) :
+        self.angle_parcouru = 0
+        self.dir_depart = self.rob.direction
         self.rob.setVitAng(0)
 
         # On considère ici une rotation d'un angle alpha dans le sens horaire, c.à.d si positif on tourne vers la droite, sinon vers la gauche
@@ -80,6 +84,7 @@ class StrategieTourner:
         if self.angle_parcouru >= self.angle :
             self.rob.setVitAng(0)
             return True
+        return False
 
 
 class StrategieSeq:

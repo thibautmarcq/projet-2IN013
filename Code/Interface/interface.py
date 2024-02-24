@@ -1,9 +1,12 @@
 import math
+from time import *
 from tkinter import *
 
 from Code.environnement import Environnement
 from Code.robot import Robot
 from tkinter import Label, Tk
+
+from Code.Controleur.controleur import *
 
 class Interface:
 
@@ -92,6 +95,14 @@ class Interface:
 		"""
 		for obs in self.env.listeObs:
 			self.canv.create_polygon(obs.lstPoints, fill=('grey'))
+
+	def create_carre(self, rob, distance):
+		avance = StrategieAvancer(rob, distance)
+		tourne = StrategieTourner(rob, 90)
+		carre = StrategieSeq([avance, tourne, avance, tourne, avance,tourne, avance])
+		while not carre.stop():
+			carre.step()
+		
 
 
 	def update_stats_affichage(self):
@@ -246,6 +257,8 @@ class Interface:
 		self.root.bind('e', lambda event: self.env.robots[self.env.robotSelect].changeVitAngD(1)) # + droit
 		self.root.bind('d', lambda event: self.env.robots[self.env.robotSelect].changeVitAngD(-1)) # - droit
 
+		self.root.bind('c', lambda event: self.create_carre(self.env.robots[self.env.robotSelect],30)) # Fait tracer le carré au robot
+
 
 		self.root.bind("x", lambda event: self.env.addRobotSelect(1))
 		self.root.bind("w", lambda event: self.env.addRobotSelect(-1))
@@ -263,5 +276,3 @@ class Interface:
 		self.tic_tac()
 		# Boucle de la fenètre principale
 		self.root.mainloop()
-
-	
