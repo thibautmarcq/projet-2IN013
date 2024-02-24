@@ -166,10 +166,11 @@ class Environnement:
         if self.last_refresh == 0 : # donc si c'est la première fois qu'on fait le rafraichissement
             self.last_refresh = temps
 
-        for rob in self.robots : # on fait avancer tous les robots de l'environnement 
-            duree = temps - self.last_refresh
-            #rob.refresh(duree, canv)
-            rob.refresh(duree)
+        for rob in self.robots : # on fait avancer tous les robots de l'environnement
+            if (not(self.collision2(rob))): # S'il n'y a pas collision
+                duree = temps - self.last_refresh
+                #rob.refresh(duree, canv)
+                rob.refresh(duree)
 
         self.last_refresh = temps # on met à jour l'heure du dernier rafraichissement 
 
@@ -191,20 +192,22 @@ class Environnement:
         :returns: true si robot en collision prochaine, false sinon"""
 
         # liste des 4 points du robot après mouvement (liste de 4couples): HG HD BD BG
-        lstPoints = [(rob.x-(rob.width/2)+rob.direction[0],rob.y+(rob.length/2)+rob.direction[1]), (rob.x+(rob.width/2)+rob.direction[0],rob.y+(rob.length/2)+rob.direction[1]), (rob.x+(rob.width/2)+rob.direction[0],rob.y-(rob.length/2))+rob.direction[1], (rob.x-(rob.width/2)+rob.direction[0],rob.y-(rob.length/2)+rob.direction[1])]
+        lstPoints = [(rob.x-(rob.width/2)+rob.direction[0],rob.y+(rob.length/2)+rob.direction[1]), (rob.x+(rob.width/2)+rob.direction[0],rob.y+(rob.length/2)+rob.direction[1]), (rob.x+(rob.width/2)+rob.direction[0],rob.y-(rob.length/2)+rob.direction[1]), (rob.x-(rob.width/2)+rob.direction[0],rob.y-(rob.length/2)+rob.direction[1])]
 
         for i in range(len(lstPoints)):
             x1, y1 = lstPoints[i] #départ
             x2, y2 = lstPoints[(i+1)%len(lstPoints)] #arrivée
 
             while (round(x1), round(y1)) != (round(x2), round(y2)):
-                if (self.matrice[x1][y1]!=2): # teste si le point est sur un obstacle
-                    return False and print("Collision! Obstacle en (", str(x1),",",str(y1),")")
-                
+                if (self.matrice[int(y1/self.scale)][int(x1/self.scale)]==2): # teste si le point est sur un obstacle
+                    print("Collision de", rob.nom, "! Obstacle en (", str(x1),",",str(y1),")")
+                    return True
+                # print('aaa')
                 long = math.sqrt((x2-x1)**2 + (y2-y1)**2) # Longueur du vect dir
                 dir = ((x2-x1)/long ,(y2-y1)/long) # Vect dir normalisé
                 x1,y1 = ((x1+dir[0]), (y1+dir[1])) #nv point
-        return True # Après le parcours de tout le contour, si pas d'obstacle rencontré -> True
+            
+        return False # Après le parcours de tout le contour, si pas d'obstacle rencontré -> False
 
 
     def affiche(self):
