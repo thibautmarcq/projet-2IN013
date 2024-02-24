@@ -95,9 +95,9 @@ class Interface:
 		self.lab_coord_nom.config(text=("Coordonnées du robot "+self.env.robots[self.env.robotSelect].nom+" :"))
 		self.lab_coord_x.config(text=("x ="+str(round(self.env.robots[self.env.robotSelect].x, 2))))
 		self.lab_coord_y.config(text=("y ="+str(round(self.env.robots[self.env.robotSelect].y, 2))))
-		self.lab_vitesse.config(text=("Vitesse globale : "+str(round(self.env.robots[self.env.robotSelect].vitesse))))
-		self.lab_vitesseG.config(text=("Vitesse roue G : "+str(round(self.env.robots[self.env.robotSelect].getVitesseRoueG()))))
-		self.lab_vitesseD.config(text=("Vitesse roue D : "+str(round(self.env.robots[self.env.robotSelect].getVitesseRoueD()))))
+		self.lab_vitesse.config(text=("Vitesse globale : "+str(round(self.env.robots[self.env.robotSelect].getVitesse()))))
+		self.lab_vitesseG.config(text=("Vitesse roue G : "+str(round(self.env.robots[self.env.robotSelect].getVitesseG()))))
+		self.lab_vitesseD.config(text=("Vitesse roue D : "+str(round(self.env.robots[self.env.robotSelect].getVitesseD()))))
 
 
 	def rotationVecteur(v, angle):
