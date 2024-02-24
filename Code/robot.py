@@ -36,16 +36,11 @@ class Robot :
 
     def refreshVitesse(self):
 
-        """ Met à jour la vitesse du robot en fonction des nombres de tours par minute effectués par chacune des deux roues
+        """ Met à jour la vitesse du robot en fonction des vitesses de chacune des deux roues
             :returns: rien du tout, modifie juste la vitesse du robot
         """
         
-        
-        VitAngD = self.getVitesseAngulaireDroite() # Vitesse angulaire de la roue droite 
-        VitAngG = self.getVitesseAngulaireGauche() # Vitesse angulaire de la roue gauche en rad/min
-        VitesseD = self.rayonRoue*VitAngD # Vitesse de la roue droite en m/min
-        VitesseG = self.rayonRoue*VitAngG # Vitesse de la roue gauche en m/min
-        self.vitesse = (VitesseD + VitesseG)/2
+        self.vitesse = (self.getVitesseD() + self.getVitesseG())/2
         logging.info("Vitesse changée à "+ str(self.vitesse))
 
     def refresh(self, duree):
