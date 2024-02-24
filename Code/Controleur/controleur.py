@@ -7,20 +7,31 @@ class StrategieAvancer:
             :param distance: la distance que doit parcourir le robot  
             :param rob: le robot qui va avancer
             :param parcouru: la distance parcourue du robot
+            :returns: ne retourne rien, on initialise la stratégie
         """
         self.distance = distance
         self.rob = rob 
         self.parcouru = 0
-        
+        self.pt_depart = (self.rob.x, self.rob.y)
+        self.debut = 0
     
-
     def step(self): #Fait augmenter la distance parcourue + appelle la fonction avancerdirection
-        self.parcouru += 1
-        self.rob.avancerDirection(1)
+        """ On fait avancer le robot d'un petit pas
+            :returns: rien, on met juste à jour la distance parcourue par le robot
+        """
+        if self.debut < 1:
+            self.debut = 1
+            self.rob.setVitAng(0) # On initialise les vitesses angulaires des deux roues à 0
+            self.rob.changeVitAng(0.1) # Puis on augmente les vitesses angulaires de 0.1
 
-    def stop(self): # Fait arreter le robot quand la distance parcourue est supérieur ou égale à la distance
+        else :
+            pos_actuelle = (self.rob.x, self.rob.y)
+            self.parcouru = distance(self.pt_depart, pos_actuelle)
+        
+
+    def stop(self): # Fait arreter le robot quand la distance parcourue est supérieur ou égale à la distance que l'on souhaitait parcourir
         if self.parcouru >= self.distance:
-            self.rob.setVitesse(0)
+            self.rob.setVitAng(0)
             return True
 
 
@@ -37,7 +48,7 @@ class StrategieTourner:
 
         if (self.debut < 1) : # Dans le cas où c'est le premier step, on initialise tout pour se mettre dans les bonnes conditions
             self.debut = 1
-            self.rob.setVitesse(0)
+            self.rob.setVitAng(0)
 
             # On considère ici une rotation d'un angle alpha dans le sens horaire, c.à.d si positif on tourne vers la droite, sinon vers la gauche
             # On change les vitesses des deux roues, en leur donnant des vitesses opposées afin de tourner sur place
@@ -55,7 +66,7 @@ class StrategieTourner:
 
     def stop(self): #fait arreter le robot lorsqu'on a parcouru l'angle souhaité
         if self.angle_parcouru >= self.angle :
-            self.rob.setVitesse(0)
+            self.rob.setVitAng(0)
             return True
 
 
