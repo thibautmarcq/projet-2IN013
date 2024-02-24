@@ -250,25 +250,6 @@ class Robot :
         self.refreshVitesse()
         self.rotation()
 
-    def tourneGauche(self):
-        """ Réduit de 1 tour la roue gauche et augmente de 1 la roue droite, permet de tourner plus facilement à gauche
-            :returns: rien, on modifie seulement les tours
-        """
-        self.subTourG()
-        self.addTourD()
-        self.refreshVitesse()
-        self.rotation()
-        
-
-    def tourneDroite(self):
-        """ Réduit de 1 tour la roue droite et augmente de 1 la roue gauche, permet de tourner plus facilement à droite
-            :returns: rien, on modifie seulement les tours
-        """
-        self.subTourD()
-        self.addTourG()
-        self.refreshVitesse()
-        self.rotation()
-        # print("tourne d")
     
     def setTourG(self, nbTours):
         """ Modifie le nombre de tours de la roue gauche
