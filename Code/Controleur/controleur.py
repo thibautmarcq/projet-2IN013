@@ -11,6 +11,7 @@ class StrategieAvancer:
         self.distance = distance
         self.rob = rob 
         self.parcouru = 0
+        
     
 
     def step(self): #Fait augmenter la distance parcourue + appelle la fonction avancerdirection
