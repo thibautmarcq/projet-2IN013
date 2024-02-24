@@ -321,45 +321,7 @@ class Robot :
         """
 
         return self.getVitesseAngulaireGauche()*self.rayonRoue
-    
-    def capteurDistance2(self, env):
-        """
-        Capteur de distance du robot, donne la distance entre le pt milieu avant du robot (tete) et l'obstacle devant lui
-        :param env: l'environnement dans lequel se trouve le robot
-        :returns: retourne la distance entre la tete du robot et l'obstacle le plus proche devant lui"""
-        #theta = math.atan2(self.direction[1], self.direction[0])
-        #x1Bf, y1Bf = (self.x+self.width/2, self.y+self.length/2) # Point du robot grossier (sans prise en compte du vect dir du robot/angle)
-        #x1, y1 = (x1Bf*math.cos(theta)-y1Bf*math.sin(theta), x1Bf*math.sin(theta)+y1Bf*math.cos(theta)) # Point de la tete du robot (depart) -> Prise en compte de la rot
-        x1, y1 = (self.x+self.direction[0]*(self.length/2), self.y+self.direction[1]*(self.length/2))
-        mat = env.matrice
-        (x2, y2) = (x1, y1) # Le pt d'avancement est, au début, au pt de départ
 
-        while (mat[int(y2/env.scale)][int(x2/env.scale)]!=2): # Condition de boucle : tant qu'on est pas sur un obstacle
-            dirNorm = self.normaliserVecteur(self.direction)
-            x2, y2 = (x2+dirNorm[0], y2+dirNorm[1]) # on avance en case suivant le vect dir
-        # En sortie, (x2,y2) est sur un obstacle
-            
-        return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
-
-    
-    def capteurDistance(self, env) :
-        """
-            Capteur de distance, donne la distance entre le robot et le 1er obstacle/mur
-            :param env: l'environnement dans lequel on se trouve
-            :returns: renvoie la distance entre le robot et un obstacle/mur
-        """
-        obs = (-1, -1) # True si il y a un mur/obstacle, False sinon
-        rayon = (int(self.x/env.scale), int(self.y/env.scale)) # Coordonnées du rayon dans la matrice
-        distance = 0 # Compteur de distance
-
-        while( (obs[0] == -1) & (obs[1] == -1) ) :
-            rayon = (int(rayon[0]+self.direction[0]), int(rayon[1]+self.direction[1])) # On avance dans la direction du robot
-            # Si on est sur un bord ou si on est sur un obstacle
-            if ( (rayon[0] <= 0) | (rayon[0] >= env.width/env.scale) | (rayon[1] <= 0) | (rayon[1] >= env.length/env.scale) | (env.matrice[rayon[0]][rayon[1]] == 2) ) :               
-                obs = (rayon[0], rayon[1]) # On sauvegarde les coordonnées de l'obstacle
-                distance = math.sqrt((obs[0]-int(self.x/env.scale))**2 + (obs[1]-int(self.y/env.scale))**2)*env.scale # On calcule la distance entre le robot et l'obstacle
-
-        return distance
 
     def setVitAngG(self, vit) :
         """ Setter de vitesse angulaire de la roue gauche
@@ -374,3 +336,19 @@ class Robot :
             :returns: ne retourne rien, on change juste la vitesse angulaire de la roue droite
         """
         self.vitAngD = vit
+    
+    def capteurDistance(self, env):
+        """
+        Capteur de distance du robot, donne la distance entre le pt milieu avant du robot (tete) et l'obstacle devant lui
+        :param env: l'environnement dans lequel se trouve le robot
+        :returns: retourne la distance entre la tete du robot et l'obstacle le plus proche devant lui
+        """
+        x1, y1 = (self.x+self.direction[0]*(self.length/2), self.y+self.direction[1]*(self.length/2))
+        mat = env.matrice
+        (x2, y2) = (x1, y1) # Le pt d'avancement est, au début, au pt de départ
+
+        while (mat[int(y2/env.scale)][int(x2/env.scale)]!=2): # Condition de boucle : tant qu'on est pas sur un obstacle
+            dirNorm = self.normaliserVecteur(self.direction)
+            x2, y2 = (x2+dirNorm[0], y2+dirNorm[1]) # on avance en case suivant le vect dir
+
+        return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
