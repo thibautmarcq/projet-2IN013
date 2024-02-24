@@ -175,6 +175,29 @@ class Environnement:
         return ((newPosRob[0] <= 0) | (newPosRob[0] >= self.width/self.scale) | (newPosRob[1] <= 0) | (newPosRob[1] >= self.length/self.scale) | self.matrice[int(newPosRob[0]/self.scale)][int(newPosRob[1]/self.scale)] == 2)
 
 
+    def collision2(self, rob):
+        """
+        Vérifie si le prochain mouvement du robot va le faire rentrer en collision avec un obstacle (2)
+        :param rob: robot pour lequel on veut tester la collision prochaine
+        :returns: true si robot en collision prochaine, false sinon"""
+
+        # liste des 4 points du robot après mouvement (liste de 4couples): HG HD BD BG
+        lstPoints = [(rob.x-(rob.width/2)+rob.direction[0],rob.y+(rob.length/2)+rob.direction[1]), (rob.x+(rob.width/2)+rob.direction[0],rob.y+(rob.length/2)+rob.direction[1]), (rob.x+(rob.width/2)+rob.direction[0],rob.y-(rob.length/2))+rob.direction[1], (rob.x-(rob.width/2)+rob.direction[0],rob.y-(rob.length/2)+rob.direction[1])]
+
+        for i in range(len(lstPoints)):
+            x1, y1 = lstPoints[i] #départ
+            x2, y2 = lstPoints[(i+1)%len(lstPoints)] #arrivée
+
+            while (round(x1), round(y1)) != (round(x2), round(y2)):
+                if (self.matrice[x1][y1]!=2): # teste si le point est sur un obstacle
+                    return False and print("Collision! Obstacle en (", str(x1),",",str(y1),")")
+                
+                long = math.sqrt((x2-x1)**2 + (y2-y1)**2) # Longueur du vect dir
+                dir = ((x2-x1)/long ,(y2-y1)/long) # Vect dir normalisé
+                x1,y1 = ((x1+dir[0]), (y1+dir[1])) #nv point
+        return True # Après le parcours de tout le contour, si pas d'obstacle rencontré -> True
+
+
     def affiche(self):
         #methodes pour affichage avec tkinter
         pass
