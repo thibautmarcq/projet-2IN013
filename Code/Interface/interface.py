@@ -103,7 +103,7 @@ class Interface:
 		self.lab_vitesseG.config(text=("Vitesse roue G : "+str(round(self.env.robots[self.env.robotSelect].getVitesseRoueG()))))
 		self.lab_vitesseD.config(text=("Vitesse roue D : "+str(round(self.env.robots[self.env.robotSelect].getVitesseRoueD()))))
 		# Update label distance
-		self.lab_distance.config(text=("Obstacle dans : "+str(round(self.env.robots[self.env.robotSelect].capteurDistance(self.env), 2))))
+		self.lab_distance.config(text=("Obstacle dans : "+str(round(self.env.robots[self.env.robotSelect].capteurDistance2(self.env), 2))))
 
 	def rotationVecteur(v, angle):
 
@@ -235,7 +235,7 @@ class Interface:
 		self.lab_coord_y.grid(row=2, column=0)
 
 		# Affichage données capteur distance
-		self.lab_distance = Label(self.frame_dist_obstacle, text=("Obstacle dans : "+str(round(self.env.robots[self.env.robotSelect].capteurDistance(self.env), 2))))
+		self.lab_distance = Label(self.frame_dist_obstacle, text=("Obstacle dans : "+str(round(self.env.robots[self.env.robotSelect].capteurDistance2(self.env), 2))))
 		self.lab_distance.grid(row=0, column=0)
 
 		# -------------------------------------------------------------------		-------------
