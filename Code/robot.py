@@ -26,22 +26,9 @@ class Robot :
         self.length = length
         self.rayonRoue = rayonRoue # taille des roues en m donc 1 m = 1/100 cm
 
-        self.vitesse = 0 # Vitesse du robot initialisée à 0
         self.direction = (0,-1) # vecteur directeur du robot
-        self.nbToursRoueD = 0 # Nombre de tours de la roue droite initialisée à 0
-        self.nbToursRoueG = 0 # Nombre de toues de la roue gauche initialisée à 0
         self.vitAngG = 0 # Vitesses angulaires des deux roues initialisées à 0
         self.vitAngD = 0 
-
-
-    def refreshVitesse(self):
-
-        """ Met à jour la vitesse du robot en fonction des vitesses de chacune des deux roues
-            :returns: rien du tout, modifie juste la vitesse du robot
-        """
-        
-        self.vitesse = (self.getVitesseD() + self.getVitesseG())/2
-        logging.info("Vitesse changée à "+ str(self.vitesse))
 
 
     def refresh(self, duree):
