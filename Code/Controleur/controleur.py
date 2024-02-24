@@ -1,5 +1,6 @@
 from ..robot import Robot
 from Code.outil import *
+import time
 
 class StrategieAvancer:
     def __init__(self, rob, distance):
@@ -72,19 +73,29 @@ class StrategieTourner:
 
 class StrategieSeq:
     def __init__(self, listeStrat):
-        """ Statégie sequentielle
-            :param listeStrat: liste de strategies qui vont etre executé à la suite
-            :param indice: qui permet de parcourir la liste de strategies
+        """ Statégie séquentielle
+            :param listeStrat: liste de stratégies qui vont être executées à la suite
+            :param indice: permet de parcourir la liste de stratégies
         """
         self.listeStrat = listeStrat
         self.indice = -1
+        self.last_refresh = 0
 
-    def step(self): # Tant que la strategie en cours n'est pas arreté on passe pas a la prochaine strategie
+    def step(self): # Tant que la strategie en cours n'est pas arretée on passe pas à la prochaine stratégie
         if self.indice < 0 or self.listeStrat[self.indice].stop(): 
             self.indice += 1
+            self.last_refresh = 0
+
         self.listeStrat[self.indice].step()
 
+        now = time.time()
+        if self.last_refresh == 0 :
+            self.last_refresh = now
+        duree = now - self.last_refresh()
+        
+        self.listeStrat[self.indice].rob.refresh(duree)
 
-    def stop(self): # S'arrete quand l'indice est sur la dernière strat de la liste et que celle-ci est arreté
+
+    def stop(self): # S'arrête quand l'indice est sur la dernière strat de la liste et que celle-ci est arretée
         return self.indice == len(self.listeStrat)-1 and self.listeStrat[self.indice].stop() 
 
