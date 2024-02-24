@@ -33,7 +33,7 @@ def prodScalaire(u, v) :
     return x1*x2 + y1*y2
 
 def getAngleFromVect(u, v) :
-    
+
     """ Calcule l'angle entre deux vecteurs
         :param u: le premier des deux vecteurs entre lesquels on veut calculer l'angle
         :param v: le deuxième des deux vecteurs entre lesquels on veut calculer l'angle
@@ -41,4 +41,13 @@ def getAngleFromVect(u, v) :
     """
 
     return math.acos(prodScalaire(u, v)/(norme(u)*norme(v))) 
+
+def distance(p1, p2) :
+    """ Calcule la distance entre deux points p1 et p2
+        :param p1: premier point 
+        :param p2: deuxième point
+        :returns: retourne la distance entre les deux points passés en argument
+    """
+
+    return norme((p1, p2))
     
