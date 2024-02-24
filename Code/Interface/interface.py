@@ -50,7 +50,7 @@ class Interface:
 		self.frame_coordonnees.grid(row=1, column=0)
 
 		self.frame_dist_obstacle = LabelFrame(self.frame_up, text='Distance obstacle')
-		self.frame_dist_obstacle.grid(row=1, column=1)
+		self.frame_dist_obstacle.grid(row=2, column=0)
 	
 		self.frame_tutorial = LabelFrame(self.frame_gauche, text="Tutorial", bd=1)
 		self.frame_tutorial.grid(row=1)
@@ -85,8 +85,12 @@ class Interface:
 						robot.x-(robot.width/2), robot.y+(robot.length/2)]
 		robot.rect = self.canv.create_polygon(robot.points, fill=(robot.couleur))
 
-	def create_obs(self, env):
-		for obs in env.listeObs:
+	def create_obs(self):
+		""" Crée le polygone qui représente notre obstacle sur l'interface graphique
+			:param env: le robot qu'on veut représenter sur l'interface graphique
+			:returns: ne retourne rien
+		"""
+		for obs in self.env.listeObs:
 			self.canv.create_polygon(obs.lstPoints, fill=('grey'))
 
 
@@ -222,7 +226,7 @@ class Interface:
 			self.create_robot_rect(rob)
 			rob.robot_vec = self.canv.create_line(rob.x, rob.y, rob.x+(75*rob.direction[0]), rob.y+(75*rob.direction[1]))
 		
-		self.create_obs(self.env)
+		self.create_obs()
 		
 
 		# ---------------------------
