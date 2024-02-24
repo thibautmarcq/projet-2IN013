@@ -134,27 +134,27 @@ class Environnement:
     #             self.matrice[x][y] = 2 #  Ajoute l'obstacle représenté par le chiffre 2 dans la matrice
     #             obs_place = True
 
-    def detect_obs(self, rob) :
+    # def detect_obs(self, rob) :
 
-        """ Détection d'un obstacle autour du robot
-            :param rob: le robot autour duquel on veut vérifier s'il y a un obstacle
-            :returns: true si un obstacle est détecté, false sinon
-        """
+    #     """ Détection d'un obstacle autour du robot
+    #         :param rob: le robot autour duquel on veut vérifier s'il y a un obstacle
+    #         :returns: true si un obstacle est détecté, false sinon
+    #     """
 
-        # Detecte si il y a un obstacle devant
-        if ( self.matrice[int(rob.x/self.scale)+1][int(rob.y/self.scale)] == 2 ) :
-            return True
-        # Detecte si il y a un obstacle derriere
-        if ( self.matrice[int(rob.x/self.scale)-1][int(rob.y/self.scale)] == 2 ) :
-            return True
-        # Detecte si il y a un obstacle à droite
-        if ( self.matrice[int(rob.x/self.scale)][int(rob.y/self.scale)+1] == 2 ) :
-            return True
-        # Detecte si il y a un obstacle à gauche
-        if ( self.matrice[int(rob.x/self.scale)][int(rob.y/self.scale)-1] == 2 ) :
-            return True
+    #     # Detecte si il y a un obstacle devant
+    #     if ( self.matrice[int(rob.x/self.scale)+1][int(rob.y/self.scale)] == 2 ) :
+    #         return True
+    #     # Detecte si il y a un obstacle derriere
+    #     if ( self.matrice[int(rob.x/self.scale)-1][int(rob.y/self.scale)] == 2 ) :
+    #         return True
+    #     # Detecte si il y a un obstacle à droite
+    #     if ( self.matrice[int(rob.x/self.scale)][int(rob.y/self.scale)+1] == 2 ) :
+    #         return True
+    #     # Detecte si il y a un obstacle à gauche
+    #     if ( self.matrice[int(rob.x/self.scale)][int(rob.y/self.scale)-1] == 2 ) :
+    #         return True
 
-        return False
+    #     return False
     
     def refresh_env(self) :
 
