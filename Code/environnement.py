@@ -38,7 +38,7 @@ class Environnement:
         Initialise la matrice avec des 0, ainsi que ses bords avec 2 (obstacles)
         :returns: rien, initialise juste la matrice comme il faut
         """
-        self.matrice = np.zeros([int(self.width/self.scale), int(self.length/self.scale)], dtype=int) # Création d'une matrice int(width/scale)*int(length/scale) grâce à np.empty
+        self.matrice = np.zeros([int(self.length/self.scale), int(self.width/self.scale)], dtype=int) # Création d'une matrice int(width/scale)*int(length/scale) grâce à np.empty
         self.matrice[0] = 2
         self.matrice[-1] = 2
         self.matrice[:, 0] = 2
