@@ -15,20 +15,17 @@ class StrategieAvancer:
         self.rob = rob 
         self.parcouru = 0
         self.pt_depart = (self.rob.x, self.rob.y)
-        self.debut = 0
-    
+  
+    def start(self) :
+        self.rob.setVitAng(0) # On initialise les vitesses angulaires des deux roues à 0
+        self.rob.changeVitAng(0.1) # Puis on augmente les vitesses angulaires de 0.1
+
     def step(self) : 
         """ On fait avancer le robot d'un petit pas
             :returns: rien, on met juste à jour la distance parcourue par le robot
         """
-        if self.debut < 1:
-            self.debut = 1
-            self.rob.setVitAng(0) # On initialise les vitesses angulaires des deux roues à 0
-            self.rob.changeVitAng(0.1) # Puis on augmente les vitesses angulaires de 0.1
-
-        else :
-            pos_actuelle = (self.rob.x, self.rob.y)
-            self.parcouru = distance(self.pt_depart, pos_actuelle)       
+        pos_actuelle = (self.rob.x, self.rob.y)
+        self.parcouru = distance(self.pt_depart, pos_actuelle)
 
     def stop(self): 
         """ Détermine si on a bien parcouru la distance souhaitée
@@ -53,7 +50,19 @@ class StrategieTourner:
         self.angle = angle
         self.angle_parcouru = 0
         self.dir_depart = self.rob.direction
-        self.debut = 0
+
+    def start(self) :
+        self.rob.setVitAng(0)
+
+        # On considère ici une rotation d'un angle alpha dans le sens horaire, c.à.d si positif on tourne vers la droite, sinon vers la gauche
+        # On change les vitesses des deux roues, en leur donnant des vitesses opposées afin de tourner sur place
+        if self.angle > 0 :
+            self.rob.changeVitAngG(0.1)
+            self.rob.changeVitAngD(-0.1)
+
+        elif self.angle < 0 :
+            self.rob.changeVitAngD(0.1)
+            self.rob.changeVitAngG(-0.1)
 
     def step(self):
 
@@ -61,22 +70,7 @@ class StrategieTourner:
             :returns: ne retourne rien, on met juste a jour le paramètre distance parcourue
         """
 
-        if (self.debut < 1) : # Dans le cas où c'est le premier step, on initialise tout pour se mettre dans les bonnes conditions
-            self.debut = 1
-            self.rob.setVitAng(0)
-
-            # On considère ici une rotation d'un angle alpha dans le sens horaire, c.à.d si positif on tourne vers la droite, sinon vers la gauche
-            # On change les vitesses des deux roues, en leur donnant des vitesses opposées afin de tourner sur place
-            if self.angle > 0 :
-                self.rob.changeVitAngG(0.1)
-                self.rob.changeVitAngD(-0.1)
-
-            elif self.angle < 0 :
-                self.rob.changeVitAngD(0.1)
-                self.rob.changeVitAngG(-0.1)
-
-        else : # Si ce n'est pas le premier step, on met à jour l'angle parcouru par le robot
-            self.angle_parcouru = getAngleFromVect(self.dir_depart, self.rob.direction)
+        self.angle_parcouru = getAngleFromVect(self.dir_depart, self.rob.direction)
 
     def stop(self) : 
 
@@ -108,13 +102,14 @@ class StrategieSeq:
         if self.indice < 0 or self.listeStrat[self.indice].stop(): # Si on n'a pas encore commencé à lancer les stratégies unitaire ou si la stratégie en cours est terminée, on avance à la stratégie suivante
             self.indice += 1
             self.last_refresh = 0
+            self.listeStrat[self.indice].start()
 
         self.listeStrat[self.indice].step() # On fait le step de la stratégie en cours 
 
         now = time.time()
         if self.last_refresh == 0 :
             self.last_refresh = now
-        duree = now - self.last_refresh()
+        duree = now - self.last_refresh
         
         self.listeStrat[self.indice].rob.refresh(duree) # On refresh le robot sur la durée qui s'est écoulée depuis le dernier rafraichissement
 
