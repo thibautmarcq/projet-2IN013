@@ -171,7 +171,8 @@ class Environnement:
             :param rob: le robot pour lequel on veut vérifier s'il est en collision
             :returns: true si le robot est en collision, false sinon
         """
-        newPosRob = (rob.x + rob.direction[0], rob.y + rob.direction[1])
+        newPosRob = (rob.x + rob.direction[0], rob.y + rob.direction[1]) # position du robot après un déplacement
+        # renvoie true si le robot est en collision avec un obstacle ou avec les bords de l'environnement
         return ((newPosRob[0] <= 0) | (newPosRob[0] >= self.width/self.scale) | (newPosRob[1] <= 0) | (newPosRob[1] >= self.length/self.scale) | self.matrice[int(newPosRob[0]/self.scale)][int(newPosRob[1]/self.scale)] == 2)
 
 
