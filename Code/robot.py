@@ -406,5 +406,12 @@ class Robot :
         """
         return self.vitAngD*self.rayonRoue
     
+    def getVitesse(self) :
+        
+        """ Getter de la vitesse du point central du robot
+            :returns: la vitesse du robot en son centre
+        """
+        return (self.getVitesseD() + self.getVitesseG)/2
+    
 
     
