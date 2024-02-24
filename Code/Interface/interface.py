@@ -3,6 +3,7 @@ from tkinter import *
 
 from Code.environnement import Environnement
 from Code.robot import Robot
+from tkinter import Label, Tk
 
 class Interface:
 
@@ -48,6 +49,9 @@ class Interface:
 		self.frame_vitesses.grid_propagate(False)
 		self.frame_coordonnees.grid(row=1, column=0)
 
+		self.frame_dist_obstacle = LabelFrame(self.frame_up, text='Distance obstacle')
+		self.frame_dist_obstacle.grid(row=1, column=1)
+	
 		self.frame_tutorial = LabelFrame(self.frame_gauche, text="Tutorial", bd=1)
 		self.frame_tutorial.grid(row=1)
 		self.tutorial_image = PhotoImage(file="Code/Interface/tutoriel.png").subsample(2,2)
@@ -91,14 +95,15 @@ class Interface:
 			:returns: ne retourne rien, fait juste l'affichage à jour des coordonnées
 		"""
 
-		# Update labels
+		# Update labels coordonnees
 		self.lab_coord_nom.config(text=("Coordonnées du robot "+self.env.robots[self.env.robotSelect].nom+" :"))
 		self.lab_coord_x.config(text=("x ="+str(round(self.env.robots[self.env.robotSelect].x, 2))))
 		self.lab_coord_y.config(text=("y ="+str(round(self.env.robots[self.env.robotSelect].y, 2))))
 		self.lab_vitesse.config(text=("Vitesse globale : "+str(round(self.env.robots[self.env.robotSelect].getVitesse()))))
 		self.lab_vitesseG.config(text=("Vitesse roue G : "+str(round(self.env.robots[self.env.robotSelect].getVitesseG()))))
 		self.lab_vitesseD.config(text=("Vitesse roue D : "+str(round(self.env.robots[self.env.robotSelect].getVitesseD()))))
-
+		# Update label distance
+		self.lab_distance.config(text=("Obstacle dans : "+str(round(self.env.robots[self.env.robotSelect].capteurDistance(self.env), 2))))
 
 	def rotationVecteur(v, angle):
 
@@ -228,6 +233,10 @@ class Interface:
 		self.lab_coord_x.grid(row=1, column=0)
 		self.lab_coord_y = Label(self.frame_coordonnees, text=("y ="+str(self.env.robots[self.env.robotSelect].y)))
 		self.lab_coord_y.grid(row=2, column=0)
+
+		# Affichage données capteur distance
+		self.lab_distance = Label(self.frame_dist_obstacle, text=("Obstacle dans : "+str(round(self.env.robots[self.env.robotSelect].capteurDistance(self.env), 2))))
+		self.lab_distance.grid(row=0, column=0)
 
 		# -------------------------------------------------------------------		-------------
 		# 								BINDS,										| a | z | e |
