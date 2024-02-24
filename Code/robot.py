@@ -203,51 +203,28 @@ class Robot :
         self.setVitAngD(vit)
         self.setVitAngG(vit)
 
-    
-    def addVitAngG(self) :
-
-        """ Setter qui va augmenter de 1 la vitesse angulaire de la roue gauche
-            :returns: ne retourne rien, on fait juste une mise à jour
+    def changeVitAngG(self, quant) :
+        """ Setter qui ajoute quant à la vitesse angulaire de la roue gauche
+            :quant: la quantite que l'on veut rajouter à la vitesse angulaire de la roue gauche
+            :returns: rien, on change juste la vitesse angulaire de la roue gauche
         """
-        self.vitAngG += 1
+        self.vitAngG += quant
 
-    def addVitAngD(self) :
-
-        """ Setter qui va augmenter la vitesse augulaire de la roue droite de 1
-            :returns: ne retourne rien, on fait juste une mise à jour
+    def changeVitAngD(self, quant) :
+        """ Setter qui ajoute quant à la vitesse angulaire de la roue droite
+            :quant: la quantite que l'on veut rajouter à la vitesse angulaire de la roue droite
+            :returns: rien, on change juste la vitesse angulaire de la roue droite
         """
-        self.vitAngD += 1
+        self.vitAngD += quant
 
-    def addVitAng(self) :
-
-        """ Setter qui augmente les vitesses angulaires des deux roues de 1
-            :returns: ne retourne rien, on fait une mise à jour des vitesses augulaires des deux roues.
+    def changeVitAng(self, quant) :
+        """ Setter qui ajoute quant aux vitesses angulaires des deux roues
+            :param quant: la quantite que l'on veut rajouter aux vitesses angulaires des deux roues
+            :returns: ne retourne rien, on modifie les vitesses angulaires des roues
         """
-        self.vitAngD += 1
-        self.vitAngG += 1
+        self.changeVitAngG(quant)
+        self.changeVitAngD(quant)
 
-
-    def subVitAngG(self) :
-
-        """ Setter qui va réduire de 1 la vitesse angulaire de la roue gauche
-            :returns: ne retourne rien, on fait juste une mise à jour
-        """
-        self.vitAngG -= 1
-
-    def subVitAngD(self) :
-
-        """ Setter qui va diminuer la vitesse augulaire de la roue droite de 1
-            :returns: ne retourne rien, on fait juste une mise à jour
-        """
-        self.vitAngD -= 1
-
-    def subVitAng(self) :
-
-        """ Setter qui diminue les vitesses angulaires des deux roues de 1
-            :returns: ne retourne rien, on fait une mise à jour des vitesses augulaires des deux roues.
-        """
-        self.vitAngD -= 1
-        self.vitAngG -= 1
 
 
     def getVitesseG(self) :
