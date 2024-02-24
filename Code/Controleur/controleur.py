@@ -3,7 +3,8 @@ from Code.outil import *
 import time
 
 class StrategieAvancer:
-    def __init__(self, rob, distance):
+    
+    def __init__(self, rob, distance) :
         """ Statégie qui fait avancer le robot d'une distance donnée
             :param distance: la distance que doit parcourir le robot  
             :param rob: le robot qui va avancer
@@ -16,7 +17,7 @@ class StrategieAvancer:
         self.pt_depart = (self.rob.x, self.rob.y)
         self.debut = 0
     
-    def step(self): #Fait augmenter la distance parcourue + appelle la fonction avancerdirection
+    def step(self) : 
         """ On fait avancer le robot d'un petit pas
             :returns: rien, on met juste à jour la distance parcourue par le robot
         """
@@ -27,18 +28,27 @@ class StrategieAvancer:
 
         else :
             pos_actuelle = (self.rob.x, self.rob.y)
-            self.parcouru = distance(self.pt_depart, pos_actuelle)
-        
+            self.parcouru = distance(self.pt_depart, pos_actuelle)       
 
-    def stop(self): # Fait arreter le robot quand la distance parcourue est supérieur ou égale à la distance que l'on souhaitait parcourir
+    def stop(self): 
+        """ Détermine si on a bien parcouru la distance souhaitée
+            :returns: True si on a bien complété la stratégie, False sinon
+        """
         if self.parcouru >= self.distance:
             self.rob.setVitAng(0)
             return True
+        return False
 
 
 class StrategieTourner:
+    
     def __init__(self, rob, angle):
-        """Stategie qui fait tourner le robot d'un angle donné"""
+
+        """ Stategie qui fait tourner le robot d'un angle donné
+            :param rob: le robot que l'on veut faire tourner
+            :param angle: la rotation que l'on veut ordonner au robot d'effectuer
+        """
+
         self.rob = rob
         self.angle = angle
         self.angle_parcouru = 0
@@ -46,6 +56,10 @@ class StrategieTourner:
         self.debut = 0
 
     def step(self):
+
+        """ Le step de la stratégie tourner, qui induit le mouvement si c'est le premier ou bien met a jour l'angle qui a été parcouru jusqu'à maintenant sinon
+            :returns: ne retourne rien, on met juste a jour le paramètre distance parcourue
+        """
 
         if (self.debut < 1) : # Dans le cas où c'est le premier step, on initialise tout pour se mettre dans les bonnes conditions
             self.debut = 1
@@ -64,38 +78,49 @@ class StrategieTourner:
         else : # Si ce n'est pas le premier step, on met à jour l'angle parcouru par le robot
             self.angle_parcouru = getAngleFromVect(self.dir_depart, self.rob.direction)
 
+    def stop(self) : 
 
-    def stop(self): #fait arreter le robot lorsqu'on a parcouru l'angle souhaité
+        """ Détermine si on a fini de faire la rotation de l'angle self.angle
+            :returns: True si la rotation a bien été effectuée, False sinon
+        """
         if self.angle_parcouru >= self.angle :
             self.rob.setVitAng(0)
             return True
 
 
 class StrategieSeq:
-    def __init__(self, listeStrat):
+
+    def __init__(self, listeStrat) :
         """ Statégie séquentielle
             :param listeStrat: liste de stratégies qui vont être executées à la suite
             :param indice: permet de parcourir la liste de stratégies
+            :returns: rien, on initialise la stratégie séquentielle
         """
         self.listeStrat = listeStrat
         self.indice = -1
         self.last_refresh = 0
 
-    def step(self): # Tant que la strategie en cours n'est pas arretée on passe pas à la prochaine stratégie
-        if self.indice < 0 or self.listeStrat[self.indice].stop(): 
+    def step(self) : 
+        """ Le step de la stratégie séquentielle, où on fait le step de la stratégie en cours ou on passe a la stratégie suivante selon le cas, et on met à jour le robot
+            :returns: rien, il s'agit juste de lancement de sous-stratégies et de mise à jour de robots
+        """
+        
+        if self.indice < 0 or self.listeStrat[self.indice].stop(): # Si on n'a pas encore commencé à lancer les stratégies unitaire ou si la stratégie en cours est terminée, on avance à la stratégie suivante
             self.indice += 1
             self.last_refresh = 0
 
-        self.listeStrat[self.indice].step()
+        self.listeStrat[self.indice].step() # On fait le step de la stratégie en cours 
 
         now = time.time()
         if self.last_refresh == 0 :
             self.last_refresh = now
         duree = now - self.last_refresh()
         
-        self.listeStrat[self.indice].rob.refresh(duree)
+        self.listeStrat[self.indice].rob.refresh(duree) # On refresh le robot sur la durée qui s'est écoulée depuis le dernier rafraichissement
 
-
-    def stop(self): # S'arrête quand l'indice est sur la dernière strat de la liste et que celle-ci est arretée
+    def stop(self) : 
+        """ Détermine si la stratégie séquentielle est terminée, donc si toutes ses sous-stratégies son terminées 
+            :returns: True si toutes les stratégies ont bien été accomplies, False sinon
+        """
         return self.indice == len(self.listeStrat)-1 and self.listeStrat[self.indice].stop() 
 
