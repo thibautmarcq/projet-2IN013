@@ -333,7 +333,7 @@ class Robot :
         distance = 0 # Compteur de distance
 
         while( (obs[0] == -1) & (obs[1] == -1) ) :
-            rayon = (rayon[0]+self.direction[0], rayon[1]+self.direction[1]) # On avance dans la direction du robot
+            rayon = (int(rayon[0]+self.direction[0]), int(rayon[1]+self.direction[1])) # On avance dans la direction du robot
             # Si on est sur un bord ou si on est sur un obstacle
             if ( (rayon[0] <= 0) | (rayon[0] >= env.width/env.scale) | (rayon[1] <= 0) | (rayon[1] >= env.length/env.scale) | (env.matrice[rayon[0]][rayon[1]] == 2) ) :               
                 obs = (rayon[0], rayon[1]) # On sauvegarde les coordonnées de l'obstacle
