@@ -246,11 +246,11 @@ class Interface:
 		# -------------------------------------------------------------------
 		# 						NOUVEAUX AFFICHAGES							
 		# -------------------------------------------------------------------
-		self.lab_vitesse = Label(self.frame_vitesses, text=("Vitesse globale : "+str(self.env.robots[self.env.robotSelect].vitesse)))
+		self.lab_vitesse = Label(self.frame_vitesses, text=("Vitesse globale : "+str(self.env.robots[self.env.robotSelect].getVitesse())))
 		self.lab_vitesse.grid(row=0, column=0, padx=5, pady=2)
-		self.lab_vitesseG = Label(self.frame_vitesses, text=("Vitesse roue G : "+str(self.env.robots[self.env.robotSelect].getVitesseRoueG())))
+		self.lab_vitesseG = Label(self.frame_vitesses, text=("Vitesse roue G : "+str(self.env.robots[self.env.robotSelect].getVitesseG())))
 		self.lab_vitesseG.grid(row=1, column=0, padx=5, pady=2)
-		self.lab_vitesseD = Label(self.frame_vitesses, text=("Vitesse roue D : "+str(self.env.robots[self.env.robotSelect].getVitesseRoueD())))
+		self.lab_vitesseD = Label(self.frame_vitesses, text=("Vitesse roue D : "+str(self.env.robots[self.env.robotSelect].getVitesseD())))
 		self.lab_vitesseD.grid(row=2, column=0, padx=5, pady=2)
 
 		# Lancement du tic tac

@@ -85,14 +85,6 @@ class Robot :
         self.x += self.direction[0]*vit*duree
         self.y += self.direction[1]*vit*duree
 
-    
-    def setVitesse(self, vitesse) :
-
-        """ Modifie la vitesse à la valeur donnée en argument
-            :param vitesse: la vitesse qu'on veut donner au robot
-            :returns: ne retourne rien, on fait juste la modification de la vitesse
-        """
-        self.vitesse = vitesse
 
     def normaliserVecteur(self, vect) :
 
@@ -104,24 +96,6 @@ class Robot :
         long = math.sqrt(x**2 + y**2) # la longueur du vecteur tel quel
         return (x/long, y/long) # on divise chacune des coordonnées par la longueur du vecteur, de cette manière le vecteur sera de norme 1
 
-
-    def rotation(self):
-        """ Determine angle/sec que va faire le robot
-            :returns: ne retourne rien, on modifie juste la direction du robot
-        """
-        x, y = self.direction
-        nbTour = max(int(self.nbToursRoueD), int(self.nbToursRoueG)) - min(int(self.nbToursRoueD), int(self.nbToursRoueG))
-        # (int(self.nbToursRoueD) + int(self.nbToursRoueG))/2 # la moyenne des deux roues
-        angulaire = 2*math.pi*nbTour # Calule de la vitesse angulaire
-        angle = angulaire*(180/math.pi) 
-        if ( angle > 40 ) :
-            angle = 40
-        else  :
-            if ( int(self.nbToursRoueG) < int(self.nbToursRoueD) ):
-                angle = -angle
-                self.direction = ((x*math.cos(angle)-y*math.sin(angle)), (x*math.sin(angle)+y*math.cos(angle))) # Rotation du vecteur directeur
-            else :
-                self.direction = (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle)) # Rotation du vecteur directeur
 
     def robotDansCadre(self) :
 
@@ -187,117 +161,6 @@ class Robot :
         if self.robotDansCadre() :
             self.x = self.x - self.direction[0]*self.vitesse
             self.y = self.y - self.direction[1]*self.vitesse
-
-
-    
-    def addTour(self) :
-        """
-            Augmente de 1 tour sur les 2 roues
-            :returns: rien, on va modifier directement les 2 roues et faire les rafraichissements nécessaires
-        """
-        self.nbToursRoueG += 0.1
-        self.nbToursRoueD += 0.1
-        self.refreshVitesse()
-        self.rotation()
-
-    def addTourG(self) :
-        """
-            Augmente de 1 tour sur la roue gauche
-            :returns: rien, on va modifier directement la roue gauche et faire les rafraichissements nécessaires
-        """
-        self.nbToursRoueG += 0.1
-        self.refreshVitesse()
-        self.rotation()
-
-    def addTourD(self) :
-        """
-            Augmente de 1 tour sur la roue droite
-            :returns: rien, on va modifier directement la roue droite
-        """
-        self.nbToursRoueD += 0.1
-        self.refreshVitesse()
-        self.rotation()
-
-    def subTour(self) :
-        """
-            Réduit de 1 tour sur les 2 roues
-            :returns: rien, on va modifier directement les 2 roues
-        """
-        self.nbToursRoueG -= 0.1
-        self.nbToursRoueD -= 0.1
-        self.refreshVitesse()
-        self.rotation()
-
-    def subTourG(self) :
-        """
-            Réduit de 1 tour sur la roue gauche
-            :returns: rien, on va modifier directement la roue gauche
-        """
-        self.nbToursRoueG -= 0.1
-        self.refreshVitesse()
-        self.rotation()
-
-    def subTourD(self) :
-        """
-            Réduit de 1 tour sur la roue droite
-            :returns: rien, on va modifier directement la roue droite
-        """
-        self.nbToursRoueD -= 0.1
-        self.refreshVitesse()
-        self.rotation()
-
-    
-    def setTourG(self, nbTours):
-        """ Modifie le nombre de tours de la roue gauche
-            :param nbTours: le nombre de tours qu'on veut donner à la roue gauche
-            :returns: ne retourne rien, on modifie la valeur de nbToursRoueG
-        """
-        self.nbToursRoueG=nbTours
-        self.refreshVitesse()
-        self.rotation()
-
-    def setTourD(self, nbTours):
-        """ Modifie le nombre de tours de la roue droite
-            :param nbTours: le nombre de tours qu'on veut donner à la roue droite
-            :returns: ne retourne rien, on modifie la valeur de nbToursRoueD
-        """
-        self.nbToursRoueD=nbTours
-        self.refreshVitesse()
-        self.rotation()
-
-    
-    def getVitesseAngulaireGauche(self) :
-
-        """ Donne la vitesse angulaire de la roue gauche 
-            :returns: la vitesse angulaire de la roue gauche
-        """
-
-        return 2*math.pi*self.nbToursRoueG
-    
-    def getVitesseAngulaireDroite(self) :
-
-        """ Donne la vitesse angulaire de la roue droite 
-            :returns: la vitesse angulaire de la roue droite
-        """
-        
-        return 2*math.pi*self.nbToursRoueD
-    
-
-    def getVitesseRoueD(self) :
-
-        """ Calcule et renvoie la vitesse d'un point qui serait sur la roue droite
-            :returns: la vitesse d'un point sur la roue droite
-        """
-
-        return self.getVitesseAngulaireDroite()*self.rayonRoue
-    
-    def getVitesseRoueG(self) :
-
-        """ Calcule et renvoie la vitesse d'un point qui serait sur la roue droite
-            :returns: la vitesse d'un point sur la roue droite
-        """
-
-        return self.getVitesseAngulaireGauche()*self.rayonRoue
     
     def capteurDistance(self, env) :
         """
