@@ -233,15 +233,13 @@ class Interface:
 		# 								BINDS,										| a | z | e |
 		# Le lambda event permet de ne pas avoir de fct avec 'event' en param		| q | s | d |
 		# -------------------------------------------------------------------		-------------
-		self.root.bind('a', lambda event: self.env.robots[self.env.robotSelect].addTourG()) # + gauche
-		self.root.bind('q', lambda event: self.env.robots[self.env.robotSelect].subTourG()) # - gauche
-		self.root.bind('z', lambda event: self.env.robots[self.env.robotSelect].addTour()) # + tout
-		self.root.bind('s', lambda event: self.env.robots[self.env.robotSelect].subTour()) # - tout
-		self.root.bind('e', lambda event: self.env.robots[self.env.robotSelect].addTourD()) # + droit
-		self.root.bind('d', lambda event: self.env.robots[self.env.robotSelect].subTourD()) # - droit
+		self.root.bind('a', lambda event: self.env.robots[self.env.robotSelect].addVitAngG()) # + gauche
+		self.root.bind('q', lambda event: self.env.robots[self.env.robotSelect].subVitAngG()) # - gauche
+		self.root.bind('z', lambda event: self.env.robots[self.env.robotSelect].addVitAng()) # + tout
+		self.root.bind('s', lambda event: self.env.robots[self.env.robotSelect].subVitAng()) # - tout
+		self.root.bind('e', lambda event: self.env.robots[self.env.robotSelect].addVitAngD()) # + droit
+		self.root.bind('d', lambda event: self.env.robots[self.env.robotSelect].subVitAngD()) # - droit
 
-		self.root.bind("<Left>", lambda event: self.env.robots[self.env.robotSelect].tourneGauche()) # rotG
-		self.root.bind("<Right>", lambda event: self.env.robots[self.env.robotSelect].tourneDroite()) # rotD
 
 		self.root.bind("x", lambda event: self.env.addRobotSelect(1))
 		self.root.bind("w", lambda event: self.env.addRobotSelect(-1))
