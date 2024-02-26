@@ -201,16 +201,7 @@ class Interface:
 		self.env.robots[self.env.robotSelect].addTourG()
 		self.env.robots[self.env.robotSelect].setVitesse()
 		self.rotationRobot()
-
-	def avancerRobot(self, event):
-
-		""" Fonction callback qui fait avancer notre robot
-			:param event: demandé par tkinter mais on ne l'utilise pas vraiment
-			:returns: ne retourne rien, on avance puis affiche le robot
-		"""
 		
-		if self.env.robots[self.env.robotSelect].avancerDirection() :
-			self.refresh_position_robot_visuel(self.canv, self.env.robots[self.env.robotSelect])
 
 	def tic_tac(self):
 		self.env.refresh_env()

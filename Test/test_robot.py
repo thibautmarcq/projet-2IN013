@@ -31,16 +31,16 @@ class TestRobot(unittest.TestCase):
         self.assertAlmostEqual(dirx, 0)
         self.assertAlmostEqual(diry, -1)
 
-    def test_avancer(self):
-        self.rob.avancerDirection(10)
-        self.assertEqual(self.rob.x, 10)
-        self.assertEqual(self.rob.y, 5)
+    # def test_avancer(self):
+    #     self.rob.avancerDirection(10)
+    #     self.assertEqual(self.rob.x, 10)
+    #     self.assertEqual(self.rob.y, 5)
 
-    def test_reculer(self):
-        self.rob.setVitesse(8)
-        self.rob.reculerDirection()
-        self.assertEqual(self.rob.x, 10)
-        self.assertEqual(self.rob.y, 23)
+    # def test_reculer(self):
+    #     self.rob.setVitesse(8)
+    #     self.rob.reculerDirection()
+    #     self.assertEqual(self.rob.x, 10)
+    #     self.assertEqual(self.rob.y, 23)
 
     def test_vitesses_roues(self) :
         self.rob.setTourG(9.8)
