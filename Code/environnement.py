@@ -8,6 +8,7 @@ import numpy as np
 
 from .obstacle import Obstacle
 from .robot import Robot
+from .outil import *
 
 if not os.path.isdir('Code/Logs'):
     os.mkdir("Code/Logs/")
@@ -72,9 +73,7 @@ class Environnement:
             #print('\nOBJECTIF :', x2, y2)
 
             while (round(x1), round(y1)) != (round(x2), round(y2)):
-                long = math.sqrt((x2-x1)**2 + (y2-y1)**2) # Longueur du vect dir
-                dir = ((x2-x1)/long ,(y2-y1)/long) # Vect dir normalisé
-                
+                dir = normaliserVecteur((x2-x1,y2-y1)) # Vecteur directeur normalisé
                 x1,y1 = ((x1+dir[0]), (y1+dir[1]))
 
                 self.matrice[int(y1/self.scale)][int(x1/self.scale)] = 2 # Update la matrice
@@ -115,46 +114,6 @@ class Environnement:
 
         self.robots.append(rob)
         self.matrice[int(rob.x/self.scale)][int(rob.y/self.scale)] = 1 # Ajoute à la matrice le robot grâce a sa position en le représentant par un 1
-
-    # def addObstacle(self,nom):
-
-    #     """ Ajout d'un obstacle dans la matrice, l'obstacle est représenté par '2' dans la matrice
-    #         :param nom: nom de l'obstacle
-    #         :returns: ne retourne rien, place juste un obstacle aléatoirement dans la matrice
-    #     """
-
-    #     obs_place = False
-    #     while( obs_place == False ) :
-    #         random_x = random.randrange(0,self.width) #prend des coordonnees aleatoires pour l'obstacle
-    #         random_y = random.randrange(0,self.length)
-    #         x = int(random_x/self.scale)
-    #         y = int(random_y/self.scale)
-    #         if ( self.matrice[x][y] != 1 | self.matrice[x][y] != 2) :
-    #             Obstacle(nom, x, y)
-    #             self.matrice[x][y] = 2 #  Ajoute l'obstacle représenté par le chiffre 2 dans la matrice
-    #             obs_place = True
-
-    # def detect_obs(self, rob) :
-
-    #     """ Détection d'un obstacle autour du robot
-    #         :param rob: le robot autour duquel on veut vérifier s'il y a un obstacle
-    #         :returns: true si un obstacle est détecté, false sinon
-    #     """
-
-    #     # Detecte si il y a un obstacle devant
-    #     if ( self.matrice[int(rob.x/self.scale)+1][int(rob.y/self.scale)] == 2 ) :
-    #         return True
-    #     # Detecte si il y a un obstacle derriere
-    #     if ( self.matrice[int(rob.x/self.scale)-1][int(rob.y/self.scale)] == 2 ) :
-    #         return True
-    #     # Detecte si il y a un obstacle à droite
-    #     if ( self.matrice[int(rob.x/self.scale)][int(rob.y/self.scale)+1] == 2 ) :
-    #         return True
-    #     # Detecte si il y a un obstacle à gauche
-    #     if ( self.matrice[int(rob.x/self.scale)][int(rob.y/self.scale)-1] == 2 ) :
-    #         return True
-
-    #     return False
     
     def refresh_env(self) :
 
@@ -174,15 +133,15 @@ class Environnement:
 
         self.last_refresh = temps # on met à jour l'heure du dernier rafraichissement 
 
-    def collision(self, rob) :
-        """
-            Vérifie si le robot rob est en collision avec un obstacle ou avec les bords de l'environnement
-            :param rob: le robot pour lequel on veut vérifier s'il est en collision
-            :returns: true si le robot est en collision, false sinon
-        """
-        newPosRob = (rob.x + rob.direction[0], rob.y + rob.direction[1]) # position du robot après un déplacement
-        # renvoie true si le robot est en collision avec un obstacle ou avec les bords de l'environnement
-        return ((newPosRob[0] <= 0) | (newPosRob[0] >= self.width/self.scale) | (newPosRob[1] <= 0) | (newPosRob[1] >= self.length/self.scale) | self.matrice[int(newPosRob[0]/self.scale)][int(newPosRob[1]/self.scale)] == 2)
+    # def collision(self, rob) :
+    #     """
+    #         Vérifie si le robot rob est en collision avec un obstacle ou avec les bords de l'environnement
+    #         :param rob: le robot pour lequel on veut vérifier s'il est en collision
+    #         :returns: true si le robot est en collision, false sinon
+    #     """
+    #     newPosRob = (rob.x + rob.direction[0], rob.y + rob.direction[1]) # position du robot après un déplacement
+    #     # renvoie true si le robot est en collision avec un obstacle ou avec les bords de l'environnement
+    #     return ((newPosRob[0] <= 0) | (newPosRob[0] >= self.width/self.scale) | (newPosRob[1] <= 0) | (newPosRob[1] >= self.length/self.scale) | self.matrice[int(newPosRob[0]/self.scale)][int(newPosRob[1]/self.scale)] == 2)
 
 
     def collision2(self, rob):
@@ -209,8 +168,4 @@ class Environnement:
             
         return False # Après le parcours de tout le contour, si pas d'obstacle rencontré -> False
 
-
-    def affiche(self):
-        #methodes pour affichage avec tkinter
-        pass
 
