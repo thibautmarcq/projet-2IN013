@@ -18,6 +18,7 @@ class Interface:
 			:returns: ne retourne rien, initialise seulement l'interface
 		"""
 		self.env = env# notre environnement a représenter graphiquement
+		self.strategie = 0
 
 		# Config fenêtre
 		self.root=Tk()
@@ -102,7 +103,18 @@ class Interface:
 		carre = StrategieSeq([avance, tourne, avance, tourne, avance,tourne, avance])
 		while not carre.stop():
 			carre.step()
+
+	def lancer_strategie(self) : # Indique à l'interface qu'on est en train de faire une stratégie
+		self.strategie = 1
 		
+	def choisir_strategie(self, strat, distance) :
+		self.lancer_strategie()
+		rob = self.env.robots[self.env.robotSelect]
+		avance = StrategieAvancer(rob, distance)
+		tourne = StrategieTourner(rob, 90)
+		carre = StrategieSeq([avance, tourne, avance, tourne, avance, tourne, avance, tourne])
+		if strat==1 :
+			self.strat_cour = carre
 
 
 	def update_stats_affichage(self):
@@ -204,11 +216,14 @@ class Interface:
 		
 
 	def tic_tac(self):
+
 		self.env.refresh_env()
 		self.update_stats_affichage()
 		for robot in self.env.robots:
 			self.refresh_position_robot_visuel(self.canv, robot)
-		self.root.after(int(1000/60), self.tic_tac)
+		self.root.after(int(1000/600), self.tic_tac)
+		if self.strategie :
+			self.strat_cour.step()
 
 
 	def mainloop(self):
@@ -248,7 +263,7 @@ class Interface:
 		self.root.bind('e', lambda event: self.env.robots[self.env.robotSelect].changeVitAngD(1)) # + droit
 		self.root.bind('d', lambda event: self.env.robots[self.env.robotSelect].changeVitAngD(-1)) # - droit
 
-		self.root.bind('c', lambda event: self.create_carre(self.env.robots[self.env.robotSelect],30)) # Fait tracer le carré au robot
+		self.root.bind('c', lambda event: self.choisir_strategie(1, 60)) # Fait tracer le carré au robot
 
 
 		self.root.bind("x", lambda event: self.env.addRobotSelect(1))
