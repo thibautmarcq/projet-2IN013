@@ -40,7 +40,7 @@ def getAngleFromVect(u, v) :
         :returns: l'angle entre les vecteurs u et v 
     """
 
-    return math.acos(prodScalaire(u, v)/(norme(u)*norme(v))) 
+    return math.acos(prodScalaire(u, v)/(norme(u)*norme(v))) * 180 / math.pi
 
 def distance(p1, p2) :
     """ Calcule la distance entre deux points p1 et p2

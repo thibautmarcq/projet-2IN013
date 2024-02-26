@@ -99,12 +99,15 @@ class StrategieSeq:
         self.indice = -1
         self.last_refresh = 0
 
+    def start(self):
+        self.indice = -1
+
     def step(self) : 
         """ Le step de la stratégie séquentielle, où on fait le step de la stratégie en cours ou on passe a la stratégie suivante selon le cas, et on met à jour le robot
             :returns: rien, il s'agit juste de lancement de sous-stratégies et de mise à jour de robots
         """
         
-        if self.indice < 0 or self.listeStrat[self.indice].stop(): # Si on n'a pas encore commencé à lancer les stratégies unitaire ou si la stratégie en cours est terminée, on avance à la stratégie suivante
+        if (self.indice < 0 or self.listeStrat[self.indice].stop()) and self.indice != len(self.listeStrat)-1: # Si on n'a pas encore commencé à lancer les stratégies unitaire ou si la stratégie en cours est terminée, on avance à la stratégie suivante
             self.indice += 1
             self.last_refresh = 0
             self.listeStrat[self.indice].start()

@@ -113,6 +113,7 @@ class Interface:
 		avance = StrategieAvancer(rob, distance)
 		tourne = StrategieTourner(rob, 90)
 		carre = StrategieSeq([avance, tourne, avance, tourne, avance, tourne, avance, tourne])
+		carre.start()
 		if strat==1 :
 			self.strat_cour = carre
 
