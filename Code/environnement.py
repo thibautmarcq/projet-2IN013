@@ -126,25 +126,14 @@ class Environnement:
             self.last_refresh = temps
 
         for rob in self.robots : # on fait avancer tous les robots de l'environnement
-            if (not(self.collision2(rob))): # S'il n'y a pas collision
+            if (not(self.collision(rob))): # S'il n'y a pas collision
                 duree = temps - self.last_refresh
                 #rob.refresh(duree, canv)
                 rob.refresh(duree)
 
         self.last_refresh = temps # on met à jour l'heure du dernier rafraichissement 
 
-    # def collision(self, rob) :
-    #     """
-    #         Vérifie si le robot rob est en collision avec un obstacle ou avec les bords de l'environnement
-    #         :param rob: le robot pour lequel on veut vérifier s'il est en collision
-    #         :returns: true si le robot est en collision, false sinon
-    #     """
-    #     newPosRob = (rob.x + rob.direction[0], rob.y + rob.direction[1]) # position du robot après un déplacement
-    #     # renvoie true si le robot est en collision avec un obstacle ou avec les bords de l'environnement
-    #     return ((newPosRob[0] <= 0) | (newPosRob[0] >= self.width/self.scale) | (newPosRob[1] <= 0) | (newPosRob[1] >= self.length/self.scale) | self.matrice[int(newPosRob[0]/self.scale)][int(newPosRob[1]/self.scale)] == 2)
-
-
-    def collision2(self, rob):
+    def collision(self, rob):
         """
         Vérifie si le prochain mouvement du robot va le faire rentrer en collision avec un obstacle (2)
         :param rob: robot pour lequel on veut tester la collision prochaine
