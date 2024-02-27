@@ -59,7 +59,7 @@ class Interface:
 	
 		self.frame_tutorial = LabelFrame(self.frame_gauche, text="Tutorial", bd=1)
 		self.frame_tutorial.grid(row=1)
-		self.tutorial_image = PhotoImage(file="Code/Interface/tutoriel.png").subsample(2,2)
+		self.tutorial_image = PhotoImage(file="Code/Interface/tutorial_up_key.png").subsample(2,2)
 		self.tutorial = Label(self.frame_tutorial, image=self.tutorial_image)
 		self.tutorial.grid(row=1, column=1)
 

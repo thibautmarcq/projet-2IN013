@@ -159,7 +159,7 @@ class Robot :
 		 :returns: rien, permet de tourner à droite
 		"""
 		self.changeVitAngG(1)
-		time.sleep(0.5)
+		time.sleep(0.05)
 		self.changeVitAngG(-1)
 		 
 	def tourneGauche(self): 
