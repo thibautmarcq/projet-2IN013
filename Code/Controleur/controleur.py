@@ -20,7 +20,7 @@ class StrategieAvancer:
         self.parcouru = 0
         self.pt_depart = (self.rob.x, self.rob.y)
         self.rob.setVitAng(0) # On initialise les vitesses angulaires des deux roues à 0
-        self.rob.changeVitAng(0.01) # Puis on augmente les vitesses angulaires de 0.01
+        self.rob.changeVitAng(0.001) # Puis on augmente les vitesses angulaires de 0.01
 
     def step(self) : 
         """ On fait avancer le robot d'un petit pas
@@ -33,7 +33,7 @@ class StrategieAvancer:
         """ Détermine si on a bien parcouru la distance souhaitée
             :returns: True si on a bien complété la stratégie, False sinon
         """
-        if abs(self.parcouru-self.distance) < 0.1 :
+        if self.parcouru >= self.distance :
             self.rob.setVitAng(0)
             return True
         return False
@@ -61,12 +61,12 @@ class StrategieTourner:
         # On considère ici une rotation d'un angle alpha dans le sens horaire, c.à.d si positif on tourne vers la droite, sinon vers la gauche
         # On change les vitesses des deux roues, en leur donnant des vitesses opposées afin de tourner sur place
         if self.angle > 0 :
-            self.rob.changeVitAngG(0.005)
-            self.rob.changeVitAngD(-0.005)
+            self.rob.changeVitAngG(1/1000)
+            self.rob.changeVitAngD(-1/1000)
 
         elif self.angle < 0 :
-            self.rob.changeVitAngD(0.005)
-            self.rob.changeVitAngG(-0.005)
+            self.rob.changeVitAngD(1/1000)
+            self.rob.changeVitAngG(-1/1000)
 
     def step(self):
 
@@ -81,7 +81,7 @@ class StrategieTourner:
         """ Détermine si on a fini de faire la rotation de l'angle self.angle
             :returns: True si la rotation a bien été effectuée, False sinon
         """
-        if self.angle_parcouru >= self.angle :
+        if abs(self.angle_parcouru - self.angle) < 0.4 :
             self.rob.setVitAng(0)
             return True
         return False
