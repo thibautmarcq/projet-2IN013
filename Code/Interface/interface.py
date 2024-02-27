@@ -186,7 +186,9 @@ class Interface:
 		canvas.coords(robot.robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
 		#root.after(1000/60, refresh_position_robot_visuel(canv, robot))
 
-		
+	def dessine_point(self, canva, pos, couleur) :
+		x, y = pos
+		canva.create_line(x-1, y-1, x+1, y+1, fill=couleur)
 
 	def tic_tac(self):
 
@@ -200,6 +202,7 @@ class Interface:
 				self.strat_cour.step()
 			else:
 				self.strategie = 0
+			# self.dessine_point(self.canv, (self.env.robots[self.env.robotSelect].x, self.env.robots[self.env.robotSelect].y), self.env.robots[self.env.robotSelect].couleur)
 
 	def thread_tD(self):
 		"""
