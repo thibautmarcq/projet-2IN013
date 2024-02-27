@@ -127,10 +127,13 @@ class Environnement:
             self.last_refresh = temps
 
         for rob in self.robots : # on fait avancer tous les robots de l'environnement
-            if (not(self.collision(rob))): # S'il n'y a pas collision
+            if (not(rob.estCrash) and not(self.collision(rob))): # Si le robot est opérationnel et qu'il n'y a pas collision 
                 duree = temps - self.last_refresh
                 #rob.refresh(duree, canv)
                 rob.refresh(duree)
+            elif not rob.estCrash:
+                print("prout")
+                rob.estCrash = True
 
         self.last_refresh = temps # on met à jour l'heure du dernier rafraichissement 
 
