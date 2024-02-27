@@ -84,7 +84,15 @@ class TestRobot(unittest.TestCase):
     def test_capteurDistance(self):
         self.envi = Environnement(500, 300, 1)
         self.assertAlmostEqual(self.rob.capteurDistance(self.envi), 11) # Bordure de l'environnement
-        #Rajouter tests avec obstacles
+        self.rob.x = 50
+        self.rob.y = 70
+        self.rob.direction = (0, 1)
+        self.rob.length = 8
+        self.envi.addObstacle("test1", [(45, 94), (68, 94), (32, 159)])
+        self.assertAlmostEqual(self.rob.capteurDistance(self.envi), 20) # Test pour un obstacle
+        self.rob.direction = (1, 1)
+        self.envi.addObstacle("test2", [(60, 71), (36, 83), (178, 178), (156, 163)]) # Test pour un autre obstacle
+        self.assertAlmostEqual
 
 
 
