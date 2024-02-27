@@ -17,6 +17,7 @@ class StrategieAvancer:
         self.pt_depart = (self.rob.x, self.rob.y)
   
     def start(self) :
+        self.rob.estSousControle = True
         self.parcouru = 0
         self.pt_depart = (self.rob.x, self.rob.y)
         self.rob.setVitAng(0) # On initialise les vitesses angulaires des deux roues à 0
@@ -35,6 +36,7 @@ class StrategieAvancer:
         """
         if self.parcouru >= self.distance :
             self.rob.setVitAng(0)
+            self.rob.estSousControle = False
             return True
         return False
 
@@ -54,6 +56,7 @@ class StrategieTourner:
         self.dir_depart = self.rob.direction
 
     def start(self) :
+        self.rob.estSousControle = True
         self.angle_parcouru = 0
         self.dir_depart = self.rob.direction
         self.rob.setVitAng(0)
@@ -83,6 +86,7 @@ class StrategieTourner:
         """
         if abs(self.angle_parcouru - self.angle) < 0.4 :
             self.rob.setVitAng(0)
+            self.rob.estSousControle = False
             return True
         return False
 
