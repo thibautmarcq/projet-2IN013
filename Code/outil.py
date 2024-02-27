@@ -39,7 +39,8 @@ def getAngleFromVect(u, v) :
         :param v: le deuxième des deux vecteurs entre lesquels on veut calculer l'angle
         :returns: l'angle entre les vecteurs u et v 
     """
-
+    print("print1:", prodScalaire(u, v)/(norme(u)*norme(v)))
+    print("print2:", math.acos(prodScalaire(u, v)/(norme(u)*norme(v))))
     return math.acos(prodScalaire(u, v)/(norme(u)*norme(v))) * 180 / math.pi
 
 def distance(p1, p2) :
