@@ -30,7 +30,9 @@ class Robot :
 		self.direction = (0,-1) # vecteur directeur du robot
 		self.vitAngG = 0 # Vitesses angulaires des deux roues initialisées à 0
 		self.vitAngD = 0 
-		self.estSousControle = False
+
+		self.estSousControle = False 	# permet de savoir si notre robot est controler par le controleur
+		self.estCrash = False  			# Nous permet de savoir si le robot s'est crash et ne pas refresh le robot
 
 
 	def refresh(self, duree):
