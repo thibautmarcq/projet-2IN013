@@ -185,35 +185,6 @@ class Interface:
 		canvas.coords(robot.robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
 		#root.after(1000/60, refresh_position_robot_visuel(canv, robot))
 
-
-	def rotationRobot(self):
-		"""
-		Fait une rotation de notre robot de <angle>
-		et refresh le visuel de la direction de notre robot
-		"""
-		self.env.robots[self.env.robotSelect].rotation()
-		self.canv.coords(self.robot_vec, self.env.robots[self.env.robotSelect].x, self.env.robots[self.env.robotSelect].y, self.env.robots[self.env.robotSelect].x+(75*self.env.robots[self.env.robotSelect].direction[0]), self.env.robots[self.env.robotSelect].y+(75*self.env.robots[self.env.robotSelect].direction[1]))
-		self.refresh_position_robot_visuel(self.canv, self.env.robots[self.env.robotSelect])
-
-	def rotationRobotD(self, event):
-
-		""" Fonction callback pour bind avec tkinter
-			:param event: argument appelé car demandé par tkinter mais pas utilisé
-			:returns: ne retourne rien, on bind juste pour faire la rotation droite
-		"""
-		self.env.robots[self.env.robotSelect].addTourD()
-		self.env.robots[self.env.robotSelect].setVitesse()
-		self.rotationRobot()
-
-	def rotationRobotG(self, event):
-
-		""" Fonction callback pour bind avec tkinter
-			:param event: l'argument event est obligatoire pour récupérer l'evenementmais il ne nous est pas utile
-			:returns: ne retourne rien, on bind juste pour faire la rotation gauche
-		"""
-		self.env.robots[self.env.robotSelect].addTourG()
-		self.env.robots[self.env.robotSelect].setVitesse()
-		self.rotationRobot()
 		
 
 	def tic_tac(self):
