@@ -105,18 +105,26 @@ class Interface:
 		while not carre.stop():
 			carre.step()
 
-	def lancer_strategie(self) : # Indique à l'interface qu'on est en train de faire une stratégie
-		self.strategie = 1
+	#def lancer_strategie(self) : # Indique à l'interface qu'on est en train de faire une stratégie
+	#	self.strategie = 1
 		
 	def choisir_strategie(self, strat, distance) :
-		self.lancer_strategie()
+		#self.lancer_strategie()
 		rob = self.env.robots[self.env.robotSelect]
+		if rob.estCrash:
+			print("Impossible de controller ce robot il est crash")
+			return
+		elif rob.estSousControle:
+			print("Impossible de controller ce robot il est déjà sous controle")
+			return
 		avance = StrategieAvancer(rob, distance)
 		tourne = StrategieTourner(rob, 90)
 		carre = StrategieSeq([avance, tourne, avance, tourne, avance, tourne, avance, tourne])
-		carre.start()
-		if strat==1 :
-			self.strat_cour = carre
+		Thread_carre = threading.Thread(target=carre.start, daemon=True)
+		Thread_carre.start()
+
+		#if strat==1 :
+		#	self.strat_cour = carre
 
 
 	def update_stats_affichage(self):
