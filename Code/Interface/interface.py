@@ -196,7 +196,10 @@ class Interface:
 			self.refresh_position_robot_visuel(self.canv, robot)
 		self.root.after(int(1000/600), self.tic_tac)
 		if self.strategie :
-			self.strat_cour.step()
+			if not self.strat_cour.stop():
+				self.strat_cour.step()
+			else:
+				self.strategie = 0
 
 	def thread_tD(self):
 		"""
