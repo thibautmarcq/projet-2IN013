@@ -78,26 +78,6 @@ class Robot :
 		# et on fait notre déplacement
 		self.x += self.direction[0]*vit*duree
 		self.y += self.direction[1]*vit*duree
-		
-	
-	def capteurDistance(self, env) :
-		"""
-			Capteur de distance, donne la distance entre le robot et le 1er obstacle/mur
-			:param env: l'environnement dans lequel on se trouve
-			:returns: renvoie la distance entre le robot et un obstacle/mur
-		"""
-		obs = (-1, -1) # True si il y a un mur/obstacle, False sinon
-		rayon = (int(self.x/env.scale), int(self.y/env.scale)) # Coordonnées du rayon dans la matrice
-		distance = 0 # Compteur de distance
-
-		while( (obs[0] == -1) & (obs[1] == -1) ) :
-			rayon = (rayon[0]+self.direction[0], rayon[1]+self.direction[1]) # On avance dans la direction du robot
-			# Si on est sur un bord ou si on est sur un obstacle
-			if ( (rayon[0] <= 0) | (rayon[0] >= env.width/env.scale) | (rayon[1] <= 0) | (rayon[1] >= env.length/env.scale) | (env.matrice[rayon[0]][rayon[1]] == 2) ) :               
-				obs = (rayon[0], rayon[1]) # On sauvegarde les coordonnées de l'obstacle
-				distance = math.sqrt((obs[0]-int(self.x/env.scale))**2 + (obs[1]-int(self.y/env.scale))**2)*env.scale # On calcule la distance entre le robot et l'obstacle
-
-		return distance
 	
 
 	# Fonctions de manipulation des vitesses angulaires des roues 
