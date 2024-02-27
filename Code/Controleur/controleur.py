@@ -1,4 +1,3 @@
-from ..robot import Robot
 from Code.outil import *
 import time
 
