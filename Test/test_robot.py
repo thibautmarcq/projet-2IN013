@@ -4,6 +4,7 @@ import unittest
 import math 
 
 from Code.robot import Robot
+from Code.environnement import Environnement
 
 class TestRobot(unittest.TestCase):
     def setUp(self) :
@@ -15,61 +16,77 @@ class TestRobot(unittest.TestCase):
         self.assertEqual(self.rob.y, 15)
         self.assertEqual(self.rob.width, 5)
         self.assertEqual(self.rob.length, 7)
-        self.assertEqual(self.rob.vitesse, 0)
         self.assertEqual(self.rob.direction, (0,-1))
         self.assertEqual(self.rob.rayonRoue, 8)
-        self.assertEqual(self.rob.nbToursRoueD, 0)
-        self.assertEqual(self.rob.nbToursRoueG, 0)
+        self.assertEqual(self.rob.vitAngD, 0)
+        self.assertEqual(self.rob.vitAngG, 0)
 
-    def test_setVitesse(self):
-        self.rob.setVitesse(12)
-        self.assertEqual(self.rob.vitesse, 12)
-
-    def test_rotation(self):
-        self.rob.rotation()
-        dirx,diry = self.rob.direction
-        self.assertAlmostEqual(dirx, 0)
-        self.assertAlmostEqual(diry, -1)
-
-    # def test_avancer(self):
-    #     self.rob.avancerDirection(10)
-    #     self.assertEqual(self.rob.x, 10)
-    #     self.assertEqual(self.rob.y, 5)
-
-    # def test_reculer(self):
-    #     self.rob.setVitesse(8)
-    #     self.rob.reculerDirection()
-    #     self.assertEqual(self.rob.x, 10)
-    #     self.assertEqual(self.rob.y, 23)
-
-    def test_vitesses_roues(self) :
-        self.rob.setTourG(9.8)
-        self.rob.setTourD(4.8)
-        self.assertEqual(self.rob.nbToursRoueG, 9.8)
-        self.assertEqual(self.rob.nbToursRoueD, 4.8)
-
-        self.rob.addTourG()
-        self.assertAlmostEqual(self.rob.nbToursRoueG, 9.9)
-        self.rob.addTourD()
-        self.assertAlmostEqual(self.rob.nbToursRoueD, 4.9)
-
-        self.rob.addTour()
-        self.assertAlmostEqual(self.rob.nbToursRoueG, 10)
-        self.assertAlmostEqual(self.rob.nbToursRoueD, 5)
-
-        vitG = self.rob.getVitesseRoueG()
-        vitD = self.rob.getVitesseRoueD()
-        self.assertLess(abs(vitG - 502.65), 0.01)
-        self.assertLess(abs(vitD - 251.33), 0.01)
-
-    def test_normalisation(self) :
-        self.rob.direction = (13, 8)
-        norme = math.sqrt(self.rob.direction[0]**2 + self.rob.direction[1]**2)
-        self.assertNotAlmostEqual(1, norme)
+    # def test_refresh(self):
         
-        self.rob.direction = self.rob.normaliserVecteur(self.rob.direction)
-        norme = math.sqrt(self.rob.direction[0]**2 + self.rob.direction[1]**2)
-        self.assertAlmostEqual(norme, 1)
+    def test_setVitAngG(self):
+        self.rob.setVitAngG(5)
+        self.assertEqual(self.rob.vitAngG,5)
+        self.rob.setVitAngG(-7)
+        self.assertEqual(self.rob.vitAngG,-7)
+        self.rob.setVitAngG(0)
+        self.assertEqual(self.rob.vitAngG,0)
+
+    def test_setVitAngD(self):
+        self.rob.setVitAngD(5)
+        self.assertEqual(self.rob.vitAngD,5)
+        self.rob.setVitAngD(-7)
+        self.assertEqual(self.rob.vitAngD,-7)
+        self.rob.setVitAngD(0)
+        self.assertEqual(self.rob.vitAngD,0)
+
+    def test_changeVitAngG(self):
+        self.rob.changeVitAngG(5)
+        self.assertEqual(self.rob.vitAngG,5)
+        self.rob.changeVitAngG(2)
+        self.assertEqual(self.rob.vitAngG,7)
+        self.rob.changeVitAngG(-7)
+        self.assertEqual(self.rob.vitAngG,0)
+    
+    def test_changeVitAngD(self):
+        self.rob.changeVitAngD(5)
+        self.assertEqual(self.rob.vitAngD,5)
+        self.rob.changeVitAngD(2)
+        self.assertEqual(self.rob.vitAngD,7)
+        self.rob.changeVitAngD(-7)
+        self.assertEqual(self.rob.vitAngD,0)
+
+    def test_changeVitAng(self):
+        self.rob.changeVitAng(5)
+        self.assertEqual(self.rob.vitAngG,5)
+        self.assertEqual(self.rob.vitAngD,5)
+        self.rob.changeVitAng(-5)
+        self.assertEqual(self.rob.vitAngG,0)
+        self.assertEqual(self.rob.vitAngD,0)
+
+    def test_getVitesseG(self):
+        self.rob.setVitAngG(4)
+        self.assertEqual(self.rob.getVitesseG(), 32)
+        self.rob.setVitAngG(0)
+        self.assertEqual(self.rob.getVitesseG(), 0)
+
+    def test_getVitesseD(self):
+        self.rob.setVitAngD(4)
+        self.assertEqual(self.rob.getVitesseD(), 32)
+        self.rob.setVitAngD(0)
+        self.assertEqual(self.rob.getVitesseD(), 0)
+
+    def test_getVitesse(self):
+        self.rob.changeVitAng(5)
+        self.assertEqual(self.rob.getVitesse(), 40)
+        self.rob.changeVitAngD(-2)
+        self.assertEqual(self.rob.getVitesse(), 32)
+    
+    def test_capteurDistance(self):
+        self.envi = Environnement(500, 300, 1)
+        self.assertAlmostEqual(self.rob.capteurDistance(self.envi), 11) # Bordure de l'environnement
+        #Rajouter tests avec obstacles
+
+
 
     # def test_refresh(self) :
     #     self.rob.rayonRoue = 1

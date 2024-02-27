@@ -165,20 +165,28 @@ class Robot :
 	def tourneGauche(self): 
 		"""
 		 Fonction lancée en threading. Permet de tourner plus facilement à droite. (évite les loopings)
-		 :returns: rien, permet de tourner à droite
+		 :returns: rien, permet de tourner à gauche
 		"""
 		self.changeVitAngD(1)
 		time.sleep(0.05)
 		self.changeVitAngD(-1)
 		
 	def avance(self):
+		"""
+		 Fonction lancée en threading. Permet d'avancer plus facilement. (sans avance auto)
+		 :returns: rien, permet d'avancer
+		"""
 		self.changeVitAngG(1)
 		self.changeVitAngD(1)
-		time.sleep(0.5)
+		time.sleep(0.05)
 		self.changeVitAngG(-1)
 		self.changeVitAngD(-1)
 
 	def recule(self):
+		"""
+		 Fonction lancée en threading. Permet de reculer plus facilement. (sans recul auto)
+		 :returns: rien, permet de reculer
+		"""
 		self.changeVitAngG(-1)
 		self.changeVitAngD(-1)
 		time.sleep(0.5)
