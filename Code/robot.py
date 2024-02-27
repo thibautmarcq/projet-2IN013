@@ -189,7 +189,7 @@ class Robot :
 		"""
 		self.changeVitAngG(-1)
 		self.changeVitAngD(-1)
-		time.sleep(0.5)
+		time.sleep(0.05)
 		self.changeVitAngG(1)
 		self.changeVitAngD(1)
 			
