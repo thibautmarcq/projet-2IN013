@@ -1,4 +1,5 @@
 import math
+import threading
 from time import *
 from tkinter import *
 
@@ -197,6 +198,37 @@ class Interface:
 		if self.strategie :
 			self.strat_cour.step()
 
+	def thread_tD(self):
+		"""
+		Fonction de threading. Permet de lancer les fonction pour tourner facilement.
+		:returns: rien, lance simplement un thread
+		"""
+		self.threadTourneDroite = threading.Thread(target=self.env.robots[self.env.robotSelect].tourneDroite)
+		self.threadTourneDroite.start()
+
+	def thread_tG(self):
+		"""
+		Fonction de threading. Permet de lancer les fonction pour tourner facilement.
+		:returns: rien, lance simplement un thread
+		"""
+		self.threadTourneGauche = threading.Thread(target=self.env.robots[self.env.robotSelect].tourneGauche)
+		self.threadTourneGauche.start()
+
+	def thread_av(self):
+		"""
+		Fonction de threading. Permet de lancer les fonction pour avancer facilement.
+		:returns: rien, lance simplement un thread
+		"""
+		self.threadAvance = threading.Thread(target=self.env.robots[self.env.robotSelect].avance)
+		self.threadAvance.start()
+
+	def thread_ar(self):
+		"""
+		Fonction de threading. Permet de lancer les fonction pour reculer facilement.
+		:returns: rien, lance simplement un thread
+		"""
+		self.threadRecule = threading.Thread(target=self.env.robots[self.env.robotSelect].recule)
+		self.threadRecule.start()
 
 	def mainloop(self):
 		""" Initialise toutes les fonctionnalités en lien avec le robot (dans l'env et dans tkinter)
@@ -209,7 +241,7 @@ class Interface:
 			rob.robot_vec = self.canv.create_line(rob.x, rob.y, rob.x+(75*rob.direction[0]), rob.y+(75*rob.direction[1]))
 		
 		self.create_obs()
-		
+	
 
 		# ---------------------------
 		# Afficheur de coordonnées du robot
@@ -234,6 +266,12 @@ class Interface:
 		self.root.bind('s', lambda event: self.env.robots[self.env.robotSelect].changeVitAng(-1)) # - tout
 		self.root.bind('e', lambda event: self.env.robots[self.env.robotSelect].changeVitAngD(1)) # + droit
 		self.root.bind('d', lambda event: self.env.robots[self.env.robotSelect].changeVitAngD(-1)) # - droit
+
+		self.root.bind('<Right>', lambda event: self.thread_tD()) # Tourner facilement à droite
+		self.root.bind('<Left>', lambda event: self.thread_tG()) # Tourner facilement à gauche
+		self.root.bind('<Up>', lambda event: self.thread_av())
+		self.root.bind('<Down>', lambda event: self.thread_ar())
+
 
 		self.root.bind('c', lambda event: self.choisir_strategie(1, 60)) # Fait tracer le carré au robot
 
