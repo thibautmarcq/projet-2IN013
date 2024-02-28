@@ -105,18 +105,26 @@ class Interface:
 		while not carre.stop():
 			carre.step()
 
-	def lancer_strategie(self) : # Indique à l'interface qu'on est en train de faire une stratégie
-		self.strategie = 1
+	#def lancer_strategie(self) : # Indique à l'interface qu'on est en train de faire une stratégie
+	#	self.strategie = 1
 		
 	def choisir_strategie(self, strat, distance) :
-		self.lancer_strategie()
+		#self.lancer_strategie()
 		rob = self.env.robots[self.env.robotSelect]
+		if rob.estCrash:
+			print("Impossible de controller ce robot il est crash")
+			return
+		elif rob.estSousControle:
+			print("Impossible de controller ce robot il est déjà sous controle")
+			return
 		avance = StrategieAvancer(rob, distance)
 		tourne = StrategieTourner(rob, 90)
 		carre = StrategieSeq([avance, tourne, avance, tourne, avance, tourne, avance, tourne])
-		carre.start()
-		if strat==1 :
-			self.strat_cour = carre
+		Thread_carre = threading.Thread(target=carre.start, daemon=True)
+		Thread_carre.start()
+
+		#if strat==1 :
+		#	self.strat_cour = carre
 
 
 	def update_stats_affichage(self):
@@ -192,7 +200,7 @@ class Interface:
 
 	def tic_tac(self):
 
-		self.env.refresh_env()
+		#self.env.refresh_env()
 		self.update_stats_affichage()
 		for robot in self.env.robots:
 			self.refresh_position_robot_visuel(self.canv, robot)
@@ -209,7 +217,7 @@ class Interface:
 		Fonction de threading. Permet de lancer les fonction pour tourner facilement.
 		:returns: rien, lance simplement un thread
 		"""
-		self.threadTourneDroite = threading.Thread(target=self.env.robots[self.env.robotSelect].tourneDroite)
+		self.threadTourneDroite = threading.Thread(target=self.env.robots[self.env.robotSelect].tourneDroite, daemon=True)
 		self.threadTourneDroite.start()
 
 	def thread_tG(self):
@@ -217,7 +225,7 @@ class Interface:
 		Fonction de threading. Permet de lancer les fonction pour tourner facilement.
 		:returns: rien, lance simplement un thread
 		"""
-		self.threadTourneGauche = threading.Thread(target=self.env.robots[self.env.robotSelect].tourneGauche)
+		self.threadTourneGauche = threading.Thread(target=self.env.robots[self.env.robotSelect].tourneGauche, daemon=True)
 		self.threadTourneGauche.start()
 
 	def thread_av(self):
@@ -225,7 +233,7 @@ class Interface:
 		Fonction de threading. Permet de lancer les fonction pour avancer facilement.
 		:returns: rien, lance simplement un thread
 		"""
-		self.threadAvance = threading.Thread(target=self.env.robots[self.env.robotSelect].avance)
+		self.threadAvance = threading.Thread(target=self.env.robots[self.env.robotSelect].avance, daemon=True)
 		self.threadAvance.start()
 
 	def thread_ar(self):
@@ -233,7 +241,7 @@ class Interface:
 		Fonction de threading. Permet de lancer les fonction pour reculer facilement.
 		:returns: rien, lance simplement un thread
 		"""
-		self.threadRecule = threading.Thread(target=self.env.robots[self.env.robotSelect].recule)
+		self.threadRecule = threading.Thread(target=self.env.robots[self.env.robotSelect].recule, daemon=True)
 		self.threadRecule.start()
 
 	def mainloop(self):
