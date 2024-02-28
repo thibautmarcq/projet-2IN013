@@ -37,7 +37,16 @@ def menu():
         run = Interface(env)
         run.mainloop()
     elif cmd == "2":
-        pass
+        print("Information de la simulation:")
+        print("Width:", env.width, "Length:", env.length)
+        print("Nombre de robots dans notre simulation:", len(env.robots))
+        for rob in env.robots:
+            print("------ Robot",rob.nom,"------")
+            print(f"vitAngG = {rob.vitAngG}, vitAngD = {rob.vitAngD}")
+            print(f"Coords: ({rob.x},{rob.y}), Width: {rob.width}, Length: {rob.length}")
+            print("Le robot n'est plus fonctionnel"if rob.estCrash else "Le robot est toujours fonctionnel")
+            print("Le robot n'est pas controlé par le controleur"if not rob.estSousControle else "Le robot est controlé par le controlleur")
+            print("------------"+"-"*(len(rob.nom)+2)+"------")
 
 
 
