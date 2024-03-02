@@ -142,7 +142,7 @@ class Interface:
 		# Update label distance
 		self.lab_distance.config(text=("Obstacle dans : "+str(round(self.env.robots[self.env.robotSelect].capteurDistance(self.env), 2))))
 
-	def rotationVecteur(v, angle):
+	def rotationVecteur(self, v, angle):
 
 		""" Fonction qui fait une rotation du vecteur2D <v> de <angle>
 			:param v: le vecteur de direction de départ
@@ -205,44 +205,13 @@ class Interface:
 		for robot in self.env.robots:
 			self.refresh_position_robot_visuel(self.canv, robot)
 		self.root.after(int(1000/600), self.tic_tac)
-		if self.strategie :
-			if not self.strat_cour.stop():
-				self.strat_cour.step()
-			else:
-				self.strategie = 0
+		# if self.strategie :
+			# if not self.strat_cour.stop():
+			# 	self.strat_cour.step()
+			# else:
+				# self.strategie = 0
 			# self.dessine_point(self.canv, (self.env.robots[self.env.robotSelect].x, self.env.robots[self.env.robotSelect].y), self.env.robots[self.env.robotSelect].couleur)
 
-	def thread_tD(self):
-		"""
-		Fonction de threading. Permet de lancer les fonction pour tourner facilement.
-		:returns: rien, lance simplement un thread
-		"""
-		self.threadTourneDroite = threading.Thread(target=self.env.robots[self.env.robotSelect].tourneDroite, daemon=True)
-		self.threadTourneDroite.start()
-
-	def thread_tG(self):
-		"""
-		Fonction de threading. Permet de lancer les fonction pour tourner facilement.
-		:returns: rien, lance simplement un thread
-		"""
-		self.threadTourneGauche = threading.Thread(target=self.env.robots[self.env.robotSelect].tourneGauche, daemon=True)
-		self.threadTourneGauche.start()
-
-	def thread_av(self):
-		"""
-		Fonction de threading. Permet de lancer les fonction pour avancer facilement.
-		:returns: rien, lance simplement un thread
-		"""
-		self.threadAvance = threading.Thread(target=self.env.robots[self.env.robotSelect].avance, daemon=True)
-		self.threadAvance.start()
-
-	def thread_ar(self):
-		"""
-		Fonction de threading. Permet de lancer les fonction pour reculer facilement.
-		:returns: rien, lance simplement un thread
-		"""
-		self.threadRecule = threading.Thread(target=self.env.robots[self.env.robotSelect].recule, daemon=True)
-		self.threadRecule.start()
 
 	def mainloop(self):
 		""" Initialise toutes les fonctionnalités en lien avec le robot (dans l'env et dans tkinter)
@@ -280,11 +249,6 @@ class Interface:
 		self.root.bind('s', lambda event: self.env.robots[self.env.robotSelect].changeVitAng(-1)) # - tout
 		self.root.bind('e', lambda event: self.env.robots[self.env.robotSelect].changeVitAngD(1)) # + droit
 		self.root.bind('d', lambda event: self.env.robots[self.env.robotSelect].changeVitAngD(-1)) # - droit
-
-		self.root.bind('<Right>', lambda event: self.thread_tD()) # Tourner facilement à droite
-		self.root.bind('<Left>', lambda event: self.thread_tG()) # Tourner facilement à gauche
-		self.root.bind('<Up>', lambda event: self.thread_av())
-		self.root.bind('<Down>', lambda event: self.thread_ar())
 
 
 		self.root.bind('c', lambda event: self.choisir_strategie(1, 60)) # Fait tracer le carré au robot
