@@ -1,7 +1,6 @@
 import logging
 import math
 import os
-import random
 import time
 
 import numpy as np
@@ -71,7 +70,6 @@ class Environnement:
             x2, y2 = lstPoints[(i+1)%len(lstPoints)] # Cas où i est le dernier indice de la liste - Point d'arrivée
 
             self.matrice[int(y1/self.scale)][int(x1/self.scale)] = 2 # Place le pt de départ dans la matrice
-            #print('\nOBJECTIF :', x2, y2)
 
             while (round(x1), round(y1)) != (round(x2), round(y2)):
                 dir = normaliserVecteur((x2-x1,y2-y1)) # Vecteur directeur normalisé
@@ -84,15 +82,12 @@ class Environnement:
                 except:
                     pass
 
-            #print('Arrivé en :', x1, y1)
-        #time.sleep(1)
 
     def print_matrix(self):
         for row in self.matrice:
             print(' '.join(str(item) for item in row))
 
     def setRobot(self, robot, couleur):
-
         """ Crée un robot et l'ajoute à notre environnement
             :param nom: nom du robot
             :param x: la coordonnée x où on veut placer le robot au départ
@@ -104,10 +99,8 @@ class Environnement:
         """
         robot.couleur = couleur
         self.robots.append(robot)
-        #self.matrice[int(x/self.scale)][int(y/self.scale)] = 1 # Ajoute le robot représenté par le chiffre 1 dans la matrice
 
     def addRobot(self, rob) :
-
         """ Ajoute le robot rob à l'environnement et le place dans la matrice
             :param rob: le robot qu'on veut ajouter à l'environnement
             :returns: ne retourne rien
@@ -117,7 +110,6 @@ class Environnement:
         self.matrice[int(rob.x/self.scale)][int(rob.y/self.scale)] = 1 # Ajoute à la matrice le robot grâce a sa position en le représentant par un 1
     
     def refresh_env(self) :
-
         """ Pour rafraichir l'environnement et faire updater tous les robots qui le composent.
             :returns: ne retourne rien, fait juste la mise à jour de tous les éléments
         """
@@ -129,10 +121,9 @@ class Environnement:
         for rob in self.robots : # on fait avancer tous les robots de l'environnement
             if (not(rob.estCrash) and not(self.collision(rob))): # Si le robot est opérationnel et qu'il n'y a pas collision 
                 duree = temps - self.last_refresh
-                #rob.refresh(duree, canv)
                 rob.refresh(duree)
+
             elif not rob.estCrash:
-                print("prout")
                 rob.estCrash = True
 
         self.last_refresh = temps # on met à jour l'heure du dernier rafraichissement 
@@ -154,7 +145,7 @@ class Environnement:
                 if (self.matrice[int(y1/self.scale)][int(x1/self.scale)]==2): # teste si le point est sur un obstacle
                     print("Collision de", rob.nom, "! Obstacle en (", str(x1),",",str(y1),")")
                     return True
-                # print('aaa')
+                
                 long = math.sqrt((x2-x1)**2 + (y2-y1)**2) # Longueur du vect dir
                 dir = ((x2-x1)/long ,(y2-y1)/long) # Vect dir normalisé
                 x1,y1 = ((x1+dir[0]), (y1+dir[1])) #nv point

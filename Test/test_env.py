@@ -30,9 +30,3 @@ class TestEnvironnement(unittest.TestCase):
         self.env.addObstacle("Roger")
         self.assertTrue(2 in self.env.matrice)
         
-    # def test_detect_obs(self):
-    #     pass
-
-    # def test_affiche(self):
-    #     # Methode non définie dans Environnement
-    #     pass
