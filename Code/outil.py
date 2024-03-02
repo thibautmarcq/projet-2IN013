@@ -8,6 +8,8 @@ def normaliserVecteur(u) :
     """
     x, y = u
     long = math.sqrt(x**2 + y**2) # la longueur du vecteur tel quel
+    if (long==0): # Cas où le vecteur à normaliser est nul
+        return (0,0)
     return (x/long, y/long) # on divise chacune des coordonnées par la longueur du vecteur, de cette manière le vecteur sera de norme 1
 
 def norme(u) :
