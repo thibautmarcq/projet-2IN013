@@ -50,9 +50,9 @@ class Environnement:
         Change l'indice du robot sélectionné (lui ajoute n)
         :returns: rien, ajoute n à la valeur de sélection du robot
         """
-        self.robotSelect = (self.robotSelect + n)% len(self.robots)
-    
-
+        if (len(self.robots)!=0): # éviter le modulo par 0
+            self.robotSelect = (self.robotSelect + n)% len(self.robots)
+ 
     def addObstacle(self,nom, lstPoints):
         """ Ajout d'un obstacle dans la matrice, l'obstacle est représenté par '2' dans la matrice
             :param nom: nom de l'obstacle
