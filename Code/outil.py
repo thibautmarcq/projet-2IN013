@@ -56,4 +56,11 @@ def distance(p1, p2) :
     x1, y1 = p1
     x2, y2 = p2
     return math.sqrt((x2-x1)**2 + (y2-y1)**2)
-    
+
+def getVectFromAngle(angle):
+    """ Calcule le vecteur obtenu avec un angle
+        :param angle: angle du vecteur voulu
+        :returns: un vecteur d'angle <angle>
+    """
+    rad = math.radians(angle) # conversion de l'angle en radians
+    return (math.cos(rad), math.sin(rad)) # coordonnées dans le cercle trigo
