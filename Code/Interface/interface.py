@@ -102,14 +102,13 @@ class Interface:
 		avance = StrategieAvancer(rob, distance)
 		tourne = StrategieTourner(rob, 90)
 		carre = StrategieSeq([avance, tourne, avance, tourne, avance,tourne, avance])
-		while not carre.stop():
-			carre.step()
+		
 
-	#def lancer_strategie(self) : # Indique à l'interface qu'on est en train de faire une stratégie
-	#	self.strategie = 1
+	def lancer_strategie(self) : # Indique à l'interface qu'on est en train de faire une stratégie
+		self.strategie = 1
 		
 	def choisir_strategie(self, strat, distance) :
-		#self.lancer_strategie()
+		self.lancer_strategie()
 		rob = self.env.robots[self.env.robotSelect]
 		if rob.estCrash:
 			print("Impossible de controller ce robot il est crash")
@@ -120,11 +119,12 @@ class Interface:
 		avance = StrategieAvancer(rob, distance)
 		tourne = StrategieTourner(rob, 90)
 		carre = StrategieSeq([avance, tourne, avance, tourne, avance, tourne, avance, tourne])
-		Thread_carre = threading.Thread(target=carre.start, daemon=True)
-		Thread_carre.start()
 
-		#if strat==1 :
-		#	self.strat_cour = carre
+		if strat==1 :
+			self.strat_cour = carre
+			self.strat_cour.start()
+		
+		
 
 
 	def update_stats_affichage(self):
@@ -200,16 +200,17 @@ class Interface:
 
 	def tic_tac(self):
 
-		#self.env.refresh_env()
+		# self.env.refresh_env()
+		if self.strategie :
+			if not self.strat_cour.stop():
+				sleep(1/60)
+				self.strat_cour.step()
+			else:
+				self.strategie = 0
 		self.update_stats_affichage()
 		for robot in self.env.robots:
 			self.refresh_position_robot_visuel(self.canv, robot)
 		self.root.after(int(1000/600), self.tic_tac)
-		# if self.strategie :
-			# if not self.strat_cour.stop():
-			# 	self.strat_cour.step()
-			# else:
-				# self.strategie = 0
 			# self.dessine_point(self.canv, (self.env.robots[self.env.robotSelect].x, self.env.robots[self.env.robotSelect].y), self.env.robots[self.env.robotSelect].couleur)
 
 
