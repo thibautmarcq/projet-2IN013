@@ -1,3 +1,4 @@
+# python3 -m unittest Test/test_outil.py -v
 import unittest
 import math
 import Code.outil as outil
@@ -28,3 +29,9 @@ class TestOutil(unittest.TestCase):
         self.assertEqual(outil.distance((1, 2), (4, 6)), 5.0)
         self.assertEqual(outil.distance((1, 2), (1, 2)), 0.0) # Distance entre les 2 memes points 
         self.assertEqual(outil.distance((-1, -2), (-4, -6)), 5.0) # Valeurs négatives
+
+    # def test_getVectFromAngle(self):
+    #     self.assertAlmostEqual(outil.getVectFromAngle(0), (1.0, 0.0))
+    #     self.assertAlmostEqual(outil.getVectFromAngle(90), (0.0, 1.0))
+    #     self.assertAlmostEqual(outil.getVectFromAngle(180), (-1.0, 0.0))
+    #     self.assertAlmostEqual(outil.getVectFromAngle(270), (0.0, -1.0))
