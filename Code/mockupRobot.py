@@ -54,27 +54,27 @@ class Adaptateur(mockupRobot) :
         self.set_motor_dps(self.MOTOR_RIGHT + self.MOTOR_LEFT, dps)
 
     def changeVitAngG(self, quant) :
-        vit = self.get_motor_position(self.MOTOR_LEFT)
+        vit = self.get_motor_position()[0]
         self.set_motor_dps(self.MOTOR_LEFT, vit + quant)
 
     def changeVitAngD(self, quant) :
-        vit = self.get_motor_position(self.MOTOR_RIGHT)
+        vit = self.get_motor_position()[1]
         self.set_motor_dps(self.MOTOR_RIGHT, vit + quant)
 
     def changeVitAng(self, quant) :
-        vitG = self.get_motor_position(self.MOTOR_LEFT)
-        vitD = self.get_motor_position(self.MOTOR_RIGHT)
+        vitG = self.get_motor_position()[0]
+        vitD = self.get_motor_position()[1]
         self.changeVitAngG(vitG + quant)
         self.changeVitAngD(vitD +quant)
     
     def getVitesseG(self) :
-        return self.get_motor_position(self.MOTOR_LEFT)
+        return self.get_motor_position()[0]
     
     def getVitesseD(self) :
-        return self.get_motor_position(self.MOTOR_RIGHT)
+        return self.get_motor_position()[1]
     
     def getVitesse(self) :
-        vit = self.get_motor_position(self.MOTOR_LEFT) + self.get_motor_position(self.MOTOR_RIGHT)
+        vit = self.get_motor_position()[0] + self.get_motor_position()[1]
         return vit/2
 
     def capteurDistance(self) :
