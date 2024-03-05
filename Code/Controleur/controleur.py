@@ -21,7 +21,7 @@ class StrategieAvancer:
         self.rob.estSousControle = True
         self.parcouru = 0
         self.pt_depart = (self.rob.x, self.rob.y)
-        self.rob.setVitAng(1/20) # Puis on augmente les vitesses angulaires de 0.01
+        self.rob.setVitAng(1/20) 
 
     def step(self) : 
         """ On fait avancer le robot d'un petit pas
@@ -76,7 +76,7 @@ class StrategieTourner:
 
     def step(self):
 
-        """ Le step de la stratégie tourner, qui induit le mouvement si c'est le premier ou bien met a jour l'angle qui a été parcouru jusqu'à maintenant sinon
+        """ Le step de la stratégie tourner, qui met a jour l'angle qui a été parcouru jusqu'à maintenant sinon
             :returns: ne retourne rien, on met juste a jour le paramètre distance parcourue
         """
         if not self.stop():
@@ -141,4 +141,36 @@ class StrategieSeq:
             :returns: True si toutes les stratégies ont bien été accomplies, False sinon
         """
         return self.indice == len(self.listeStrat)-1 and self.listeStrat[self.indice].stop() 
+    
+
+
+class StrategieArretMur:
+    def __init__(self, rob, distarret):
+        """ Stategie qui fait fais arreter le robot a une distance donnée
+            :param rob: le robot que l'on veut faire arreter avant un mur/obtacle
+            :param angle: la distance que l'on veut entre le robot et le mur/obstacle
+            :param distrob: la distance entre le robot et le mur/obtacle le plus proche devant lui obtenue avec le capteur de distance 
+        """
+        self.rob = rob
+        self.distarret = distarret
+        self.distrob = self.rob.capteurDistance()
+
+    def start(self):
+        self.rob.setVitAng(1/20)
+        self.distrob = self.rob.capteurDistance()
+
+    def step(self):
+        """ Le step de la stratégie arret mur: qui met à jour la distance entre le robot et le mur/obstacle devant lui
+        """
+        if not self.stop():
+            self.distrob = self.rob.capteurDistance()
+
+    def stop(self):
+        """ Détermine si la distance entre le robot et le mur/obtacle est plus petite ou égale a la distarret souhaité 
+            :return: True si oui, non sinon
+        """
+        return self.distrob <= self.distarret
+
+        
+
 
