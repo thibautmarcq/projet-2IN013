@@ -114,9 +114,10 @@ class Interface:
 			return
 
 		if strat==1:
-			Controler.setStategieCarre(self.controleur,rob, distance)
-
-		if strat==2:
+			Controler.setStrategieCarre(self.controleur,rob, distance)
+			rob.draw = True
+			rob.firstDrawPoint = (rob.x, rob.y)
+		elif strat==2:
 			Controler.setStrategieArretMur(self.controleur,rob, distance, self.env)
 		
 		
@@ -189,16 +190,22 @@ class Interface:
 		canvas.coords(robot.robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
 		#root.after(1000/60, refresh_position_robot_visuel(canv, robot))
 
-	def dessine_point(self, canva, pos, couleur) :
+	def dessine_point(self, pos, couleur) :
 		x, y = pos
-		canva.create_line(x-1, y-1, x+1, y+1, fill=couleur)
+		self.canv.create_line(x-1, y-1, x+1, y+1, fill=couleur)
 
 	def tic_tac(self):
 		self.update_stats_affichage()
 		for robot in self.env.robots:
 			self.refresh_position_robot_visuel(self.canv, robot)
+			if robot.draw and not robot.estCrash:
+				self.dessine_point((self.env.robots[self.env.robotSelect].x, self.env.robots[self.env.robotSelect].y),  "black") #self.env.robots[self.env.robotSelect].couleur)
+				a = 5
+				print(robot.nom, robot.x, robot.y, robot.firstDrawPoint, not robot.estSousControle, (abs(int(robot.firstDrawPoint[0]) - int(self.env.robots[self.env.robotSelect].x)) < a), abs(int(robot.firstDrawPoint[1]) - int(self.env.robots[self.env.robotSelect].y)) < a)
+				if not robot.estSousControle and (abs(int(robot.firstDrawPoint[0]) - int(self.env.robots[self.env.robotSelect].x)) < a and abs(int(robot.firstDrawPoint[1]) - int(self.env.robots[self.env.robotSelect].y)) < a):
+					robot.draw = False
+					
 		self.root.after(int(1000/60), self.tic_tac)
-			# self.dessine_point(self.canv, (self.env.robots[self.env.robotSelect].x, self.env.robots[self.env.robotSelect].y), self.env.robots[self.env.robotSelect].couleur)
 
 
 	def mainloop(self):
@@ -209,8 +216,9 @@ class Interface:
 		#self.robot_vec = self.canv.create_line(bob.x, bob.y, bob.x+(75*bob.direction[0]), bob.y+(75*bob.direction[1]))
 		for rob in self.env.robots:
 			self.create_robot_rect(rob)
+			rob.draw = False
 			rob.robot_vec = self.canv.create_line(rob.x, rob.y, rob.x+(75*rob.direction[0]), rob.y+(75*rob.direction[1]))
-		
+
 		self.create_obs()
 	
 
