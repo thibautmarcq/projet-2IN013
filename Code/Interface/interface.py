@@ -109,7 +109,7 @@ class Interface:
 			return
 
 		if strat==1:
-			Controler.setStategieCarre(self.controleur, distance)
+			Controler.setStategieCarre(self.controleur,rob, distance)
 		
 		
 
