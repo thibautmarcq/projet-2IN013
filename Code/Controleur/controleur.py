@@ -19,7 +19,8 @@ class Controler:
                     self.strat_en_cour.step()
                 else:
                     self.strategie = 0
-                    self.strat_en_cour = None 
+                    self.strat_en_cour.listeStrat[len(self.strat_en_cour.listeStrat)-1].rob.setVitAng(0)
+                    self.strat_en_cour = None
             time.sleep(1/(2**30))
   
     def setStrategie(self, strat):
@@ -60,7 +61,7 @@ class StrategieAvancer:
         """ On fait avancer le robot d'un petit pas
             :returns: rien, on met juste à jour la distance parcourue par le robot
         """
-        if not self.stop():
+        if not self.stop() and not self.rob.estCrash:
             pos_actuelle = (self.rob.x, self.rob.y)
             self.parcouru = distance(self.pt_depart, pos_actuelle)
             print("distance parcouru:", self.parcouru)
@@ -110,7 +111,7 @@ class StrategieTourner:
         """ Le step de la stratégie tourner, qui induit le mouvement si c'est le premier ou bien met a jour l'angle qui a été parcouru jusqu'à maintenant sinon
             :returns: ne retourne rien, on met juste a jour le paramètre distance parcourue
         """
-        if not self.stop():
+        if not self.stop() and not self.rob.estCrash:
             self.angle_parcouru = getAngleFromVect(self.dir_depart, self.rob.direction)
         else:
             self.rob.setVitAng(0)
@@ -151,7 +152,6 @@ class StrategieSeq:
             :returns: rien, il s'agit juste de lancement de sous-stratégies et de mise à jour de robots
         """
         if not self.stop():
-            print("A")
             if (self.indice < 0 or self.listeStrat[self.indice].stop()) and self.indice != len(self.listeStrat)-1: # Si on n'a pas encore commencé à lancer les stratégies unitaire ou si la stratégie en cours est terminée, on avance à la stratégie suivante
                 self.indice += 1
                 self.last_refresh = 0
@@ -159,20 +159,12 @@ class StrategieSeq:
 
             self.listeStrat[self.indice].step() # On fait le step de la stratégie en cours 
 
-            now = time.time()
-            if self.last_refresh == 0 :
-                self.last_refresh = now
-            duree = now - self.last_refresh
-            
-            #self.listeStrat[self.indice].rob.refresh(duree) # On refresh le robot sur la durée qui s'est écoulée depuis le dernier rafraichissement
         else:
             self.listeStrat[self.indice].rob.setVitAng(0)
-            print("AAAAAAAAAAAAAAAAAA")
 
     def stop(self) : 
         """ Détermine si la stratégie séquentielle est terminée, donc si toutes ses sous-stratégies son terminées 
             :returns: True si toutes les stratégies ont bien été accomplies, False sinon
         """
-        print(self.indice, len(self.listeStrat)-1, self.listeStrat[self.indice].stop())
         return self.indice == len(self.listeStrat)-1 and self.listeStrat[self.indice].stop() 
 
