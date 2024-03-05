@@ -30,6 +30,7 @@ class StrategieAvancer:
         if not self.stop():
             pos_actuelle = (self.rob.x, self.rob.y)
             self.parcouru = distance(self.pt_depart, pos_actuelle)
+            print("distance parcouru:", self.parcouru)
             
 
     def stop(self): 
@@ -65,8 +66,8 @@ class StrategieTourner:
         # On considère ici une rotation d'un angle alpha dans le sens horaire, c.à.d si positif on tourne vers la droite, sinon vers la gauche
         # On change les vitesses des deux roues, en leur donnant des vitesses opposées afin de tourner sur place
         if self.angle > 0 :
-            self.rob.setVitAngG(1/20)
-            self.rob.setVitAngD(-1/20)
+            self.rob.setVitAngG(1/200)
+            self.rob.setVitAngD(-1/200)
 
         elif self.angle < 0 :
             self.rob.setVitAngD(1/20)
@@ -81,7 +82,8 @@ class StrategieTourner:
         if not self.stop():
             self.angle_parcouru = getAngleFromVect(self.dir_depart, self.rob.direction)
         else:
-            self.rob.setVitAng(1/20)
+            self.rob.setVitAng(0)
+        print("angle:", self.angle_parcouru)
 
 
     def stop(self) : 
@@ -89,7 +91,8 @@ class StrategieTourner:
         """ Détermine si on a fini de faire la rotation de l'angle self.angle
             :returns: True si la rotation a bien été effectuée, False sinon
         """
-        if abs(self.angle_parcouru - self.angle) < 0.5  :
+        #if abs(self.angle_parcouru - self.angle) < 0.5  :
+        if self.angle_parcouru >= self.angle:
             self.rob.estSousControle = False
             return True
         return False

@@ -7,7 +7,7 @@ from time import sleep
 def loopEnv(env):
     while True:
         env.refresh_env()
-        sleep(1/60)
+        sleep(1/2000)
 
 env = Environnement(750, 550, 1) # Initialisation de l'env
 T_env = Thread(target=loopEnv, args=[env], daemon=True)
