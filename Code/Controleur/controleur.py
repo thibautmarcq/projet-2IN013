@@ -146,27 +146,31 @@ class StrategieSeq:
 
 class StrategieArretMur:
     def __init__(self, rob, distarret):
-        """ Stategie qui fait fais arreter le robot a une distance donnée
+        """ Stategie qui fait arreter le robot a une distance donnée
             :param rob: le robot que l'on veut faire arreter avant un mur/obtacle
             :param angle: la distance que l'on veut entre le robot et le mur/obstacle
-            :param distrob: la distance entre le robot et le mur/obtacle le plus proche devant lui obtenue avec le capteur de distance 
+            :param distrob: la distance entre le robot et le mur/obtacle le plus proche devant lui, obtenue avec le capteur de distance 
         """
         self.rob = rob
         self.distarret = distarret
         self.distrob = self.rob.capteurDistance()
 
     def start(self):
+        """ Réinitialisation de la vitesse du robot et de la distance entre le robot et le mur/obstacle
+        """
         self.rob.setVitAng(1/20)
         self.distrob = self.rob.capteurDistance()
 
     def step(self):
-        """ Le step de la stratégie arret mur: qui met à jour la distance entre le robot et le mur/obstacle devant lui
+        """ Le step de la stratégie arret mur : qui met à jour la distance entre le robot et le mur/obstacle devant lui
         """
         if not self.stop():
             self.distrob = self.rob.capteurDistance()
+        else:
+            self.rob.setVitAng(0)
 
     def stop(self):
-        """ Détermine si la distance entre le robot et le mur/obtacle est plus petite ou égale a la distarret souhaité 
+        """ Détermine si la distance entre le robot et le mur/obstacle est plus petite ou égale a la distarret souhaitée 
             :return: True si oui, non sinon
         """
         return self.distrob <= self.distarret
