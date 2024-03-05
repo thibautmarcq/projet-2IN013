@@ -2,6 +2,9 @@
 
 
 class mockupRobot():
+    """
+    Classe de simulation du robot réel
+    """
     def stop(self):
         pass
 
@@ -50,32 +53,62 @@ class mockupRobot():
         pass
 
 class Adaptateur(mockupRobot) :
-    def __inti(self) :
+    """
+    Classe d'adaptation du robot réel qui hérite de la classe mockupRobot
+    """
+    def __init(self) :
+        """
+        Constructeur de la classe Adaptateur qui va créer un objet de la classe mockupRobot
+        """
         mockupRobot.__init__(self)
 
     def setVitAngD(self, dps) :
+        """
+        Setter de la roue droite, elle va donnée la vitesse angulaire dps à la roue droite
+        :param dps: vitesse angulaire que l'on veut donner à la roue droite
+        """
         print("setVitAngD =", dps)
         self.set_motor_dps(self.MOTOR_RIGHT, dps)
 
     def setVitAngG(self, dps) :
+        """
+        Setter de la roue gauche, elle va donnée la vitesse angulaire dps à la roue gauche
+        :param dps: vitesse angulaire que l'on veut donner à la roue gauche
+        """
         print("setVitAngG =", dps)
         self.set_motor_dps(self.MOTOR_LEFT, dps)
 
     def setVitAng(self, dps) :
+        """
+        Setter qui va donner aux roues gauche et droite une certaine vitesse angulaire dps
+        :param dps: la vitesse angulaire qu'on veut donner aux roues droite et gauche
+        """
         print("setVitAng =", dps)
         self.set_motor_dps(self.MOTOR_RIGHT + self.MOTOR_LEFT, dps)
 
     def changeVitAngG(self, quant) :
+        """
+        Setter qui ajoute quant à la vitesse angulaire de la roue gauche
+        :param quant: la quantite que l'on veut rajouter à la vitesse angulaire de la roue gauche
+        """
         print("changeVitAngG +=", quant)
         vit = self.get_motor_position()[0]
         self.set_motor_dps(self.MOTOR_LEFT, vit + quant)
 
     def changeVitAngD(self, quant) :
+        """
+        Setter qui ajoute quant à la vitesse angulaire de la roue droite
+        :param quant: la quantite que l'on veut rajouter à la vitesse angulaire de la roue droite
+        """
         print("changeVitAngD +=", quant)
         vit = self.get_motor_position()[1]
         self.set_motor_dps(self.MOTOR_RIGHT, vit + quant)
 
     def changeVitAng(self, quant) :
+        """
+        Setter qui ajoute quant aux vitesses angulaires des deux roues
+        :param quant: la quantite que l'on veut rajouter aux vitesses angulaires des deux roues
+        """
         print("changeVitAng +=", quant)
         vitG = self.get_motor_position()[0]
         vitD = self.get_motor_position()[1]
@@ -83,19 +116,35 @@ class Adaptateur(mockupRobot) :
         self.changeVitAngD(vitD +quant)
     
     def getVitesseG(self) :
+        """
+        Getter qui renvoir la vitesse d'un point qui serait sur la roue gauche
+        :returns: la vitesse d'un point sur la roue gauche
+        """
         print("getVitesseG")
         return self.get_motor_position()[0]
     
     def getVitesseD(self) :
+        """
+        Getter qui renvoie la vitesse d'un point qui serait sur la roue droite
+        :returns: la vitesse d'un point sur la roue droite
+        """
         print("getVitesseD")
         return self.get_motor_position()[1]
     
     def getVitesse(self) :
+        """
+        Getter qui renvoie la vitesse moyenne des deux roues
+        :returns: la vitesse moyenne des deux roues
+        """
         print("getVitesse")
         vit = self.get_motor_position()[0] + self.get_motor_position()[1]
         return vit/2
 
     def capteurDistance(self) :
+        """
+        Getter qui renvoie la distance mesurée par le capteur de distance
+        :returns: la distance mesurée par le capteur de distance
+        """
         print("capteurDistance")
         return self.get_distance()
     
