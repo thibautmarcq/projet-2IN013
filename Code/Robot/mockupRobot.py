@@ -56,7 +56,7 @@ class Adaptateur(mockupRobot) :
     """
     Classe d'adaptation du robot réel qui hérite de la classe mockupRobot
     """
-    def __init(self) :
+    def __init__(self) :
         """
         Constructeur de la classe Adaptateur qui va créer un objet de la classe mockupRobot
         """
