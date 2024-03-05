@@ -29,7 +29,7 @@ class Controler:
         self.strat_en_cour = strat
         self.strategie = 1
 
-    def setStategieCarre(controleur, rob, longueur_cote):
+    def setStrategieCarre(controleur, rob, longueur_cote):
         avance = StrategieAvancer(rob, longueur_cote)
         tourne = StrategieTourner(rob, 90)
         carre  = StrategieSeq([avance, tourne, avance, tourne, avance, tourne, avance, tourne])
@@ -69,7 +69,7 @@ class StrategieAvancer:
         if not self.stop() and not self.rob.estCrash:
             pos_actuelle = (self.rob.x, self.rob.y)
             self.parcouru = distance(self.pt_depart, pos_actuelle)
-            print("distance parcouru:", self.parcouru)
+
             
 
     def stop(self): 
