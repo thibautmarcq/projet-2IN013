@@ -34,6 +34,11 @@ class Controler:
         tourne = StrategieTourner(rob, 90)
         carre  = StrategieSeq([avance, tourne, avance, tourne, avance, tourne, avance, tourne])
         controleur.setStrategie(carre)
+
+    def setStrategieArretMur(controleur, rob, distarret, env):
+        arret = StrategieArretMur(rob, distarret, env)
+        arretMur = StrategieSeq([arret])
+        controleur.setStrategie(arretMur)
         
 
 
@@ -171,27 +176,29 @@ class StrategieSeq:
 
 
 class StrategieArretMur:
-    def __init__(self, rob, distarret):
+    def __init__(self, rob, distarret, env):
         """ Stategie qui fait arreter le robot a une distance donnée
             :param rob: le robot que l'on veut faire arreter avant un mur/obtacle
             :param angle: la distance que l'on veut entre le robot et le mur/obstacle
-            :param distrob: la distance entre le robot et le mur/obtacle le plus proche devant lui, obtenue avec le capteur de distance 
+            :param distrob: la distance entre le robot et le mur/obtacle le plus proche devant lui, obtenue avec le capteur de distance
+            :param env: L'environemment pour le capteur de distance du robot simu 
         """
         self.rob = rob
         self.distarret = distarret
-        self.distrob = self.rob.capteurDistance()
+        self.env = env
+        self.distrob = self.rob.capteurDistance(env)
 
     def start(self):
         """ Réinitialisation de la vitesse du robot et de la distance entre le robot et le mur/obstacle
         """
-        self.rob.setVitAng(1/20)
-        self.distrob = self.rob.capteurDistance()
+        self.rob.setVitAng(4)
+        self.distrob = self.rob.capteurDistance(self.env)
 
     def step(self):
         """ Le step de la stratégie arret mur : qui met à jour la distance entre le robot et le mur/obstacle devant lui
         """
         if not self.stop():
-            self.distrob = self.rob.capteurDistance()
+            self.distrob = self.rob.capteurDistance(self.env)
         else:
             self.rob.setVitAng(0)
 

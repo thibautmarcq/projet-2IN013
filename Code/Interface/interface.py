@@ -100,6 +100,11 @@ class Interface:
 			self.canv.create_polygon(obs.lstPoints, fill=('grey'))
 		
 	def choisir_strategie(self, strat, distance) :
+		""" Choisis la strategie à lancer
+			:param strat: 1 pour la strategie carré et 2 pour la strategie arret mur
+			:param distance: la taille du coté du carré ou la distance d'arret du robot pour la strat arretmur 
+		
+		"""
 		rob = self.env.robots[self.env.robotSelect]
 		if rob.estCrash:
 			print("Impossible de controller ce robot il est crash")
@@ -110,6 +115,9 @@ class Interface:
 
 		if strat==1:
 			Controler.setStategieCarre(self.controleur,rob, distance)
+
+		if strat==2:
+			Controler.setStrategieArretMur(self.controleur,rob, distance, self.env)
 		
 		
 
@@ -232,6 +240,7 @@ class Interface:
 
 
 		self.root.bind('c', lambda event: self.choisir_strategie(1, 120)) # Fait tracer le carré au robot
+		self.root.bind('m', lambda event: self.choisir_strategie(2, 20))
 
 
 		self.root.bind("x", lambda event: self.env.addRobotSelect(1))
