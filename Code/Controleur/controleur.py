@@ -1,6 +1,39 @@
 from Code.outil import *
 import time
+from threading import Thread
 
+
+class Controler:
+
+    def __init__(self):
+        self.strat_en_cour = None
+        self.strategie = 0
+        self.Running = True
+        t = Thread(target=self.mainControleur, daemon=True)
+        t.start()
+
+    def mainControleur(self):
+        while self.Running:
+            if self.strategie:
+                if not self.strat_en_cour.stop():
+                    self.strat_en_cour.step()
+                else:
+                    self.strategie = 0
+                    self.strat_en_cour = None 
+            time.sleep(1/(2**30))
+  
+    def setStrategie(self, strat):
+        if self.strategie:
+            print("Impossible de lancer la stratégie tant que le controleur n'est pas libre")
+        self.strat_en_cour = strat
+        self.strategie = 1
+
+    def setStategieCarre(controleur, rob, longueur_cote):
+        avance = StrategieAvancer(rob, longueur_cote)
+        tourne = StrategieTourner(rob, 90)
+        carre  = StrategieSeq([avance, tourne, avance, tourne, avance, tourne, avance, tourne])
+        controleur.setStrategie(carre)
+        
 
 
 class StrategieAvancer:
@@ -21,7 +54,7 @@ class StrategieAvancer:
         self.rob.estSousControle = True
         self.parcouru = 0
         self.pt_depart = (self.rob.x, self.rob.y)
-        self.rob.setVitAng(1/20) # Puis on augmente les vitesses angulaires de 0.01
+        self.rob.setVitAng(10) # Puis on augmente les vitesses angulaires de 10
 
     def step(self) : 
         """ On fait avancer le robot d'un petit pas
@@ -65,13 +98,11 @@ class StrategieTourner:
 
         # On considère ici une rotation d'un angle alpha dans le sens horaire, c.à.d si positif on tourne vers la droite, sinon vers la gauche
         # On change les vitesses des deux roues, en leur donnant des vitesses opposées afin de tourner sur place
-        if self.angle > 0 :
-            self.rob.setVitAngG(1/200)
-            self.rob.setVitAngD(-1/200)
 
-        elif self.angle < 0 :
-            self.rob.setVitAngD(1/20)
-            self.rob.setVitAngG(-1/20)
+        self.vitesseAng = 1
+        
+        self.rob.setVitAngG( self.vitesseAng  if self.angle > 0 else -self.angle > 0)
+        self.rob.setVitAngD(-self.vitesseAng  if self.angle > 0 else  self.angle > 0)
 
 
     def step(self):
@@ -81,6 +112,10 @@ class StrategieTourner:
         """
         if not self.stop():
             self.angle_parcouru = getAngleFromVect(self.dir_depart, self.rob.direction)
+            if self.angle_parcouru >= self.angle - self.vitesseAng and self.vitesseAng > 1/(2**20):
+                self.vitesseAng = self.vitesseAng/2
+                self.rob.setVitAngG( self.vitesseAng  if self.angle > 0 else -self.angle > 0)
+                self.rob.setVitAngD(-self.vitesseAng  if self.angle > 0 else  self.angle > 0)
         else:
             self.rob.setVitAng(0)
         print("angle:", self.angle_parcouru)
@@ -132,7 +167,7 @@ class StrategieSeq:
                 self.last_refresh = now
             duree = now - self.last_refresh
             
-            self.listeStrat[self.indice].rob.refresh(duree) # On refresh le robot sur la durée qui s'est écoulée depuis le dernier rafraichissement
+            #self.listeStrat[self.indice].rob.refresh(duree) # On refresh le robot sur la durée qui s'est écoulée depuis le dernier rafraichissement
         else:
             self.listeStrat[self.indice].rob.setVitAng(0)
 

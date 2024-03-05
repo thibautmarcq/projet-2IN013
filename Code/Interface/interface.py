@@ -11,7 +11,7 @@ from Code.Controleur.controleur import *
 
 class Interface:
 
-	def __init__(self, env):
+	def __init__(self, env, controleur):
 		""" Constructeur de la classe interface, avec l'initialisation de la fenêtre et de ses composants
 			:param width: largeur de l'environnement
 			:param length; longueur de l'environnement
@@ -19,7 +19,8 @@ class Interface:
 			:returns: ne retourne rien, initialise seulement l'interface
 		"""
 		self.env = env# notre environnement a représenter graphiquement
-		self.strategie = 0
+
+		self.controleur = controleur # contient l'instance du controleur
 
 		# Config fenêtre
 		self.root=Tk()
@@ -97,18 +98,8 @@ class Interface:
 		"""
 		for obs in self.env.listeObs:
 			self.canv.create_polygon(obs.lstPoints, fill=('grey'))
-
-	def create_carre(self, rob, distance):
-		avance = StrategieAvancer(rob, distance)
-		tourne = StrategieTourner(rob, 90)
-		carre = StrategieSeq([avance, tourne, avance, tourne, avance,tourne, avance])
-		
-
-	def lancer_strategie(self) : # Indique à l'interface qu'on est en train de faire une stratégie
-		self.strategie = 1
 		
 	def choisir_strategie(self, strat, distance) :
-		self.lancer_strategie()
 		rob = self.env.robots[self.env.robotSelect]
 		if rob.estCrash:
 			print("Impossible de controller ce robot il est crash")
@@ -116,13 +107,9 @@ class Interface:
 		elif rob.estSousControle:
 			print("Impossible de controller ce robot il est déjà sous controle")
 			return
-		avance = StrategieAvancer(rob, distance)
-		tourne = StrategieTourner(rob, 90)
-		carre = StrategieSeq([avance, tourne, avance, tourne, avance, tourne, avance, tourne])
 
-		if strat==1 :
-			self.strat_cour = carre
-			self.strat_cour.start()
+		if strat==1:
+			Controler.setStategieCarre(self.controleur, rob, distance)
 		
 		
 
@@ -199,18 +186,10 @@ class Interface:
 		canva.create_line(x-1, y-1, x+1, y+1, fill=couleur)
 
 	def tic_tac(self):
-
-		# self.env.refresh_env()
-		if self.strategie :
-			if not self.strat_cour.stop():
-				#sleep(1/60)
-				self.strat_cour.step()
-			else:
-				self.strategie = 0
 		self.update_stats_affichage()
 		for robot in self.env.robots:
 			self.refresh_position_robot_visuel(self.canv, robot)
-		self.root.after(int(1000/500), self.tic_tac)
+		self.root.after(int(1000/60), self.tic_tac)
 			# self.dessine_point(self.canv, (self.env.robots[self.env.robotSelect].x, self.env.robots[self.env.robotSelect].y), self.env.robots[self.env.robotSelect].couleur)
 
 

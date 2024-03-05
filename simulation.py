@@ -3,6 +3,7 @@ from Code.environnement import Environnement
 from Code.robot import Robot
 from threading import Thread
 from time import sleep
+from Code.Controleur.controleur import Controler
 
 def loopEnv(env):
     while True:
@@ -16,6 +17,9 @@ env.addObstacle('J',[(400,400),(450,450),(350,450)])
 env.addObstacle('P',[(300,300),(350,300),(350,350), (300,350)])
 env.addObstacle('C',[(100,140),(170,55),(160,30), (130,30), (100,50), (70,30), (40,30), (30,55)])
 # env.print_matrix()
+
+#On créer un controleur
+controleur = Controler()
 
 # Ajoute le premier robot
 robot = Robot("Bob", 250, 250, 30, 55, 20)
@@ -34,7 +38,7 @@ def menu():
     if cmd == "0":
         RUNNING = False
     elif cmd == "1":
-        run = Interface(env)
+        run = Interface(env, controleur)
         run.mainloop()
     elif cmd == "2":
         print("Information de la simulation:")
