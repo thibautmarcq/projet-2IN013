@@ -10,7 +10,7 @@ if not os.path.isdir('Code/Logs'):
 logging.basicConfig(filename='Code/Logs/logs.log', level=logging.DEBUG, format='%(asctime)s:%(levelname)s:%(message)s') # niveaux : DEBUG INFO WARNING ERROR CRITICAL
 
 from .obstacle import Obstacle
-from .robot import Robot
+from .Robot.robot import Robot
 from .outil import *
 
 

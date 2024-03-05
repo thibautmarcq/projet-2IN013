@@ -4,7 +4,7 @@ from time import *
 from tkinter import *
 
 from Code.environnement import Environnement
-from Code.robot import Robot
+from Code.Robot.robot import Robot
 from tkinter import Label, Tk
 
 from Code.Controleur.controleur import *
@@ -109,7 +109,7 @@ class Interface:
 			return
 
 		if strat==1:
-			Controler.setStategieCarre(self.controleur, rob, distance)
+			Controler.setStategieCarre(self.controleur, distance)
 		
 		
 

@@ -2,7 +2,7 @@ import unittest
 import numpy as np
 
 from Code.Controleur.controleur import StrategieAvancer
-from Code.robot import Robot
+from Code.Robot.robot import Robot
 
 class TestControleur(unittest.TestCase):
     def setUp(self):

@@ -5,7 +5,8 @@ from threading import Thread
 
 class Controler:
 
-    def __init__(self):
+    def __init__(self,rob):
+        self.rob = rob
         self.strat_en_cour = None
         self.strategie = 0
         self.Running = True
@@ -19,7 +20,7 @@ class Controler:
                     self.strat_en_cour.step()
                 else:
                     self.strategie = 0
-                    self.strat_en_cour.listeStrat[len(self.strat_en_cour.listeStrat)-1].rob.setVitAng(0)
+                    self.rob.setVitAng(0)
                     self.strat_en_cour = None
             time.sleep(1/(2**30))
   
@@ -29,9 +30,9 @@ class Controler:
         self.strat_en_cour = strat
         self.strategie = 1
 
-    def setStategieCarre(controleur, rob, longueur_cote):
-        avance = StrategieAvancer(rob, longueur_cote)
-        tourne = StrategieTourner(rob, 90)
+    def setStategieCarre(controleur, longueur_cote):
+        avance = StrategieAvancer(controleur.rob, longueur_cote)
+        tourne = StrategieTourner(controleur.rob, 90)
         carre  = StrategieSeq([avance, tourne, avance, tourne, avance, tourne, avance, tourne])
         controleur.setStrategie(carre)
         
