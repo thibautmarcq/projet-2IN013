@@ -107,8 +107,8 @@ class StrategieTourner:
 
         self.vitesseAng = 1
         
-        self.rob.setVitAngG( self.vitesseAng  if self.angle > 0 else -self.angle > 0)
-        self.rob.setVitAngD(-self.vitesseAng  if self.angle > 0 else  self.angle > 0)
+        self.rob.setVitAngG( self.vitesseAng  if self.angle > 0 else - self.vitesseAng)
+        self.rob.setVitAngD(-self.vitesseAng  if self.angle > 0 else   self.vitesseAng)
 
 
     def step(self):
