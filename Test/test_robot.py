@@ -3,7 +3,7 @@
 import unittest
 import math 
 
-from Code.robot import Robot
+from Code.Robot.robot import Robot
 from Code.environnement import Environnement
 
 class TestRobot(unittest.TestCase):

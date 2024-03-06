@@ -2,7 +2,7 @@
 
 import unittest
 from Code.environnement import Environnement
-from Code.robot import Robot
+from Code.Robot.robot import Robot
 
 class TestEnvironnement(unittest.TestCase):
 

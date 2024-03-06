@@ -1,17 +1,16 @@
 import math
-import threading
 from time import *
 from tkinter import *
 
 from Code.environnement import Environnement
-from Code.robot import Robot
+from Code.Robot.robot import Robot
 from tkinter import Label, Tk
 
 from Code.Controleur.controleur import *
 
 class Interface:
 
-	def __init__(self, env):
+	def __init__(self, env, controleur):
 		""" Constructeur de la classe interface, avec l'initialisation de la fenêtre et de ses composants
 			:param width: largeur de l'environnement
 			:param length; longueur de l'environnement
@@ -19,7 +18,8 @@ class Interface:
 			:returns: ne retourne rien, initialise seulement l'interface
 		"""
 		self.env = env# notre environnement a représenter graphiquement
-		self.strategie = 0
+
+		self.controleur = controleur # contient l'instance du controleur
 
 		# Config fenêtre
 		self.root=Tk()
@@ -59,7 +59,7 @@ class Interface:
 	
 		self.frame_tutorial = LabelFrame(self.frame_gauche, text="Tutorial", bd=1)
 		self.frame_tutorial.grid(row=1)
-		self.tutorial_image = PhotoImage(file="Code/Interface/source/new-switch-carre.png").subsample(2,2)
+		self.tutorial_image = PhotoImage(file="Code/Interface/source/tuto_fr.png").subsample(2,2)
 		self.tutorial = Label(self.frame_tutorial, image=self.tutorial_image)
 		self.tutorial.grid(row=1, column=1)
 
@@ -97,18 +97,13 @@ class Interface:
 		"""
 		for obs in self.env.listeObs:
 			self.canv.create_polygon(obs.lstPoints, fill=('grey'))
-
-	def create_carre(self, rob, distance):
-		avance = StrategieAvancer(rob, distance)
-		tourne = StrategieTourner(rob, 90)
-		carre = StrategieSeq([avance, tourne, avance, tourne, avance,tourne, avance])
-		
-
-	def lancer_strategie(self) : # Indique à l'interface qu'on est en train de faire une stratégie
-		self.strategie = 1
 		
 	def choisir_strategie(self, strat, distance) :
-		self.lancer_strategie()
+		""" Choisis la strategie à lancer
+			:param strat: 1 pour la strategie carré et 2 pour la strategie arret mur
+			:param distance: la taille du coté du carré ou la distance d'arret du robot pour la strat arretmur 
+		
+		"""
 		rob = self.env.robots[self.env.robotSelect]
 		if rob.estCrash:
 			print("Impossible de controller ce robot il est crash")
@@ -116,13 +111,13 @@ class Interface:
 		elif rob.estSousControle:
 			print("Impossible de controller ce robot il est déjà sous controle")
 			return
-		avance = StrategieAvancer(rob, distance)
-		tourne = StrategieTourner(rob, 90)
-		carre = StrategieSeq([avance, tourne, avance, tourne, avance, tourne, avance, tourne])
 
-		if strat==1 :
-			self.strat_cour = carre
-			self.strat_cour.start()
+		if strat==1:
+			Controler.setStrategieCarre(self.controleur,rob, distance)
+			rob.draw = True
+			rob.firstDrawPoint = (rob.x, rob.y)
+		elif strat==2:
+			Controler.setStrategieArretMur(self.controleur,rob, distance, self.env)
 		
 		
 
@@ -192,38 +187,33 @@ class Interface:
 					robot.y-(robot.width/2)*(dx)+(robot.length/2)*dy
 					)
 		canvas.coords(robot.robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
-		#root.after(1000/60, refresh_position_robot_visuel(canv, robot))
 
-	def dessine_point(self, canva, pos, couleur) :
+	def dessine_point(self, pos, couleur) :
 		x, y = pos
-		canva.create_line(x-1, y-1, x+1, y+1, fill=couleur)
+		self.canv.create_line(x-1, y-1, x+1, y+1, fill=couleur)
 
 	def tic_tac(self):
-
-		# self.env.refresh_env()
-		if self.strategie :
-			if not self.strat_cour.stop():
-				sleep(1/60)
-				self.strat_cour.step()
-			else:
-				self.strategie = 0
 		self.update_stats_affichage()
 		for robot in self.env.robots:
 			self.refresh_position_robot_visuel(self.canv, robot)
-		self.root.after(int(1000/600), self.tic_tac)
-			# self.dessine_point(self.canv, (self.env.robots[self.env.robotSelect].x, self.env.robots[self.env.robotSelect].y), self.env.robots[self.env.robotSelect].couleur)
+			if robot.draw and not robot.estCrash:
+				self.dessine_point((self.env.robots[self.env.robotSelect].x, self.env.robots[self.env.robotSelect].y),  "black") #self.env.robots[self.env.robotSelect].couleur)
+				a = 5
+				if not robot.estSousControle and (abs(int(robot.firstDrawPoint[0]) - int(self.env.robots[self.env.robotSelect].x)) < a and abs(int(robot.firstDrawPoint[1]) - int(self.env.robots[self.env.robotSelect].y)) < a):
+					robot.draw = False
+					
+		self.root.after(int(1000/60), self.tic_tac)
 
 
 	def mainloop(self):
 		""" Initialise toutes les fonctionnalités en lien avec le robot (dans l'env et dans tkinter)
 			:returns: rien
 		"""
-		#bob = self.env.robots[self.env.robotSelect]
-		#self.robot_vec = self.canv.create_line(bob.x, bob.y, bob.x+(75*bob.direction[0]), bob.y+(75*bob.direction[1]))
 		for rob in self.env.robots:
 			self.create_robot_rect(rob)
+			rob.draw = False
 			rob.robot_vec = self.canv.create_line(rob.x, rob.y, rob.x+(75*rob.direction[0]), rob.y+(75*rob.direction[1]))
-		
+
 		self.create_obs()
 	
 
@@ -252,7 +242,8 @@ class Interface:
 		self.root.bind('d', lambda event: self.env.robots[self.env.robotSelect].changeVitAngD(-1)) # - droit
 
 
-		self.root.bind('c', lambda event: self.choisir_strategie(1, 60)) # Fait tracer le carré au robot
+		self.root.bind('c', lambda event: self.choisir_strategie(1, 120)) # Fait tracer le carré au robot
+		self.root.bind('m', lambda event: self.choisir_strategie(2, 20))
 
 
 		self.root.bind("x", lambda event: self.env.addRobotSelect(1))

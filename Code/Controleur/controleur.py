@@ -1,6 +1,45 @@
 from Code.outil import *
 import time
+from threading import Thread
 
+
+class Controler:
+
+    def __init__(self):
+        self.strat_en_cour = None
+        self.strategie = 0
+        self.Running = True
+        t = Thread(target=self.mainControleur, daemon=True)
+        t.start()
+
+    def mainControleur(self):
+        while self.Running:
+            if self.strategie:
+                if not self.strat_en_cour.stop():
+                    self.strat_en_cour.step()
+                else:
+                    self.strategie = 0
+                    self.strat_en_cour.listeStrat[len(self.strat_en_cour.listeStrat)-1].rob.setVitAng(0)
+                    self.strat_en_cour = None
+            time.sleep(1/(2**30))
+  
+    def setStrategie(self, strat):
+        if self.strategie:
+            print("Impossible de lancer la stratégie tant que le controleur n'est pas libre")
+        self.strat_en_cour = strat
+        self.strategie = 1
+
+    def setStrategieCarre(controleur, rob, longueur_cote):
+        avance = StrategieAvancer(rob, longueur_cote)
+        tourne = StrategieTourner(rob, 90)
+        carre  = StrategieSeq([avance, tourne, avance, tourne, avance, tourne, avance, tourne])
+        controleur.setStrategie(carre)
+
+    def setStrategieArretMur(controleur, rob, distarret, env):
+        arret = StrategieArretMur(rob, distarret, env)
+        arretMur = StrategieSeq([arret])
+        controleur.setStrategie(arretMur)
+        
 
 
 class StrategieAvancer:
@@ -21,15 +60,16 @@ class StrategieAvancer:
         self.rob.estSousControle = True
         self.parcouru = 0
         self.pt_depart = (self.rob.x, self.rob.y)
-        self.rob.setVitAng(1/20) # Puis on augmente les vitesses angulaires de 0.01
+        self.rob.setVitAng(10) # Puis on augmente les vitesses angulaires de 10
 
     def step(self) : 
         """ On fait avancer le robot d'un petit pas
             :returns: rien, on met juste à jour la distance parcourue par le robot
         """
-        if not self.stop():
+        if not self.stop() and not self.rob.estCrash:
             pos_actuelle = (self.rob.x, self.rob.y)
             self.parcouru = distance(self.pt_depart, pos_actuelle)
+
             
 
     def stop(self): 
@@ -64,24 +104,22 @@ class StrategieTourner:
 
         # On considère ici une rotation d'un angle alpha dans le sens horaire, c.à.d si positif on tourne vers la droite, sinon vers la gauche
         # On change les vitesses des deux roues, en leur donnant des vitesses opposées afin de tourner sur place
-        if self.angle > 0 :
-            self.rob.setVitAngG(1/20)
-            self.rob.setVitAngD(-1/20)
 
-        elif self.angle < 0 :
-            self.rob.setVitAngD(1/20)
-            self.rob.setVitAngG(-1/20)
+        self.vitesseAng = 1
+        
+        self.rob.setVitAngG( self.vitesseAng  if self.angle > 0 else -self.angle > 0)
+        self.rob.setVitAngD(-self.vitesseAng  if self.angle > 0 else  self.angle > 0)
 
 
     def step(self):
 
-        """ Le step de la stratégie tourner, qui induit le mouvement si c'est le premier ou bien met a jour l'angle qui a été parcouru jusqu'à maintenant sinon
+        """ Le step de la stratégie tourner, qui met a jour l'angle qui a été parcouru jusqu'à maintenant sinon
             :returns: ne retourne rien, on met juste a jour le paramètre distance parcourue
         """
-        if not self.stop():
+        if not self.stop() and not self.rob.estCrash:
             self.angle_parcouru = getAngleFromVect(self.dir_depart, self.rob.direction)
         else:
-            self.rob.setVitAng(1/20)
+            self.rob.setVitAng(0)
 
 
     def stop(self) : 
@@ -89,7 +127,7 @@ class StrategieTourner:
         """ Détermine si on a fini de faire la rotation de l'angle self.angle
             :returns: True si la rotation a bien été effectuée, False sinon
         """
-        if abs(self.angle_parcouru - self.angle) < 0.5  :
+        if self.angle_parcouru >= self.angle:
             self.rob.estSousControle = False
             return True
         return False
@@ -124,12 +162,6 @@ class StrategieSeq:
 
             self.listeStrat[self.indice].step() # On fait le step de la stratégie en cours 
 
-            now = time.time()
-            if self.last_refresh == 0 :
-                self.last_refresh = now
-            duree = now - self.last_refresh
-            
-            self.listeStrat[self.indice].rob.refresh(duree) # On refresh le robot sur la durée qui s'est écoulée depuis le dernier rafraichissement
         else:
             self.listeStrat[self.indice].rob.setVitAng(0)
 
@@ -138,4 +170,42 @@ class StrategieSeq:
             :returns: True si toutes les stratégies ont bien été accomplies, False sinon
         """
         return self.indice == len(self.listeStrat)-1 and self.listeStrat[self.indice].stop() 
+    
+
+
+class StrategieArretMur:
+    def __init__(self, rob, distarret, env):
+        """ Stategie qui fait arreter le robot a une distance donnée
+            :param rob: le robot que l'on veut faire arreter avant un mur/obtacle
+            :param angle: la distance que l'on veut entre le robot et le mur/obstacle
+            :param distrob: la distance entre le robot et le mur/obtacle le plus proche devant lui, obtenue avec le capteur de distance
+            :param env: L'environemment pour le capteur de distance du robot simu 
+        """
+        self.rob = rob
+        self.distarret = distarret
+        self.env = env
+        self.distrob = self.rob.capteurDistance(env)
+
+    def start(self):
+        """ Réinitialisation de la vitesse du robot et de la distance entre le robot et le mur/obstacle
+        """
+        self.rob.setVitAng(4)
+        self.distrob = self.rob.capteurDistance(self.env)
+
+    def step(self):
+        """ Le step de la stratégie arret mur : qui met à jour la distance entre le robot et le mur/obstacle devant lui
+        """
+        if not self.stop():
+            self.distrob = self.rob.capteurDistance(self.env)
+        else:
+            self.rob.setVitAng(0)
+
+    def stop(self):
+        """ Détermine si la distance entre le robot et le mur/obstacle est plus petite ou égale a la distarret souhaitée 
+            :return: True si oui, non sinon
+        """
+        return self.distrob <= self.distarret
+
+        
+
 

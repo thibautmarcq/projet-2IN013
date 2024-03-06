@@ -1,23 +1,21 @@
 import unittest
 import numpy as np
 
-from Code.Controleur.controleur import StrategieAvancer
-from Code.robot import Robot
+from Code.Controleur.controleur import *
+from Code.Robot.robot import Robot
+from Code.environnement import Environnement
 
 class TestControleur(unittest.TestCase):
     def setUp(self):
+        self.env = Environnement(70, 55, 1)
         self.rob = Robot("Rob", 10, 15, 5, 7, 8)
-        self.stratAvancer = StrategieAvancer(10, self.rob)
+        self.controleur = Controler()
 
-    def test_controleur(self):
-        self.assertEqual(self.stratAvancer.parcouru, 0)
-        self.assertEqual(self.stratAvancer.distance, 10)
+    def test_setStrategieCarre(self):
+        Controler.setStrategieCarre(self.controleur, self.rob, 20)
+        self.assertAlmostEqual(self.rob.x, 10)
+        self.assertAlmostEqual(self.rob.y, 15)
 
-    def test_anvancer_step(self):
-        self.stratAvancer.step()
-        self.assertEqual(self.stratAvancer.parcouru, 1)
-
-    def test_avancer_stop(self):
-        while self.stratAvancer.stop() != 0:
-            self.stratAvancer.step()
-        self.assertGreaterEqual(self.stratAvancer.parcouru, 10)
+    def test_setStrategieArretMur(self):
+        Controler.setStrategieArretMur(self.controleur, self.rob, 20 ,self.env)
+        self.assertGreaterEqual(20,self.rob.capteurDistance(self.env))
