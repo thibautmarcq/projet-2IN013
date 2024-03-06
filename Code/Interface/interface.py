@@ -1,5 +1,4 @@
 import math
-import threading
 from time import *
 from tkinter import *
 
@@ -188,7 +187,6 @@ class Interface:
 					robot.y-(robot.width/2)*(dx)+(robot.length/2)*dy
 					)
 		canvas.coords(robot.robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
-		#root.after(1000/60, refresh_position_robot_visuel(canv, robot))
 
 	def dessine_point(self, pos, couleur) :
 		x, y = pos
@@ -201,7 +199,6 @@ class Interface:
 			if robot.draw and not robot.estCrash:
 				self.dessine_point((self.env.robots[self.env.robotSelect].x, self.env.robots[self.env.robotSelect].y),  "black") #self.env.robots[self.env.robotSelect].couleur)
 				a = 5
-				print(robot.nom, robot.x, robot.y, robot.firstDrawPoint, not robot.estSousControle, (abs(int(robot.firstDrawPoint[0]) - int(self.env.robots[self.env.robotSelect].x)) < a), abs(int(robot.firstDrawPoint[1]) - int(self.env.robots[self.env.robotSelect].y)) < a)
 				if not robot.estSousControle and (abs(int(robot.firstDrawPoint[0]) - int(self.env.robots[self.env.robotSelect].x)) < a and abs(int(robot.firstDrawPoint[1]) - int(self.env.robots[self.env.robotSelect].y)) < a):
 					robot.draw = False
 					
@@ -212,8 +209,6 @@ class Interface:
 		""" Initialise toutes les fonctionnalités en lien avec le robot (dans l'env et dans tkinter)
 			:returns: rien
 		"""
-		#bob = self.env.robots[self.env.robotSelect]
-		#self.robot_vec = self.canv.create_line(bob.x, bob.y, bob.x+(75*bob.direction[0]), bob.y+(75*bob.direction[1]))
 		for rob in self.env.robots:
 			self.create_robot_rect(rob)
 			rob.draw = False

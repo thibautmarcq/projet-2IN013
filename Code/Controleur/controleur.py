@@ -120,7 +120,6 @@ class StrategieTourner:
             self.angle_parcouru = getAngleFromVect(self.dir_depart, self.rob.direction)
         else:
             self.rob.setVitAng(0)
-        print("angle:", self.angle_parcouru)
 
 
     def stop(self) : 
@@ -128,7 +127,6 @@ class StrategieTourner:
         """ Détermine si on a fini de faire la rotation de l'angle self.angle
             :returns: True si la rotation a bien été effectuée, False sinon
         """
-        #if abs(self.angle_parcouru - self.angle) < 0.5  :
         if self.angle_parcouru >= self.angle:
             self.rob.estSousControle = False
             return True
