@@ -61,6 +61,10 @@ class Adaptateur(mockupRobot) :
         Constructeur de la classe Adaptateur qui va créer un objet de la classe mockupRobot
         """
         mockupRobot.__init__(self)
+        self.estCrash = False
+        self.estSousControle = False
+        self.MOTOR_LEFT = 1     # Port 1 correspond à la roue gauche
+        self.MOTOR_RIGHT = 2    # Port 2 correspond à la roue droite
 
     def setVitAngD(self, dps) :
         """
@@ -86,60 +90,6 @@ class Adaptateur(mockupRobot) :
         print("setVitAng =", dps)
         self.set_motor_dps(self.MOTOR_RIGHT + self.MOTOR_LEFT, dps)
 
-    def changeVitAngG(self, quant) :
-        """
-        Setter qui ajoute quant à la vitesse angulaire de la roue gauche
-        :param quant: la quantite que l'on veut rajouter à la vitesse angulaire de la roue gauche
-        """
-        print("changeVitAngG +=", quant)
-        vit = self.get_motor_position()[0]
-        self.set_motor_dps(self.MOTOR_LEFT, vit + quant)
-
-    def changeVitAngD(self, quant) :
-        """
-        Setter qui ajoute quant à la vitesse angulaire de la roue droite
-        :param quant: la quantite que l'on veut rajouter à la vitesse angulaire de la roue droite
-        """
-        print("changeVitAngD +=", quant)
-        vit = self.get_motor_position()[1]
-        self.set_motor_dps(self.MOTOR_RIGHT, vit + quant)
-
-    def changeVitAng(self, quant) :
-        """
-        Setter qui ajoute quant aux vitesses angulaires des deux roues
-        :param quant: la quantite que l'on veut rajouter aux vitesses angulaires des deux roues
-        """
-        print("changeVitAng +=", quant)
-        vitG = self.get_motor_position()[0]
-        vitD = self.get_motor_position()[1]
-        self.changeVitAngG(vitG + quant)
-        self.changeVitAngD(vitD +quant)
-    
-    def getVitesseG(self) :
-        """
-        Getter qui renvoir la vitesse d'un point qui serait sur la roue gauche
-        :returns: la vitesse d'un point sur la roue gauche
-        """
-        print("getVitesseG")
-        return self.get_motor_position()[0]
-    
-    def getVitesseD(self) :
-        """
-        Getter qui renvoie la vitesse d'un point qui serait sur la roue droite
-        :returns: la vitesse d'un point sur la roue droite
-        """
-        print("getVitesseD")
-        return self.get_motor_position()[1]
-    
-    def getVitesse(self) :
-        """
-        Getter qui renvoie la vitesse moyenne des deux roues
-        :returns: la vitesse moyenne des deux roues
-        """
-        print("getVitesse")
-        vit = self.get_motor_position()[0] + self.get_motor_position()[1]
-        return vit/2
-
     def capteurDistance(self) :
         """
         Getter qui renvoie la distance mesurée par le capteur de distance
@@ -148,5 +98,6 @@ class Adaptateur(mockupRobot) :
         print("capteurDistance")
         return self.get_distance()
     
-# mockupRobot = Adaptateur()
-# mockupRobot.setVitAngG(20)
+mockupRobot = Adaptateur()
+mockupRobot.setVitAngG(20)
+print(mockupRobot.direction)
