@@ -164,9 +164,9 @@ class Robot :
 		x1, y1 = (self.x+self.direction[0]*(self.length/2), self.y+self.direction[1]*(self.length/2))
 		mat = env.matrice
 		(x2, y2) = (x1, y1) # Le pt d'avancement est, au début, au pt de départ
+		dirNorm = normaliserVecteur(self.direction)
 
 		while (mat[int(y2/env.scale)][int(x2/env.scale)]!=2): # Condition de boucle : tant qu'on est pas sur un obstacle
-			dirNorm = normaliserVecteur(self.direction)
 			x2, y2 = (x2+dirNorm[0], y2+dirNorm[1]) # on avance en case suivant le vect dir
 
 		return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)

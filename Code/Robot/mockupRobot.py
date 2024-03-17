@@ -78,12 +78,8 @@ class Adaptateur(mockupRobot) :
         :returns: ne retourne rien
         """
 
-        if port == self.MOTOR_LEFT :
-            return self.set_motor_dps(port, dps)
-        elif port == self.MOTOR_RIGHT :
-            return self.set_motor_dps(port, dps)
-        elif port == self.MOTOR_LEFT_RIGHT :
-            return self.set_motor_dps(port, dps)
+        return self.set_motor_dps(port, dps)
+        
 
     def capteurDistance(self) :
         """
