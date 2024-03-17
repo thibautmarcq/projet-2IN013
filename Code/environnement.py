@@ -96,16 +96,7 @@ class Environnement:
         robot.couleur = couleur
         self.robots.append(robot)
         self.logger.info("Robot %s initialisé", robot.nom)
-
-    def addRobot(self, rob) :
-        """ Ajoute le robot rob à l'environnement et le place dans la matrice
-            :param rob: le robot qu'on veut ajouter à l'environnement
-            :returns: ne retourne rien
-        """
-
-        self.robots.append(rob)
-        self.matrice[int(rob.x/self.scale)][int(rob.y/self.scale)] = 1 # Ajoute à la matrice le robot grâce a sa position en le représentant par un 1
-    
+ 
     def refresh_env(self) :
         """ Pour rafraichir l'environnement et faire updater tous les robots qui le composent.
             :returns: ne retourne rien, fait juste la mise à jour de tous les éléments
