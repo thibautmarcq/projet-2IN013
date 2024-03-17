@@ -71,7 +71,7 @@ class Adaptateur(mockupRobot) :
 
     def setVitAngD(self, dps) :
         """
-        Setter de la roue droite, elle va donnée la vitesse angulaire dps à la roue droite
+        Setter de la roue droite, elle va donner la vitesse angulaire dps à la roue droite
         :param dps: vitesse angulaire que l'on veut donner à la roue droite
         """
         print("setVitAngD =", dps)
@@ -79,7 +79,7 @@ class Adaptateur(mockupRobot) :
 
     def setVitAngG(self, dps) :
         """
-        Setter de la roue gauche, elle va donnée la vitesse angulaire dps à la roue gauche
+        Setter de la roue gauche, elle va donner la vitesse angulaire dps à la roue gauche
         :param dps: vitesse angulaire que l'on veut donner à la roue gauche
         """
         print("setVitAngG =", dps)
