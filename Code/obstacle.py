@@ -5,8 +5,6 @@ from turtle import width
 
 import time
 
-logging.basicConfig(filename='Code/Logs/logs.log', level=logging.DEBUG, format='%(asctime)s:%(levelname)s:%(message)s') # niveaux : DEBUG INFO WARNING ERROR CRITICAL
-
 class Obstacle :
     """ L'obsctacle est un objet aux coordonnées discrètes, se place dans la matrice de l'environnement 
     """

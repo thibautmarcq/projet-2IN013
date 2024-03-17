@@ -4,6 +4,13 @@ from Code.Robot.robot import Robot
 from threading import Thread
 from time import sleep
 from Code.Controleur.controleur import Controler
+import logging
+
+logging.basicConfig(filename='logs.log', 
+                    level=logging.DEBUG, 
+                    format='%(asctime)s | %(levelname)s | %(name)s | %(message)s', 
+                    datefmt='%d/%m/%y %Hh%M', 
+                    encoding='UTF-8') # niveaux : DEBUG INFO WARNING ERROR CRITICAL
 
 def loopEnv(env):
     while True:
@@ -16,7 +23,7 @@ T_env.start()
 env.addObstacle('J',[(400,400),(450,450),(350,450)])
 env.addObstacle('P',[(300,300),(350,300),(350,350), (300,350)])
 env.addObstacle('C',[(100,140),(170,55),(160,30), (130,30), (100,50), (70,30), (40,30), (30,55)])
-# env.print_matrix()
+env.print_matrix()
 
 #On créer un controleur
 controleur = Controler()
@@ -38,6 +45,7 @@ def menu():
     cmd = input("Veuillez choisir une action:")
     if cmd == "0":
         RUNNING = False
+
     elif cmd == "1":
         run = Interface(env, controleur)
         run.mainloop()
