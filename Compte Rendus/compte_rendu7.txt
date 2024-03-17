@@ -1,0 +1,147 @@
+
+Mercredi 6 mars
+
+
+Final : 
+
+Sur le Trello :
+Il faut vraiment qu’on mette bien le temps total estimé et le temps total réalisé, on est les seuls à ne pas encore le faire systématiquement.
+
+Sur des détails de présentation/utilité dans le code :
+- On a des print qui se baladent un peu partout, il serait question de les retirer, ils ne servent à rien quand on a des logs
+- Pour les loggings, on force la création d’un répertoire log sur la machine depuis le code, c’est peut-être pas la meilleure chose à faire
+
+Sur le code en lui-même :
+- Créer un fichier ‘ensemble de stratégies’ dans lequel on va définir toutes les stratégies (carré, ligne, et tout ce qu’on peut imaginer ou dont on peut avoir besoin), les stratégies ne devraient pas être définies dans le contrôleur
+- On devrait aussi avoir un fichier avec toutes les constantes au lieu de mettre des nombres au hasard un peu partout dans le code, tout les temps de tictac par exemple
+- Retirer la fonction addRobot si elle est obsolète
+- Dans toutes les stratégies unitaire et séquentielles, on devrait avoir un getRobot qui renvoie le robot
+- Revoir et simplifier la ligne 117 dans le contrôleur avec pleins de if
+- La stratégie ne devrait pas connaître le contrôleur, on est déjà dans la classe contrôleur
+- Attention aux fonction statiques, on n’en fait pas en python, a la place on définit une fonction dans un autre fichier
+- Les fonctions getVitesse gauche et droite ne servent à rien, attention
+- On a beaucoup de méthodes dont on n’a pas besoin, attention de faire attention à alléger tout ca parce que plus on a des fonctions inutiles dans le robot simulé, plus ca sera difficile de les adapter au robot reel.
+- Par contre on avait vraiment besoin du ‘est sous contrôle’ et on ne l’a pas
+- Il faut vraiment réfléchir sérieusement a l’adaptateur, penser à un langage commun/vocabulaire en premier lieu (par exemple get angle n’est pas forcément le plus facile), et seulement après développer l’adaptateur/contrôleur. SI on développe avant, on va commencer à s’embrouiller et ne pas avoir un truc consistant
+- Il y a des bêtises dans le capteur de distance apparemment. Problème avec la matrice et normalisation au mauvais endroit.
+- Il faut aussi commencer à réfléchir à la 3D.
+
+
+
+Brouillon :
+
+Toby
+Changer le module code. 
+Trello : 
+Api du robot ? 
+
+Code : 
+Les loggings sont à faire dans un tmp au pire. Dmeander aux gens ou mettre les logs. 
+Test obstacle pas utile. 
+Print puis return au pire : passer à faire des loggings. (environnement addObstcle)
+
+Mockup? 
+Main de l'adaptateur. Lancer la simulation avec le robot mockup. 
+Set stratégie et set stratégie. On doit en avoir qu'un seul. Pas beau
+
+"Il y a plein de choses qui reviennent à la meme chose dans la vie."
+
+Faire un fichier ensemble de stratégies.
+Supprimer addRobot.
+noooon clauuude. Pourquoi faire simple quand on peut faire compliqué : bug dans le controleur 110-111
+
+Dans toutes les stratégies, faire un getRobot qui renvoie le robot. pareil pour les strats séquentielles. 
+Faire vraiment gaffe aux constantes : faire un fichier à part pour pouvoir les modifier à notre convenance. (10^30)
+Il doit y avoir un bug quelque part : pas normal d'avoir une différence entre 20 et 30. 
+dans le controleur : robot sous controle ? On a un début
+Connaitre combien la roue a tourner : mettre la roue à 0 puis get offset.
+On développe ce qu'on a besoin pour le sprint courant. On a plein de méthodes qui servent à rien - on a pas est sous controle. Estce que getVitesseG et D va pouvoir etre get dans réel ? a quoi ça sert ?
+
+J'aimerais bien que tu sois une vache, je vais t'implenter une queue et quatre pates ? dans la réalité
+
+Il faut vraiment réfléchir à l'adaptateur. Langage commun : controleur -> adaptateur. (getAngle etcc) 
+Fixer le vocab et seulement après dev l'adapteur/controleur. 
+
+Capteur distance betises. Matrices, normalisation pas au bon endroit. 
+
+Réfléchir à la 3d.
+
+
+Inès
+
+Bien mettre le temps estimé et le temps total
+
+Changer le nom du module pour ne pas que ca s'appelle code
+c'est dommage qu'on ait fait l'api avant qu'il l'ait expliqué au tableau
+
+"oh que c'est pas beau ca"
+
+on force la création d'un repertoire de logs, "je rigole c'est pas grave"
+
+le test obstacle n'est pas très utile, si on crée juste un obstacle pour vérifier qu'il est au bon endroit
+ "return print, c'est un collector ca"
+
+on a quelques print qui traînent un peu partout, ca sert à rien lorsqu'on a des logs, il faudrait les enlever 
+
+pas encore de main pour tester l'adaptateur mais on l'a testé ?
+il faut lancer la simulation avec le robot mockup
+
+il faut passer la stratégie carré au set stratégie, et la stratégie ne devrait pas connaître le contrôleur, on est dans la classe contrôleur
+justification de claude "oui bah c'est pas beau"
+en python on ne fait pas de fonction statique 
+-> faire une fonction qui n'est pas dans le fichier pour faire tout ca
+le contrôleur ne doit pas définir l'ensemble des stratégies qui doivent être disponibles
+plutôt avoir un fichier 'ensemble de stratégies' où on met toutes les stratégies, ce n'est pas au contrôleur de le faire 
+
+si la fonction addRobot est obsolète, elle doit dégager 
+
+ligne 117 dans le contrôleur avec des set qui ont pleins de if 
+-> retirer les >0 
+-> pourquoi ne pas utiliser la fct abs au lieu de tester >0 et <0
+"pourquoi faire simple quand on peut faire compliqué"
+faire plus simple la prochaine fois 
+" j'ai juste cherché un commit rigolo et je suis tombé dessus"
+
+bien expliciter dans les commentaires sinon on comprend pas 
+pourquoi ca doit absolument être une liste de strategies
+pas besoin que ca soit une stratégie séquentielle, ca pourrait être une stratégie unitaire
+
+c'est pas bizarre que le contrôleur prenne pas le robot en paramètre ? 
+
+il faut que dans toutes les stratégies on puisse avoir un get robot qui permet d'accéder au robot 
+
+il faudrait faire un fichier avec toutes les constantes 
+
+2**30 c'est vraiment bcp, on devrait pas avoir besoin de ca pour la précision, si y'a une différence c'est qu'il y a une erreur quelque part 
+
+comment faire que le robot est sous contrôle dans l'adaptateur ?
+
+getvitessegauche = getmoteurposition ?
+
+pour savoir de combien la roue a tourné il faut mettre l'offset à 0 et récupérer l'angle parcouru par la roue
+
+a quoi servent les fonction getVitesse gauche et droite
+-> du coup ces méthodes ne servent a rien pour l'instant
+
+on a plein de méthodes dont on n'a pas besoin par contre le 'est sous contrôle' donc on avait vraiment besoin, ça on l'a pas
+
+savoir la vitesse de rotation de la roue gauche ne sert a rien
+
+ce qu'on a fait dans mockup robot ne sert a rien, 90% de ce qu'il y a dans le mockup ne servent strictement a rien
+
+aucun problème à ce qu'on crée le plan a partir du robot adaptateur au depart, le problème c'est est ce que ca va vraiment servir a quelque chose 
+
+
+
+c'est a nous de nous débrouiller sur c
+
+pour faire l'adapteur il faut trouver un langage commun
+get angle est peut être pas la fonction la plus simple par exemple
+
+il faut fixer le vocabulaire d' l'adaptateur avant de commencer a le developper, sinon on va se perdre et on va avoir du mal a le faire fonctionner
+
+capteur distance qui fait des bêtises 
+matrices de collision ?
+
+vous y etes presque donc on vous fait chier parce que vous etes très bien 
+on est en retard par rapport a d'autres groupes donc il faut mieux s'y mettre si on veut utiliser le robot la prochaine fois
