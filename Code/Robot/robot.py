@@ -19,6 +19,7 @@ class Robot :
 			:param rayonRoue: la taille des roue
 			:returns: ne retourne rien, ça initalise seulement le robot
 		"""
+		self.logger = logging.getLogger(self.__class__.__name__)
 
 		self.nom = nom
 		self.x = x
@@ -92,6 +93,7 @@ class Robot :
 			:returns: ne retourne rien, on met juste à jour la vitesse angulaire de la roue gauche
 		"""
 		self.vitAngG = vit
+		self.logger.debug("Vitesse roueG set à %d (%s)", vit, self.nom)
 
 	def setVitAngD(self, vit) :
 
@@ -99,7 +101,8 @@ class Robot :
 			:param vit: vitesse angulaire que l'on veut donner à la roue droite
 			:returns: ne retourne rien, on change juste la vitesse angulaire de la roue droite
 		"""
-		self.vitAngD = vit    
+		self.vitAngD = vit
+		self.logger.debug("Vitesse roueD set à %d (%s)", vit, self.nom)
 
 	def setVitAng(self, vit) :
 
@@ -109,6 +112,7 @@ class Robot :
 		"""
 		self.setVitAngD(vit)
 		self.setVitAngG(vit)
+		self.logger.debug("Vitesse globale set à %d (%s)", vit, self.nom)
 
 	def changeVitAngG(self, quant) :
 		""" Setter qui ajoute quant à la vitesse angulaire de la roue gauche
