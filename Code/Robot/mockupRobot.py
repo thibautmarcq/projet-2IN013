@@ -5,6 +5,11 @@ class mockupRobot():
     """
     Classe de simulation du robot réel
     """
+
+    def __init__(self):
+        self.estSousControle = False
+        self.estCrash = False
+
     def stop(self):
         pass
 
@@ -61,43 +66,36 @@ class Adaptateur(mockupRobot) :
         Constructeur de la classe Adaptateur qui va créer un objet de la classe mockupRobot
         """
         mockupRobot.__init__(self)
-        self.estCrash = False
-        self.estSousControle = False
         self.MOTOR_LEFT = 1     # Port 1 correspond à la roue gauche
         self.MOTOR_RIGHT = 2    # Port 2 correspond à la roue droite
+        self.MOTOR_LEFT_RIGHT = self.MOTOR_LEFT + self.MOTOR_RIGHT
 
-    def setVitAngD(self, dps) :
+    def setVitAng(self, dps, port) :
         """
-        Setter de la roue droite, elle va donnée la vitesse angulaire dps à la roue droite
-        :param dps: vitesse angulaire que l'on veut donner à la roue droite
+        Setter qui va permettre de fixer la vitesse angulaire d'un moteur
+        :param dps: la vitesse angulaire à fixer
+        :param port: le port du moteur (MOTOR_LEFT, MOTOR_RIGHT ou MOTOR_LEFT_RIGHT)
+        :returns: ne retourne rien
         """
-        print("setVitAngD =", dps)
-        self.set_motor_dps(self.MOTOR_RIGHT, dps)
 
-    def setVitAngG(self, dps) :
-        """
-        Setter de la roue gauche, elle va donnée la vitesse angulaire dps à la roue gauche
-        :param dps: vitesse angulaire que l'on veut donner à la roue gauche
-        """
-        print("setVitAngG =", dps)
-        self.set_motor_dps(self.MOTOR_LEFT, dps)
-
-    def setVitAng(self, dps) :
-        """
-        Setter qui va donner aux roues gauche et droite une certaine vitesse angulaire dps
-        :param dps: la vitesse angulaire qu'on veut donner aux roues droite et gauche
-        """
-        print("setVitAng =", dps)
-        self.set_motor_dps(self.MOTOR_RIGHT + self.MOTOR_LEFT, dps)
+        if port == self.MOTOR_LEFT :
+            return self.set_motor_dps(port, dps)
+        elif port == self.MOTOR_RIGHT :
+            return self.set_motor_dps(port, dps)
+        elif port == self.MOTOR_LEFT_RIGHT :
+            return self.set_motor_dps(port, dps)
 
     def capteurDistance(self) :
         """
         Getter qui renvoie la distance mesurée par le capteur de distance
         :returns: la distance mesurée par le capteur de distance
         """
-        print("capteurDistance")
         return self.get_distance()
     
 mockupRobot = Adaptateur()
-mockupRobot.setVitAngG(20)
-print(mockupRobot.direction)
+mockupRobot.setVitAng(20, mockupRobot.MOTOR_LEFT)
+mockupRobot.setVitAng(20, mockupRobot.MOTOR_RIGHT)
+mockupRobot.setVitAng(20, mockupRobot.MOTOR_LEFT_RIGHT)
+mockupRobot.capteurDistance()
+print(mockupRobot.estSousControle)
+print(mockupRobot.estCrash)
