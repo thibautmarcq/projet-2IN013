@@ -49,11 +49,3 @@ class TestEnvironnement(unittest.TestCase):
         self.env.setRobot(robot, 'red')
         self.assertEqual(len(self.env.robots), 1)
         self.assertEqual(self.env.robots[0].couleur, 'red')
-
-    def test_addRobot(self):
-        robot = Robot('rob3', 10, 10, 5, 5, 2)
-        self.env.addRobot(robot)
-        self.assertEqual(len(self.env.robots), 1)
-        self.assertEqual(self.env.matrice[10][10], 1) # robot représenté par un 1
-
-

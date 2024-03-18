@@ -1,13 +1,8 @@
 import logging
 import math
-import os
 import time
 
 import numpy as np
-
-if not os.path.isdir('Code/Logs'):
-    os.mkdir("Code/Logs/")
-logging.basicConfig(filename='Code/Logs/logs.log', level=logging.DEBUG, format='%(asctime)s:%(levelname)s:%(message)s') # niveaux : DEBUG INFO WARNING ERROR CRITICAL
 
 from .obstacle import Obstacle
 from .Robot.robot import Robot
@@ -24,6 +19,7 @@ class Environnement:
             :param scale: l'échelle qui permet de passer de l'environnement à la matrice, c'est la correspondance de la taille d'un côté d'une case de la matrice dans le rectangle
             :returns: ne retourne rien, fait juste l'initialisation
         """
+        self.logger = logging.getLogger(self.__class__.__name__)
         
         self.width=width
         self.length=length
@@ -33,6 +29,7 @@ class Environnement:
         self.last_refresh = 0 # initialise la dernière fois où l'environnement a été rafraîchi à 0 pour savoir quand on le fait pour la première fois
         self.listeObs =[]
         self.initMatrice()
+        self.logger.info("Environnement initialisé")
 
     def initMatrice(self):
         """
@@ -44,6 +41,7 @@ class Environnement:
         self.matrice[-1] = 2
         self.matrice[:, 0] = 2
         self.matrice[:, -1] = 2
+        self.logger.info("Matrice initialisée")
 
     def addRobotSelect(self, n):
         """
@@ -61,7 +59,7 @@ class Environnement:
         """
         self.listeObs.append(Obstacle(nom,lstPoints))
         if any(x > self.width or x < 0 or y > self.length or y < 0 for (x, y) in lstPoints):
-            return print("Obstacle hors environnement")
+            return self.logger.warning("Obstacle %s hors environnement! Verifiez les coordonnées de ses points", nom)
 
 
         # Placement des bordures de l'obstacle dans l'environnement
@@ -81,34 +79,24 @@ class Environnement:
                     self.matrice[int(y1/self.scale)+1][int(x1/self.scale)] = 2
                 except:
                     pass
+        self.logger.info("Obstacle %s ajouté", nom)
 
 
     def print_matrix(self):
         for row in self.matrice:
             print(' '.join(str(item) for item in row))
+        self.logger.debug("Affichage de la matrice")
 
     def setRobot(self, robot, couleur):
-        """ Crée un robot et l'ajoute à notre environnement
-            :param nom: nom du robot
-            :param x: la coordonnée x où on veut placer le robot au départ
-            :param y: la coordonnée y où on veut placer le robot au départ
-            :param width: la largeur du robot
-            :param length: la longueur du robot
-            :param rayonRoue: le rayon des roues 
-            :returns: rien, on crée juste un robot qu'on ajoute a la liste des robots de l'environnement
+        """ Ajoute un robot à notre environnement
+            :param robot: instance du robot
+            :param couleur: couleur du robot dans l'interface
+            :returns: rien, on ajoute juste un robot à la liste des robots de l'environnement
         """
         robot.couleur = couleur
         self.robots.append(robot)
-
-    def addRobot(self, rob) :
-        """ Ajoute le robot rob à l'environnement et le place dans la matrice
-            :param rob: le robot qu'on veut ajouter à l'environnement
-            :returns: ne retourne rien
-        """
-
-        self.robots.append(rob)
-        self.matrice[int(rob.x/self.scale)][int(rob.y/self.scale)] = 1 # Ajoute à la matrice le robot grâce a sa position en le représentant par un 1
-    
+        self.logger.info("Robot %s initialisé", robot.nom)
+ 
     def refresh_env(self) :
         """ Pour rafraichir l'environnement et faire updater tous les robots qui le composent.
             :returns: ne retourne rien, fait juste la mise à jour de tous les éléments
@@ -143,7 +131,8 @@ class Environnement:
 
             while (round(x1), round(y1)) != (round(x2), round(y2)):
                 if (self.matrice[int(y1/self.scale)][int(x1/self.scale)]==2): # teste si le point est sur un obstacle
-                    print("Collision de", rob.nom, "! Obstacle en (", str(x1),",",str(y1),")")
+                    # print("Collision de", rob.nom, "! Obstacle en (", str(x1),",",str(y1),")")
+                    self.logger.warning("Collision de %s! Obstacle en (%d, %d)", rob.nom, x1, y1)
                     return True
                 
                 long = math.sqrt((x2-x1)**2 + (y2-y1)**2) # Longueur du vect dir
