@@ -77,7 +77,7 @@ class Adaptateur(mockupRobot) :
         self.MOTOR_RIGHT = 2    # Port 2 correspond à la roue droite
         self.MOTOR_LEFT_RIGHT = self.MOTOR_LEFT + self.MOTOR_RIGHT # Port 3 correspond aux deux roues
 
-    def setVitAngD(self, dps) :
+    def setVitAngDA(self, dps) :
         """
         Setter de la roue droite, elle va donner la vitesse angulaire dps à la roue droite
         :param dps: vitesse angulaire que l'on veut donner à la roue droite
@@ -85,7 +85,7 @@ class Adaptateur(mockupRobot) :
         print("setVitAngD =", dps)
         self.set_motor_dps(self.MOTOR_RIGHT, dps)
 
-    def setVitAngG(self, dps) :
+    def setVitAngGA(self, dps) :
         """
         Setter de la roue gauche, elle va donner la vitesse angulaire dps à la roue gauche
         :param dps: vitesse angulaire que l'on veut donner à la roue gauche
@@ -93,7 +93,7 @@ class Adaptateur(mockupRobot) :
         print("setVitAngG =", dps)
         self.set_motor_dps(self.MOTOR_LEFT, dps)
 
-    def setVitAng(self, dps) :
+    def setVitAngA(self, dps) :
         """
         Setter qui va donner aux roues gauche et droite une certaine vitesse angulaire dps
         :param dps: la vitesse angulaire qu'on veut donner aux roues droite et gauche
@@ -101,7 +101,7 @@ class Adaptateur(mockupRobot) :
         print("setVitAng =", dps)
         self.set_motor_dps(self.MOTOR_RIGHT + self.MOTOR_LEFT, dps)
 
-    def capteurDistance(self) :
+    def capteurDistanceA(self) :
         """
         Getter qui renvoie la distance mesurée par le capteur de distance
         :returns: la distance mesurée par le capteur de distance

@@ -174,3 +174,57 @@ class Robot :
 			x2, y2 = (x2+dirNorm[0], y2+dirNorm[1]) # on avance en case suivant le vect dir
 
 		return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+	
+class Adaptateur_simule(Robot) :
+	""" Classe d'adaptation du robot simulé, qui hérite de la classe Robot
+	"""
+
+	def __init__(self, nom, x, y, width, length, rayonRoue) :
+		Robot.__init__(self, nom, x, y, width, length, rayonRoue)
+		self.last_point = (x, y)
+
+	def setVitAngDA(self, vit):
+		""" Setter de vitesse angulaire de la roue droite depuis l'adaptateur
+			:param vit: la vitesse angulaire que l'on veut donner à la roue droite
+			:returns: ne retourne rien
+		"""
+		self.setVitAngD(vit)
+
+	def setVitAngGA(self, vit) :
+		""" Setter de vitesse angulaire de la roue droite depuis l'adaptateur
+			:param vit: la vitesse angulaire que l'on veut donner aux roues
+			:returns: ne retourne rien
+		"""
+		self.setVitAngG(vit)
+
+	def setVitAngA(self, vit) :
+		""" Setter de vitesse angulaire des roues gauche et droite depuis l'adaptateur
+			:param vit: la vitesse angulaire que l'on veut donner aux roues
+			:returns: ne retourne rien
+		"""
+		self.setVitAng(vit)
+
+	def capteurDistanceA(self) :
+		""" Capteur de distance du robot simulé depuis l'adaptateur
+			:returns: la distance à l'obstacle le plus proche en regardant tout droit
+		"""
+		return self.capteurDistance()
+
+	def distance_parcourue(self) :
+		""" La distance parcourue entre le point précédent et le point actuel
+			:returns: la distance parcourue depuis la dernière visite à cette fonction
+		"""
+		pos_actuelle = (self.x, self.y)
+		pos_prec = self.last_point
+		self.last_point = pos_actuelle
+		return distance(pos_actuelle, pos_prec)
+	
+	def angle_parcouru(self) :
+		""" Getter de l'angle parcouru entre le dernier point enregistré et la position actuelle du robot
+			:returns: l'angle entre les deux points
+		"""
+		pos_actuelle = (self.x, self.y)
+		pos_prec = self.last_point
+		self.last_point = pos_actuelle
+		return getAngleFromVect(pos_prec, pos_actuelle)
+	
