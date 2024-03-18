@@ -1,5 +1,5 @@
-import math
 import logging
+import math
 
 WHEEL_BASE_WIDTH         = 117  # distance (mm) de la roue gauche a la roue droite.
 WHEEL_DIAMETER           = 66.5 #  diametre de la roue (mm)
@@ -23,10 +23,10 @@ class mockupRobot():
         pass
 
     def get_image(self):
-        print("get_image")
+        self.logger.debug("get_image")
 
     def get_images(self):
-        print("get_images")
+        self.logger.debug("get_images")
 
     def set_motor_dps(self, port, dps):
         self.logger.debug("set_motor_dps %d %d", port, dps)
@@ -47,19 +47,19 @@ class mockupRobot():
         return 15
 
     def servo_rotate(self,position):
-        print("servo_rotate", position)
+        self.logger.debug("servo_rotate = %d", position)
 
     def start_recording(self):
-        print("start_recording")
+        self.logger.debug("start_recording")
 
     def _stop_recording(self):
-        print("_stop_recording")
+        self.logger.debug("_stop_recording")
 
     def _start_recording(self):
-        print("_start_recording")
+        self.logger.debug("_start_recording")
 
     def __getattr__(self,attr):
-        print("getattr", attr)
+        self.logger.debug("getattr %d", attr)
 
 class Adaptateur(mockupRobot) :
     """
@@ -69,7 +69,6 @@ class Adaptateur(mockupRobot) :
         """
         Constructeur de la classe Adaptateur qui va créer un objet de la classe mockupRobot
         """
-        self.logger = logging.getLogger(self.__class__.__name__)
         mockupRobot.__init__(self)
         self.MOTOR_LEFT = 1     # Port 1 correspond à la roue gauche
         self.MOTOR_RIGHT = 2    # Port 2 correspond à la roue droite
@@ -80,7 +79,7 @@ class Adaptateur(mockupRobot) :
         Setter de la roue droite, elle va donner la vitesse angulaire dps à la roue droite
         :param dps: vitesse angulaire que l'on veut donner à la roue droite
         """
-        print("setVitAngD =", dps)
+        self.logger.debug("setVitAngD = %d", dps)
         self.set_motor_dps(self.MOTOR_RIGHT, dps)
 
     def setVitAngGA(self, dps) :
@@ -88,7 +87,7 @@ class Adaptateur(mockupRobot) :
         Setter de la roue gauche, elle va donner la vitesse angulaire dps à la roue gauche
         :param dps: vitesse angulaire que l'on veut donner à la roue gauche
         """
-        print("setVitAngG =", dps)
+        self.logger.debug("setVitAngG = %d", dps)
         self.set_motor_dps(self.MOTOR_LEFT, dps)
 
     def setVitAngA(self, dps) :
@@ -96,7 +95,7 @@ class Adaptateur(mockupRobot) :
         Setter qui va donner aux roues gauche et droite une certaine vitesse angulaire dps
         :param dps: la vitesse angulaire qu'on veut donner aux roues droite et gauche
         """
-        print("setVitAng =", dps)
+        self.logger.debug("setVitAng = %d", dps)
         self.set_motor_dps(self.MOTOR_RIGHT + self.MOTOR_LEFT, dps)
 
     def capteurDistanceA(self) :
@@ -104,7 +103,7 @@ class Adaptateur(mockupRobot) :
         Getter qui renvoie la distance mesurée par le capteur de distance
         :returns: la distance mesurée par le capteur de distance
         """
-        print("capteurDistance")
+        self.logger.debug("capteurDistance")
         return self.get_distance()
     
     def distance_parcourue(self) :
@@ -122,6 +121,6 @@ class Adaptateur(mockupRobot) :
 
     
 # mockupRobot = Adaptateur()
-# mockupRobot.setVitAngG(20)
-# print(mockupRobot.estSousControle)
-# print(mockupRobot.estCrash)
+# mockupRobot.setVitAngGA(20)
+# self.logger.debug(mockupRobot.estSousControle)
+# self.logger.degug(mockupRobot.estCrash)
