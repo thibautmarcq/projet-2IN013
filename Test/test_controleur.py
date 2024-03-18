@@ -1,14 +1,15 @@
 import unittest
-import numpy as np
 
+import numpy as np
 from Code.Controleur.controleur import *
-from Code.Robot.robot import Robot
 from Code.environnement import Environnement
+from Code.Robot.robot import Adaptateur_simule
+
 
 class TestControleur(unittest.TestCase):
     def setUp(self):
         self.env = Environnement(70, 55, 1)
-        self.rob = Robot("Rob", 10, 15, 5, 7, 8)
+        self.rob = Adaptateur_simule("Rob", 10, 15, 5, 7, 8)
         self.controleur = Controler()
 
     def test_setStrategieCarre(self):
