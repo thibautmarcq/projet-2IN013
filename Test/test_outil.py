@@ -24,7 +24,6 @@ class TestOutil(unittest.TestCase):
         self.assertAlmostEqual(outil.getAngleFromVect((1, 0), (0, 1)), 90.0)
         self.assertAlmostEqual(outil.getAngleFromVect((1, 0), (1, 0)), 0.0) # Angle entre le même vecteur
         self.assertAlmostEqual(outil.getAngleFromVect((-1, 0), (0, -1)), 90.0) # Valeurs négatives, vecteurs orthogonaux
-        print("ici", outil.getAngleFromVect((1, 2), (3, 1)))
 
     def test_distance(self):
         self.assertEqual(outil.distance((1, 2), (4, 6)), 5.0)
