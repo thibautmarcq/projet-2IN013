@@ -1,4 +1,5 @@
 import math
+import logging
 
 WHEEL_BASE_WIDTH         = 117  # distance (mm) de la roue gauche a la roue droite.
 WHEEL_DIAMETER           = 66.5 #  diametre de la roue (mm)
@@ -11,58 +12,60 @@ class mockupRobot():
     Classe de simulation du robot réel
     """
 
+    WHEEL_BASE_WIDTH         = 117  # distance (mm) de la roue gauche a la roue droite.
+    WHEEL_DIAMETER           = 66.5 #  diametre de la roue (mm)
+    WHEEL_BASE_CIRCUMFERENCE = WHEEL_BASE_WIDTH * math.pi # perimetre du cercle de rotation (mm)
+    WHEEL_CIRCUMFERENCE      = WHEEL_DIAMETER   * math.pi # perimetre de la roue (mm)
     
 
-    def __init__(self):
+    def __init__(self, ):
+        self.logger = logging.getLogger(self.__class__.__name__)
         self.estSousControle = False
         self.estCrash = False
+        self.angled = 0
+        self.angleg = 0
 
     def stop(self):
         pass
 
     def get_image(self):
         print("get_image")
-        pass
 
     def get_images(self):
         print("get_images")
-        pass
 
     def set_motor_dps(self, port, dps):
-        print("set_motor_dps", port, dps)
-        pass
+        self.logger.debug("set_motor_dps %d %d", port, dps)
 
     def get_motor_position(self):
-        print("get_motor_position")
-        pass
+        self.logger.debug("get_motor_position : %d %d", self.angleg, self.angled)
+        self.angled += 1
+        self.angleg += 1
+        return (self.angleg, self.angled)
+
 
     def offset_motor_encoder(self, port, offset):
-        print("offset_motor_encoder", port, offset)
-        pass
+        self.logger.debug("offset_motor_encoder %d %d", port, offset)
+        
 
     def get_distance(self):
-        print("get_distance")
-        pass
+        self.logger.debug("get_distance")
+        return 15
 
     def servo_rotate(self,position):
         print("servo_rotate", position)
-        pass
 
     def start_recording(self):
         print("start_recording")
-        pass
 
     def _stop_recording(self):
         print("_stop_recording")
-        pass
 
     def _start_recording(self):
         print("_start_recording")
-        pass
 
     def __getattr__(self,attr):
         print("getattr", attr)
-        pass
 
 class Adaptateur(mockupRobot) :
     """
@@ -72,6 +75,7 @@ class Adaptateur(mockupRobot) :
         """
         Constructeur de la classe Adaptateur qui va créer un objet de la classe mockupRobot
         """
+        self.logger = logging.getLogger(self.__class__.__name__)
         mockupRobot.__init__(self)
         self.MOTOR_LEFT = 1     # Port 1 correspond à la roue gauche
         self.MOTOR_RIGHT = 2    # Port 2 correspond à la roue droite
@@ -114,6 +118,7 @@ class Adaptateur(mockupRobot) :
         self.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
         dist_g = (360/ang_g) * WHEEL_CIRCUMFERENCE
         dist_d = (360/ang_d) * WHEEL_CIRCUMFERENCE
+        self.logger.debug("distance parcourue : %d", (dist_g+dist_d)/2)
         return (dist_g + dist_d)/2
     
     def angle_parcouru(self) :

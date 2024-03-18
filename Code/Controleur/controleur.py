@@ -62,7 +62,7 @@ class StrategieAvancer:
         self.logger.debug("Stratégie avancer démarée")
         self.rob.estSousControle = True
         self.parcouru = 0
-        self.rob.setVitAng(10) # Puis on augmente les vitesses angulaires de 10
+        self.rob.setVitAngA(10) # Puis on augmente les vitesses angulaires de 10
 
     def step(self) : 
         """ On fait avancer le robot d'un petit pas
@@ -110,8 +110,8 @@ class StrategieTourner:
 
         self.vitesseAng = 1
         
-        self.rob.setVitAngG(1  if self.angle > 0 else -1)
-        self.rob.setVitAngD(-1  if self.angle > 0 else 1)
+        self.rob.setVitAngGA(1  if self.angle > 0 else -1)
+        self.rob.setVitAngDA(-1  if self.angle > 0 else 1)
         
 
 
@@ -156,7 +156,7 @@ class StrategieArretMur:
     def start(self):
         """ Réinitialisation de la vitesse du robot et de la distance entre le robot et le mur/obstacle
         """
-        self.rob.setVitAng(4)
+        self.rob.setVitAngA(4)
         self.distrob = self.rob.capteurDistance(self.env)
         
         self.logger.debug("Stratégie ArretMur lancée")
@@ -167,7 +167,7 @@ class StrategieArretMur:
         if not self.stop():
             self.distrob = self.rob.capteurDistance(self.env)
         else:
-            self.rob.setVitAng(0)
+            self.rob.setVitAngA(0)
 
     def stop(self):
         """ Détermine si la distance entre le robot et le mur/obstacle est plus petite ou égale a la distarret souhaitée 
@@ -208,7 +208,7 @@ class StrategieSeq:
             self.listeStrat[self.indice].step() # On fait le step de la stratégie en cours 
 
         else:
-            self.listeStrat[self.indice].rob.setVitAng(0)
+            self.listeStrat[self.indice].rob.setVitAngA(0)
 
     def stop(self) : 
         """ Détermine si la stratégie séquentielle est terminée, donc si toutes ses sous-stratégies son terminées 

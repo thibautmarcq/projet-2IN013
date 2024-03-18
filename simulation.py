@@ -1,6 +1,7 @@
 from Code.Interface.interface import Interface
 from Code.environnement import Environnement
 from Code.Robot.robot import Robot, Adaptateur_simule
+from Code.Robot.mockupRobot import *
 from threading import Thread
 from time import sleep
 from Code.Controleur.controleur import Controler
@@ -39,11 +40,15 @@ env.setRobot(robot, "lightgreen")
 robot2 = Adaptateur_simule("Stuart", 400, 250, 30, 55, 20)
 env.setRobot(robot2, "red")
 
+# Ajoute un robot réel pour le tester
+robot3 = Adaptateur()
+
 def menu():
     global RUNNING
     print("0 - Quit ( termine la simmu et arrete le programme )")
     print("1 - Lance une interface Graphique ")
     print("2 - afficher les infos de la simulation")
+    print("3 - faire tracer un carré au robot réel")
     cmd = input("Veuillez choisir une action:")
     if cmd == "0":
         RUNNING = False
@@ -62,6 +67,9 @@ def menu():
             print("Le robot n'est plus fonctionnel"if rob.estCrash else "Le robot est toujours fonctionnel")
             print("Le robot n'est pas controlé par le controleur"if not rob.estSousControle else "Le robot est controlé par le controlleur")
             print("------------"+"-"*(len(rob.nom)+2)+"------")
+    elif cmd == "3" :
+        len = float(input("Quelle largeur voulez-vous pour le carré ? \n"))
+        controleur.setStrategieCarre(robot3, len)
 
 
 
