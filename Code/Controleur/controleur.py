@@ -1,11 +1,13 @@
 from Code.outil import *
 import time
 from threading import Thread
+import logging
 
 
 class Controler:
 
     def __init__(self):
+        self.logger = logging.getLogger(self.__class__.__name__)
         self.strat_en_cour = None
         self.strategie = 0
         self.Running = True
@@ -25,7 +27,8 @@ class Controler:
   
     def setStrategie(self, strat):
         if self.strategie:
-            print("Impossible de lancer la stratégie tant que le controleur n'est pas libre")
+            # print("Impossible de lancer la stratégie tant que le controleur n'est pas libre")
+            self.logger.error("Impossible de lancer la stratégie tant que le controleur n'est pas libre")
         self.strat_en_cour = strat
         self.strategie = 1
 
@@ -51,12 +54,14 @@ class StrategieAvancer:
             :param parcouru: la distance parcourue du robot
             :returns: ne retourne rien, on initialise la stratégie
         """
+        self.logger = logging.getLogger(self.__class__.__name__)
         self.distance = distance
         self.rob = rob 
         self.parcouru = 0
         self.pt_depart = (self.rob.x, self.rob.y)
-  
+
     def start(self) :
+        self.logger.debug("Stratégie avancer démarée")
         self.rob.estSousControle = True
         self.parcouru = 0
         self.pt_depart = (self.rob.x, self.rob.y)
@@ -90,6 +95,7 @@ class StrategieTourner:
             :param rob: le robot que l'on veut faire tourner
             :param angle: la rotation que l'on veut ordonner au robot d'effectuer
         """
+        self.logger = logging.getLogger(self.__class__.__name__)
 
         self.rob = rob
         self.angle = angle
@@ -109,6 +115,8 @@ class StrategieTourner:
         
         self.rob.setVitAngG( self.vitesseAng  if self.angle > 0 else - self.vitesseAng)
         self.rob.setVitAngD(-self.vitesseAng  if self.angle > 0 else   self.vitesseAng)
+        
+        self.logger.debug("Stratégie tourner lancée")
 
 
     def step(self):
@@ -181,6 +189,8 @@ class StrategieArretMur:
             :param distrob: la distance entre le robot et le mur/obtacle le plus proche devant lui, obtenue avec le capteur de distance
             :param env: L'environemment pour le capteur de distance du robot simu 
         """
+        self.logger = logging.getLogger(self.__class__.__name__)
+        
         self.rob = rob
         self.distarret = distarret
         self.env = env
@@ -191,6 +201,8 @@ class StrategieArretMur:
         """
         self.rob.setVitAng(4)
         self.distrob = self.rob.capteurDistance(self.env)
+        
+        self.logger.debug("Stratégie ArretMur lancée")
 
     def step(self):
         """ Le step de la stratégie arret mur : qui met à jour la distance entre le robot et le mur/obstacle devant lui
