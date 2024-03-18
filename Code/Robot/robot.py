@@ -182,6 +182,7 @@ class Adaptateur_simule(Robot) :
 	def __init__(self, nom, x, y, width, length, rayonRoue) :
 		Robot.__init__(self, nom, x, y, width, length, rayonRoue)
 		self.last_point = (x, y)
+		self.last_dir = self.direction
 
 	def setVitAngDA(self, vit):
 		""" Setter de vitesse angulaire de la roue droite depuis l'adaptateur
@@ -217,16 +218,18 @@ class Adaptateur_simule(Robot) :
 		pos_actuelle = (self.x, self.y)
 		pos_prec = self.last_point
 		self.last_point = pos_actuelle
+		self.last_dir = self.direction
 		return distance(pos_actuelle, pos_prec)
 	
 	def angle_parcouru(self) :
 		""" Getter de l'angle parcouru entre le dernier point enregistré et la position actuelle du robot
 			:returns: l'angle entre les deux points
 		"""
-		pos_actuelle = (self.x, self.y)
-		pos_prec = self.last_point
-		self.last_point = pos_actuelle
-		angle = getAngleFromVect(pos_prec, pos_actuelle)
+		dir_actuelle = self.direction
+		dir_prec = self.last_dir
+		self.last_dir = dir_actuelle
+		self.last_point = (self.x, self.y)
+		angle = getAngleFromVect(dir_prec, dir_actuelle)
 		
-		return getAngleFromVect(pos_prec, pos_actuelle)
+		return getAngleFromVect(dir_prec, dir_actuelle)
 	
