@@ -1,10 +1,18 @@
+import math
 
+WHEEL_BASE_WIDTH         = 117  # distance (mm) de la roue gauche a la roue droite.
+WHEEL_DIAMETER           = 66.5 #  diametre de la roue (mm)
+WHEEL_BASE_CIRCUMFERENCE = WHEEL_BASE_WIDTH * math.pi # perimetre du cercle de rotation (mm)
+WHEEL_CIRCUMFERENCE      = WHEEL_DIAMETER   * math.pi # perimetre de la roue (mm)
 
 
 class mockupRobot():
     """
     Classe de simulation du robot réel
     """
+
+    
+
     def __init__(self):
         self.estSousControle = False
         self.estCrash = False
@@ -100,6 +108,21 @@ class Adaptateur(mockupRobot) :
         """
         print("capteurDistance")
         return self.get_distance()
+    
+    def distance_parcourue(self) :
+        ang_g, ang_d = self.get_motor_position()
+        self.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
+        dist_g = (360/ang_g) * WHEEL_CIRCUMFERENCE
+        dist_d = (360/ang_d) * WHEEL_CIRCUMFERENCE
+        return (dist_g + dist_d)/2
+    
+    def angle_parcouru(self) :
+        ang_g, ang_d = self.get_motor_position()
+        self.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
+        dist_g = (360/ang_g) * WHEEL_CIRCUMFERENCE
+        dist_d = (360/ang_d) * WHEEL_CIRCUMFERENCE
+        return math.degrees((dist_g-dist_d)/WHEEL_BASE_WIDTH)
+
     
 # mockupRobot = Adaptateur()
 # mockupRobot.setVitAngG(20)
