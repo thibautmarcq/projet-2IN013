@@ -21,7 +21,7 @@ class Controler:
                     self.strat_en_cour.step()
                 else:
                     self.strategie = 0
-                    self.strat_en_cour.listeStrat[len(self.strat_en_cour.listeStrat)-1].rob.setVitAng(0)
+                    self.strat_en_cour.getRob().setVitAng(0)
                     self.strat_en_cour = None
             time.sleep(1/(2**30))
   
@@ -31,17 +31,17 @@ class Controler:
             self.logger.error("Impossible de lancer la stratégie tant que le controleur n'est pas libre")
         self.strat_en_cour = strat
         self.strategie = 1
+        self.strat_en_cour.start()
 
-    def setStrategieCarre(controleur, rob, longueur_cote):
+    def setStrategieCarre(self, rob, longueur_cote):
         avance = StrategieAvancer(rob, longueur_cote)
         tourne = StrategieTourner(rob, 90)
-        carre  = StrategieSeq([avance, tourne, avance, tourne, avance, tourne, avance, tourne])
-        controleur.setStrategie(carre)
+        carre  = StrategieSeq([avance, tourne, avance, tourne, avance, tourne, avance, tourne],rob)
+        self.setStrategie(carre)
 
-    def setStrategieArretMur(controleur, rob, distarret, env):
+    def setStrategieArretMur(self, rob, distarret, env):
         arret = StrategieArretMur(rob, distarret, env)
-        arretMur = StrategieSeq([arret])
-        controleur.setStrategie(arretMur)
+        self.setStrategie(arret)
         
 
 
@@ -51,7 +51,6 @@ class StrategieAvancer:
         """ Statégie qui fait avancer le robot d'une distance donnée
             :param distance: la distance que doit parcourir le robot  
             :param rob: le robot qui va avancer
-            :param parcouru: la distance parcourue du robot
             :returns: ne retourne rien, on initialise la stratégie
         """
         self.logger = logging.getLogger(self.__class__.__name__)
@@ -85,6 +84,9 @@ class StrategieAvancer:
             self.rob.estSousControle = False
             return True
         return False
+
+    def getRob(self):
+        return rob
 
 
 class StrategieTourner:
@@ -140,16 +142,21 @@ class StrategieTourner:
             return True
         return False
 
+    def getRob(self):
+        return self.rob
+
+
 
 class StrategieSeq:
 
-    def __init__(self, listeStrat) :
+    def __init__(self, listeStrat, rob) :
         """ Statégie séquentielle
             :param listeStrat: liste de stratégies qui vont être executées à la suite
-            :param indice: permet de parcourir la liste de stratégies
+            :param rob: le robot que l'on veut faire tourner
             :returns: rien, on initialise la stratégie séquentielle
         """
         self.listeStrat = listeStrat
+        self.rob = rob
         self.indice = -1
         self.last_refresh = 0
 
@@ -179,14 +186,17 @@ class StrategieSeq:
         """
         return self.indice == len(self.listeStrat)-1 and self.listeStrat[self.indice].stop() 
     
+    def getRob(self):
+        return self.rob
+    
+
 
 
 class StrategieArretMur:
     def __init__(self, rob, distarret, env):
         """ Stategie qui fait arreter le robot a une distance donnée
             :param rob: le robot que l'on veut faire arreter avant un mur/obtacle
-            :param angle: la distance que l'on veut entre le robot et le mur/obstacle
-            :param distrob: la distance entre le robot et le mur/obtacle le plus proche devant lui, obtenue avec le capteur de distance
+            :param distarret: la distance que l'on veut entre le robot et le mur/obstacle
             :param env: L'environemment pour le capteur de distance du robot simu 
         """
         self.logger = logging.getLogger(self.__class__.__name__)
@@ -194,7 +204,7 @@ class StrategieArretMur:
         self.rob = rob
         self.distarret = distarret
         self.env = env
-        self.distrob = self.rob.capteurDistance(env)
+        self.distrob = self.rob.capteurDistance(env) # la distance entre le robot et le mur/obtacle le plus proche devant lui, obtenue avec le capteur de distance
 
     def start(self):
         """ Réinitialisation de la vitesse du robot et de la distance entre le robot et le mur/obstacle
@@ -217,6 +227,10 @@ class StrategieArretMur:
             :return: True si oui, non sinon
         """
         return self.distrob <= self.distarret
+
+    def getRob(self):
+        return self.rob
+
 
         
 
