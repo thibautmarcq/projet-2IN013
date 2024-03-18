@@ -21,7 +21,7 @@ class Controler:
                     self.strat_en_cour.step()
                 else:
                     self.strategie = 0
-                    self.strat_en_cour.getRob().setVitAng(0)
+                    self.strat_en_cour.getRob().setVitAngA(0)
                     self.strat_en_cour = None
             time.sleep(1/(2**30))
   
@@ -70,6 +70,7 @@ class StrategieAvancer:
         """
         if not self.stop() and not self.rob.estCrash:
             self.parcouru += self.rob.distance_parcourue()
+            self.logger.debug("distance parcourue : %d", self.parcouru )
 
 
     def stop(self): 
@@ -120,9 +121,9 @@ class StrategieTourner:
         """ Le step de la stratégie tourner, qui met a jour l'angle qui a été parcouru jusqu'à maintenant sinon
             :returns: ne retourne rien, on met juste a jour le paramètre distance parcourue
         """
-        self.logger.debug(self.angle_parcouru)        
         if not self.stop() and not self.rob.estCrash:
             self.angle_parcouru += self.rob.angle_parcouru()
+            self.logger.debug("angle parcouru : %d",self.angle_parcouru)        
 
 
     def stop(self) : 
