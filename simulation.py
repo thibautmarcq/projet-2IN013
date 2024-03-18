@@ -1,9 +1,10 @@
 from Code.Interface.interface import Interface
 from Code.environnement import Environnement
-from Code.Robot.robot import Robot
+from Code.Robot.robot import Robot, Adaptateur_simule
 from threading import Thread
 from time import sleep
 from Code.Controleur.controleur import Controler
+
 import logging
 
 logging.basicConfig(filename='logs.log', 
@@ -29,12 +30,13 @@ env.print_matrix()
 controleur = Controler()
 
 # Ajoute le premier robot
-robot = Robot("Bob", 250, 250, 30, 55, 20)
+robot = Adaptateur_simule("Bob", 250, 250, 30, 55, 20)
+
 env.setRobot(robot, "lightgreen")
 
 
 # ajoute le deuxieme robot pour test
-robot2 = Robot("Stuart", 400, 250, 30, 55, 20)
+robot2 = Adaptateur_simule("Stuart", 400, 250, 30, 55, 20)
 env.setRobot(robot2, "red")
 
 def menu():

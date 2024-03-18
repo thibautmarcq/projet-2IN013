@@ -226,5 +226,7 @@ class Adaptateur_simule(Robot) :
 		pos_actuelle = (self.x, self.y)
 		pos_prec = self.last_point
 		self.last_point = pos_actuelle
+		angle = getAngleFromVect(pos_prec, pos_actuelle)
+		
 		return getAngleFromVect(pos_prec, pos_actuelle)
 	
