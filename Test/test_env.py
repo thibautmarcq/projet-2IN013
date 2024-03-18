@@ -1,8 +1,10 @@
 # python3 -m unittest Test/test_env.py -v
 
 import unittest
+
 from Code.environnement import Environnement
 from Code.Robot.robot import Robot
+
 
 class TestEnvironnement(unittest.TestCase):
 
@@ -30,10 +32,10 @@ class TestEnvironnement(unittest.TestCase):
         self.assertEqual(self.env.robotSelect, 0) 
         rob0 = Robot('rob0', 10, 10, 5, 5, 2)
         rob1 = Robot('rob1', 20, 10, 5, 5, 2)
-        self.env.addRobot(rob0)
+        self.env.setRobot(rob0, 'lightgreen')
         self.env.addRobotSelect(1) # test avec robot
         self.assertEqual(self.env.robotSelect, 0)
-        self.env.addRobot(rob1)
+        self.env.setRobot(rob1, "red")
         self.env.addRobotSelect(1) # test avec robot
         self.assertEqual(self.env.robotSelect, 1) 
 
