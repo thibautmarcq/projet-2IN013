@@ -1,12 +1,16 @@
-from Code.outil import *
+import logging
 import time
 from threading import Thread
-import logging
+
+from Code.outil import *
 
 
 class Controler:
 
     def __init__(self):
+        """
+        Constructeur de la classe Controler
+        """
         self.logger = logging.getLogger(self.__class__.__name__)
         self.strat_en_cour = None
         self.strategie = 0
@@ -24,8 +28,12 @@ class Controler:
                     self.strat_en_cour.getRob().setVitAngA(0)
                     self.strat_en_cour = None
             time.sleep(1/(2**30))
-  
+
     def setStrategie(self, strat):
+        """
+        Méthode qui permet de lancer une stratégie
+        :param strat: la stratégie que l'on veut lancer
+        """
         if self.strategie:
             # print("Impossible de lancer la stratégie tant que le controleur n'est pas libre")
             self.logger.error("Impossible de lancer la stratégie tant que le controleur n'est pas libre")
@@ -34,28 +42,39 @@ class Controler:
         self.strat_en_cour.start()
 
     def setStrategieCarre(self, rob, longueur_cote):
+        """
+        Méthode qui permet de lancer la stratégie de faire un carré
+        :param rob: le robot que l'on veut faire avancer
+        :param longueur_cote: la longueur du côté du carré que l'on veut faire parcourir au robot
+        """
         avance = StrategieAvancer(rob, longueur_cote)
         tourne = StrategieTourner(rob, 90)
         carre  = StrategieSeq([avance, tourne, avance, tourne, avance, tourne, avance, tourne],rob)
         self.setStrategie(carre)
 
     def setStrategieArretMur(self, rob, distarret, env):
+        """
+        Méthode qui permet de lancer la stratégie d'arret du robot devant un mur/obstacle
+        :param rob: le robot que l'on veut faire arreter
+        :param distarret: la distance que l'on veut entre le robot et le mur/obstacle
+        :param env: L'environemment pour le capteur de distance du robot simu
+        """
         arret = StrategieArretMur(rob, distarret, env)
         self.setStrategie(arret)
-        
+
 
 
 class StrategieAvancer:
     
     def __init__(self, rob, distance) :
         """ Statégie qui fait avancer le robot d'une distance donnée
-            :param distance: la distance que doit parcourir le robot  
-            :param rob: l'adaptateur du robot qu'on veut avancer 
+            :param distance: la distance que doit parcourir le robot
+            :param rob: l'adaptateur du robot qu'on veut avancer
             :returns: ne retourne rien, on initialise la stratégie
         """
         self.logger = logging.getLogger(self.__class__.__name__)
         self.distance = distance
-        self.rob = rob 
+        self.rob = rob
         self.parcouru = 0
 
     def start(self) :
@@ -64,7 +83,7 @@ class StrategieAvancer:
         self.parcouru = 0
         self.rob.setVitAngA(10) # Puis on augmente les vitesses angulaires de 10
 
-    def step(self) : 
+    def step(self) :
         """ On fait avancer le robot d'un petit pas
             :returns: rien, on met juste à jour la distance parcourue par le robot
         """
@@ -72,15 +91,19 @@ class StrategieAvancer:
             self.parcouru += self.rob.distance_parcourue()
             self.logger.debug("distance parcourue : %d", self.parcouru )
 
-
-    def stop(self): 
+    def stop(self):
         """ Détermine si on a bien parcouru la distance souhaitée
             :returns: True si on a bien complété la stratégie, False sinon
         """
-        return self.parcouru >= self.distance 
+        return self.parcouru >= self.distance
 
     def getRob(self):
+        """
+            Getter du robot qui est sous contrôle de la stratégie séquentielle
+            :returns: le robot qui est sous le contrôle du contrôleur
+        """
         return self.rob
+
 
 
 class StrategieTourner:
@@ -105,7 +128,6 @@ class StrategieTourner:
         self.angle_parcouru = 0
         self.dir_depart = self.rob.direction
 
-
         # On considère ici une rotation d'un angle alpha dans le sens horaire, c.à.d si positif on tourne vers la droite, sinon vers la gauche
         # On change les vitesses des deux roues, en leur donnant des vitesses opposées afin de tourner sur place
 
@@ -123,10 +145,10 @@ class StrategieTourner:
         """
         if not self.stop() and not self.rob.estCrash:
             self.angle_parcouru += self.rob.angle_parcouru()
-            self.logger.debug("angle parcouru : %d",self.angle_parcouru)        
+            self.logger.debug("angle parcouru : %d",self.angle_parcouru)
 
 
-    def stop(self) : 
+    def stop(self):
 
         """ Détermine si on a fini de faire la rotation de l'angle self.angle
             :returns: True si la rotation a bien été effectuée, False sinon
@@ -145,7 +167,7 @@ class StrategieArretMur:
         """ Stategie qui fait arreter le robot a une distance donnée
             :param rob: le robot que l'on veut faire arreter avant un mur/obtacle
             :param distarret: la distance que l'on veut entre le robot et le mur/obstacle
-            :param env: L'environemment pour le capteur de distance du robot simu 
+            :param env: L'environemment pour le capteur de distance du robot simu
         """
         self.logger = logging.getLogger(self.__class__.__name__)
         
@@ -164,6 +186,7 @@ class StrategieArretMur:
 
     def step(self):
         """ Le step de la stratégie arret mur : qui met à jour la distance entre le robot et le mur/obstacle devant lui
+            :returns: rien, on met juste à jour la distance entre le robot et le mur/obstacle
         """
         if not self.stop():
             self.distrob = self.rob.capteurDistance(self.env)
@@ -171,13 +194,18 @@ class StrategieArretMur:
             self.rob.setVitAngA(0)
 
     def stop(self):
-        """ Détermine si la distance entre le robot et le mur/obstacle est plus petite ou égale a la distarret souhaitée 
+        """ Détermine si la distance entre le robot et le mur/obstacle est plus petite ou égale a la distarret souhaitée
             :return: True si oui, non sinon
         """
         return self.distrob <= self.distarret
 
     def getRob(self):
+        """
+            Getter du robot qui est sous contrôle de la stratégie séquentielle
+            :returns: le robot qui est sous le contrôle du contrôleur
+        """
         return self.rob
+
 
 
 class StrategieSeq:
@@ -206,13 +234,13 @@ class StrategieSeq:
                 self.indice += 1
                 self.listeStrat[self.indice].start()
 
-            self.listeStrat[self.indice].step() # On fait le step de la stratégie en cours 
+            self.listeStrat[self.indice].step() # On fait le step de la stratégie en cours
 
         else:
             self.listeStrat[self.indice].rob.setVitAngA(0)
 
-    def stop(self) : 
-        """ Détermine si la stratégie séquentielle est terminée, donc si toutes ses sous-stratégies son terminées 
+    def stop(self) :
+        """ Détermine si la stratégie séquentielle est terminée, donc si toutes ses sous-stratégies son terminées
             :returns: True si toutes les stratégies ont bien été accomplies, False sinon
         """
         if self.indice == len(self.listeStrat)-1 and self.listeStrat[self.indice].stop() :
@@ -221,7 +249,11 @@ class StrategieSeq:
         return False
     
     def getRob(self):
+        """
+            Getter du robot qui est sous contrôle de la stratégie séquentielle
+            :returns: le robot qui est sous le contrôle du contrôleur
+        """
         return self.rob
-      
+
 
 
