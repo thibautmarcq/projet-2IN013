@@ -76,6 +76,7 @@ class StrategieAvancer:
         self.distance = distance
         self.rob = rob
         self.parcouru = 0
+        self.getRob().distance_parcourue() # Met à jour les infos du robot avec le pt de départ
 
     def start(self) :
         self.logger.debug("Stratégie avancer démarée")
@@ -119,6 +120,7 @@ class StrategieTourner:
         self.rob = rob
         self.angle = angle
         self.angle_parcouru = 0
+        self.getRob().angle_parcouru()
 
     def start(self) :
 

@@ -229,7 +229,5 @@ class Adaptateur_simule(Robot) :
 		dir_prec = self.last_dir
 		self.last_dir = dir_actuelle
 		self.last_point = (self.x, self.y)
-		angle = getAngleFromVect(dir_prec, dir_actuelle)
-		
 		return getAngleFromVect(dir_prec, dir_actuelle)
 	
