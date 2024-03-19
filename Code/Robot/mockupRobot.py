@@ -1,11 +1,6 @@
 import logging
 import math
-
-WHEEL_BASE_WIDTH         = 117  # distance (mm) de la roue gauche a la roue droite.
-WHEEL_DIAMETER           = 66.5 #  diametre de la roue (mm)
-WHEEL_BASE_CIRCUMFERENCE = WHEEL_BASE_WIDTH * math.pi # perimetre du cercle de rotation (mm)
-WHEEL_CIRCUMFERENCE      = WHEEL_DIAMETER   * math.pi # perimetre de la roue (mm)
-
+from Code.constantes import *
 
 class mockupRobot():
     """
@@ -122,8 +117,4 @@ class Adaptateur(mockupRobot) :
         dist_g = (ang_g/360) * WHEEL_CIRCUMFERENCE
         return (dist_g-dist_d)/WHEEL_BASE_WIDTH
 
-    
-# mockupRobot = Adaptateur()
-# mockupRobot.setVitAngGA(20)
-# self.logger.debug(mockupRobot.estSousControle)
-# self.logger.degug(mockupRobot.estCrash)
+

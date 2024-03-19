@@ -5,6 +5,7 @@ from Code.Robot.mockupRobot import *
 from threading import Thread
 from time import sleep
 from Code.Controleur.controleur import Controler
+from Code.constantes import *
 
 import logging
 
@@ -17,7 +18,7 @@ logging.basicConfig(filename='logs.log',
 def loopEnv(env):
     while True:
         env.refresh_env()
-        sleep(1/2000)
+        sleep(TIC_SIMULATION)
 
 env = Environnement(750, 550, 1) # Initialisation de l'env
 T_env = Thread(target=loopEnv, args=[env], daemon=True)
@@ -49,15 +50,16 @@ def menu():
     print("1 - Lance une interface Graphique ")
     print("2 - afficher les infos de la simulation")
     print("3 - faire tracer un carré au robot réel")
-    cmd = input("Veuillez choisir une action:")
+    cmd = input("Veuillez choisir une action:\n")
     if cmd == "0":
         RUNNING = False
 
     elif cmd == "1":
         run = Interface(env, controleur)
         run.mainloop()
+
     elif cmd == "2":
-        print("Information de la simulation:")
+        print("\nInformation de la simulation:")
         print("Width:", env.width, "Length:", env.length)
         print("Nombre de robots dans notre simulation:", len(env.robots))
         for rob in env.robots:
@@ -67,6 +69,7 @@ def menu():
             print("Le robot n'est plus fonctionnel"if rob.estCrash else "Le robot est toujours fonctionnel")
             print("Le robot n'est pas controlé par le controleur"if not rob.estSousControle else "Le robot est controlé par le controlleur")
             print("------------"+"-"*(len(rob.nom)+2)+"------")
+            
     elif cmd == "3" :
         len = float(input("Quelle largeur voulez-vous pour le carré ? \n"))
         controleur.setStrategieCarre(robot3, len)

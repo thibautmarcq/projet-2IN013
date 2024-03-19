@@ -3,6 +3,7 @@ import time
 from threading import Thread
 
 from Code.outil import *
+from Code.constantes import *
 
 
 class Controler:
@@ -27,7 +28,7 @@ class Controler:
                     self.strategie = 0
                     self.strat_en_cour.getRob().setVitAngA(0)
                     self.strat_en_cour = None
-            time.sleep(1/(2**30))
+            time.sleep(TIC_CONTROLEUR)
 
     def setStrategie(self, strat):
         """
@@ -82,7 +83,7 @@ class StrategieAvancer:
         self.logger.debug("Stratégie avancer démarée")
         self.rob.estSousControle = True
         self.parcouru = 0
-        self.rob.setVitAngA(5) # Puis on augmente les vitesses angulaires de 5
+        self.rob.setVitAngA(VIT_ANG_AVAN) # Puis on set les vitesses angulaires des deux roues à 5
 
     def step(self) :
         """ On fait avancer le robot d'un petit pas
@@ -132,9 +133,8 @@ class StrategieTourner:
         # On considère ici une rotation d'un angle alpha dans le sens horaire, c.à.d si positif on tourne vers la droite, sinon vers la gauche
         # On change les vitesses des deux roues, en leur donnant des vitesses opposées afin de tourner sur place
 
-        
-        self.rob.setVitAngGA(1  if self.angle > 0 else -1)
-        self.rob.setVitAngDA(-1  if self.angle > 0 else 1)
+        self.rob.setVitAngGA(VIT_ANG_TOUR  if self.angle > 0 else -VIT_ANG_TOUR)
+        self.rob.setVitAngDA(-VIT_ANG_TOUR  if self.angle > 0 else VIT_ANG_TOUR)
         
 
 

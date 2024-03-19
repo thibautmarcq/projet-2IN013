@@ -7,6 +7,7 @@ from Code.Robot.robot import Robot
 from tkinter import Label, Tk
 
 from Code.Controleur.controleur import *
+from Code.constantes import *
 
 class Interface:
 
@@ -202,7 +203,7 @@ class Interface:
 				if not robot.estSousControle and (abs(int(robot.firstDrawPoint[0]) - int(self.env.robots[self.env.robotSelect].x)) < a and abs(int(robot.firstDrawPoint[1]) - int(self.env.robots[self.env.robotSelect].y)) < a):
 					robot.draw = False
 					
-		self.root.after(int(1000/60), self.tic_tac)
+		self.root.after(int(TIC_INTERFACE), self.tic_tac)
 
 
 	def mainloop(self):
