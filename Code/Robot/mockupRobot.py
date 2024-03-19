@@ -30,8 +30,10 @@ class mockupRobot():
 
     def set_motor_dps(self, port, dps):
         self.logger.debug("set_motor_dps %d %d", port, dps)
-        self.angled += dps
-        self.angleg += dps
+        if(port == 1 or port == 3):
+            self.angleg = dps
+        if(port == 2 or port == 3):
+            self.angled = dps
 
     def get_motor_position(self):
         self.logger.debug("get_motor_position : %d %d", self.angleg, self.angled)
@@ -59,7 +61,7 @@ class mockupRobot():
         self.logger.debug("_start_recording")
 
     def __getattr__(self,attr):
-        self.logger.debug("getattr %d", attr)
+        pass
 
 class Adaptateur(mockupRobot) :
     """
@@ -117,7 +119,8 @@ class Adaptateur(mockupRobot) :
         ang_g, ang_d = self.get_motor_position()
         self.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
         dist_d = (ang_d/360) * WHEEL_CIRCUMFERENCE
-        return (dist_d)/WHEEL_BASE_WIDTH
+        dist_g = (ang_g/360) * WHEEL_CIRCUMFERENCE
+        return (dist_g-dist_d)/WHEEL_BASE_WIDTH
 
     
 # mockupRobot = Adaptateur()

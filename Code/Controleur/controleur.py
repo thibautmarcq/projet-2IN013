@@ -81,7 +81,7 @@ class StrategieAvancer:
         self.logger.debug("Stratégie avancer démarée")
         self.rob.estSousControle = True
         self.parcouru = 0
-        self.rob.setVitAngA(10) # Puis on augmente les vitesses angulaires de 10
+        self.rob.setVitAngA(5) # Puis on augmente les vitesses angulaires de 5
 
     def step(self) :
         """ On fait avancer le robot d'un petit pas
@@ -126,12 +126,10 @@ class StrategieTourner:
 
         self.rob.estSousControle = True
         self.angle_parcouru = 0
-        self.dir_depart = self.rob.direction
 
         # On considère ici une rotation d'un angle alpha dans le sens horaire, c.à.d si positif on tourne vers la droite, sinon vers la gauche
         # On change les vitesses des deux roues, en leur donnant des vitesses opposées afin de tourner sur place
 
-        self.vitesseAng = 1
         
         self.rob.setVitAngGA(1  if self.angle > 0 else -1)
         self.rob.setVitAngDA(-1  if self.angle > 0 else 1)
