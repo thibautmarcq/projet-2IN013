@@ -5,8 +5,8 @@ import time
 import numpy as np
 
 from .obstacle import Obstacle
-from .Robot.robot import Robot
 from .outil import *
+from .Robot.robot import Robot
 
 
 class Environnement:
@@ -59,7 +59,8 @@ class Environnement:
         """
         self.listeObs.append(Obstacle(nom,lstPoints))
         if any(x > self.width or x < 0 or y > self.length or y < 0 for (x, y) in lstPoints):
-            return self.logger.warning("Obstacle %s hors environnement! Verifiez les coordonnées de ses points", nom)
+            raise ValueError("Obstacle %s hors environnement! Verifiez les coordonnées de ses points" % nom)
+
 
 
         # Placement des bordures de l'obstacle dans l'environnement
