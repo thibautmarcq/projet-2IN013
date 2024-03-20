@@ -1,5 +1,5 @@
 import Robot2IN013 # Import de l'API, supposée être sur le robot ?
-
+import math
 class Adaptateur(Robot2IN013) :
     """
     Classe d'adaptation du robot réel qui hérite de la classe mockupRobot
