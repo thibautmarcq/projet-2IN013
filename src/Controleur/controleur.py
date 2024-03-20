@@ -31,10 +31,9 @@ class Controler:
                     self.strat_en_cour = None
             time.sleep(TIC_CONTROLEUR)
 
-    def setStrategie(self, strat):
-        """
-        Méthode qui permet de lancer une stratégie
-        :param strat: la stratégie que l'on veut lancer
+    def lancerStrategie(self, strat):
+        """ Méthode qui permet de lancer une stratégie
+            :param strat: la stratégie que l'on veut lancer
         """
         if self.strategie:
             self.logger.error("Impossible de lancer la stratégie tant que le controleur n'est pas libre")
@@ -42,8 +41,6 @@ class Controler:
         self.strategie = 1
         self.strat_en_cour.start()
 
-    def lancerStrategie(self, strat) : 
-        self.setStrategie(strat)
 
 
 
