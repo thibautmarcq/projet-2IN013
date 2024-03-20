@@ -1,0 +1,106 @@
+Semaine 8 :
+
+FINAL : 
+
+Sur l’organisation :
+- Rien à dire, on a l’air de bien réussir à s’organiser et travailler ensemble. On a bien avancé pour cette semaine.
+- Le travail est propre, les commits sont clairs, et le trello aussi, le code est bien présenté
+
+
+Sur la refactorisation du code :
+
+- Les constantes du robot (ses propriétés comme le rayon de la roue…) sont à laisser dans le fichier de définition de la classe du robot, et pas à mettre dans le fichier de constantes, car sinon si on a un deuxième robot avec des propriétés différentes on va avoir des problèmes.
+
+- Faire une classe abstraite pour les adaptateurs. Permet de factoriser les fonctions et d’avoir à un seul endroit tout ce dont on a basiquement besoin pour un adaptateur. Ou sinon il faudrait faire quelque part un document qui explique/récapitule les propriétés d’un adaptateur. Comme c’est maintenant, si on veut faire un nouvel adaptateur il faut aller voir dans les adaptateurs existants et recopier les méthodes.
+
+- On pourrait peut-être mettre environnement et Robot sous un même module
+
+- Pour les setters et les getters, utiliser les vrais getters et setters de python avec @ au lieu de faire des méthodes comme on le fait maintenant. Ca permet aux getters/setters d’agir comme des attributs plutôt que des méthodes.
+
+
+Sur le code :
+
+- Dans le mockup, faire des offset à la fin des strats au lieu de les faire à chaque fois qu’on appelle distance_parcourue ou angle_parcouru
+
+- Pour distance parcourue et angle parcouru : attention. Pour l’instant ca fonctionne car les fonctions ne sont pas en parallèle. Mais si on veut mêler les fonctions ou les faire tourner en parallèle il faut faire attention à l’implémentation, le retour à 0 etc… Solution : les lancer sur un thread ? Faire une condition ?
+
+- Les adaptateurs ne doivent pas hériter des classes des robots. On va plutôt donner le robot en paramètre de l’adaptateur
+
+- On est un peu en train de coder un langage. Donc pour être quasiment Turing complet il nous manque les boucles conditionnelles, voire les boucles for/while. A ce moment-là on pourra avoir des stratégies concurrentes qui vont s’exécuter.
+
+- Plutôt s’orienter vers Panda3D pour l’implémentation de la 3D
+
+
+
+
+BROUILLON :
+
+Toby :
+
+Démo
+
+Question sur l'organisation du code ?
+Environnement et robot dans un meme sous module
+
+Constantes du robot dans le robot, pas dans les constantes
+Setter et getter en python, pas des méthodes @get @setter .var / utiliser les trucs python. Juste cosmétique
+
+Classe abstraite pour le robot. Mettre les méthodes, recap les trucs. 
+
+Le prof sait pas ahaah
+
+Ligne 108 mockup. Faire des reset à la fin des strats. Il est pas modulo. Reset fin stratégie.
+
+Pas bien pour distance angle. > Solu : faire un thread à part et des attributs sur le robot réel. Pb d'appel si les sistance/angle_parcouru sont appelé dans des fonctions séparées.
+Pas de strat conditionnelle.
+
+Bonne organisation, très propre. Ca fait plaisir. 
+
+Modifier l'héritage de adaptateur, faire de la composition.
+
+Turing compatible : développer un petit langage. 
+Boucle conditionnelle, boucle for. (8x avancer) 
+Boucle cond : (cf avancer mur et capt distance)
+
+Pret à passer sur le vrai robot. C'est super propre, commits clairs etcc
+
+Faire du panda3D
+
+
+
+Inès : 
+
+
+Mettre env et robot dans un même sous module
+Constantes du robot dans le robot pas dans constantes
+@set machin bidule 
+Utiliser les vrais setters de vitesse pour python
+
+Un document ou une classe abstraite pour résumer les possibilités de la classe abstraite pour récapituler et comprendre
+Faire un adaptateur abstrait ou un document qui définit toutes les méthodes du robot
+-> ca permet de factoriser
+
+D’un pdv orga ca a l’air d’aller bien on a compris comment fonctionner
+
+On remet a 0 a chaque fois qu’on appelle dit ca peut être en pb
+Pas besoin de refaire les offset a chaque appel a distance parcourue etc
+
+Si on mène les stratégies ca peut poser un problème bc we relie on calling distance parcourue et angle parcourue 
+
+Sol : mettre un thread a part ? 
+
+Tel quel ça marche mais ca dépend de ce qu’on va coder ensuite
+
+Ne pas utiliser l’héritage, on va plutôt prendre le robot en paramètre que dire l’adaptateur est un robot.
+
+On est en train de faire un ‘langage’
+Il manque une boucle conditionnelle voire une boucle for
+Quand c’est bon on est quasiment Turing complet
+C’est a ce moment que y’a des stratégies concurrentes qui peuvent s’exécuter
+
+Franchement c’est hyper clair, le code est bien présenté et efficace
+
+
+Faut utiliser panda 3D c’est cool
+
+
