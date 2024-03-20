@@ -7,16 +7,15 @@ from Code.Robot.robot import Robot
 from tkinter import Label, Tk
 
 from Code.Controleur.controleur import *
+from Code.Controleur.Strategies import *
 from Code.constantes import *
 
 class Interface:
 
 	def __init__(self, env, controleur):
 		""" Constructeur de la classe interface, avec l'initialisation de la fenêtre et de ses composants
-			:param width: largeur de l'environnement
-			:param length; longueur de l'environnement
-			:param scale: echelle de l'environnement (permet de passer de l'environnement à la matrice) = nbr de cases de matrice par coté d'environnement
-			:returns: ne retourne rien, initialise seulement l'interface
+			:param env: l'environnement dans lequel on initialise l'interface
+			:param controleur: le contrôleur de l'environnement:returns: ne retourne rien, initialise seulement l'interface
 		"""
 		self.env = env# notre environnement a représenter graphiquement
 
@@ -114,12 +113,14 @@ class Interface:
 			return
 
 		if strat==1:
-			Controler.setStrategieCarre(self.controleur,rob, distance)
+			carre = setStrategieCarre(rob, distance)
+			self.controleur.lancerStrategie(carre)
 			rob.draw = True
 			rob.firstDrawPoint = (rob.x, rob.y)
 		elif strat==2:
-			Controler.setStrategieArretMur(self.controleur,rob, distance, self.env)
-		
+			arret_mur = setStrategieArretMur(rob, distance, self.env)
+			self.controleur.lancerStrategie(arret_mur)
+			
 		
 
 

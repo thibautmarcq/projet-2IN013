@@ -36,7 +36,7 @@ class mockupRobot():
 
 
     def offset_motor_encoder(self, port, offset):
-        self.logger.debug("offset_motor_encoder %d %d", port, offset)
+        pass
         
 
     def get_distance(self):
@@ -113,8 +113,8 @@ class Adaptateur(mockupRobot) :
     def angle_parcouru(self) :
         ang_g, ang_d = self.get_motor_position()
         self.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
-        dist_d = (ang_d/360) * WHEEL_CIRCUMFERENCE
-        dist_g = (ang_g/360) * WHEEL_CIRCUMFERENCE
-        return (dist_g-dist_d)/WHEEL_BASE_WIDTH
+        dist_d = (ang_d/360) * math.pi * WHEEL_CIRCUMFERENCE
+        dist_g = (ang_g/360) * math.pi * WHEEL_CIRCUMFERENCE
+        return math.degrees((dist_g-dist_d)/WHEEL_BASE_WIDTH)
 
 

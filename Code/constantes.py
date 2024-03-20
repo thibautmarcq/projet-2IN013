@@ -15,5 +15,5 @@ WHEEL_CIRCUMFERENCE      = WHEEL_DIAMETER   * math.pi # perimetre de la roue (mm
 
 
 # -----------------------------  CONSTANTES DE VITESSE  -----------------------------
-VIT_ANG_AVAN = 5
+VIT_ANG_AVAN = 2
 VIT_ANG_TOUR = 1

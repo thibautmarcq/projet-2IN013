@@ -5,6 +5,7 @@ from Code.Robot.mockupRobot import *
 from threading import Thread
 from time import sleep
 from Code.Controleur.controleur import Controler
+from Code.Controleur.Strategies import *
 from Code.constantes import *
 
 import logging
@@ -71,8 +72,9 @@ def menu():
             print("------------"+"-"*(len(rob.nom)+2)+"------")
             
     elif cmd == "3" :
-        len = float(input("Quelle largeur voulez-vous pour le carré ? \n"))
-        controleur.setStrategieCarre(robot3, len)
+        long = float(input("Quelle largeur voulez-vous pour le carré ? \n"))
+        carre = setStrategieCarre(robot3, long)
+        controleur.lancerStrategie(carre)
 
 
 
