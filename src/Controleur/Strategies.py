@@ -23,6 +23,7 @@ class StrategieAvancer:
         self.getRob().distance_parcourue() # Met à jour les infos du robot avec le pt de départ
 
     def start(self) :
+        """ Lancement de la stratégie avancer """
         self.logger.debug("Stratégie avancer démarée")
         self.rob.estSousControle = True
         self.parcouru = 0
@@ -34,7 +35,7 @@ class StrategieAvancer:
         """
         if not self.stop() and not self.rob.estCrash:
             self.parcouru += self.rob.distance_parcourue()
-            self.logger.debug("distance parcourue : %d", self.parcouru )
+            self.logger.debug("distance de segment parcourue : %d", self.parcouru )
 
     def stop(self):
         """ Détermine si on a bien parcouru la distance souhaitée
@@ -88,7 +89,7 @@ class StrategieTourner:
         """
         if not self.stop() and not self.rob.estCrash:
             self.angle_parcouru += self.rob.angle_parcouru()
-            self.logger.debug("angle parcouru : %d",self.angle_parcouru)
+            self.logger.debug("angle de rotation parcouru : %d",self.angle_parcouru)
 
 
     def stop(self):
