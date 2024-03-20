@@ -2,9 +2,9 @@ import logging
 import time
 from threading import Thread
 
-from Code.outil import *
-from Code.constantes import *
-from Code.Controleur.Strategies import *
+from src.outil import *
+from src.constantes import *
+from src.Controleur.Strategies import *
 
 
 class Controler:

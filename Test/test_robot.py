@@ -3,8 +3,8 @@
 import unittest
 import math 
 
-from Code.Robot.robot import Robot
-from Code.environnement import Environnement
+from src.Robot.robot import Robot
+from src.environnement import Environnement
 
 class TestRobot(unittest.TestCase):
     def setUp(self) :

@@ -3,8 +3,8 @@ import logging
 
 from threading import Thread
 
-from Code.constantes import *
-from Code.Robot import *
+from src.constantes import *
+from src.Robot import *
 
 
 

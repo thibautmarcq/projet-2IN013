@@ -2,13 +2,13 @@ import math
 from time import *
 from tkinter import *
 
-from Code.environnement import Environnement
-from Code.Robot.robot import Robot
+from src.environnement import Environnement
+from src.Robot.robot import Robot
 from tkinter import Label, Tk
 
-from Code.Controleur.controleur import *
-from Code.Controleur.Strategies import *
-from Code.constantes import *
+from src.Controleur.controleur import *
+from src.Controleur.Strategies import *
+from src.constantes import *
 
 class Interface:
 
@@ -59,7 +59,7 @@ class Interface:
 	
 		self.frame_tutorial = LabelFrame(self.frame_gauche, text="Tutorial", bd=1)
 		self.frame_tutorial.grid(row=1)
-		self.tutorial_image = PhotoImage(file="Code/Interface/source/tuto_fr.png").subsample(2,2)
+		self.tutorial_image = PhotoImage(file="src/Interface/source/tuto_fr.png").subsample(2,2)
 		self.tutorial = Label(self.frame_tutorial, image=self.tutorial_image)
 		self.tutorial.grid(row=1, column=1)
 

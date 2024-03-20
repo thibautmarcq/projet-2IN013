@@ -1,7 +1,7 @@
 # python3 -m unittest Test/test_outil.py -v
 import unittest
 import math
-import Code.outil as outil
+import src.outil as outil
 
 class TestOutil(unittest.TestCase):
 

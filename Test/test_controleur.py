@@ -1,9 +1,9 @@
 import unittest
 
 import numpy as np
-from Code.Controleur.controleur import *
-from Code.environnement import Environnement
-from Code.Robot.robot import Adaptateur_simule
+from src.Controleur.controleur import *
+from src.environnement import Environnement
+from src.Robot.robot import Adaptateur_simule
 
 
 class TestControleur(unittest.TestCase):

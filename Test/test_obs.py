@@ -2,8 +2,8 @@
 
 import unittest
 
-from Code.environnement import Environnement
-from Code.obstacle import Obstacle
+from src.environnement import Environnement
+from src.obstacle import Obstacle
 
 
 class TestObstacle(unittest.TestCase):
