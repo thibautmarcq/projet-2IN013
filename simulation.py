@@ -1,7 +1,7 @@
 from src.Interface.interface import Interface
 from src.environnement import Environnement
 from src.Robot.robot import Robot, Adaptateur_simule
-from src.Robot.gopigo import *
+from src.Robot.mockupRobot import *
 from threading import Thread
 from time import sleep
 from src.Controleur.controleur import Controler
@@ -47,7 +47,7 @@ robot3 = Adaptateur()
 
 def menu():
     global RUNNING
-    print("0 - Quit ( termine la simmu et arrete le programme )")
+    print("0 - Quit (termine la simulation et arrête le programme)")
     print("1 - Lance une interface Graphique ")
     print("2 - afficher les infos de la simulation")
     print("3 - faire tracer un carré au robot réel")
