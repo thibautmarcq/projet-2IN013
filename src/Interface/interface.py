@@ -120,7 +120,10 @@ class Interface:
 		elif strat==2:
 			arret_mur = setStrategieArretMur(rob, distance, self.env)
 			self.controleur.lancerStrategie(arret_mur)
-			
+		elif strat==3:
+			arret_mur2 = StrategieCond(rob, StrategieAvancer(rob,400), lambda: distSup(rob, self.env, distance))
+			self.controleur.lancerStrategie(arret_mur2)
+					
 		
 
 
@@ -246,6 +249,7 @@ class Interface:
 
 		self.root.bind('c', lambda event: self.choisir_strategie(1, 120)) # Fait tracer le carré au robot
 		self.root.bind('m', lambda event: self.choisir_strategie(2, 20))
+		self.root.bind('p', lambda event: self.choisir_strategie(3, 15))
 
 
 		self.root.bind("x", lambda event: self.env.addRobotSelect(1))

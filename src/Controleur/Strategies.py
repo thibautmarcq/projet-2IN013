@@ -206,7 +206,6 @@ class StrategieCond:
         :param cond: fonction conditionnelle / booleenne (ex: <module>.distSup(rob, 5) renverrai True si le captDist renvoie > 5)
         """
         self.logger = logging.getLogger(self.__class__.__name__)
-        
         self.rob = rob
         self.strat = strat
         self.cond = cond
@@ -215,12 +214,7 @@ class StrategieCond:
         self.logger.debug("Stratégie conditionnelle lancée")
         
         self.rob.estSousControle = True
-        
-    def verifCond(self):
-        """ Vérifie si la condition est toujours valide
-        :returns: True si condition remplie, False si non remplie
-        """
-        self.cond(self.rob)
+        self.strat.start()
                     
     def step(self):
         """ Exécute la strat demandée si la condition est remplie 
