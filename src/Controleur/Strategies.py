@@ -253,3 +253,13 @@ def setStrategieArretMur(rob, distarret, env) :
     arret = StrategieArretMur(rob, distarret, env)
     return arret
 
+# Méthodes conditionnelles pour la stratCond
+def distSup(rob, env, dist):
+    """ Verifie que le robot est à une distance supérieure à dist d'un obstacle
+    :param robot: le robot pour lequel on va utiliser le capteur de distance
+    :param env: l'environnement du robot en question
+    :param dist: la distance utilisée pour la condition
+    """
+    if (rob.capteurDistance(env)>dist):
+        return True
+    return False
