@@ -198,8 +198,51 @@ class StrategieSeq:
         """
         return self.rob
 
-
-
+class StrategieCond:
+    def __init__(self, rob, strat, cond):
+        """ Stratégie conditionnelle 
+        :param rob: le robot que l'on veut faire executer la strat
+        :param strat: la stratégie à executer tant que la cond est remplie
+        :param cond: fonction conditionnelle / booleenne (ex: <module>.distSup(rob, 5) renverrai True si le captDist renvoie > 5)
+        """
+        self.logger = logging.getLogger(self.__class__.__name__)
+        
+        self.rob = rob
+        self.strat = strat
+        self.cond = cond
+        
+    def start(self):
+        self.logger.debug("Stratégie conditionnelle lancée")
+        
+        self.rob.estSousControle = True
+        
+    def verifCond(self):
+        """ Vérifie si la condition est toujours valide
+        :returns: True si condition remplie, False si non remplie
+        """
+        self.cond(self.rob)
+                    
+    def step(self):
+        """ Exécute la strat demandée si la condition est remplie 
+        :returns: rien, fait le step de la strat
+        """
+        if not self.stop() :
+            self.strat.step() 
+    
+    def stop(self):
+        """ Vérifie si la condition est toujours valide
+        :returns: False si condition remplie (pas de stop), True si non remplie (stop)
+        """
+        return not self.cond()
+    
+    def getRob(self):
+        """ Getter du robot qui est sous contrôle de la stratégie séquentielle
+            :returns: le robot qui est sous le contrôle du contrôleur
+        """
+        return self.rob
+        
+                    
+        
 def setStrategieCarre(rob, longueur_cote):
     avance = StrategieAvancer(rob, longueur_cote)
     tourne = StrategieTourner(rob, 90)
