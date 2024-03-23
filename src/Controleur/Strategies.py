@@ -236,7 +236,7 @@ class StrategieCond:
         return self.rob
     
     
-class StratégieBoucle:
+class StrategieBoucle:
     def __init__(self, rob, strat, nbTours):
         """ Stratégie de boucle
         :param rob: le robot que l'on veut faire executer la strat
@@ -261,7 +261,10 @@ class StratégieBoucle:
         if not self.stop() :
             self.strat.step() 
             if self.strat.stop():
-                self.nbTours-=1
+                self.nbTours-=1 
+                if not self.stop():
+                    self.strat.start()
+                
         
     def stop(self):
         """ Vérifie si le nombre de tours a été fait
