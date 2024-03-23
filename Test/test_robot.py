@@ -1,7 +1,6 @@
 # python3 -m unittest Test/test_robot.py -v
 
 import unittest
-import math 
 
 from src.Robot.robot import Robot
 from src.environnement import Environnement

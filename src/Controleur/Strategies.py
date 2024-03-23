@@ -1,7 +1,4 @@
-import math
 import logging
-
-from threading import Thread
 
 from src.constantes import *
 from src.Robot import *
