@@ -6,7 +6,6 @@ import numpy as np
 
 from .obstacle import Obstacle
 from .outil import *
-from .Robot.robot import Robot
 
 
 class Environnement:

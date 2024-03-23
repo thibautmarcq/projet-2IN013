@@ -1,6 +1,6 @@
 from src.Interface.interface import Interface
 from src.environnement import Environnement
-from src.Robot.robot import Robot, Adaptateur_simule
+from src.Robot.robot import Robot,Adaptateur_simule
 from src.Robot.mockupRobot import *
 from threading import Thread
 from time import sleep

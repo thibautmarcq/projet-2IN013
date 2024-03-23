@@ -1,9 +1,6 @@
 import math
 from time import *
 from tkinter import *
-
-from src.environnement import Environnement
-from src.Robot.robot import Robot
 from tkinter import Label, Tk
 
 from src.Controleur.controleur import *
@@ -106,10 +103,10 @@ class Interface:
 		"""
 		rob = self.env.robots[self.env.robotSelect]
 		if rob.estCrash:
-			print("Impossible de controller ce robot il est crash")
+			print("Impossible de contrôler ce robot, il est crash.")
 			return
 		elif rob.estSousControle:
-			print("Impossible de controller ce robot il est déjà sous controle")
+			print("Impossible de contrôler ce robot, il est déjà sous contrôle.")
 			return
 
 		if strat==1:
