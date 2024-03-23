@@ -227,7 +227,10 @@ class StrategieCond:
         """ Vérifie si la condition est toujours valide
         :returns: False si condition remplie (pas de stop), True si non remplie (stop)
         """
-        return not self.cond()
+        if not self.cond() : 
+            self.rob.estSousControle = False
+            return True
+        return False
     
     def getRob(self):
         """ Getter du robot qui est sous contrôle de la stratégie séquentielle
@@ -254,6 +257,4 @@ def distSup(rob, env, dist):
     :param env: l'environnement du robot en question
     :param dist: la distance utilisée pour la condition
     """
-    if (rob.capteurDistance(env)>dist):
-        return True
-    return False
+    return (rob.capteurDistance(env)>dist)
