@@ -237,8 +237,50 @@ class StrategieCond:
             :returns: le robot qui est sous le contrôle du contrôleur
         """
         return self.rob
+    
+    
+class StratégieBoucle:
+    def __init__(self, rob, strat, nbTours):
+        """ Stratégie de boucle
+        :param rob: le robot que l'on veut faire executer la strat
+        :param strat: la stratégie à executer
+        :param nbTours: nombre de tours que la boucle doit faire
+        """
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.rob = rob
+        self.strat = strat
+        self.nbTours = nbTours
         
-                    
+    def start(self):
+        self.logger.debug("Stratégie de boucle lancée")
+        
+        self.rob.estSousControle = True
+        self.strat.start()
+        
+    def step(self):
+        """ Exécute la strat demandée si on est encore dans un tour
+        :returns: rien, fait le step de la strat
+        """
+        if not self.stop() :
+            self.strat.step() 
+            if self.strat.stop():
+                self.nbTours-=1
+        
+    def stop(self):
+        """ Vérifie si le nombre de tours a été fait
+        :returns: False si il reste encore des tours à faire, True si les tours ont été faits
+        """
+        if self.nbTours<1 :
+            self.rob.estSousControle = False
+            return True
+        return False
+
+    def getRob(self):
+        """ Getter du robot qui est sous contrôle de la stratégie séquentielle
+            :returns: le robot qui est sous le contrôle du contrôleur
+        """
+        return self.rob
+             
         
 def setStrategieCarre(rob, longueur_cote):
     avance = StrategieAvancer(rob, longueur_cote)
