@@ -120,6 +120,9 @@ class Interface:
 		elif strat==3:
 			arret_mur2 = StrategieCond(rob, StrategieAvancer(rob,400), lambda: distSup(rob, self.env, distance))
 			self.controleur.lancerStrategie(arret_mur2)
+		elif strat==4:
+			carre2 = StrategieBoucle(rob, StrategieSeq([StrategieAvancer(rob, distance), StrategieTourner(rob, 90)], rob), 4)
+			self.controleur.lancerStrategie(carre2)
 					
 		
 
@@ -245,9 +248,9 @@ class Interface:
 
 
 		self.root.bind('c', lambda event: self.choisir_strategie(1, 120)) # Fait tracer le carré au robot
-		self.root.bind('m', lambda event: self.choisir_strategie(2, 20))
-		self.root.bind('p', lambda event: self.choisir_strategie(3, 15))
-
+		self.root.bind('m', lambda event: self.choisir_strategie(2, 20)) # fait la stratégie avancer jusqu'au mur
+		self.root.bind('p', lambda event: self.choisir_strategie(3, 15)) # fait la stratégie avancer jusqu'au mur - 2ème méthode (stratégie conditionnelle)
+		self.root.bind('o', lambda event: self.choisir_strategie(4, 120)) # fait la stratégie carré - 2ème méthode  (stratégie boucle)
 
 		self.root.bind("x", lambda event: self.env.addRobotSelect(1))
 		self.root.bind("w", lambda event: self.env.addRobotSelect(-1))
