@@ -93,7 +93,7 @@ class Interface:
 			:returns: ne retourne rien
 		"""
 		for obs in self.env.listeObs:
-			self.canv.create_polygon(obs.lstPoints, fill=('grey'))
+			self.canv.create_polygon(obs.lstPoints, fill=('#FFA500'))
 		
 	def choisir_strategie(self, strat, distance) :
 		""" Choisis la strategie à lancer
@@ -114,15 +114,24 @@ class Interface:
 			self.controleur.lancerStrategie(carre)
 			rob.draw = True
 			rob.firstDrawPoint = (rob.x, rob.y)
+
 		elif strat==2:
 			arret_mur = setStrategieArretMur(rob, distance, self.env)
 			self.controleur.lancerStrategie(arret_mur)
+
 		elif strat==3:
-			arret_mur2 = StrategieCond(rob, StrategieAvancer(rob,400), lambda: distSup(rob, self.env, distance))
-			self.controleur.lancerStrategie(arret_mur2)
+			sub_strat1 = StrategieSeq([StrategieArretMur(rob, rob.length, self.env), StrategieTourner(rob, 270)], rob)
+			strat1 = StrategieBoucle(rob, sub_strat1, 5)
+			self.controleur.lancerStrategie(strat1)
+
 		elif strat==4:
-			carre2 = StrategieBoucle(rob, StrategieSeq([StrategieAvancer(rob, distance), StrategieTourner(rob, 90)], rob), 4)
-			self.controleur.lancerStrategie(carre2)
+			sub_strat1 = StrategieSeq( [StrategieAvancer(rob, distance), StrategieTourner(rob, 300), StrategieAvancer(rob, distance), StrategieTourner(rob, 120), StrategieAvancer(rob, distance), StrategieTourner(rob, 300)], rob)
+			sub_strat2 = StrategieBoucle(rob, sub_strat1, 3)
+			sub_strat3 = StrategieBoucle(rob, sub_strat1, 2)
+			sub_strat4 = StrategieSeq([sub_strat2, StrategieAvancer(rob, distance), StrategieTourner(rob, 270), sub_strat3], rob)
+			strat = StrategieSeq([sub_strat4, sub_strat4])
+			self.controleur.lancerStrategie(strat)
+			
 					
 		
 
@@ -197,6 +206,12 @@ class Interface:
 		x, y = pos
 		self.canv.create_line(x-1, y-1, x+1, y+1, fill=couleur)
 
+	def dessine(self, b) :
+		if b :
+			self.env.robots[self.env.robotSelect].draw = True
+		else :
+			self.env.robots[self.env.robotSelect].draw = False
+
 	def tic_tac(self):
 		self.update_stats_affichage()
 		for robot in self.env.robots:
@@ -204,8 +219,6 @@ class Interface:
 			if robot.draw and not robot.estCrash:
 				self.dessine_point((self.env.robots[self.env.robotSelect].x, self.env.robots[self.env.robotSelect].y),  "black") #self.env.robots[self.env.robotSelect].couleur)
 				a = 5
-				if not robot.estSousControle and (abs(int(robot.firstDrawPoint[0]) - int(self.env.robots[self.env.robotSelect].x)) < a and abs(int(robot.firstDrawPoint[1]) - int(self.env.robots[self.env.robotSelect].y)) < a):
-					robot.draw = False
 					
 		self.root.after(int(TIC_INTERFACE), self.tic_tac)
 
@@ -249,8 +262,14 @@ class Interface:
 
 		self.root.bind('c', lambda event: self.choisir_strategie(1, 120)) # Fait tracer le carré au robot
 		self.root.bind('m', lambda event: self.choisir_strategie(2, 20)) # fait la stratégie avancer jusqu'au mur
-		self.root.bind('p', lambda event: self.choisir_strategie(3, 15)) # fait la stratégie avancer jusqu'au mur - 2ème méthode (stratégie conditionnelle)
-		self.root.bind('o', lambda event: self.choisir_strategie(4, 120)) # fait la stratégie carré - 2ème méthode  (stratégie boucle)
+		self.root.bind('t', lambda event: self.dessine(True)) # active le crayon
+		self.root.bind('e', lambda event: self.dessine(False)) # désactive le crayon
+		self.root.bind('p', lambda event: self.choisir_strategie(3, 10)) # fait la stratégie demandé dans la question 1.4 (le 10 ne sert à rien, il est juste la pour bien appeler la fonction)
+		self.root.bind('o', lambda event: self.choisir_strategie(4, 50)) # fait la stratégie demandée dans la question 1.5
+
+
+
+
 
 		self.root.bind("x", lambda event: self.env.addRobotSelect(1))
 		self.root.bind("w", lambda event: self.env.addRobotSelect(-1))

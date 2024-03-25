@@ -74,8 +74,15 @@ class StrategieTourner:
         # On considère ici une rotation d'un angle alpha dans le sens horaire, c.à.d si positif on tourne vers la droite, sinon vers la gauche
         # On change les vitesses des deux roues, en leur donnant des vitesses opposées afin de tourner sur place
 
-        self.rob.setVitAngGA(VIT_ANG_TOUR  if self.angle > 0 else -VIT_ANG_TOUR)
-        self.rob.setVitAngDA(-VIT_ANG_TOUR  if self.angle > 0 else VIT_ANG_TOUR)
+        if self.angle > 0 :
+            self.rob.setVitAngGA(VIT_ANG_TOUR)
+            self.rob.setVitAngDA(-VIT_ANG_TOUR)
+
+        else :
+            self.rob.setVitAngGA(-VIT_ANG_TOUR)
+            self.rob.setVitAngDA(VIT_ANG_TOUR)
+        # self.rob.setVitAngGA(VIT_ANG_TOUR  if self.angle > 0 else -VIT_ANG_TOUR)
+        # self.rob.setVitAngDA(-VIT_ANG_TOUR  if self.angle > 0 else VIT_ANG_TOUR)
         
 
 
