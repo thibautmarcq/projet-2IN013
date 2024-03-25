@@ -128,6 +128,14 @@ class Interface:
 			avTourne = StrategieSeq([avanceCond, StrategieTourner(rob, 90)], rob)
 			boucle = StrategieBoucle(rob, avTourne, 5)
 			self.controleur.lancerStrategie(boucle)
+		elif strat==6:
+			avance = StrategieAvancer(rob, distance)
+			tourneM60 = StrategieTourner(rob, 60)
+			tourne270 = StrategieTourner(rob, 270)
+			seq = StrategieSeq([avance, tourneM60, avance, tourne270, avance], rob)
+			boucle = StrategieBoucle(rob, seq, 5)
+			self.controleur.lancerStrategie(boucle)
+   
      
 		
 
@@ -209,8 +217,6 @@ class Interface:
 			if robot.draw and not robot.estCrash:
 				self.dessine_point((self.env.robots[self.env.robotSelect].x, self.env.robots[self.env.robotSelect].y),  "black") #self.env.robots[self.env.robotSelect].couleur)
 				a = 5
-				if not robot.estSousControle and (abs(int(robot.firstDrawPoint[0]) - int(self.env.robots[self.env.robotSelect].x)) < a and abs(int(robot.firstDrawPoint[1]) - int(self.env.robots[self.env.robotSelect].y)) < a):
-					robot.draw = False
 					
 		self.root.after(int(TIC_INTERFACE), self.tic_tac)
 
@@ -251,13 +257,15 @@ class Interface:
 		self.root.bind('e', lambda event: self.env.robots[self.env.robotSelect].changeVitAngD(1)) # + droit
 		self.root.bind('d', lambda event: self.env.robots[self.env.robotSelect].changeVitAngD(-1)) # - droit
 
-
+		self.root.bind('y', lambda event: self.env.robots[self.env.robotSelect].dessine(True)) # Active le dessin
+    
 		self.root.bind('c', lambda event: self.choisir_strategie(1, 120)) # Fait tracer le carré au robot
 		self.root.bind('m', lambda event: self.choisir_strategie(2, 20)) # fait la stratégie avancer jusqu'au mur
 		self.root.bind('p', lambda event: self.choisir_strategie(3, 15)) # fait la stratégie avancer jusqu'au mur - 2ème méthode (stratégie conditionnelle)
 		self.root.bind('o', lambda event: self.choisir_strategie(4, 120)) # fait la stratégie carré - 2ème méthode  (stratégie boucle)
   
 		self.root.bind('t', lambda event: self.choisir_strategie(5, 15)) #Stratégie TME Solo
+		self.root.bind('h', lambda event: self.choisir_strategie(6, 50)) #Stratégie TME Solo 5
 
 		self.root.bind("x", lambda event: self.env.addRobotSelect(1))
 		self.root.bind("w", lambda event: self.env.addRobotSelect(-1))

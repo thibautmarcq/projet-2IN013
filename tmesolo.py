@@ -31,6 +31,5 @@ env.setRobot(robot, "lightgreen")
 controleur = Controler() # Création du controleur pour lancer l'interface
 run = Interface(env, controleur)
 
-robot.dessine(True)
 
 run.mainloop()
