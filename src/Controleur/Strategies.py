@@ -249,10 +249,11 @@ class StrategieBoucle:
         self.rob = rob
         self.strat = strat
         self.nbTours = nbTours
+        self.restants = self.nbTours
         
     def start(self):
         self.logger.debug("Stratégie de boucle lancée")
-        
+        self.restants = self.nbTours
         self.rob.estSousControle = True
         self.strat.start()
         
@@ -263,7 +264,7 @@ class StrategieBoucle:
         if not self.stop() :
             self.strat.step() 
             if self.strat.stop():
-                self.nbTours-=1 
+                self.restants-=1 
                 if not self.stop():
                     self.strat.start()
                 
@@ -272,7 +273,7 @@ class StrategieBoucle:
         """ Vérifie si le nombre de tours a été fait
         :returns: False si il reste encore des tours à faire, True si les tours ont été faits
         """
-        if self.nbTours<1 :
+        if self.restants<1 :
             self.rob.estSousControle = False
             return True
         return False
