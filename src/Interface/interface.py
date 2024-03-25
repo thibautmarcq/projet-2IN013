@@ -76,6 +76,12 @@ class Interface:
 		self.canv.grid(row=3, column=0)
 
 
+	def dessine(self, b):
+		if b :
+			dessine_point((self.env.robots[self.env.robotSelect].x, self.env.robots[self.env.robotSelect].y),  "black")
+
+
+
 	def create_robot_rect(self, robot):
 		""" Crée le polygone qui représente notre robot sur l'interface graphique
 			:param robot: le robot qu'on veut représenter sur l'interface graphique
@@ -93,7 +99,7 @@ class Interface:
 			:returns: ne retourne rien
 		"""
 		for obs in self.env.listeObs:
-			self.canv.create_polygon(obs.lstPoints, fill=('grey'))
+			self.canv.create_polygon(obs.lstPoints, fill=('orange'))
 		
 	def choisir_strategie(self, strat, distance) :
 		""" Choisis la strategie à lancer
@@ -123,6 +129,15 @@ class Interface:
 		elif strat==4:
 			carre2 = StrategieBoucle(rob, StrategieSeq([StrategieAvancer(rob, distance), StrategieTourner(rob, 90)], rob), 4)
 			self.controleur.lancerStrategie(carre2)
+		elif strat==5:
+			arret = StrategieCond(rob, StrategieAvancer(rob,400), lambda: distSup(rob, self.env, distance))
+			new = StrategieBoucle(rob,StrategieSeq([arret, StrategieTourner(rob, (-90))],rob),5)
+			self.controleur.lancerStrategie(new)
+		elif strat==6:
+			s = setStrategieDiagram(rob, distance)
+			self.controleur.lancerStrategie(s)
+			rob.draw = True
+			rob.firstDrawPoint = (rob.x, rob.y)
 					
 		
 
@@ -251,6 +266,9 @@ class Interface:
 		self.root.bind('m', lambda event: self.choisir_strategie(2, 20)) # fait la stratégie avancer jusqu'au mur
 		self.root.bind('p', lambda event: self.choisir_strategie(3, 15)) # fait la stratégie avancer jusqu'au mur - 2ème méthode (stratégie conditionnelle)
 		self.root.bind('o', lambda event: self.choisir_strategie(4, 120)) # fait la stratégie carré - 2ème méthode  (stratégie boucle)
+
+		self.root.bind('n', lambda event: self.choisir_strategie(5, 15))
+		self.root.bind('b', lambda event: self.choisir_strategie(6, 10))
 
 		self.root.bind("x", lambda event: self.env.addRobotSelect(1))
 		self.root.bind("w", lambda event: self.env.addRobotSelect(-1))

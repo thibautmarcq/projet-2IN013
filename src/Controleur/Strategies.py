@@ -94,7 +94,10 @@ class StrategieTourner:
         """ Détermine si on a fini de faire la rotation de l'angle self.angle
             :returns: True si la rotation a bien été effectuée, False sinon
         """
-        return self.angle_parcouru >= self.angle
+        if self.angle>0:
+            return self.angle_parcouru >= self.angle
+        else:
+            return self.angle_parcouru >= -self.angle
     
     def getRob(self):
         """ Getter du robot qui est sous contrôle de la stratégie séquentielle
@@ -247,11 +250,12 @@ class StrategieBoucle:
         self.rob = rob
         self.strat = strat
         self.nbTours = nbTours
+        self.nb = nbTours
         
     def start(self):
         self.logger.debug("Stratégie de boucle lancée")
-        
         self.rob.estSousControle = True
+        self.nbTours = self.nb
         self.strat.start()
         
     def step(self):
@@ -291,6 +295,17 @@ def setStrategieCarre(rob, longueur_cote):
 def setStrategieArretMur(rob, distarret, env) :
     arret = StrategieArretMur(rob, distarret, env)
     return arret
+
+def setStrategieDiagram(rob, distance):
+    avance = StrategieAvancer(rob,distance)
+    tourne45g = StrategieTourner(rob,-45)
+    tourne90d = StrategieTourner(rob,90)
+    tourne90g = StrategieTourner(rob,-90)
+    s1 = StrategieBoucle(rob, StrategieSeq([avance,tourne45g,avance,tourne90d,avance,tourne45g],rob),3)
+    s2 = StrategieSeq([avance,tourne90g,avance],rob)
+    s3 = StrategieBoucle(rob, StrategieSeq([avance,tourne45g,avance,tourne90d,avance,tourne45g],rob),2)
+    final = StrategieBoucle(rob,StrategieSeq([s1,s2,s3,s2],rob),2)
+    return final
 
 # Méthodes conditionnelles pour la stratCond
 def distSup(rob, env, dist):
