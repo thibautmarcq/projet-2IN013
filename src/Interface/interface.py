@@ -93,7 +93,7 @@ class Interface:
 			:returns: ne retourne rien
 		"""
 		for obs in self.env.listeObs:
-			self.canv.create_polygon(obs.lstPoints, fill=('grey'))
+			self.canv.create_polygon(obs.lstPoints, fill=('orange'))
 		
 	def choisir_strategie(self, strat, distance) :
 		""" Choisis la strategie à lancer
