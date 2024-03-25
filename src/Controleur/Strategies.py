@@ -4,7 +4,6 @@ from src.constantes import *
 from src.Robot import *
 
 
-
 class StrategieAvancer:
     
     def __init__(self, rob, distance) :
@@ -76,17 +75,20 @@ class StrategieTourner:
 
         self.rob.setVitAngGA(VIT_ANG_TOUR  if self.angle > 0 else -VIT_ANG_TOUR)
         self.rob.setVitAngDA(-VIT_ANG_TOUR  if self.angle > 0 else VIT_ANG_TOUR)
-        
-
 
     def step(self):
 
         """ Le step de la stratégie tourner, qui met a jour l'angle qui a été parcouru jusqu'à maintenant sinon
             :returns: ne retourne rien, on met juste a jour le paramètre distance parcourue
         """
-        if not self.stop() and not self.rob.estCrash:
-            self.angle_parcouru += self.rob.angle_parcouru()
-            self.logger.debug("angle de rotation parcouru : %d",self.angle_parcouru)
+        if self.angle > 0:
+            if not self.stop() and not self.rob.estCrash:
+                self.angle_parcouru += self.rob.angle_parcouru()
+                self.logger.debug("angle de rotation parcouru : %d",self.angle_parcouru)
+        else:
+            if not self.stop() and not self.rob.estCrash:
+                self.angle_parcouru -= self.rob.angle_parcouru()
+                self.logger.debug("angle de rotation parcouru : %d",-self.angle_parcouru)
 
 
     def stop(self):
@@ -94,7 +96,7 @@ class StrategieTourner:
         """ Détermine si on a fini de faire la rotation de l'angle self.angle
             :returns: True si la rotation a bien été effectuée, False sinon
         """
-        return self.angle_parcouru >= self.angle
+        return  self.angle_parcouru >= self.angle if self.angle > 0 else self.angle_parcouru <= self.angle
     
     def getRob(self):
         """ Getter du robot qui est sous contrôle de la stratégie séquentielle
