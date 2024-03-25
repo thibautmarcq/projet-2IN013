@@ -87,13 +87,20 @@ class Interface:
 						robot.x-(robot.width/2), robot.y+(robot.length/2)]
 		robot.rect = self.canv.create_polygon(robot.points, fill=(robot.couleur))
 
+	def create_ballon_rect(self, ballon):
+		ballon.points = [ballon.x-(ballon.cote/2), ballon.y-(ballon.cote/2),
+						ballon.x+(ballon.cote/2), ballon.y-(ballon.cote/2),
+						ballon.x+(ballon.cote/2), ballon.y+(ballon.cote/2),
+						ballon.x-(ballon.cote/2), ballon.y+(ballon.cote/2)]
+		ballon.rect = self.canv.create_polygon(ballon.points, fill="RED")
+
 	def create_obs(self):
 		""" Crée le polygone qui représente notre obstacle sur l'interface graphique
 			:param env: le robot qu'on veut représenter sur l'interface graphique
 			:returns: ne retourne rien
 		"""
 		for obs in self.env.listeObs:
-			self.canv.create_polygon(obs.lstPoints, fill=('grey'))
+			self.canv.create_polygon(obs.lstPoints, fill="Orange")
 		
 	def choisir_strategie(self, strat, distance) :
 		""" Choisis la strategie à lancer
@@ -123,7 +130,9 @@ class Interface:
 		elif strat==4:
 			carre2 = StrategieBoucle(rob, StrategieSeq([StrategieAvancer(rob, distance), StrategieTourner(rob, 90)], rob), 4)
 			self.controleur.lancerStrategie(carre2)
-					
+		elif strat == 5:
+			patern = StrategieSeq([StrategieArretMur(rob, distance, self.env), StrategieTourner(rob, 270)]*5,rob)
+			self.controleur.lancerStrategie(patern)		
 		
 
 
@@ -193,6 +202,19 @@ class Interface:
 					)
 		canvas.coords(robot.robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
 
+	def refresh_position_ballon_visuel(self, canvas, ballon):
+		dx, dy = ballon.direction
+		canvas.coords(ballon.rect,
+					ballon.x-(ballon.cote/2)*(-dy)-(ballon.cote/2)*dx,
+					ballon.y-(ballon.cote/2)*(dx)-(ballon.cote/2)*dy,
+					ballon.x+(ballon.cote/2)*(-dy)-(ballon.cote/2)*dx,
+					ballon.y+(ballon.cote/2)*(dx)-(ballon.cote/2)*dy,
+					ballon.x+(ballon.cote/2)*(-dy)+(ballon.cote/2)*dx,
+					ballon.y+(ballon.cote/2)*(dx)+(ballon.cote/2)*dy,
+					ballon.x-(ballon.cote/2)*(-dy)+(ballon.cote/2)*dx,
+					ballon.y-(ballon.cote/2)*(dx)+(ballon.cote/2)*dy
+					)
+	
 	def dessine_point(self, pos, couleur) :
 		x, y = pos
 		self.canv.create_line(x-1, y-1, x+1, y+1, fill=couleur)
@@ -201,11 +223,14 @@ class Interface:
 		self.update_stats_affichage()
 		for robot in self.env.robots:
 			self.refresh_position_robot_visuel(self.canv, robot)
+			self.refresh_position_ballon_visuel(self.canv, self.env.ballon)
 			if robot.draw and not robot.estCrash:
 				self.dessine_point((self.env.robots[self.env.robotSelect].x, self.env.robots[self.env.robotSelect].y),  "black") #self.env.robots[self.env.robotSelect].couleur)
 				a = 5
 				if not robot.estSousControle and (abs(int(robot.firstDrawPoint[0]) - int(self.env.robots[self.env.robotSelect].x)) < a and abs(int(robot.firstDrawPoint[1]) - int(self.env.robots[self.env.robotSelect].y)) < a):
 					robot.draw = False
+			if robot.trace and not robot.estCrash:
+				self.dessine_point((robot.x, robot.y), "Red")
 					
 		self.root.after(int(TIC_INTERFACE), self.tic_tac)
 
@@ -218,6 +243,8 @@ class Interface:
 			self.create_robot_rect(rob)
 			rob.draw = False
 			rob.robot_vec = self.canv.create_line(rob.x, rob.y, rob.x+(75*rob.direction[0]), rob.y+(75*rob.direction[1]))
+
+		self.create_ballon_rect(self.env.ballon)
 
 		self.create_obs()
 	
@@ -254,6 +281,13 @@ class Interface:
 
 		self.root.bind("x", lambda event: self.env.addRobotSelect(1))
 		self.root.bind("w", lambda event: self.env.addRobotSelect(-1))
+
+		#bind trace pour tme
+		self.root.bind("v", lambda event: rob.dessine(True))
+		self.root.bind("b", lambda event: rob.dessine(False))
+
+		self.root.bind('n', lambda event: self.choisir_strategie(5, 100))
+
 		# -------------------------------------------------------------------
 		# 						NOUVEAUX AFFICHAGES							
 		# -------------------------------------------------------------------

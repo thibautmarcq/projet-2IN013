@@ -30,6 +30,8 @@ class Environnement:
         self.initMatrice()
         self.logger.info("Environnement initialisé")
 
+        self.ballon = None
+
     def initMatrice(self):
         """
         Initialise la matrice avec des 0, ainsi que ses bords avec 2 (obstacles)
@@ -105,14 +107,16 @@ class Environnement:
 
         if self.last_refresh == 0 : # donc si c'est la première fois qu'on fait le rafraichissement
             self.last_refresh = temps
-
+        duree = temps - self.last_refresh
         for rob in self.robots : # on fait avancer tous les robots de l'environnement
             if (not(rob.estCrash) and not(self.collision(rob))): # Si le robot est opérationnel et qu'il n'y a pas collision 
-                duree = temps - self.last_refresh
                 rob.refresh(duree)
 
             elif not rob.estCrash:
                 rob.estCrash = True
+
+        if self.ballon != None:
+            self.ballon.update(duree)
 
         self.last_refresh = temps # on met à jour l'heure du dernier rafraichissement 
 

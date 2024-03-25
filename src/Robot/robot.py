@@ -34,6 +34,12 @@ class Robot :
 		self.estSousControle = False 	# permet de savoir si notre robot est controler par le controleur
 		self.estCrash = False  			# Nous permet de savoir si le robot s'est crash et ne pas refresh le robot
 
+		self.trace = False
+
+
+	def dessine(self, bool):
+		self.trace = bool
+
 
 	def refresh(self, duree):
 
