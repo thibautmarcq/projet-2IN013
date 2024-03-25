@@ -24,10 +24,12 @@ env.addObstacle('topLeft',[(50,60),(100,60),(100,100), (50,100)])
 env.addObstacle('bottomLeft',[(20,500),(70,500),(70,540), (20,540)])
 env.addObstacle('bottomRight',[(650,460),(700,460),(700,500), (650,500)])
 
-
 robot = Adaptateur_simule("Bob", 375, 275, 30, 55, 20) #Crée le robot au milieu de la simulation
 env.setRobot(robot, "lightgreen")
 
 controleur = Controler() # Création du controleur pour lancer l'interface
 run = Interface(env, controleur)
+
+robot.dessine(True)
+
 run.mainloop()

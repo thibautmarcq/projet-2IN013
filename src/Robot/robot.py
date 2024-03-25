@@ -173,6 +173,12 @@ class Robot :
 			x2, y2 = (x2+dirNorm[0], y2+dirNorm[1]) # on avance en case suivant le vect dir
 
 		return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+
+	def dessine(self, cond):
+		if cond:
+			self.draw=True
+			self.firstDrawPoint = (self.x, self.y)
+
 	
 class Adaptateur_simule(Robot) :
 	""" Classe d'adaptation du robot simulé, qui hérite de la classe Robot
