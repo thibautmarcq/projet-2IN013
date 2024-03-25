@@ -123,7 +123,12 @@ class Interface:
 		elif strat==4:
 			carre2 = StrategieBoucle(rob, StrategieSeq([StrategieAvancer(rob, distance), StrategieTourner(rob, 90)], rob), 4)
 			self.controleur.lancerStrategie(carre2)
-					
+		elif strat==5:
+			avanceCond = StrategieCond(rob, StrategieAvancer(rob, 400), lambda: distSup(rob, self.env, distance))
+			avTourne = StrategieSeq([avanceCond, StrategieTourner(rob, 90)], rob)
+			boucle = StrategieBoucle(rob, avTourne, 5)
+			self.controleur.lancerStrategie(boucle)
+     
 		
 
 
@@ -251,6 +256,8 @@ class Interface:
 		self.root.bind('m', lambda event: self.choisir_strategie(2, 20)) # fait la stratégie avancer jusqu'au mur
 		self.root.bind('p', lambda event: self.choisir_strategie(3, 15)) # fait la stratégie avancer jusqu'au mur - 2ème méthode (stratégie conditionnelle)
 		self.root.bind('o', lambda event: self.choisir_strategie(4, 120)) # fait la stratégie carré - 2ème méthode  (stratégie boucle)
+  
+		self.root.bind('t', lambda event: self.choisir_strategie(5, 15)) #Stratégie TME Solo
 
 		self.root.bind("x", lambda event: self.env.addRobotSelect(1))
 		self.root.bind("w", lambda event: self.env.addRobotSelect(-1))
