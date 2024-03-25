@@ -35,19 +35,21 @@ env.addObstacle('N',[(600,400),(650,400),(650,450), (600,450)])
 #On crée un controleur
 controleur = Controler()
 
-# Ajoute le premier robot
-robot = Adaptateur_simule("Bob", env.width/2, env.length/2, 30, 55, 20)
+# # Ajoute le premier robot
+# robot = Adaptateur_simule("Bob", env.width/2, env.length/2, 30, 55, 20)
 
-env.setRobot(robot, "lightgreen")
+# env.setRobot(robot, "lightgreen")
 
 
 # # ajoute le deuxieme robot pour test
 # robot2 = Adaptateur_simule("Stuart", 400, 250, 30, 55, 20)
 # env.setRobot(robot2, "red")
 
-ballon = ballon("Bob", env.width/2, env.length/2, 30, 55, 20)
+Ballon = ballon("Bob", env.width/2, env.length/2, 30, 55, 20)
 env.setRobot(ballon, "blue")
-ballon.setVitAng(20)
+Ballon.setVitAng(20)
+truc = env.robots[0]
+print(truc.nom)
 
 # Ajoute un robot réel pour le tester
 robot3 = Adaptateur()

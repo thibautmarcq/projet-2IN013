@@ -4,7 +4,6 @@ from src.constantes import *
 from src.Robot import *
 
 
-
 class StrategieAvancer:
     
     def __init__(self, rob, distance) :
@@ -84,17 +83,24 @@ class StrategieTourner:
         """ Le step de la stratégie tourner, qui met a jour l'angle qui a été parcouru jusqu'à maintenant sinon
             :returns: ne retourne rien, on met juste a jour le paramètre distance parcourue
         """
-        if not self.stop() and not self.rob.estCrash:
-            self.angle_parcouru += self.rob.angle_parcouru()
-            self.logger.debug("angle de rotation parcouru : %d",self.angle_parcouru)
-
+        if self.angle > 0:
+            if not self.stop() and not self.rob.estCrash:
+                self.angle_parcouru += self.rob.angle_parcouru()
+                self.logger.debug("angle de rotation parcouru : %d",self.angle_parcouru)
+        else:
+            if not self.stop() and not self.rob.estCrash:
+                self.angle_parcouru -= self.rob.angle_parcouru()
+                self.logger.debug("angle de rotation parcouru : %d",self.angle_parcouru)
 
     def stop(self):
 
         """ Détermine si on a fini de faire la rotation de l'angle self.angle
             :returns: True si la rotation a bien été effectuée, False sinon
         """
-        return self.angle_parcouru >= self.angle
+        if self.angle > 0 :
+            return self.angle_parcouru >= self.angle
+        else :
+            return self.angle_parcouru <= self.angle
     
     def getRob(self):
         """ Getter du robot qui est sous contrôle de la stratégie séquentielle
@@ -146,7 +152,6 @@ class StrategieArretMur:
             :returns: le robot qui est sous le contrôle du contrôleur
         """
         return self.rob
-    
 
 class StrategieSeq:
 
@@ -300,3 +305,4 @@ def distSup(rob, env, dist):
     :param dist: la distance utilisée pour la condition
     """
     return (rob.capteurDistance(env)>dist)
+

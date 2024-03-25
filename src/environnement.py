@@ -95,7 +95,7 @@ class Environnement:
         """
         robot.couleur = couleur
         self.robots.append(robot)
-        self.logger.info("Robot %s initialisé", robot.nom)
+        # self.logger.info("Robot %s initialisé", robot.nom)
  
     def refresh_env(self) :
         """ Pour rafraichir l'environnement et faire updater tous les robots qui le composent.
@@ -141,4 +141,22 @@ class Environnement:
             
         return False # Après le parcours de tout le contour, si pas d'obstacle rencontré -> False
 
+    def cogne(self, rob) :
+        lstPoints = [(rob.x-(rob.width/2)+rob.direction[0],rob.y+(rob.length/2)+rob.direction[1]), (rob.x+(rob.width/2)+rob.direction[0],rob.y+(rob.length/2)+rob.direction[1]), (rob.x+(rob.width/2)+rob.direction[0],rob.y-(rob.length/2)+rob.direction[1]), (rob.x-(rob.width/2)+rob.direction[0],rob.y-(rob.length/2)+rob.direction[1])]
+
+        for i in range(len(lstPoints)):
+            x1, y1 = lstPoints[i] #départ
+            x2, y2 = lstPoints[(i+1)%len(lstPoints)] #arrivée
+
+            while (round(x1), round(y1)) != (round(x2), round(y2)):
+                if (self.matrice[int(y1/self.scale)][int(x1/self.scale)]==1): # teste si le point est sur un obstacle
+                    # print("Collision de", rob.nom, "! Obstacle en (", str(x1),",",str(y1),")")
+                    self.logger.warning("Collision de %s! Obstacle en (%d, %d)", rob.nom, x1, y1)
+                    return True
+                
+                long = math.sqrt((x2-x1)**2 + (y2-y1)**2) # Longueur du vect dir
+                dir = ((x2-x1)/long ,(y2-y1)/long) # Vect dir normalisé
+                x1,y1 = ((x1+dir[0]), (y1+dir[1])) #nv point
+            
+        return False # Après le parcours de tout le contour, si pas d'obstacle rencontré -> False
 

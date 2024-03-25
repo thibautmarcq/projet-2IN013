@@ -3,9 +3,10 @@ from time import *
 from tkinter import *
 from tkinter import Label, Tk
 
+from src.constantes import *
 from src.Controleur.controleur import *
 from src.Controleur.Strategies import *
-from src.constantes import *
+
 
 class Interface:
 
@@ -93,7 +94,7 @@ class Interface:
 			:returns: ne retourne rien
 		"""
 		for obs in self.env.listeObs:
-			self.canv.create_polygon(obs.lstPoints, fill=('grey'))
+			self.canv.create_polygon(obs.lstPoints, fill=('orange'))
 		
 	def choisir_strategie(self, strat, distance) :
 		""" Choisis la strategie à lancer
@@ -123,7 +124,10 @@ class Interface:
 		elif strat==4:
 			carre2 = StrategieBoucle(rob, StrategieSeq([StrategieAvancer(rob, distance), StrategieTourner(rob, 90)], rob), 4)
 			self.controleur.lancerStrategie(carre2)
-					
+		elif strat==5:
+			# avancer_tourner = avancer_tourner(rob, self.env, 5)
+			avancer_tourner = StrategieBoucle(rob, StrategieSeq([setStrategieArretMur(rob, distance, self.env), StrategieTourner(rob, -90)], rob), 5)
+			self.controleur.lancerStrategie(avancer_tourner)
 		
 
 
@@ -251,6 +255,7 @@ class Interface:
 		self.root.bind('m', lambda event: self.choisir_strategie(2, 20)) # fait la stratégie avancer jusqu'au mur
 		self.root.bind('p', lambda event: self.choisir_strategie(3, 15)) # fait la stratégie avancer jusqu'au mur - 2ème méthode (stratégie conditionnelle)
 		self.root.bind('o', lambda event: self.choisir_strategie(4, 120)) # fait la stratégie carré - 2ème méthode  (stratégie boucle)
+		self.root.bind('v', lambda event: self.choisir_strategie(5, 20)) # fait la stratégie carré - 2ème méthode  (stratégie boucle)
 
 		self.root.bind("x", lambda event: self.env.addRobotSelect(1))
 		self.root.bind("w", lambda event: self.env.addRobotSelect(-1))
