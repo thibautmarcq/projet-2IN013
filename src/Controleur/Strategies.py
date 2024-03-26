@@ -4,7 +4,6 @@ from src.constantes import *
 from src.Robot import *
 
 
-
 class StrategieAvancer:
     
     def __init__(self, rob, distance) :
@@ -76,8 +75,6 @@ class StrategieTourner:
 
         self.rob.setVitAngGA(VIT_ANG_TOUR  if self.angle > 0 else -VIT_ANG_TOUR)
         self.rob.setVitAngDA(-VIT_ANG_TOUR  if self.angle > 0 else VIT_ANG_TOUR)
-        
-
 
     def step(self):
 
