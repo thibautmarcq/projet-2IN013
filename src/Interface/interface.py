@@ -115,10 +115,10 @@ class Interface:
 			rob.draw = True
 			rob.firstDrawPoint = (rob.x, rob.y)
 		elif strat==2:
-			arret_mur = setStrategieArretMur(rob, distance, self.env)
+			arret_mur = setStrategieArretMur(rob, distance)
 			self.controleur.lancerStrategie(arret_mur)
 		elif strat==3:
-			arret_mur2 = StrategieCond(rob, StrategieAvancer(rob,400), lambda: distSup(rob, self.env, distance))
+			arret_mur2 = StrategieCond(rob, StrategieAvancer(rob,400), lambda: distSup(rob, distance))
 			self.controleur.lancerStrategie(arret_mur2)
 		elif strat==4:
 			carre2 = StrategieBoucle(rob, StrategieSeq([StrategieAvancer(rob, distance), StrategieTourner(rob, 90)], rob), 4)
@@ -140,7 +140,7 @@ class Interface:
 		self.lab_vitesseG.config(text=("Vitesse roue G : "+str(round(self.env.robots[self.env.robotSelect].getVitesseG()))))
 		self.lab_vitesseD.config(text=("Vitesse roue D : "+str(round(self.env.robots[self.env.robotSelect].getVitesseD()))))
 		# Update label distance
-		self.lab_distance.config(text=("Obstacle dans : "+str(round(self.env.robots[self.env.robotSelect].capteurDistance(self.env), 2))))
+		self.lab_distance.config(text=("Obstacle dans : "+str(round(self.env.robots[self.env.robotSelect].capteurDistance(), 2))))
 
 	def rotationVecteur(self, v, angle):
 
@@ -232,7 +232,7 @@ class Interface:
 		self.lab_coord_y.grid(row=2, column=0)
 
 		# Affichage données capteur distance
-		self.lab_distance = Label(self.frame_dist_obstacle, text=("Obstacle dans : "+str(round(self.env.robots[self.env.robotSelect].capteurDistance(self.env), 2))))
+		self.lab_distance = Label(self.frame_dist_obstacle, text=("Obstacle dans : "+str(round(self.env.robots[self.env.robotSelect].capteurDistance(), 2))))
 		self.lab_distance.grid(row=0, column=0)
 
 		# -------------------------------------------------------------------		-------------

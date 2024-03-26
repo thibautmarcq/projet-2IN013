@@ -101,24 +101,22 @@ class StrategieTourner:
     
 
 class StrategieArretMur:
-    def __init__(self, rob, distarret, env):
+    def __init__(self, rob, distarret):
         """ Stategie qui fait arreter le robot a une distance donnée
             :param rob: le robot que l'on veut faire arreter avant un mur/obtacle
             :param distarret: la distance que l'on veut entre le robot et le mur/obstacle
-            :param env: L'environemment pour le capteur de distance du robot simu
         """
         self.logger = logging.getLogger(self.__class__.__name__)
         
         self.rob = rob
         self.distarret = distarret
-        self.env = env
-        self.distrob = self.rob.capteurDistance(env) # la distance entre le robot et le mur/obtacle le plus proche devant lui, obtenue avec le capteur de distance
+        self.distrob = self.rob.capteurDistance() # la distance entre le robot et le mur/obtacle le plus proche devant lui, obtenue avec le capteur de distance
 
     def start(self):
         """ Réinitialisation de la vitesse du robot et de la distance entre le robot et le mur/obstacle
         """
         self.rob.setVitAngA(4)
-        self.distrob = self.rob.capteurDistance(self.env)
+        self.distrob = self.rob.capteurDistance()
         
         self.logger.debug("Stratégie ArretMur lancée")
 
@@ -127,7 +125,7 @@ class StrategieArretMur:
             :returns: rien, on met juste à jour la distance entre le robot et le mur/obstacle
         """
         if not self.stop():
-            self.distrob = self.rob.capteurDistance(self.env)
+            self.distrob = self.rob.capteurDistance()
         else:
             self.rob.setVitAngA(0)
 
@@ -286,15 +284,14 @@ def setStrategieCarre(rob, longueur_cote):
     carre  = StrategieSeq([avance, tourne, avance, tourne, avance, tourne, avance, tourne],rob)
     return carre
 
-def setStrategieArretMur(rob, distarret, env) :
-    arret = StrategieArretMur(rob, distarret, env)
+def setStrategieArretMur(rob, distarret) :
+    arret = StrategieArretMur(rob, distarret)
     return arret
 
 # Méthodes conditionnelles pour la stratCond
-def distSup(rob, env, dist):
+def distSup(rob, dist):
     """ Verifie que le robot est à une distance supérieure à dist d'un obstacle
     :param robot: le robot pour lequel on va utiliser le capteur de distance
-    :param env: l'environnement du robot en question
     :param dist: la distance utilisée pour la condition
     """
-    return (rob.capteurDistance(env)>dist)
+    return (rob.capteurDistance()>dist)

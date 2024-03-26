@@ -26,7 +26,7 @@ def menu() :
             controleur.lancerStrategie(carre)
         case 2:
             long = float(input("A quelle distance doit-on s'arrêter du mur ?"))
-            mur = setStrategieArretMur(reel, long, None)
+            mur = setStrategieArretMur(reel, long)
             controleur.lancerStrategie(mur)
         case 3:
             pass

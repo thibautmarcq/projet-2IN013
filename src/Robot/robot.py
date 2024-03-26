@@ -158,18 +158,17 @@ class Robot :
 		"""
 		return (self.getVitesseD() + self.getVitesseG())/2
 	
-	def capteurDistance(self, env):
+	def capteurDistance(self):
 		"""
 		Capteur de distance du robot, donne la distance entre le pt milieu avant du robot (tete) et l'obstacle devant lui
-		:param env: l'environnement dans lequel se trouve le robot
 		:returns: retourne la distance entre la tete du robot et l'obstacle le plus proche devant lui
 		"""
 		x1, y1 = (self.x+self.direction[0]*(self.length/2), self.y+self.direction[1]*(self.length/2))
-		mat = env.matrice
+		mat = self.env.matrice
 		(x2, y2) = (x1, y1) # Le pt d'avancement est, au début, au pt de départ
 		dirNorm = normaliserVecteur(self.direction)
 
-		while (mat[int(y2/env.scale)][int(x2/env.scale)]!=2): # Condition de boucle : tant qu'on est pas sur un obstacle
+		while (mat[int(y2/self.env.scale)][int(x2/self.env.scale)]!=2): # Condition de boucle : tant qu'on est pas sur un obstacle
 			x2, y2 = (x2+dirNorm[0], y2+dirNorm[1]) # on avance en case suivant le vect dir
 
 		return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
@@ -178,10 +177,11 @@ class Adaptateur_simule(Robot) :
 	""" Classe d'adaptation du robot simulé, qui hérite de la classe Robot
 	"""
 
-	def __init__(self, nom, x, y, width, length, rayonRoue) :
+	def __init__(self, nom, x, y, width, length, rayonRoue, env) :
 		Robot.__init__(self, nom, x, y, width, length, rayonRoue)
 		self.last_point = (x, y)
 		self.last_dir = self.direction
+		self.env = env
 
 	def setVitAngDA(self, vit):
 		""" Setter de vitesse angulaire de la roue droite depuis l'adaptateur
