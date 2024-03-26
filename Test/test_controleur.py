@@ -12,7 +12,7 @@ class TestControleur(unittest.TestCase):
         self.controleur = Controler()
         self.carre = setStrategieCarre(self.rob, 30)
 
-    def TestlanStrategie(self):
+    def TestlancerStrategie(self):
         self.controleur.lancerStrategie(self.carre)
         self.assertEqual(self.controleur.strategie, 1)
         self.assertEqual(self.controleur.strat_en_cour, self.carre)
