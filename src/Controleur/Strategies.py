@@ -110,13 +110,13 @@ class StrategieArretMur:
         
         self.rob = rob
         self.distarret = distarret
-        self.distrob = self.rob.capteurDistance() # la distance entre le robot et le mur/obtacle le plus proche devant lui, obtenue avec le capteur de distance
+        self.distrob = self.rob.capteurDistanceA() # la distance entre le robot et le mur/obtacle le plus proche devant lui, obtenue avec le capteur de distance
 
     def start(self):
         """ Réinitialisation de la vitesse du robot et de la distance entre le robot et le mur/obstacle
         """
         self.rob.setVitAngA(4)
-        self.distrob = self.rob.capteurDistance()
+        self.distrob = self.rob.capteurDistanceA()
         
         self.logger.debug("Stratégie ArretMur lancée")
 
@@ -125,7 +125,7 @@ class StrategieArretMur:
             :returns: rien, on met juste à jour la distance entre le robot et le mur/obstacle
         """
         if not self.stop():
-            self.distrob = self.rob.capteurDistance()
+            self.distrob = self.rob.capteurDistanceA()
         else:
             self.rob.setVitAngA(0)
 
