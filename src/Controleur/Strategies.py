@@ -94,7 +94,7 @@ class StrategieTourner:
         """ Détermine si on a fini de faire la rotation de l'angle self.angle
             :returns: True si la rotation a bien été effectuée, False sinon
         """
-        return self.angle_parcouru >= self.angle
+        return abs(self.angle_parcouru) >= abs(self.angle)
     
     def getRob(self):
         """ Getter du robot qui est sous contrôle de la stratégie séquentielle
