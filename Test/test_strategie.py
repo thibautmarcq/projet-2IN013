@@ -38,3 +38,28 @@ class TestControleur(unittest.TestCase):
         self.strat.step()
         self.assertEqual(self.strat.parcouru, 200.0)
         self.assertEqual(self.strat.stop(), True)
+
+    def test_strategieTourner(self):
+        self.strat = StrategieTourner(self.rob, 90)
+        self.strat.start()
+        self.rob.direction = (1, -1)
+        self.strat.step()
+        self.assertAlmostEqual(self.strat.angle_parcouru, 45.0)
+        self.assertEqual(self.strat.stop(), False)
+        self.rob.direction = (1, 0)
+        self.strat.step()
+        self.assertAlmostEqual(self.strat.angle_parcouru, 90.0)
+        self.assertEqual(self.strat.stop(), True)
+        
+        self.rob.direction = (0, -1)
+        self.strat.angle_parcouru = 0
+        self.strat = StrategieTourner(self.rob, -90)
+        self.strat.start()
+        self.rob.direction = (-1,-1)
+        self.strat.step()
+        self.assertAlmostEqual(self.strat.angle_parcouru, 45.0)
+        self.assertEqual(self.strat.stop(), False)
+        self.rob.direction = (0,-1)
+        self.strat.step()
+        self.assertAlmostEqual(self.strat.angle_parcouru, 90.0)
+        self.assertEqual(self.strat.stop(), True)
