@@ -294,4 +294,4 @@ def distSup(rob, dist):
     :param robot: le robot pour lequel on va utiliser le capteur de distance
     :param dist: la distance utilisée pour la condition
     """
-    return (rob.capteurDistance()>dist)
+    return (rob.capteurDistanceA()>dist)

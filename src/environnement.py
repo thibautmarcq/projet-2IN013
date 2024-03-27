@@ -93,9 +93,9 @@ class Environnement:
             :param couleur: couleur du robot dans l'interface
             :returns: rien, on ajoute juste un robot à la liste des robots de l'environnement
         """
-        robot.couleur = couleur
+        robot.robot.couleur = couleur
         self.robots.append(robot)
-        self.logger.info("Robot %s initialisé", robot.nom)
+        self.logger.info("Robot %s initialisé", robot.robot.nom)
  
     def refresh_env(self) :
         """ Pour rafraichir l'environnement et faire updater tous les robots qui le composent.
@@ -107,6 +107,7 @@ class Environnement:
             self.last_refresh = temps
 
         for rob in self.robots : # on fait avancer tous les robots de l'environnement
+            rob = rob.robot
             if (not(rob.estCrash) and not(self.collision(rob))): # Si le robot est opérationnel et qu'il n'y a pas collision 
                 duree = temps - self.last_refresh
                 rob.refresh(duree)

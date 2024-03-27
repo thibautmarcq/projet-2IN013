@@ -6,7 +6,7 @@ WHEEL_DIAMETER           = 66.5 #  diametre de la roue (mm)
 WHEEL_BASE_CIRCUMFERENCE = WHEEL_BASE_WIDTH * math.pi # perimetre du cercle de rotation (mm)
 WHEEL_CIRCUMFERENCE      = WHEEL_DIAMETER   * math.pi # perimetre de la roue (mm)
 
-class Adaptateur(Robot2IN013) :
+class Adaptateur:
     """
     Classe d'adaptation du robot réel qui hérite de la classe mockupRobot
     """
@@ -14,8 +14,9 @@ class Adaptateur(Robot2IN013) :
         """
         Constructeur de la classe Adaptateur qui va créer un objet de la classe mockupRobot
         """
-        Robot2IN013.__init__(self)
-        self.MOTOR_LEFT_RIGHT = self.MOTOR_LEFT + self.MOTOR_RIGHT # Port 3 correspond aux deux roues
+        self.robot = Robot2IN013()
+        self.robot.estCrash = False
+        self.robot.MOTOR_LEFT_RIGHT = self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT # Port 3 correspond aux deux roues
 
     def setVitAngDA(self, dps) :
         """
@@ -23,7 +24,7 @@ class Adaptateur(Robot2IN013) :
         :param dps: vitesse angulaire que l'on veut donner à la roue droite
         """
         self.logger.info("setVitAngD = %d", dps)
-        self.set_motor_dps(self.MOTOR_RIGHT, dps)
+        self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, dps)
 
     def setVitAngGA(self, dps) :
         """
@@ -31,7 +32,7 @@ class Adaptateur(Robot2IN013) :
         :param dps: vitesse angulaire que l'on veut donner à la roue gauche
         """
         self.logger.info("setVitAngG = %d", dps)
-        self.set_motor_dps(self.MOTOR_LEFT, dps)
+        self.robot.set_motor_dps(self.robot.MOTOR_LEFT, dps)
 
     def setVitAngA(self, dps) :
         """
@@ -39,7 +40,7 @@ class Adaptateur(Robot2IN013) :
         :param dps: la vitesse angulaire qu'on veut donner aux roues droite et gauche
         """
         self.logger.info("setVitAng = %d", dps)
-        self.set_motor_dps(self.MOTOR_RIGHT + self.MOTOR_LEFT, dps)
+        self.robot.set_motor_dps(self.robot.MOTOR_RIGHT + self.robot.MOTOR_LEFT, dps)
 
     def capteurDistanceA(self) :
         """
@@ -47,18 +48,18 @@ class Adaptateur(Robot2IN013) :
         :returns: la distance mesurée par le capteur de distance
         """
         self.logger.debug("capteurDistance")
-        return self.get_distance()
+        return self.robot.get_distance()
     
     def distance_parcourue(self) :
-        ang_g, ang_d = self.get_motor_position()
-        self.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
+        ang_g, ang_d = self.robot.get_motor_position()
+        self.robot.offset_motor_encoder(self.robot.MOTOR_LEFT_RIGHT, 0)
         dist_g = (ang_g/360) * WHEEL_CIRCUMFERENCE
         dist_d = (ang_d/360) * WHEEL_CIRCUMFERENCE
         return (dist_g + dist_d)/2
     
     def angle_parcouru(self) :
-        ang_g, ang_d = self.get_motor_position()
-        self.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
+        ang_g, ang_d = self.robot.get_motor_position()
+        self.robot.offset_motor_encoder(self.robot.MOTOR_LEFT_RIGHT, 0)
         dist_d = (ang_d/360) * math.pi * WHEEL_CIRCUMFERENCE
         dist_g = (ang_g/360) * math.pi * WHEEL_CIRCUMFERENCE
         return math.degrees((dist_g-dist_d)/WHEEL_BASE_WIDTH)
