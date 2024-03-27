@@ -75,6 +75,9 @@ class Adaptateur(mockupRobot) :
         self.MOTOR_LEFT = 1     # Port 1 correspond à la roue gauche
         self.MOTOR_RIGHT = 2    # Port 2 correspond à la roue droite
         self.MOTOR_LEFT_RIGHT = self.MOTOR_LEFT + self.MOTOR_RIGHT # Port 3 correspond aux deux roues
+        
+    def initialise(self) :
+        self.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
 
     def setVitAngDA(self, dps) :
         """

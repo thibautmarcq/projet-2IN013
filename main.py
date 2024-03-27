@@ -3,6 +3,13 @@
 from src.Controleur.controleur import Controler
 from src.Controleur.Strategies import *
 from src.Robot.gopigo import *
+import logging
+
+logging.basicConfig(filename='logs.log', 
+                    level=logging.DEBUG, 
+                    format='%(asctime)s | %(levelname)s | %(name)s | %(message)s', 
+                    datefmt='%d/%m/%y %H:%M:%S', 
+                    encoding='UTF-8') # niveaux : DEBUG INFO WARNING ERROR CRITICAL
 
 #On crée un controleur
 controleur = Controler()

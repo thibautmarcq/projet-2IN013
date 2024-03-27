@@ -182,6 +182,9 @@ class Adaptateur_simule(Robot) :
 		self.last_point = (x, y)
 		self.last_dir = self.direction
 		self.env = env
+  
+	def initialise(self):
+		self.last_point = (self.x, self.y)
 
 	def setVitAngDA(self, vit):
 		""" Setter de vitesse angulaire de la roue droite depuis l'adaptateur

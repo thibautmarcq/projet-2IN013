@@ -24,6 +24,7 @@ class StrategieAvancer:
         self.rob.estSousControle = True
         self.parcouru = 0
         self.rob.setVitAngA(VIT_ANG_AVAN) # Puis on set les vitesses angulaires des deux roues à 5
+        self.rob.initialise()
 
     def step(self) :
         """ On fait avancer le robot d'un petit pas
@@ -69,6 +70,7 @@ class StrategieTourner:
 
         self.rob.estSousControle = True
         self.angle_parcouru = 0
+        self.rob.initialise()
 
         # On considère ici une rotation d'un angle alpha dans le sens horaire, c.à.d si positif on tourne vers la droite, sinon vers la gauche
         # On change les vitesses des deux roues, en leur donnant des vitesses opposées afin de tourner sur place
@@ -117,7 +119,7 @@ class StrategieArretMur:
         """
         self.rob.setVitAngA(4)
         self.distrob = self.rob.capteurDistanceA()
-        
+        self.rob.initialise()
         self.logger.debug("Stratégie ArretMur lancée")
 
     def step(self):
@@ -158,6 +160,7 @@ class StrategieSeq:
     def start(self):
         self.indice = -1
         self.rob.estSousControle = True
+        self.rob.initialise()
         
 
     def step(self) : 
@@ -204,7 +207,7 @@ class StrategieCond:
         
     def start(self):
         self.logger.debug("Stratégie conditionnelle lancée")
-        
+        self.rob.initialise()
         self.rob.estSousControle = True
         self.strat.start()
                     
@@ -248,6 +251,7 @@ class StrategieBoucle:
         self.logger.debug("Stratégie de boucle lancée")
         self.restants = self.nbTours
         self.rob.estSousControle = True
+        self.rob.initialise()
         self.strat.start()
         
     def step(self):
