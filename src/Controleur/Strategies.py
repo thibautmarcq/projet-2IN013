@@ -30,7 +30,7 @@ class StrategieAvancer:
         """ On fait avancer le robot d'un petit pas
             :returns: rien, on met juste à jour la distance parcourue par le robot
         """
-        if not self.stop() and not self.rob.estCrash:
+        if not self.stop() and not self.rob.robot.estCrash:
             self.parcouru += self.rob.distance_parcourue()
             self.logger.debug("distance de segment parcourue : %d", self.parcouru )
 
@@ -83,7 +83,7 @@ class StrategieTourner:
         """ Le step de la stratégie tourner, qui met a jour l'angle qui a été parcouru jusqu'à maintenant sinon
             :returns: ne retourne rien, on met juste a jour le paramètre distance parcourue
         """
-        if not self.stop() and not self.rob.estCrash:
+        if not self.stop() and not self.rob.robot.estCrash:
             self.angle_parcouru += self.rob.angle_parcouru()
             self.logger.debug("angle de rotation parcouru : %d",self.angle_parcouru)
 
@@ -298,4 +298,4 @@ def distSup(rob, dist):
     :param robot: le robot pour lequel on va utiliser le capteur de distance
     :param dist: la distance utilisée pour la condition
     """
-    return (rob.capteurDistance()>dist)
+    return (rob.capteurDistanceA()>dist)

@@ -173,7 +173,7 @@ class Robot :
 
 		return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
 	
-class Adaptateur_simule(Robot) :
+class Adaptateur_simule :
 	""" Classe d'adaptation du robot simulé, qui hérite de la classe Robot
 	"""
 
@@ -191,45 +191,45 @@ class Adaptateur_simule(Robot) :
 			:param vit: la vitesse angulaire que l'on veut donner à la roue droite
 			:returns: ne retourne rien
 		"""
-		self.setVitAngD(vit)
+		self.robot.setVitAngD(vit)
 
 	def setVitAngGA(self, vit) :
 		""" Setter de vitesse angulaire de la roue droite depuis l'adaptateur
 			:param vit: la vitesse angulaire que l'on veut donner aux roues
 			:returns: ne retourne rien
 		"""
-		self.setVitAngG(vit)
+		self.robot.setVitAngG(vit)
 
 	def setVitAngA(self, vit) :
 		""" Setter de vitesse angulaire des roues gauche et droite depuis l'adaptateur
 			:param vit: la vitesse angulaire que l'on veut donner aux roues
 			:returns: ne retourne rien
 		"""
-		self.setVitAng(vit)
+		self.robot.setVitAng(vit)
 
 	def capteurDistanceA(self) :
 		""" Capteur de distance du robot simulé depuis l'adaptateur
 			:returns: la distance à l'obstacle le plus proche en regardant tout droit
 		"""
-		return self.capteurDistance()
+		return self.robot.capteurDistance()
 
 	def distance_parcourue(self) :
 		""" La distance parcourue entre le point précédent et le point actuel
 			:returns: la distance parcourue depuis la dernière visite à cette fonction
 		"""
-		pos_actuelle = (self.x, self.y)
-		pos_prec = self.last_point
-		self.last_point = pos_actuelle
-		self.last_dir = self.direction
+		pos_actuelle = (self.robot.x, self.robot.y)
+		pos_prec = self.robot.last_point
+		self.robot.last_point = pos_actuelle
+		self.robot.last_dir = self.robot.direction
 		return distance(pos_actuelle, pos_prec)
 	
 	def angle_parcouru(self) :
 		""" Getter de l'angle parcouru entre le dernier point enregistré et la position actuelle du robot
 			:returns: l'angle entre les deux points
 		"""
-		dir_actuelle = self.direction
-		dir_prec = self.last_dir
-		self.last_dir = dir_actuelle
-		self.last_point = (self.x, self.y)
+		dir_actuelle = self.robot.direction
+		dir_prec = self.robot.last_dir
+		self.robot.last_dir = dir_actuelle
+		self.robot.last_point = (self.robot.x, self.robot.y)
 		return getAngleFromVect(dir_prec, dir_actuelle)
 	
