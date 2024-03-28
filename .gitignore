@@ -6,3 +6,5 @@ logs.log
 /src/Interface/__pycache__
 /src/Controleur/__pycache__
 /src/Robot/__pycache__
+.DS_Store
+src/.DS_Store
