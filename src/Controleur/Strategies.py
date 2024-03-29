@@ -2,9 +2,16 @@ import logging
 
 from src.constantes import VIT_ANG_AVAN, VIT_ANG_TOUR
 
+class Strategie:
+    """Classe mère des stratégies    """
+    def getRob(self):
+        """
+            Getter du robot qui est sous contrôle de la stratégie séquentielle
+            :returns: le robot qui est sous le contrôle du contrôleur
+        """
+        return self.rob
 
-class StrategieAvancer:
-    
+class StrategieAvancer(Strategie):    
     def __init__(self, rob, distance) :
         """ Statégie qui fait avancer le robot d'une distance donnée
             :param distance: la distance que doit parcourir le robot
@@ -39,19 +46,9 @@ class StrategieAvancer:
         """
         return self.parcouru >= self.distance
 
-    def getRob(self):
-        """
-            Getter du robot qui est sous contrôle de la stratégie séquentielle
-            :returns: le robot qui est sous le contrôle du contrôleur
-        """
-        return self.rob
 
-
-
-class StrategieTourner:
-    
+class StrategieTourner(Strategie):    
     def __init__(self, rob, angle):
-
         """ Stategie qui fait tourner le robot représenté par son adaptateur d'un angle donné
             :param rob: l'adaptateur du robot que l'on veut faire tourner
             :param angle: la rotation que l'on veut ordonner au robot d'effectuer
@@ -64,7 +61,6 @@ class StrategieTourner:
         self.getRob().angle_parcouru()
 
     def start(self) :
-
         self.logger.debug("Stratégie tourner lancée")
 
         self.rob.estSousControle = True
@@ -78,7 +74,6 @@ class StrategieTourner:
         self.rob.setVitAngDA(-VIT_ANG_TOUR  if self.angle > 0 else VIT_ANG_TOUR)
 
     def step(self):
-
         """ Le step de la stratégie tourner, qui met a jour l'angle qui a été parcouru jusqu'à maintenant sinon
             :returns: ne retourne rien, on met juste a jour le paramètre distance parcourue
         """
@@ -88,20 +83,13 @@ class StrategieTourner:
 
 
     def stop(self):
-
         """ Détermine si on a fini de faire la rotation de l'angle self.angle
             :returns: True si la rotation a bien été effectuée, False sinon
         """
         return abs(self.angle_parcouru) >= abs(self.angle)
     
-    def getRob(self):
-        """ Getter du robot qui est sous contrôle de la stratégie séquentielle
-            :returns: le robot qui est sous le contrôle du contrôleur
-        """
-        return self.rob
-    
 
-class StrategieArretMur:
+class StrategieArretMur(Strategie):
     def __init__(self, rob, distarret):
         """ Stategie qui fait arreter le robot a une distance donnée
             :param rob: le robot que l'on veut faire arreter avant un mur/obtacle
@@ -135,17 +123,9 @@ class StrategieArretMur:
             :return: True si oui, non sinon
         """
         return self.distrob <= self.distarret
-
-    def getRob(self):
-        """
-            Getter du robot qui est sous contrôle de la stratégie séquentielle
-            :returns: le robot qui est sous le contrôle du contrôleur
-        """
-        return self.rob
     
 
-class StrategieSeq:
-
+class StrategieSeq(Strategie):
     def __init__(self, listeStrat, rob) :
         """ Statégie séquentielle
             :param listeStrat: liste de stratégies qui vont être executées à la suite
@@ -160,7 +140,6 @@ class StrategieSeq:
         self.indice = -1
         self.rob.estSousControle = True
         self.rob.initialise()
-        
 
     def step(self) : 
         """ Le step de la stratégie séquentielle, où on fait le step de la stratégie en cours ou on passe a la stratégie suivante selon le cas, et on met à jour le robot
@@ -185,14 +164,8 @@ class StrategieSeq:
             return True
         return False
     
-    def getRob(self):
-        """
-            Getter du robot qui est sous contrôle de la stratégie séquentielle
-            :returns: le robot qui est sous le contrôle du contrôleur
-        """
-        return self.rob
 
-class StrategieCond:
+class StrategieCond(Strategie):
     def __init__(self, rob, strat, cond):
         """ Stratégie conditionnelle 
         :param rob: le robot que l'on veut faire executer la strat
@@ -226,14 +199,8 @@ class StrategieCond:
             return True
         return False
     
-    def getRob(self):
-        """ Getter du robot qui est sous contrôle de la stratégie séquentielle
-            :returns: le robot qui est sous le contrôle du contrôleur
-        """
-        return self.rob
-    
-    
-class StrategieBoucle:
+
+class StrategieBoucle(Strategie):
     def __init__(self, rob, strat, nbTours):
         """ Stratégie de boucle
         :param rob: le robot que l'on veut faire executer la strat
@@ -263,8 +230,7 @@ class StrategieBoucle:
                 self.restants-=1 
                 if not self.stop():
                     self.strat.start()
-                
-        
+                        
     def stop(self):
         """ Vérifie si le nombre de tours a été fait
         :returns: False si il reste encore des tours à faire, True si les tours ont été faits
@@ -273,12 +239,6 @@ class StrategieBoucle:
             self.rob.estSousControle = False
             return True
         return False
-
-    def getRob(self):
-        """ Getter du robot qui est sous contrôle de la stratégie séquentielle
-            :returns: le robot qui est sous le contrôle du contrôleur
-        """
-        return self.rob
              
         
 def setStrategieCarre(rob, longueur_cote):
@@ -290,6 +250,7 @@ def setStrategieCarre(rob, longueur_cote):
 def setStrategieArretMur(rob, distarret) :
     arret = StrategieArretMur(rob, distarret)
     return arret
+
 
 # Méthodes conditionnelles pour la stratCond
 def distSup(rob, dist):

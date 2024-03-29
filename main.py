@@ -3,7 +3,7 @@
 import logging
 
 from src.Controleur.controleur import Controler
-from src.Controleur.Strategies import setStrategieArretMur, setStrategieCarre
+from src.Controleur.strategies import setStrategieArretMur, setStrategieCarre
 from src.Robot.gopigo import Adaptateur
 
 logging.basicConfig(filename='logs.log', 

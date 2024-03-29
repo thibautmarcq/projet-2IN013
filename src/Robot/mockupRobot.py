@@ -11,8 +11,7 @@ class mockupRobot():
     """
     Classe de simulation du robot réel
     """
-
-    def __init__(self, ):
+    def __init__(self):
         self.logger = logging.getLogger(self.__class__.__name__)
         self.estSousControle = False
         self.estCrash = False
