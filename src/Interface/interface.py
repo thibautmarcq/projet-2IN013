@@ -9,7 +9,6 @@ from src.Controleur.strategies import (StrategieAvancer, StrategieBoucle,
                                        StrategieTourner, distSup,
                                        setStrategieArretMur, setStrategieCarre)
 
-
 class Interface:
 
 	def __init__(self, env, controleur):
@@ -100,31 +99,31 @@ class Interface:
 		
 	def choisir_strategie(self, strat, distance) :
 		""" Choisis la strategie à lancer
-			:param strat: 1 pour la strategie carré et 2 pour la strategie arret mur
+			:param strat: 1 pour la strategie carré, 2 pour la strategie arret mur, 3 pour la conditionnelle mur, 4 pour la boucle carré
 			:param distance: la taille du coté du carré ou la distance d'arret du robot pour la strat arretmur 
 		
 		"""
-		rob = self.env.robots[self.env.robotSelect]
-		if rob.robot.estCrash:
+		robA = self.env.listeRobots[self.env.robotSelect]
+		if robA.robot.estCrash:
 			print("Impossible de contrôler ce robot, il est crash.")
 			return
-		elif rob.robot.estSousControle:
+		elif robA.robot.estSousControle:
 			print("Impossible de contrôler ce robot, il est déjà sous contrôle.")
 			return
 
 		if strat==1:
-			carre = setStrategieCarre(rob, distance)
+			carre = setStrategieCarre(robA, distance)
 			self.controleur.lancerStrategie(carre)
-			rob.robot.draw = True
-			rob.robot.firstDrawPoint = (rob.robot.x, rob.robot.y)
+			robA.robot.draw = True
+			robA.robot.firstDrawPoint = (robA.robot.x, robA.robot.y)
 		elif strat==2:
-			arret_mur = setStrategieArretMur(rob, distance)
+			arret_mur = setStrategieArretMur(robA, distance)
 			self.controleur.lancerStrategie(arret_mur)
 		elif strat==3:
-			arret_mur2 = StrategieCond(rob, StrategieAvancer(rob,400), lambda: distSup(rob, distance))
+			arret_mur2 = StrategieCond(robA, StrategieAvancer(robA,400), lambda: distSup(robA, distance))
 			self.controleur.lancerStrategie(arret_mur2)
 		elif strat==4:
-			carre2 = StrategieBoucle(rob, StrategieSeq([StrategieAvancer(rob, distance), StrategieTourner(rob, 90)], rob), 4)
+			carre2 = StrategieBoucle(robA, StrategieSeq([StrategieAvancer(robA, distance), StrategieTourner(robA, 90)], robA), 4)
 			self.controleur.lancerStrategie(carre2)
 					
 		
@@ -136,14 +135,14 @@ class Interface:
 		"""
 
 		# Update labels coordonnees
-		self.lab_coord_nom.config(text=("Coordonnées du robot "+self.env.robots[self.env.robotSelect].robot.nom+" :"))
-		self.lab_coord_x.config(text=("x ="+str(round(self.env.robots[self.env.robotSelect].robot.x, 2))))
-		self.lab_coord_y.config(text=("y ="+str(round(self.env.robots[self.env.robotSelect].robot.y, 2))))
-		self.lab_vitesse.config(text=("Vitesse globale : "+str(round(self.env.robots[self.env.robotSelect].robot.getVitesse()))))
-		self.lab_vitesseG.config(text=("Vitesse roue G : "+str(round(self.env.robots[self.env.robotSelect].robot.getVitesseG()))))
-		self.lab_vitesseD.config(text=("Vitesse roue D : "+str(round(self.env.robots[self.env.robotSelect].robot.getVitesseD()))))
+		self.lab_coord_nom.config(text=("Coordonnées du robot "+self.env.listeRobots[self.env.robotSelect].robot.nom+" :"))
+		self.lab_coord_x.config(text=("x ="+str(round(self.env.listeRobots[self.env.robotSelect].robot.x, 2))))
+		self.lab_coord_y.config(text=("y ="+str(round(self.env.listeRobots[self.env.robotSelect].robot.y, 2))))
+		self.lab_vitesse.config(text=("Vitesse globale : "+str(round(self.env.listeRobots[self.env.robotSelect].robot.getVitesse()))))
+		self.lab_vitesseG.config(text=("Vitesse roue G : "+str(round(self.env.listeRobots[self.env.robotSelect].robot.getVitesseG()))))
+		self.lab_vitesseD.config(text=("Vitesse roue D : "+str(round(self.env.listeRobots[self.env.robotSelect].robot.getVitesseD()))))
 		# Update label distance
-		self.lab_distance.config(text=("Obstacle dans : "+str(round(self.env.robots[self.env.robotSelect].capteurDistanceA(), 2))))
+		self.lab_distance.config(text=("Obstacle dans : "+str(round(self.env.listeRobots[self.env.robotSelect].capteurDistanceA(), 2))))
 
 	def rotationVecteur(self, v, angle):
 
@@ -202,13 +201,13 @@ class Interface:
 
 	def tic_tac(self):
 		self.update_stats_affichage()
-		for adapt in self.env.robots:
-			robot = adapt.robot
+		for adapt in self.env.listeRobots:
+			robot = adapt.robot # !!
 			self.refresh_position_robot_visuel(self.canv, robot)
 			if robot.draw and not robot.estCrash:
-				self.dessine_point((robot.x, robot.y),  "black") #self.env.robots[self.env.robotSelect].couleur)
+				self.dessine_point((robot.x, robot.y),  "black") #self.env.listeRobots[self.env.robotSelect].couleur)
 				a = 5
-				if not adapt.estSousControle and (abs(int(robot.firstDrawPoint[0]) - int(robot.x)) < a and abs(int(robot.firstDrawPoint[1]) - int(robot.y)) < a):
+				if not robot.estSousControle and (abs(int(robot.firstDrawPoint[0]) - int(robot.x)) < a and abs(int(robot.firstDrawPoint[1]) - int(robot.y)) < a):
 					robot.draw = False
 					
 		self.root.after(int(TIC_INTERFACE), self.tic_tac)
@@ -218,8 +217,8 @@ class Interface:
 		""" Initialise toutes les fonctionnalités en lien avec le robot (dans l'env et dans tkinter)
 			:returns: rien
 		"""
-		for rob in self.env.robots:
-			rob = rob.robot
+		for robA in self.env.listeRobots:
+			rob = robA.robot
 			self.create_robot_rect(rob)
 			rob.draw = False
 			rob.robot_vec = self.canv.create_line(rob.x, rob.y, rob.x+(75*rob.direction[0]), rob.y+(75*rob.direction[1]))
@@ -229,27 +228,27 @@ class Interface:
 
 		# ---------------------------
 		# Afficheur de coordonnées du robot
-		self.lab_coord_nom = Label(self.frame_coordonnees, text=("Coordonnées du robot "+self.env.robots[self.env.robotSelect].robot.nom+" :"))
+		self.lab_coord_nom = Label(self.frame_coordonnees, text=("Coordonnées du robot "+self.env.listeRobots[self.env.robotSelect].robot.nom+" :"))
 		self.lab_coord_nom.grid(row=0, column=0, padx=5, pady=5)
-		self.lab_coord_x = Label(self.frame_coordonnees, text=("x ="+str(self.env.robots[self.env.robotSelect].robot.x)))
+		self.lab_coord_x = Label(self.frame_coordonnees, text=("x ="+str(self.env.listeRobots[self.env.robotSelect].robot.x)))
 		self.lab_coord_x.grid(row=1, column=0)
-		self.lab_coord_y = Label(self.frame_coordonnees, text=("y ="+str(self.env.robots[self.env.robotSelect].robot.y)))
+		self.lab_coord_y = Label(self.frame_coordonnees, text=("y ="+str(self.env.listeRobots[self.env.robotSelect].robot.y)))
 		self.lab_coord_y.grid(row=2, column=0)
 
 		# Affichage données capteur distance
-		self.lab_distance = Label(self.frame_dist_obstacle, text=("Obstacle dans : "+str(round(self.env.robots[self.env.robotSelect].capteurDistanceA(), 2))))
+		self.lab_distance = Label(self.frame_dist_obstacle, text=("Obstacle dans : "+str(round(self.env.listeRobots[self.env.robotSelect].capteurDistanceA(), 2))))
 		self.lab_distance.grid(row=0, column=0)
 
 		# -------------------------------------------------------------------		-------------
 		# 								BINDS,										| a | z | e |
 		# Le lambda event permet de ne pas avoir de fct avec 'event' en param		| q | s | d |
 		# -------------------------------------------------------------------		-------------
-		self.root.bind('a', lambda event: self.env.robots[self.env.robotSelect].robot.changeVitAngG(1)) # + gauche
-		self.root.bind('q', lambda event: self.env.robots[self.env.robotSelect].robot.changeVitAngG(-1)) # - gauche
-		self.root.bind('z', lambda event: self.env.robots[self.env.robotSelect].robot.changeVitAng(1)) # + tout
-		self.root.bind('s', lambda event: self.env.robots[self.env.robotSelect].robot.changeVitAng(-1)) # - tout
-		self.root.bind('e', lambda event: self.env.robots[self.env.robotSelect].robot.changeVitAngD(1)) # + droit
-		self.root.bind('d', lambda event: self.env.robots[self.env.robotSelect].robot.changeVitAngD(-1)) # - droit
+		self.root.bind('a', lambda event: self.env.listeRobots[self.env.robotSelect].robot.changeVitAngG(1)) # + gauche
+		self.root.bind('q', lambda event: self.env.listeRobots[self.env.robotSelect].robot.changeVitAngG(-1)) # - gauche
+		self.root.bind('z', lambda event: self.env.listeRobots[self.env.robotSelect].robot.changeVitAng(1)) # + tout
+		self.root.bind('s', lambda event: self.env.listeRobots[self.env.robotSelect].robot.changeVitAng(-1)) # - tout
+		self.root.bind('e', lambda event: self.env.listeRobots[self.env.robotSelect].robot.changeVitAngD(1)) # + droit
+		self.root.bind('d', lambda event: self.env.listeRobots[self.env.robotSelect].robot.changeVitAngD(-1)) # - droit
 
 
 		self.root.bind('c', lambda event: self.choisir_strategie(1, 120)) # Fait tracer le carré au robot
@@ -262,11 +261,11 @@ class Interface:
 		# -------------------------------------------------------------------
 		# 						NOUVEAUX AFFICHAGES							
 		# -------------------------------------------------------------------
-		self.lab_vitesse = Label(self.frame_vitesses, text=("Vitesse globale : "+str(self.env.robots[self.env.robotSelect].robot.getVitesse())))
+		self.lab_vitesse = Label(self.frame_vitesses, text=("Vitesse globale : "+str(self.env.listeRobots[self.env.robotSelect].robot.getVitesse())))
 		self.lab_vitesse.grid(row=0, column=0, padx=5, pady=2)
-		self.lab_vitesseG = Label(self.frame_vitesses, text=("Vitesse roue G : "+str(self.env.robots[self.env.robotSelect].robot.getVitesseG())))
+		self.lab_vitesseG = Label(self.frame_vitesses, text=("Vitesse roue G : "+str(self.env.listeRobots[self.env.robotSelect].robot.getVitesseG())))
 		self.lab_vitesseG.grid(row=1, column=0, padx=5, pady=2)
-		self.lab_vitesseD = Label(self.frame_vitesses, text=("Vitesse roue D : "+str(self.env.robots[self.env.robotSelect].robot.getVitesseD())))
+		self.lab_vitesseD = Label(self.frame_vitesses, text=("Vitesse roue D : "+str(self.env.listeRobots[self.env.robotSelect].robot.getVitesseD())))
 		self.lab_vitesseD.grid(row=2, column=0, padx=5, pady=2)
 
 		# Lancement du tic tac

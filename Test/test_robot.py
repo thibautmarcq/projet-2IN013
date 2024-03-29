@@ -8,7 +8,7 @@ from src.Robot.robot import Robot
 
 class TestRobot(unittest.TestCase):
     def setUp(self) :
-        self.rob = Robot("Rob", 10, 15, 5, 7, 8) 
+        self.rob = Robot("Rob", 10, 15, 5, 7, 8, "red") 
     
     def test_constructeur(self):
         self.assertEqual(self.rob.nom, "Rob")
@@ -20,6 +20,7 @@ class TestRobot(unittest.TestCase):
         self.assertEqual(self.rob.rayonRoue, 8)
         self.assertEqual(self.rob.vitAngD, 0)
         self.assertEqual(self.rob.vitAngG, 0)
+        self.assertEqual(self.rob.couleur, "red")
 
     # def test_refresh(self):
         
@@ -84,13 +85,13 @@ class TestRobot(unittest.TestCase):
     def test_capteurDistance(self):
         self.envi = Environnement(500, 300, 1)
         self.rob.env = self.envi
-        self.assertAlmostEqual(self.rob.capteurDistance(), 11) # Bordure de l'environnement
+        self.assertAlmostEqual(self.rob.capteurDistance(self.envi), 11) # Bordure de l'environnement
         self.rob.x = 50
         self.rob.y = 70
         self.rob.direction = (0, 1)
         self.rob.length = 8
         self.envi.addObstacle("test1", [(45, 94), (68, 94), (32, 159)])
-        self.assertAlmostEqual(self.rob.capteurDistance(), 20) # Test pour un obstacle
+        self.assertAlmostEqual(self.rob.capteurDistance(self.envi), 20) # Test pour un obstacle
         self.rob.direction = (1, 1)
         self.envi.addObstacle("test2", [(60, 71), (36, 83), (178, 178), (156, 163)]) # Test pour un autre obstacle
-        self.assertAlmostEqual(self.rob.capteurDistance(), 0)
+        self.assertAlmostEqual(self.rob.capteurDistance(self.envi), 0)

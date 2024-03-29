@@ -25,7 +25,7 @@ class Controler:
                     self.strat_en_cour.step()
                 else:
                     self.strategie = 0
-                    self.strat_en_cour.getRob().setVitAngA(0)
+                    self.strat_en_cour.rob.setVitAngA(0)
                     self.strat_en_cour = None
             time.sleep(TIC_CONTROLEUR)
 
@@ -38,10 +38,3 @@ class Controler:
         self.strat_en_cour = strat
         self.strategie = 1
         self.strat_en_cour.start()
-
-
-
-
-
-
-

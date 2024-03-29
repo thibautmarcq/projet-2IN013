@@ -7,7 +7,7 @@ from src.Controleur.controleur import Controler
 from src.Controleur.strategies import setStrategieCarre
 from src.environnement import Environnement
 from src.Interface.interface import Interface
-from src.Robot.mockupRobot import Adaptateur
+from src.Robot.mockupRobot import Adaptateur_reel
 from src.Robot.robot import Adaptateur_simule
 
 logging.basicConfig(filename='logs.log', 
@@ -22,8 +22,6 @@ def loopEnv(env):
         sleep(TIC_SIMULATION)
 
 env = Environnement(750, 550, 1) # Initialisation de l'env
-T_env = Thread(target=loopEnv, args=[env], daemon=True)
-T_env.start()
 env.addObstacle('J',[(400,400),(450,450),(350,450)])
 env.addObstacle('P',[(300,300),(350,300),(350,350), (300,350)])
 env.addObstacle('C',[(100,140),(170,55),(160,30), (130,30), (100,50), (70,30), (40,30), (30,55)])
@@ -33,17 +31,19 @@ env.addObstacle('C',[(100,140),(170,55),(160,30), (130,30), (100,50), (70,30), (
 controleur = Controler()
 
 # Ajoute le premier robot
-robot = Adaptateur_simule("Bob", 250, 250, 30, 55, 20, env)
-
-env.addRobot(robot, "lightgreen")
+robotA1 = Adaptateur_simule("Bob", 250, 250, 30, 55, 20, env, "lightgreen")
+env.addRobot(robotA1)
 
 
 # ajoute le deuxieme robot pour test
-robot2 = Adaptateur_simule("Stuart", 400, 250, 30, 55, 20, env)
-env.addRobot(robot2, "red")
+robotA2 = Adaptateur_simule("Stuart", 400, 250, 30, 55, 20, env, "red")
+env.addRobot(robotA2)
 
 # Ajoute un robot réel pour le tester
-robot3 = Adaptateur()
+robot3 = Adaptateur_reel()
+
+T_env = Thread(target=loopEnv, args=[env], daemon=True)
+T_env.start()
 
 def menu():
     global RUNNING
@@ -63,14 +63,14 @@ def menu():
     elif cmd == "2":
         print("\nInformation de la simulation:")
         print("Width:", env.width, "Length:", env.length)
-        print("Nombre de robots dans notre simulation:", len(env.robots))
-        for rob in env.robots:
-            print("------ Robot",rob.robot.nom,"------")
-            print(f"vitAngG = {rob.robot.vitAngG}, vitAngD = {rob.robot.vitAngD}")
-            print(f"Coords: ({rob.robot.x},{rob.robot.y}), Width: {rob.robot.width}, Length: {rob.robot.length}")
-            print("Le robot n'est plus fonctionnel"if rob.robot.estCrash else "Le robot est toujours fonctionnel")
-            print("Le robot n'est pas controlé par le controleur"if not rob.estSousControle else "Le robot est controlé par le controlleur")
-            print("------------"+"-"*(len(rob.robot.nom)+2)+"------")
+        print("Nombre de robots dans notre simulation:", len(env.listeRobots))
+        for robA in env.listeRobots:
+            print("------ Robot",robA.robot.nom,"------")
+            print(f"vitAngG = {robA.robot.vitAngG}, vitAngD = {robA.robot.vitAngD}")
+            print(f"Coords: ({robA.robot.x},{robA.robot.y}), Width: {robA.robot.width}, Length: {robA.robot.length}")
+            print("Le robot n'est plus fonctionnel"if robA.robot.estCrash else "Le robot est toujours fonctionnel")
+            print("Le robot n'est pas controlé par le controleur"if not robA.robot.estSousControle else "Le robot est controlé par le controleur")
+            print("------------"+"-"*(len(robA.robot.nom)+2)+"------")
             
     elif cmd == "3" :
         long = float(input("Quelle largeur voulez-vous pour le carré ? \n"))
