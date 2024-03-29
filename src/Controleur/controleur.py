@@ -2,9 +2,7 @@ import logging
 import time
 from threading import Thread
 
-from src.outil import *
-from src.constantes import *
-from src.Controleur.Strategies import *
+from src.constantes import TIC_CONTROLEUR
 
 
 class Controler:
