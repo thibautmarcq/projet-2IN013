@@ -1,6 +1,7 @@
 import unittest
 
 from src.Controleur.controleur import *
+from src.Controleur.Strategies import setStrategieCarre
 from src.environnement import Environnement
 from src.Robot.robot import Adaptateur_simule
 

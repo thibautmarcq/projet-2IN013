@@ -1,14 +1,14 @@
-from src.Interface.interface import Interface
-from src.environnement import Environnement
-from src.Robot.robot import Robot,Adaptateur_simule
-from src.Robot.mockupRobot import *
+import logging
 from threading import Thread
 from time import sleep
-from src.Controleur.controleur import Controler
-from src.Controleur.Strategies import *
-from src.constantes import *
 
-import logging
+from src.constantes import TIC_SIMULATION
+from src.Controleur.controleur import Controler
+from src.Controleur.Strategies import setStrategieCarre
+from src.environnement import Environnement
+from src.Interface.interface import Interface
+from src.Robot.gopigo import Adaptateur
+from src.Robot.robot import Adaptateur_simule
 
 logging.basicConfig(filename='logs.log', 
                     level=logging.DEBUG, 

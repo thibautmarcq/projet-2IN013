@@ -5,7 +5,7 @@ import time
 import numpy as np
 
 from .obstacle import Obstacle
-from .outil import *
+from .outil import normaliserVecteur
 
 
 class Environnement:

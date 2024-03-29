@@ -1,7 +1,6 @@
 import logging
 
-from src.constantes import *
-from src.Robot import *
+from src.constantes import VIT_ANG_AVAN, VIT_ANG_TOUR
 
 
 class StrategieAvancer:

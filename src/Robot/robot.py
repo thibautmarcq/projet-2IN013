@@ -1,6 +1,7 @@
 import logging
 import math
-from src.outil import *
+
+from src.outil import distance, getAngleFromVect, normaliserVecteur
 
 
 class Robot :

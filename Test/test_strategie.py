@@ -1,6 +1,8 @@
 import unittest
 
-from src.Controleur.Strategies import *
+from src.Controleur.Strategies import (StrategieArretMur, StrategieAvancer,
+                                       StrategieTourner, setStrategieArretMur,
+                                       setStrategieCarre)
 from src.environnement import Environnement
 from src.Robot.robot import Adaptateur_simule
 

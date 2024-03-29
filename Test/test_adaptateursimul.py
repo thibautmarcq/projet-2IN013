@@ -1,7 +1,7 @@
 import unittest
 
 from src.environnement import Environnement
-from src.outil import *
+from src.outil import distance
 from src.Robot.robot import Adaptateur_simule
 
 

@@ -3,9 +3,12 @@ from time import *
 from tkinter import *
 from tkinter import Label, Tk
 
-from src.Controleur.controleur import *
-from src.Controleur.Strategies import *
-from src.constantes import *
+from src.constantes import TIC_INTERFACE
+from src.Controleur.Strategies import (StrategieAvancer, StrategieBoucle,
+                                       StrategieCond, StrategieSeq,
+                                       StrategieTourner, distSup,
+                                       setStrategieArretMur, setStrategieCarre)
+
 
 class Interface:
 
