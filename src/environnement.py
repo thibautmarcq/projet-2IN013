@@ -87,7 +87,7 @@ class Environnement:
             print(' '.join(str(item) for item in row))
         self.logger.debug("Affichage de la matrice")
 
-    def setRobot(self, robot, couleur):
+    def addRobot(self, robot, couleur):
         """ Ajoute un robot à notre environnement
             :param robot: instance du robot
             :param couleur: couleur du robot dans l'interface

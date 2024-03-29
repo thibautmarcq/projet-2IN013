@@ -35,12 +35,12 @@ controleur = Controler()
 # Ajoute le premier robot
 robot = Adaptateur_simule("Bob", 250, 250, 30, 55, 20, env)
 
-env.setRobot(robot, "lightgreen")
+env.addRobot(robot, "lightgreen")
 
 
 # ajoute le deuxieme robot pour test
 robot2 = Adaptateur_simule("Stuart", 400, 250, 30, 55, 20, env)
-env.setRobot(robot2, "red")
+env.addRobot(robot2, "red")
 
 # Ajoute un robot réel pour le tester
 robot3 = Adaptateur()
