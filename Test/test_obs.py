@@ -2,7 +2,6 @@
 
 import unittest
 
-from src.environnement import Environnement
 from src.obstacle import Obstacle
 
 
