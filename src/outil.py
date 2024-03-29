@@ -67,3 +67,12 @@ def getVectFromAngle(vect, alpha):
     x_prime = math.cos(a)*x - math.sin(a)*y
     y_prime = math.sin(a)*x + math.cos(a)*y
     return [x_prime, y_prime]
+
+def rotationVecteur(self, v, angle):
+    """ Fonction qui fait une rotation du vecteur2D <v> de <angle>
+		:param v: le vecteur de direction de départ
+		:param angle: l'angle par lequel on veut tourner le robot
+		:returns: le nouveau vecteur directeur
+	"""
+    x, y = v
+    return (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))

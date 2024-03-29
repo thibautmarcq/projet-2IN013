@@ -3,6 +3,7 @@ from time import *
 from tkinter import *
 from tkinter import Label, Tk
 
+from ..outil import rotationVecteur
 from src.constantes import TIC_INTERFACE
 from src.Controleur.strategies import (StrategieAvancer, StrategieBoucle,
                                        StrategieCond, StrategieSeq,
@@ -144,18 +145,6 @@ class Interface:
 		# Update label distance
 		self.lab_distance.config(text=("Obstacle dans : "+str(round(self.env.listeRobots[self.env.robotSelect].capteurDistanceA(), 2))))
 
-	def rotationVecteur(self, v, angle):
-
-		""" Fonction qui fait une rotation du vecteur2D <v> de <angle>
-			:param v: le vecteur de direction de départ
-			:param angle: l'angle par lequel on veut tourner le robot
-			:returns: le nouveau vecteur directeur
-		"""
-
-		x, y = v
-		return (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))
-
-
 	def rotate_robot_rect(self, canvas, robot, angle):
 
 		""" Fait une rotation du rectangle qui représente le robot
@@ -166,7 +155,7 @@ class Interface:
 		"""
 
 		for i in range(0, 8, 2):
-			v = self.rotationVecteur((robot.points[i]-robot.x, robot.points[i+1]-robot.y), angle)
+			v = rotationVecteur((robot.points[i]-robot.x, robot.points[i+1]-robot.y), angle)
 			robot.points[i] = v[0] + robot.x
 			robot.points[i+1] = v[1] + robot.y
 		canvas.coords(robot.rect, robot.points)
@@ -206,7 +195,6 @@ class Interface:
 			self.refresh_position_robot_visuel(self.canv, robot)
 			if robot.draw and not robot.estCrash:
 				self.dessine_point((robot.x, robot.y),  "black") #self.env.listeRobots[self.env.robotSelect].couleur)
-				a = 5
 				if not robot.estSousControle and (abs(int(robot.firstDrawPoint[0]) - int(robot.x)) < a and abs(int(robot.firstDrawPoint[1]) - int(robot.y)) < a):
 					robot.draw = False
 					
