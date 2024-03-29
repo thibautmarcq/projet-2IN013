@@ -8,3 +8,4 @@ logs.log
 /src/Robot/__pycache__
 .DS_Store
 src/.DS_Store
+results_camera.txt
