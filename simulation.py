@@ -2,7 +2,10 @@ from logging import DEBUG, basicConfig
 from threading import Thread
 from time import sleep
 
-from src.constantes import TIC_SIMULATION
+from src.constantes import (LARGEUR_ENV, LARGEUR_ROBOT, LIST_PTS_OBS_CARRE,
+                            LIST_PTS_OBS_COEUR, LIST_PTS_OBS_TRIANGLE,
+                            LONGUEUR_ENV, LONGUEUR_ROBOT, SCALE_ENV_1,
+                            TAILLE_ROUE, TIC_SIMULATION)
 from src.Controleur.controleur import Controler
 from src.Controleur.Strategies import setStrategieCarre
 from src.environnement import Environnement
@@ -21,25 +24,25 @@ def loopEnv(env):
         env.refresh_env()
         sleep(TIC_SIMULATION)
 
-env = Environnement(750, 550, 1) # Initialisation de l'env
+env = Environnement(LARGEUR_ENV, LONGUEUR_ENV, SCALE_ENV_1) # Initialisation de l'env
 T_env = Thread(target=loopEnv, args=[env], daemon=True)
 T_env.start()
-env.addObstacle('J',[(400,400),(450,450),(350,450)])
-env.addObstacle('P',[(300,300),(350,300),(350,350), (300,350)])
-env.addObstacle('C',[(100,140),(170,55),(160,30), (130,30), (100,50), (70,30), (40,30), (30,55)])
+env.addObstacle('J',LIST_PTS_OBS_TRIANGLE)
+env.addObstacle('P',LIST_PTS_OBS_CARRE)
+env.addObstacle('C',LIST_PTS_OBS_COEUR)
 #env.print_matrix()
 
 #On crée un controleur
 controleur = Controler()
 
 # Ajoute le premier robot
-robot = Adaptateur_simule("Bob", 250, 250, 30, 55, 20, env)
+robot = Adaptateur_simule("Bob", 250, 250, LARGEUR_ROBOT, LONGUEUR_ROBOT, TAILLE_ROUE, env)
 
 env.addRobot(robot, "lightgreen")
 
 
 # ajoute le deuxieme robot pour test
-robot2 = Adaptateur_simule("Stuart", 400, 250, 30, 55, 20, env)
+robot2 = Adaptateur_simule("Stuart", 400, 250, LARGEUR_ROBOT, LONGUEUR_ROBOT, TAILLE_ROUE, env)
 env.addRobot(robot2, "red")
 
 # Ajoute un robot réel pour le tester
