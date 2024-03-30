@@ -22,7 +22,7 @@ class Environnement:
         
         self.width=width
         self.length=length
-        self.robots = []
+        self.listeRobots = []
         self.robotSelect = 0 # robot selectionné pour bouger
         self.scale = scale #echelle en int positif 
         self.last_refresh = 0 # initialise la dernière fois où l'environnement a été rafraîchi à 0 pour savoir quand on le fait pour la première fois
@@ -47,20 +47,18 @@ class Environnement:
         Change l'indice du robot sélectionné (lui ajoute n)
         :returns: rien, ajoute n à la valeur de sélection du robot
         """
-        if (len(self.robots)!=0): # éviter le modulo par 0
-            self.robotSelect = (self.robotSelect + n)% len(self.robots)
+        if (len(self.listeRobots)!=0): # éviter le modulo par 0
+            self.robotSelect = (self.robotSelect + n)% len(self.listeRobots)
  
-    def addObstacle(self,nom, lstPoints):
+    def addObstacle(self, nom, lstPoints):
         """ Ajout d'un obstacle dans la matrice, l'obstacle est représenté par '2' dans la matrice
             :param nom: nom de l'obstacle
             :param lstPoints: liste des points (x,y) qui définissent la forme de l'obstacle 
             :returns: ne retourne rien, place juste un obstacle aléatoirement dans la matrice
         """
-        self.listeObs.append(Obstacle(nom,lstPoints))
+        self.listeObs.append(Obstacle(nom, lstPoints))
         if any(x > self.width or x < 0 or y > self.length or y < 0 for (x, y) in lstPoints):
             raise ValueError("Obstacle %s hors environnement! Verifiez les coordonnées de ses points" % nom)
-
-
 
         # Placement des bordures de l'obstacle dans l'environnement
         for i in range(len(lstPoints)): # Parcours la liste des points
@@ -81,24 +79,21 @@ class Environnement:
                     pass
         self.logger.info("Obstacle %s ajouté", nom)
 
-
     def print_matrix(self):
         for row in self.matrice:
             print(' '.join(str(item) for item in row))
         self.logger.debug("Affichage de la matrice")
 
-    def addRobot(self, robot, couleur):
+    def addRobot(self, robA):
         """ Ajoute un robot à notre environnement
-            :param robot: instance du robot
-            :param couleur: couleur du robot dans l'interface
-            :returns: rien, on ajoute juste un robot à la liste des robots de l'environnement
+            :param robA: instance du robot (adapté!!)
+            :returns: rien, on ajoute juste un robot à la liste des listeRobots de l'environnement
         """
-        robot.robot.couleur = couleur
-        self.robots.append(robot)
-        self.logger.info("Robot %s initialisé", robot.robot.nom)
+        self.listeRobots.append(robA)
+        self.logger.info("Robot %s initialisé", robA.robot.nom)
  
     def refresh_env(self) :
-        """ Pour rafraichir l'environnement et faire updater tous les robots qui le composent.
+        """ Pour rafraichir l'environnement et faire updater tous les listeRobots qui le composent.
             :returns: ne retourne rien, fait juste la mise à jour de tous les éléments
         """
         temps = time()
@@ -106,21 +101,20 @@ class Environnement:
         if self.last_refresh == 0 : # donc si c'est la première fois qu'on fait le rafraichissement
             self.last_refresh = temps
 
-        for rob in self.robots : # on fait avancer tous les robots de l'environnement
-            rob = rob.robot
-            if (not(rob.estCrash) and not(self.collision(rob))): # Si le robot est opérationnel et qu'il n'y a pas collision 
+        for robA in self.listeRobots : # on fait avancer tous les listeRobots de l'environnement
+            if (not(robA.robot.estCrash) and not(self.collision(robA.robot))): # Si le robot est opérationnel et qu'il n'y a pas collision 
                 duree = temps - self.last_refresh
-                rob.refresh(duree)
+                robA.robot.refresh(duree)
 
-            elif not rob.estCrash:
-                rob.estCrash = True
+            elif not robA.robot.estCrash:
+                robA.robot.estCrash = True
 
         self.last_refresh = temps # on met à jour l'heure du dernier rafraichissement 
 
     def collision(self, rob):
         """
         Vérifie si le prochain mouvement du robot va le faire rentrer en collision avec un obstacle (2)
-        :param rob: robot pour lequel on veut tester la collision prochaine
+        :param rob: robot pour lequel on veut tester la collision prochaine (simulé! pas adaptateur!!)
         :returns: true si robot en collision prochaine, false sinon"""
 
         # liste des 4 points du robot après mouvement (liste de 4couples): HG HD BD BG
@@ -141,5 +135,3 @@ class Environnement:
                 x1,y1 = ((x1+dir[0]), (y1+dir[1])) #nv point
             
         return False # Après le parcours de tout le contour, si pas d'obstacle rencontré -> False
-
-

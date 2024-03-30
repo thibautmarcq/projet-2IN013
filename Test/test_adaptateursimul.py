@@ -20,8 +20,6 @@ class TestAdaptateurSimu(TestCase):
         self.assertEqual(self.rob.rayonRoue, 8)
         self.assertEqual(self.rob.vitAngD, 0)
         self.assertEqual(self.rob.vitAngG, 0)
-        self.assertEqual(self.rob.estCrash, False)
-        self.assertEqual(self.rob.estSousControle, False)
         self.assertEqual(self.rob.last_point, (self.rob.x, self.rob.y))
         self.assertEqual(self.rob.last_dir, self.rob.direction)
         self.assertEqual(self.rob.env, self.env)

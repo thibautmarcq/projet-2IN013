@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from src.Controleur.controleur import *
-from src.Controleur.Strategies import setStrategieCarre
+from src.Controleur.strategies import setStrategieCarre
 from src.environnement import Environnement
 from src.Robot.robot import Adaptateur_simule
 
@@ -9,7 +9,7 @@ from src.Robot.robot import Adaptateur_simule
 class TestControleur(TestCase):
     def setUp(self):
         self.env = Environnement(70, 55, 1)
-        self.rob = Adaptateur_simule("Rob", 10, 15, 5, 7, 8, self.env)
+        self.rob = Adaptateur_simule("Rob", 10, 15, 5, 7, 8, self.env, "red")
         self.controleur = Controler()
         self.carre = setStrategieCarre(self.rob, 30)
 

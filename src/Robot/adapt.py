@@ -1,23 +1,34 @@
+from abc import ABC, abstractmethod
+import logging
+
 class Adaptateur:
     """ Classe abstraite d'adaptateur pour définir les méthodes des adaptateurs """
     
-    def _init_(self):
-        pass
-    
+    @abstractmethod
+    def __init__(self):
+        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger.debug("Initialisation du robot")
+            
+    @abstractmethod
     def setVitAngDA(self, dps):
-        pass
+        self.logger.info("setVitAngD = %d", dps)
     
+    @abstractmethod
     def setVitAngGA(self, dps) :
-        pass
+        self.logger.info("setVitAngG = %d", dps)
     
+    @abstractmethod
     def setVitAngA(self, dps) :
-        pass
+        self.logger.info("setVitAng = %d", dps)
     
+    @abstractmethod
     def capteurDistanceA(self) :
-        pass
-
+        self.logger.debug("capteurDistance")
+    
+    @abstractmethod
     def distance_parcourue(self) :
         pass
     
+    @abstractmethod
     def angle_parcouru(self) :
         pass

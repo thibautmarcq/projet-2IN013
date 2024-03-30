@@ -3,8 +3,8 @@
 from logging import DEBUG, basicConfig
 
 from src.Controleur.controleur import Controler
-from src.Controleur.Strategies import setStrategieArretMur, setStrategieCarre
-from src.Robot.gopigo import Adaptateur
+from src.Controleur.strategies import setStrategieArretMur, setStrategieCarre
+from src.Robot.gopigo import Adaptateur_reel
 
 basicConfig(filename='logs.log', 
                     level=DEBUG, 
@@ -16,7 +16,7 @@ basicConfig(filename='logs.log',
 controleur = Controler()
 
 # Ajoute le premier robot
-reel = Adaptateur()
+reel = Adaptateur_reel()
 
 def menu() :
     global RUNNING

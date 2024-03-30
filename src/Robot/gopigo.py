@@ -1,25 +1,19 @@
-from logging import getLogger
+from robot2IN013 import Robot2IN013 # Import de l'API, supposée être sur le robot ?
 from math import degrees, pi
 
-from robot2IN013 import \
-    Robot2IN013  # Import de l'API, supposée être sur le robot ?
-
-
-class Adaptateur:
+class Adaptateur_reel:
     """
     Classe d'adaptation du robot réel qui hérite de la classe mockupRobot
     """
     def __init__(self) :
         """
-        Constructeur de la classe Adaptateur qui va créer un objet de la classe mockupRobot
+        Constructeur de la classe Adaptateur qui va créer un robot réel
         """
-        self.logger = getLogger(self.__class__.__name__)
         self.robot = Robot2IN013()
-        self.estCrash = False
-        self.estSousControle = False
+        self.robot.estCrash = False
+        self.robot.estSousControle = False
         self.robot.MOTOR_LEFT_RIGHT = self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT # Port 3 correspond aux deux roues
-        
-        self.logger.debug("Initialisation du robot")
+
         
     # def initialise(self) :
     #     self.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
@@ -29,7 +23,6 @@ class Adaptateur:
         Setter de la roue droite, elle va donner la vitesse angulaire dps à la roue droite
         :param dps: vitesse angulaire que l'on veut donner à la roue droite
         """
-        self.logger.info("setVitAngD = %d", dps)
         self.set_motor_dps(self.MOTOR_RIGHT, dps)
 
     def setVitAngGA(self, dps) :
@@ -37,7 +30,6 @@ class Adaptateur:
         Setter de la roue gauche, elle va donner la vitesse angulaire dps à la roue gauche
         :param dps: vitesse angulaire que l'on veut donner à la roue gauche
         """
-        self.logger.info("setVitAngG = %d", dps)
         self.set_motor_dps(self.MOTOR_LEFT, dps)
 
     def setVitAngA(self, dps) :
@@ -45,7 +37,6 @@ class Adaptateur:
         Setter qui va donner aux roues gauche et droite une certaine vitesse angulaire dps
         :param dps: la vitesse angulaire qu'on veut donner aux roues droite et gauche
         """
-        self.logger.info("setVitAng = %d", dps)
         self.set_motor_dps(self.MOTOR_RIGHT + self.MOTOR_LEFT, dps)
 
     def capteurDistanceA(self) :
@@ -53,7 +44,6 @@ class Adaptateur:
         Getter qui renvoie la distance mesurée par le capteur de distance
         :returns: la distance mesurée par le capteur de distance
         """
-        self.logger.debug("capteurDistance")
         return self.robot.get_distance()
     
     def distance_parcourue(self) :
