@@ -1,11 +1,11 @@
 # python3 -m unittest Test/test_obs.py -v
 
-import unittest
+from unittest import TestCase
 
 from src.obstacle import Obstacle
 
 
-class TestObstacle(unittest.TestCase):
+class TestObstacle(TestCase):
     def setUp(self) :
         self.obs1 = Obstacle("Pierre", [(14,5), (24,8), (24,12.2), (14,12.5)])
         self.obs2 = Obstacle("Caillou",[(4, 26), (6, 24), (8, 26), (10, 24), (10, 20), (8, 22), (6, 20), (4, 22)])

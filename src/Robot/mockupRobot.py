@@ -1,18 +1,17 @@
-import logging
-import math
-from src.constantes import *
+from logging import getLogger
+from math import degrees, pi
 
 WHEEL_BASE_WIDTH         = 117  # distance (mm) de la roue gauche a la roue droite.
 WHEEL_DIAMETER           = 66.5 #  diametre de la roue (mm)
-WHEEL_BASE_CIRCUMFERENCE = WHEEL_BASE_WIDTH * math.pi # perimetre du cercle de rotation (mm)
-WHEEL_CIRCUMFERENCE      = WHEEL_DIAMETER   * math.pi # perimetre de la roue (mm)
+WHEEL_BASE_CIRCUMFERENCE = WHEEL_BASE_WIDTH * pi # perimetre du cercle de rotation (mm)
+WHEEL_CIRCUMFERENCE      = WHEEL_DIAMETER   * pi # perimetre de la roue (mm)
 
 class mockupRobot():
     """
     Classe de simulation du robot réel
     """
     def __init__(self):
-        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger = getLogger(self.__class__.__name__)
         self.estSousControle = False
         self.estCrash = False
         self.angled = 0
@@ -120,6 +119,6 @@ class Adaptateur(mockupRobot) :
     def angle_parcouru(self) :
         ang_g, ang_d = self.get_motor_position()
         self.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
-        dist_d = (ang_d/360) * math.pi * WHEEL_CIRCUMFERENCE
-        dist_g = (ang_g/360) * math.pi * WHEEL_CIRCUMFERENCE
-        return math.degrees((dist_g-dist_d)/WHEEL_BASE_WIDTH)
+        dist_d = (ang_d/360) * pi * WHEEL_CIRCUMFERENCE
+        dist_g = (ang_g/360) * pi * WHEEL_CIRCUMFERENCE
+        return degrees((dist_g-dist_d)/WHEEL_BASE_WIDTH)

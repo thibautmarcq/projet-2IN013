@@ -1,10 +1,3 @@
-import logging
-import math
-from turtle import width
-
-
-import time
-
 class Obstacle :
     """ L'obsctacle est un objet aux coordonnées discrètes, se place dans la matrice de l'environnement 
     """

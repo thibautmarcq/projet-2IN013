@@ -1,6 +1,9 @@
-from robot2IN013 import Robot2IN013 # Import de l'API, supposée être sur le robot ?
-import math
-import logging
+from logging import getLogger
+from math import degrees, pi
+
+from robot2IN013 import \
+    Robot2IN013  # Import de l'API, supposée être sur le robot ?
+
 
 class Adaptateur:
     """
@@ -10,7 +13,7 @@ class Adaptateur:
         """
         Constructeur de la classe Adaptateur qui va créer un objet de la classe mockupRobot
         """
-        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger = getLogger(self.__class__.__name__)
         self.robot = Robot2IN013()
         self.estCrash = False
         self.estSousControle = False
@@ -63,8 +66,8 @@ class Adaptateur:
     def angle_parcouru(self) :
         ang_g, ang_d = self.robot.get_motor_position()
         self.robot.offset_motor_encoder(self.robot.MOTOR_LEFT_RIGHT, 0)
-        dist_d = (ang_d/360) * math.pi * WHEEL_CIRCUMFERENCE
-        dist_g = (ang_g/360) * math.pi * WHEEL_CIRCUMFERENCE
-        return math.degrees((dist_g-dist_d)/WHEEL_BASE_WIDTH)
+        dist_d = (ang_d/360) * pi * WHEEL_CIRCUMFERENCE
+        dist_g = (ang_g/360) * pi * WHEEL_CIRCUMFERENCE
+        return degrees((dist_g-dist_d)/WHEEL_BASE_WIDTH)
 
 

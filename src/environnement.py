@@ -1,6 +1,6 @@
-import logging
-import math
-import time
+from logging import getLogger
+from math import sqrt
+from time import time
 
 import numpy as np
 
@@ -18,7 +18,7 @@ class Environnement:
             :param scale: l'échelle qui permet de passer de l'environnement à la matrice, c'est la correspondance de la taille d'un côté d'une case de la matrice dans le rectangle
             :returns: ne retourne rien, fait juste l'initialisation
         """
-        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger = getLogger(self.__class__.__name__)
         
         self.width=width
         self.length=length
@@ -101,7 +101,7 @@ class Environnement:
         """ Pour rafraichir l'environnement et faire updater tous les robots qui le composent.
             :returns: ne retourne rien, fait juste la mise à jour de tous les éléments
         """
-        temps = time.time()
+        temps = time()
 
         if self.last_refresh == 0 : # donc si c'est la première fois qu'on fait le rafraichissement
             self.last_refresh = temps
@@ -136,7 +136,7 @@ class Environnement:
                     self.logger.warning("Collision de %s! Obstacle en (%d, %d)", rob.nom, x1, y1)
                     return True
                 
-                long = math.sqrt((x2-x1)**2 + (y2-y1)**2) # Longueur du vect dir
+                long = sqrt((x2-x1)**2 + (y2-y1)**2) # Longueur du vect dir
                 dir = ((x2-x1)/long ,(y2-y1)/long) # Vect dir normalisé
                 x1,y1 = ((x1+dir[0]), (y1+dir[1])) #nv point
             

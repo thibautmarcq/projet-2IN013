@@ -1,11 +1,11 @@
-import unittest
+from unittest import TestCase
 
 from src.environnement import Environnement
 from src.outil import distance
 from src.Robot.robot import Adaptateur_simule
 
 
-class TestAdaptateurSimu(unittest.TestCase):
+class TestAdaptateurSimu(TestCase):
     def setUp(self) :
         self.env = Environnement(500,300,1)
         self.rob = Adaptateur_simule("Rob", 10, 15, 5, 7, 8, self.env)

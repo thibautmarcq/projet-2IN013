@@ -1,17 +1,17 @@
-import logging
+from logging import DEBUG, basicConfig
 from threading import Thread
 from time import sleep
 
 from src.constantes import TIC_SIMULATION
 from src.Controleur.controleur import Controler
-from src.Controleur.strategies import setStrategieCarre
+from src.Controleur.Strategies import setStrategieCarre
 from src.environnement import Environnement
 from src.Interface.interface import Interface
 from src.Robot.mockupRobot import Adaptateur
 from src.Robot.robot import Adaptateur_simule
 
-logging.basicConfig(filename='logs.log', 
-                    level=logging.DEBUG, 
+basicConfig(filename='logs.log', 
+                    level=DEBUG, 
                     format='%(asctime)s | %(levelname)s | %(name)s | %(message)s', 
                     datefmt='%d/%m/%y %H:%M:%S', 
                     encoding='UTF-8') # niveaux : DEBUG INFO WARNING ERROR CRITICAL

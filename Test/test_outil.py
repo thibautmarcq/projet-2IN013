@@ -1,9 +1,11 @@
 # python3 -m unittest Test/test_outil.py -v
-import unittest
-import math
+from math import sqrt
+from unittest import TestCase
+
 import src.outil as outil
 
-class TestOutil(unittest.TestCase):
+
+class TestOutil(TestCase):
 
     def test_normaliserVecteur(self):
         self.assertEqual(outil.normaliserVecteur((3, 4)), (0.6, 0.8))
@@ -35,8 +37,8 @@ class TestOutil(unittest.TestCase):
         vect = [1, 0]
         newv = outil.getVectFromAngle(vect, 45)
         xp, yp = newv
-        self.assertAlmostEqual(xp, math.sqrt(2)/2)
-        self.assertAlmostEqual(yp, math.sqrt(2)/2)
+        self.assertAlmostEqual(xp, sqrt(2)/2)
+        self.assertAlmostEqual(yp, sqrt(2)/2)
 
         vect = [2, -4]
         newv = outil.getVectFromAngle(vect, 90)

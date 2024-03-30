@@ -1,13 +1,13 @@
 # Main à lancer sur le robot pour exécuter des stratégies/actions
 
-import logging
+from logging import DEBUG, basicConfig
 
 from src.Controleur.controleur import Controler
-from src.Controleur.strategies import setStrategieArretMur, setStrategieCarre
+from src.Controleur.Strategies import setStrategieArretMur, setStrategieCarre
 from src.Robot.gopigo import Adaptateur
 
-logging.basicConfig(filename='logs.log', 
-                    level=logging.DEBUG, 
+basicConfig(filename='logs.log', 
+                    level=DEBUG, 
                     format='%(asctime)s | %(levelname)s | %(name)s | %(message)s', 
                     datefmt='%d/%m/%y %H:%M:%S', 
                     encoding='UTF-8') # niveaux : DEBUG INFO WARNING ERROR CRITICAL

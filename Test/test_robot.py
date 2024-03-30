@@ -1,12 +1,12 @@
 # python3 -m unittest Test/test_robot.py -v
 
-import unittest
+from unittest import TestCase
 
 from src.environnement import Environnement
 from src.Robot.robot import Robot
 
 
-class TestRobot(unittest.TestCase):
+class TestRobot(TestCase):
     def setUp(self) :
         self.rob = Robot("Rob", 10, 15, 5, 7, 8) 
     

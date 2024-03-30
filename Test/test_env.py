@@ -1,12 +1,12 @@
 # python3 -m unittest Test/test_env.py -v
 
-import unittest
+from unittest import TestCase
 
 from src.environnement import Environnement
 from src.Robot.robot import Adaptateur_simule, Robot
 
 
-class TestEnvironnement(unittest.TestCase):
+class TestEnvironnement(TestCase):
 
     def setUp(self):
         self.env = Environnement(100, 100, 1)

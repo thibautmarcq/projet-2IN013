@@ -1,10 +1,8 @@
-import math
-from time import *
-from tkinter import *
-from tkinter import Label, Tk
+from math import cos, sin
+from tkinter import LEFT, Canvas, Label, LabelFrame, PhotoImage, Tk
 
 from src.constantes import TIC_INTERFACE
-from src.Controleur.strategies import (StrategieAvancer, StrategieBoucle,
+from src.Controleur.Strategies import (StrategieAvancer, StrategieBoucle,
                                        StrategieCond, StrategieSeq,
                                        StrategieTourner, distSup,
                                        setStrategieArretMur, setStrategieCarre)
@@ -154,7 +152,7 @@ class Interface:
 		"""
 
 		x, y = v
-		return (x*math.cos(angle)-y*math.sin(angle), x*math.sin(angle)+y*math.cos(angle))
+		return (x*cos(angle)-y*sin(angle), x*sin(angle)+y*cos(angle))
 
 
 	def rotate_robot_rect(self, canvas, robot, angle):

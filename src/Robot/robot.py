@@ -1,5 +1,5 @@
-import logging
-import math
+from logging import getLogger
+from math import cos, pi, sin, sqrt
 
 from src.outil import distance, getAngleFromVect, normaliserVecteur
 
@@ -19,7 +19,7 @@ class Robot :
 			:param rayonRoue: la taille des roue
 			:returns: ne retourne rien, ça initalise seulement le robot
 		"""
-		self.logger = logging.getLogger(self.__class__.__name__)
+		self.logger = getLogger(self.__class__.__name__)
 
 		self.nom = nom
 		self.x = x
@@ -35,7 +35,6 @@ class Robot :
 		self.estSousControle = False 	# permet de savoir si notre robot est controler par le controleur
 		self.estCrash = False  			# Nous permet de savoir si le robot s'est crash et ne pas refresh le robot
 
-
 	def refresh(self, duree):
 
 		""" Méthode de update du robot, qui va modifier les coordonnées du robot et son vecteur directeur en fonction des vitesses angulaires des roues et du temps qui s'est écoulé depuis la dernière update.
@@ -48,8 +47,8 @@ class Robot :
 
 		# on récupère les coordonnées des deux roues sous la forme de point
 
-		orto = [dirBasex*math.cos(math.pi/2)-dirBasey*math.sin(math.pi/2),
-				dirBasex*math.sin(math.pi/2)+dirBasey*math.cos(math.pi/2)]
+		orto = [dirBasex*cos(pi/2)-dirBasey*sin( pi/2),
+				dirBasex*sin(pi/2)+dirBasey*cos( pi/2)]
 		coordRG = (self.x-(orto[0]*(self.width/2)), self.y-(orto[1]*(self.width/2)))
 		coordRD = (self.x+orto[0]*(self.width/2), self.y+orto[1]*(self.width/2))
 
@@ -73,8 +72,8 @@ class Robot :
 			pente = [1, pente]
 
 		# on trouve le vecteur ortogonal a notre pente
-		penteOrto = [pente[0]*math.cos((3*math.pi)/2)-pente[1]*math.sin((3*math.pi)/2),
-				pente[0]*math.sin((3*math.pi)/2)+pente[1]*math.cos((3*math.pi)/2)]
+		penteOrto = [pente[0]*cos((3*pi)/2)-pente[1]*sin((3*pi)/2),
+				pente[0]*sin((3*pi)/2)+pente[1]* cos((3*pi)/2)]
 		penteOrto = normaliserVecteur(penteOrto) # on le normalise
 
 		self.direction = penteOrto # il devient notre nouvelle direction
@@ -172,20 +171,20 @@ class Robot :
 		while (mat[int(y2/self.env.scale)][int(x2/self.env.scale)]!=2): # Condition de boucle : tant qu'on est pas sur un obstacle
 			x2, y2 = (x2+dirNorm[0], y2+dirNorm[1]) # on avance en case suivant le vect dir
 
-		return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+		return sqrt((x2 - x1)**2 + (y2 - y1)**2)
 	
 class Adaptateur_simule :
 	""" Classe d'adaptation du robot simulé, qui hérite de la classe Robot
 	"""
 
 	def __init__(self, nom, x, y, width, length, rayonRoue, env) :
-		Robot.__init__(self, nom, x, y, width, length, rayonRoue)
+		self.robot = Robot(nom, x, y, width, length, rayonRoue)
 		self.last_point = (x, y)
-		self.last_dir = self.direction
+		self.last_dir = self.robot.direction
 		self.env = env
   
 	def initialise(self):
-		self.last_point = (self.x, self.y)
+		self.last_point = (self.robot.x, self.robot.y)
 
 	def setVitAngDA(self, vit):
 		""" Setter de vitesse angulaire de la roue droite depuis l'adaptateur
@@ -219,9 +218,9 @@ class Adaptateur_simule :
 			:returns: la distance parcourue depuis la dernière visite à cette fonction
 		"""
 		pos_actuelle = (self.robot.x, self.robot.y)
-		pos_prec = self.robot.last_point
-		self.robot.last_point = pos_actuelle
-		self.robot.last_dir = self.robot.direction
+		pos_prec = self.last_point
+		self.last_point = pos_actuelle
+		self.last_dir = self.robot.direction
 		return distance(pos_actuelle, pos_prec)
 	
 	def angle_parcouru(self) :
@@ -229,8 +228,8 @@ class Adaptateur_simule :
 			:returns: l'angle entre les deux points
 		"""
 		dir_actuelle = self.robot.direction
-		dir_prec = self.robot.last_dir
-		self.robot.last_dir = dir_actuelle
-		self.robot.last_point = (self.robot.x, self.robot.y)
+		dir_prec = self.last_dir
+		self.last_dir = dir_actuelle
+		self.last_point = (self.robot.x, self.robot.y)
 		return getAngleFromVect(dir_prec, dir_actuelle)
 	

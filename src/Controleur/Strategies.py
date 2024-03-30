@@ -1,6 +1,7 @@
-import logging
+from logging import getLogger
 
 from src.constantes import VIT_ANG_AVAN, VIT_ANG_TOUR
+
 
 class Strategie:
     """Classe mère des stratégies    """
@@ -18,7 +19,7 @@ class StrategieAvancer(Strategie):
             :param rob: l'adaptateur du robot qu'on veut avancer
             :returns: ne retourne rien, on initialise la stratégie
         """
-        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger = getLogger(self.__class__.__name__)
         self.distance = distance
         self.rob = rob
         self.parcouru = 0
@@ -53,7 +54,7 @@ class StrategieTourner(Strategie):
             :param rob: l'adaptateur du robot que l'on veut faire tourner
             :param angle: la rotation que l'on veut ordonner au robot d'effectuer
         """
-        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger = getLogger(self.__class__.__name__)
 
         self.rob = rob
         self.angle = angle
@@ -95,7 +96,7 @@ class StrategieArretMur(Strategie):
             :param rob: le robot que l'on veut faire arreter avant un mur/obtacle
             :param distarret: la distance que l'on veut entre le robot et le mur/obstacle
         """
-        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger = getLogger(self.__class__.__name__)
         
         self.rob = rob
         self.distarret = distarret
@@ -172,7 +173,7 @@ class StrategieCond(Strategie):
         :param strat: la stratégie à executer tant que la cond est remplie
         :param cond: fonction conditionnelle / booleenne (ex: <module>.distSup(rob, 5) renverrai True si le captDist renvoie > 5)
         """
-        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger = getLogger(self.__class__.__name__)
         self.rob = rob
         self.strat = strat
         self.cond = cond
@@ -207,7 +208,7 @@ class StrategieBoucle(Strategie):
         :param strat: la stratégie à executer
         :param nbTours: nombre de tours que la boucle doit faire
         """
-        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger = getLogger(self.__class__.__name__)
         self.rob = rob
         self.strat = strat
         self.nbTours = nbTours

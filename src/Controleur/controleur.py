@@ -1,6 +1,6 @@
-import logging
-import time
+from logging import getLogger
 from threading import Thread
+from time import sleep
 
 from src.constantes import TIC_CONTROLEUR
 
@@ -11,7 +11,7 @@ class Controler:
         """
         Constructeur de la classe Controler
         """
-        self.logger = logging.getLogger(self.__class__.__name__)
+        self.logger = getLogger(self.__class__.__name__)
         self.strat_en_cour = None
         self.strategie = 0
         self.Running = True
@@ -27,7 +27,7 @@ class Controler:
                     self.strategie = 0
                     self.strat_en_cour.getRob().setVitAngA(0)
                     self.strat_en_cour = None
-            time.sleep(TIC_CONTROLEUR)
+            sleep(TIC_CONTROLEUR)
 
     def lancerStrategie(self, strat):
         """ Méthode qui permet de lancer une stratégie
