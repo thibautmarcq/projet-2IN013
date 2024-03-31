@@ -62,34 +62,34 @@ class TestAdaptateurSimu(TestCase):
 
     def test_distanceParcourue(self):
         self.rob.x, self.rob.y = 0, 0
-        self.assertAlmostEqual(self.rob.distance_parcourue(), 18.0, places=1)
+        self.assertAlmostEqual(self.rob.distanceParcourue(), 18.0, places=1)
         self.rob.x = 67
-        self.assertEqual(self.rob.distance_parcourue(), 67.0)
+        self.assertEqual(self.rob.distanceParcourue(), 67.0)
         self.rob.y = 10
-        self.assertEqual(self.rob.distance_parcourue(), 10.0)
+        self.assertEqual(self.rob.distanceParcourue(), 10.0)
         self.rob.x = -300
-        self.assertEqual(self.rob.distance_parcourue(), 367.0)
+        self.assertEqual(self.rob.distanceParcourue(), 367.0)
         self.rob.y = -123
-        self.assertEqual(self.rob.distance_parcourue(), 133.0)
+        self.assertEqual(self.rob.distanceParcourue(), 133.0)
         self.rob.x, self.rob.y = (-100, 2)
-        self.assertAlmostEqual(self.rob.distance_parcourue(), 235.8, places=1)
+        self.assertAlmostEqual(self.rob.distanceParcourue(), 235.8, places=1)
         self.rob.x, self.rob.y = (241, -231)
-        self.assertAlmostEqual(self.rob.distance_parcourue(), 413.0, places=1)
+        self.assertAlmostEqual(self.rob.distanceParcourue(), 413.0, places=1)
         self.rob.x, self.rob.y = (-100, -231)
-        self.assertEqual(self.rob.distance_parcourue(), 341.0)
+        self.assertEqual(self.rob.distanceParcourue(), 341.0)
 
     def test_angleParcourue(self):
         self.rob.direction = (0, 1)
-        self.assertEqual(self.rob.angle_parcouru(), 180.0)
+        self.assertEqual(self.rob.angleParcouru(), 180.0)
         self.rob.direction = (1, 1)
-        self.assertAlmostEqual(self.rob.angle_parcouru(), 45.0)
+        self.assertAlmostEqual(self.rob.angleParcouru(), 45.0)
         self.rob.direction = (-1, -1)
-        self.assertAlmostEqual(self.rob.angle_parcouru(), 180.0, places=1)
+        self.assertAlmostEqual(self.rob.angleParcouru(), 180.0, places=1)
         self.rob.direction = (1, -1)
-        self.assertEqual(self.rob.angle_parcouru(), 90.0)
+        self.assertEqual(self.rob.angleParcouru(), 90.0)
         self.rob.direction = (-1, 1)
-        self.assertAlmostEqual(self.rob.angle_parcouru(), 180.0, places=1)
+        self.assertAlmostEqual(self.rob.angleParcouru(), 180.0, places=1)
         self.rob.direction = (0.5, 1)
-        self.assertAlmostEqual(self.rob.angle_parcouru(), 71.6, places=1)
+        self.assertAlmostEqual(self.rob.angleParcouru(), 71.6, places=1)
         self.rob.direction = (0.1, -0.4)
-        self.assertAlmostEqual(self.rob.angle_parcouru(), 139.4, places=1)
+        self.assertAlmostEqual(self.rob.angleParcouru(), 139.4, places=1)

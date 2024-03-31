@@ -1,7 +1,8 @@
 from robot2IN013 import Robot2IN013 # Import de l'API, supposée être sur le robot ?
 from math import degrees, pi
+from .adapt import Adaptateur
 
-class Adaptateur_reel:
+class Adaptateur_reel(Adaptateur):
     """
     Classe d'adaptation du robot réel qui hérite de la classe mockupRobot
     """
@@ -16,7 +17,7 @@ class Adaptateur_reel:
 
         
     def initialise(self) :
-        self.robot.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
+        self.robot.offset_motor_encoder(self.robot.MOTOR_LEFT_RIGHT, 0)
 
     def setVitAngDA(self, dps) :
         """
@@ -46,13 +47,13 @@ class Adaptateur_reel:
         """
         return self.robot.get_distance()
     
-    def distance_parcourue(self) :
+    def distanceParcourue(self) :
         ang_g, ang_d = self.robot.get_motor_position()
         dist_g = (ang_g/360) * self.robot.WHEEL_CIRCUMFERENCE
         dist_d = (ang_d/360) * self.robot.WHEEL_CIRCUMFERENCE
         return (dist_g + dist_d)/2
     
-    def angle_parcouru(self) :
+    def angleParcouru(self) :
         ang_g, ang_d = self.robot.get_motor_position()
         dist_d = (ang_d/360) * pi * self.robot.WHEEL_CIRCUMFERENCE
         dist_g = (ang_g/360) * pi * self.robot.WHEEL_CIRCUMFERENCE

@@ -174,7 +174,7 @@ class Robot :
 
 		return sqrt((x2 - x1)**2 + (y2 - y1)**2)
 	
-class Adaptateur_simule :
+class Adaptateur_simule(Adaptateur) :
 	""" Classe d'adaptation du robot simulé, qui hérite de la classe Robot
 	"""
 
@@ -214,7 +214,7 @@ class Adaptateur_simule :
 		"""
 		return self.robot.capteurDistance(self.env)
 
-	def distance_parcourue(self) :
+	def distanceParcourue(self) :
 		""" La distance parcourue entre le point précédent et le point actuel
 			:returns: la distance parcourue depuis la dernière visite à cette fonction
 		"""
@@ -224,7 +224,7 @@ class Adaptateur_simule :
 		self.last_dir = self.robot.direction
 		return distance(pos_actuelle, pos_prec)
 	
-	def angle_parcouru(self) :
+	def angleParcouru(self) :
 		""" Getter de l'angle parcouru entre le dernier point enregistré et la position actuelle du robot
 			:returns: l'angle entre les deux points
 		"""

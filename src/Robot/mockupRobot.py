@@ -1,5 +1,6 @@
 from logging import getLogger
 from math import degrees, pi
+
 from .adapt import Adaptateur
 
 WHEEL_BASE_WIDTH         = 117  # distance (mm) de la roue gauche a la roue droite.
@@ -114,13 +115,13 @@ class Adaptateur_reel(Adaptateur) :
         """
         return self.robot.get_distance()
 
-    def distance_parcourue(self) :
+    def distanceParcourue(self) :
         ang_g, ang_d = self.robot.get_motor_position()
         dist_g = (ang_g/360) * WHEEL_CIRCUMFERENCE
         dist_d = (ang_d/360) * WHEEL_CIRCUMFERENCE
         return (dist_g + dist_d)/2
 
-    def angle_parcouru(self) :
+    def angleParcouru(self) :
         ang_g, ang_d = self.robot.get_motor_position()
         dist_d = (ang_d/360) * pi * WHEEL_CIRCUMFERENCE
         dist_g = (ang_g/360) * pi * WHEEL_CIRCUMFERENCE
