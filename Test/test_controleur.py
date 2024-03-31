@@ -9,7 +9,7 @@ from src.Robot.robot import Adaptateur_simule
 class TestControleur(TestCase):
     def setUp(self):
         self.env = Environnement(70, 55, 1)
-        self.rob = Adaptateur_simule("Rob", 10, 15, 5, 7, 8, self.env, "red")
+        self.rob = Adaptateur_simule("Rob", 10, 15, 5, 7, 15, 8, self.env, "red")
         self.controleur = Controler()
         self.carre = setStrategieCarre(self.rob, 30)
 

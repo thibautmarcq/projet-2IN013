@@ -1,7 +1,8 @@
 # pip install panda3d==1.10.14
 
-from src.Robot.robot import Robot
-from src.constantes import LONGUEUR_ROBOT, LARGEUR_ROBOT, TAILLE_ROUE, DICO_COULEURS
+from src.Robot.robot import Adaptateur_simule
+from src.constantes import LONGUEUR_ROBOT, LARGEUR_ROBOT, TAILLE_ROUE, HAUTEUR_ROBOT, DICO_COULEURS, LARGEUR_ENV, LONGUEUR_ENV, SCALE_ENV_1
+from src.environnement import Environnement
 
 from direct.showbase.ShowBase import ShowBase
 from direct.task import Task 
@@ -15,121 +16,158 @@ load_prc_file('src/Interface3D/config.prc')
 
 class Interface3D(ShowBase):
 
-    def __init__(self):
+    def __init__(self, env):
         ShowBase.__init__(self)
-        self.nbRobots = 0
+        # self.nbRobots = 0
+        self.env = env
+        self.createAllRobots()
+        self.createEnvironnement()
         
-        self.createRobot("moulinex3D", 4, 5, LARGEUR_ROBOT, LONGUEUR_ROBOT, 15, TAILLE_ROUE, "lightblue")
-        T_move = Thread(target=self.testMove, args=[0.05], daemon=True)
+        # robot = Robot("moulinex3D", 4, 5, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE, "lightblue")
+        # self.env.addRobot(robot)
+        
+        T_move = Thread(target=self.testMove, args=[self.env.listeRobots[0], 0.05], daemon=True)
         T_move.start()
-        T_update = Thread(target=self.testUpdate, daemon=True)
+        T_update = Thread(target=self.testUpdate, args=[self.env.listeRobots[0]], daemon=True)
         T_update.start()
         # self.taskMgr.add(self.spinCameraTask, "spinCameraTask")
-        self.taskMgr.add(self.updateCameraTask, "updateCameraTask")
+        # self.taskMgr.add(self.updateCameraTask, "updateCameraTask")
 
-    def testUpdate(self):
+    def testUpdate(self, robot):
         while True:
             sleep(0.005)
-            self.updateRobot(self.robot)
+            self.updateRobot(robot)
 
-    def testMove(self, temps):
+    def testMove(self, robotA, temps):
+        robot = robotA.robot
         sleep(12) # pour nous laisser le temps de positionner le robot
         while True:
             sleep(temps)
-            self.robot.y+=1
-            print('okayy')
-    
-    def createRobot(self, nom, x, y, width, length, height, rayonRoue, couleur):
-        """Crée un robot en 3D (rectangle)
-        	:param nom: nom du robot
-			:param x: coordonnée x à laquelle on veut initialiser le robot
-			:param y: coordonnée y à laquelle on veut initialiser le robot
-			:param width: la largeur du robot
-			:param length: la longueur du robot
-            :param height: la hauteur du robot
-			:param rayonRoue: la taille des roue
-			:returns: ne retourne rien, ça initalise seulement le robot dans l'interface 3d
+            robot.y+=1
+            print('okayy - ', robot.y)
+            
+    def createAllRobots(self):
+        """ Crée tous les robots présents dans l'environnement
+        :returns: rien, va seulement créer tous les robots de l'environnement (en attribut de l'interface)
         """
-        self.robot = Robot(nom, x, y, width, length, rayonRoue, couleur)
-        self.robot.height = height
-        self.robot.num = self.nbRobots
-        self.nbRobots+=1
+        for robA in self.env.listeRobots:
+            self.createRobot(robA)
+    
+    def createRobot(self, robotA):
+        """Crée un robot en 3D (rectangle) dans l'interface
+        :param robotA: adaptateur de robot
+		:returns: ne retourne rien, ça initalise seulement le robot dans l'interface 3d
+        """
+        robot = robotA.robot
         
-        # toutes les variables sont reliées à un robot, d'où le self.robot
-        self.robot.format = GeomVertexFormat.getV3() # type des sommets
-        self.robot.vdata = GeomVertexData("rectangle", self.robot.format, Geom.UHDynamic) # UHDynamic car les sommets vont devoir être bougés quand le robot va bouger
-        self.robot.vertex = GeomVertexWriter(self.robot.vdata, "vertex")
+        # toutes les variables sont reliées à un robot
+        robot.format = GeomVertexFormat.getV3() # type des sommets
+        robot.vdata = GeomVertexData("rectangle", robot.format, Geom.UHDynamic) # UHDynamic car les sommets vont devoir être bougés quand le robot va bouger
+        robot.vertex = GeomVertexWriter(robot.vdata, "vertex")
 
         # Définition des sommets du robot | leur indice en comm (voir fiche thibo)
-        self.robot.vertex.addData3f((self.robot.x)-(self.robot.width/2), (self.robot.y)-(self.robot.length/2), 0)  # 0 dèrrière bas gauche
-        self.robot.vertex.addData3f((self.robot.x)+(self.robot.width/2), (self.robot.y)-(self.robot.length/2), 0)  # 1 derriere bas droit
-        self.robot.vertex.addData3f((self.robot.x)+(self.robot.width/2), (self.robot.y)+(self.robot.length/2), 0)  # 2 devant bas droit
-        self.robot.vertex.addData3f((self.robot.x)-(self.robot.width/2), (self.robot.y)+(self.robot.length/2), 0)  # 3 devant bas gauche
-        self.robot.vertex.addData3f((self.robot.x)-(self.robot.width/2), (self.robot.y)-(self.robot.length/2), self.robot.height)  # 4 derriere haut gauche
-        self.robot.vertex.addData3f((self.robot.x)+(self.robot.width/2), (self.robot.y)-(self.robot.length/2), self.robot.height)  # 5 derriere haut droit
-        self.robot.vertex.addData3f((self.robot.x)+(self.robot.width/2), (self.robot.y)+(self.robot.length/2), self.robot.height)  # 6 devant haut droit
-        self.robot.vertex.addData3f((self.robot.x)-(self.robot.width/2), (self.robot.y)+(self.robot.length/2), self.robot.height)  # 7 devant haut gauche
+        robot.vertex.addData3f((robot.x)-(robot.width/2), (robot.y)-(robot.length/2), 0)  # 0 dèrrière bas gauche
+        robot.vertex.addData3f((robot.x)+(robot.width/2), (robot.y)-(robot.length/2), 0)  # 1 derriere bas droit
+        robot.vertex.addData3f((robot.x)+(robot.width/2), (robot.y)+(robot.length/2), 0)  # 2 devant bas droit
+        robot.vertex.addData3f((robot.x)-(robot.width/2), (robot.y)+(robot.length/2), 0)  # 3 devant bas gauche
+        robot.vertex.addData3f((robot.x)-(robot.width/2), (robot.y)-(robot.length/2), robot.height)  # 4 derriere haut gauche
+        robot.vertex.addData3f((robot.x)+(robot.width/2), (robot.y)-(robot.length/2), robot.height)  # 5 derriere haut droit
+        robot.vertex.addData3f((robot.x)+(robot.width/2), (robot.y)+(robot.length/2), robot.height)  # 6 devant haut droit
+        robot.vertex.addData3f((robot.x)-(robot.width/2), (robot.y)+(robot.length/2), robot.height)  # 7 devant haut gauche
 
         # Création de l'objet (composition de triangles)
-        self.robot.rectangle = GeomTriangles(Geom.UHDynamic)
+        robot.rectangle = GeomTriangles(Geom.UHDynamic)
 
         # Ajout des faces du carré
         # Bottom
-        self.robot.rectangle.addVertices(0, 1, 2)
-        self.robot.rectangle.addVertices(2, 3, 0)
+        robot.rectangle.addVertices(0, 1, 2)
+        robot.rectangle.addVertices(2, 3, 0)
         # Top
-        self.robot.rectangle.addVertices(4, 5, 6)
-        self.robot.rectangle.addVertices(6, 7, 4)
+        robot.rectangle.addVertices(4, 5, 6)
+        robot.rectangle.addVertices(6, 7, 4)
         # Front
-        self.robot.rectangle.addVertices(0, 1, 5)
-        self.robot.rectangle.addVertices(5, 4, 0)
+        robot.rectangle.addVertices(0, 1, 5)
+        robot.rectangle.addVertices(5, 4, 0)
         # Back
-        self.robot.rectangle.addVertices(3, 2, 6)
-        self.robot.rectangle.addVertices(6, 7, 3)
+        robot.rectangle.addVertices(3, 2, 6)
+        robot.rectangle.addVertices(6, 7, 3)
         # Left
-        self.robot.rectangle.addVertices(0, 4, 7)
-        self.robot.rectangle.addVertices(7, 3, 0)
+        robot.rectangle.addVertices(0, 4, 7)
+        robot.rectangle.addVertices(7, 3, 0)
         # Right
-        self.robot.rectangle.addVertices(1, 2, 6)
-        self.robot.rectangle.addVertices(6, 5, 1)
+        robot.rectangle.addVertices(1, 2, 6)
+        robot.rectangle.addVertices(6, 5, 1)
         
         # Créer un objet Geom (=l'objet du robot) pour contenir les triangles (=les faces)
-        self.robot.geom = Geom(self.robot.vdata)
-        self.robot.geom.addPrimitive(self.robot.rectangle)
+        robot.geom = Geom(robot.vdata)
+        robot.geom.addPrimitive(robot.rectangle)
 
         # Créer un nœud pour contenir le Geom
-        self.robot.node = GeomNode("rectangle")
-        self.robot.node.addGeom(self.robot.geom)
+        robot.node = GeomNode("rectangle")
+        robot.node.addGeom(robot.geom)
 
         # Créer un nœud de scène parent pour le nœud de géométrie
-        self.robot.np = self.render.attachNewNode(self.robot.node) # np est le noeud de l'objet (=un ptr) dans le moteur graphique
-        self.robot.np.setPos(0, 0, 0)  # Déplacer le triangle pour le voir
+        robot.np = self.render.attachNewNode(robot.node) # np est le noeud de l'objet (=un ptr) dans le moteur graphique
+        robot.np.setPos(0, 0, 0)  # Déplacer le triangle pour le voir
         
-        self.robot.vectcouleur = DICO_COULEURS[self.robot.couleur]
-        self.robot.np.setColor(self.robot.vectcouleur[0], self.robot.vectcouleur[1], self.robot.vectcouleur[2], self.robot.vectcouleur[3]) # RGB + transparence | COULEUR
-        self.robot.np.setTwoSided(True) # pour render toutes les faces
+        robot.vectcouleur = DICO_COULEURS[robot.couleur]
+        robot.np.setColor(robot.vectcouleur[0], robot.vectcouleur[1], robot.vectcouleur[2], robot.vectcouleur[3]) # RGB + transparence | COULEUR
+        robot.np.setTwoSided(True) # pour render toutes les faces
     
-    def updateRobot(self, robot):
+    def updateRobot(self, robotA):
         """ Update le visuel d'un robot dans l'interface
-        :param robot: le robot pour lequel on veut update l'affichage
+        :param robotA: le robotA pour lequel on veut update l'affichage
         :returns: rien, recalcule seulement les coo des sommets et update le visuel d'un robot
         """
-        self.robot.vertex.setRow(0)
-        self.robot.vertex.setData3f((self.robot.x)-(self.robot.width/2), (self.robot.y)-(self.robot.length/2), 0)  # 0 dèrrière bas gauche
-        self.robot.vertex.setRow(1)
-        self.robot.vertex.setData3f((self.robot.x)+(self.robot.width/2), (self.robot.y)-(self.robot.length/2), 0)  # 1 derriere bas droit
-        self.robot.vertex.setRow(2)
-        self.robot.vertex.addData3f((self.robot.x)+(self.robot.width/2), (self.robot.y)+(self.robot.length/2), 0)  # 2 devant bas droit
-        self.robot.vertex.setRow(3)
-        self.robot.vertex.setData3f((self.robot.x)-(self.robot.width/2), (self.robot.y)+(self.robot.length/2), 0)  # 3 devant bas gauche
-        self.robot.vertex.setRow(4)
-        self.robot.vertex.setData3f((self.robot.x)-(self.robot.width/2), (self.robot.y)-(self.robot.length/2), self.robot.height)  # 4 derriere haut gauche
-        self.robot.vertex.setRow(5)
-        self.robot.vertex.setData3f((self.robot.x)+(self.robot.width/2), (self.robot.y)-(self.robot.length/2), self.robot.height)  # 5 derriere haut droit
-        self.robot.vertex.setRow(6)
-        self.robot.vertex.setData3f((self.robot.x)+(self.robot.width/2), (self.robot.y)+(self.robot.length/2), self.robot.height)  # 6 devant haut droit
-        self.robot.vertex.setRow(7)
-        self.robot.vertex.setData3f((self.robot.x)-(self.robot.width/2), (self.robot.y)+(self.robot.length/2), self.robot.height)  # 7 devant haut gauche
+        robot = robotA.robot
+        robot.vertex.setRow(0)
+        robot.vertex.setData3f((robot.x)-(robot.width/2), (robot.y)-(robot.length/2), 0)  # 0 dèrrière bas gauche
+        robot.vertex.setRow(1)
+        robot.vertex.setData3f((robot.x)+(robot.width/2), (robot.y)-(robot.length/2), 0)  # 1 derriere bas droit
+        robot.vertex.setRow(2)
+        robot.vertex.addData3f((robot.x)+(robot.width/2), (robot.y)+(robot.length/2), 0)  # 2 devant bas droit
+        robot.vertex.setRow(3)
+        robot.vertex.setData3f((robot.x)-(robot.width/2), (robot.y)+(robot.length/2), 0)  # 3 devant bas gauche
+        robot.vertex.setRow(4)
+        robot.vertex.setData3f((robot.x)-(robot.width/2), (robot.y)-(robot.length/2), robot.height)  # 4 derriere haut gauche
+        robot.vertex.setRow(5)
+        robot.vertex.setData3f((robot.x)+(robot.width/2), (robot.y)-(robot.length/2), robot.height)  # 5 derriere haut droit
+        robot.vertex.setRow(6)
+        robot.vertex.setData3f((robot.x)+(robot.width/2), (robot.y)+(robot.length/2), robot.height)  # 6 devant haut droit
+        robot.vertex.setRow(7)
+        robot.vertex.setData3f((robot.x)-(robot.width/2), (robot.y)+(robot.length/2), robot.height)  # 7 devant haut gauche
+        
+        
+    def createEnvironnement(self):
+        """ Crée le visuel de l'environnement dans l'interface
+        :returns: rien, crée simplement l'environnement en 3D 
+        """
+        self.env.format = GeomVertexFormat.getV3()
+        self.env.vdata = GeomVertexData("envi", self.env.format, Geom.UHStatic)
+        self.env.vertex = GeomVertexWriter(self.env.vdata, "vertex")
+        # Définition des sommets
+        # 2 --- 3
+        # 0 --- 1
+        self.env.vertex.addData3f(0, 0, -1) # 0 bas gauche
+        self.env.vertex.addData3f(self.env.length, 0, -1) # 1 bas droite
+        self.env.vertex.addData3f(0, self.env.width, -1) # 2 haut gauche
+        self.env.vertex.addData3f(self.env.length, self.env.width, -1) # 3 haut droit
+        # Création de l'objet + ajout du plan
+        self.env.plan = GeomTriangles(Geom.UHStatic)
+        self.env.plan.addVertices(0, 1, 2)
+        self.env.plan.addVertices(1, 3, 2)
+        # Link des données
+        self.env.geom = Geom(self.env.vdata)
+        self.env.geom.addPrimitive(self.env.plan)
+        # Création noeud + ajout noeud dans le render
+        self.env.node = GeomNode("envi")
+        self.env.node.addGeom(self.env.geom)
+        self.env.np = self.render.attachNewNode(self.env.node)
+        self.env.np.setPos(0,0,-1)
+        self.env.np.setColor(1,1,1,1) #blanc
+        self.env.np.setTwoSided(True)
+            
+        
     
     # Task pour faire rotate la camera
     def spinCameraTask(self, task):
@@ -152,5 +190,11 @@ class Interface3D(ShowBase):
         
         return Task.cont  # Continue the task indefinitely
 
-app = Interface3D()
+# ----- MAIN -----
+
+envi = Environnement(LARGEUR_ENV, LONGUEUR_ENV, SCALE_ENV_1)
+robot = Adaptateur_simule("moulinex3D", 4, 5, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE, envi, "lightblue")
+envi.addRobot(robot)
+envi.addRobot
+app = Interface3D(envi)
 app.run()

@@ -1,14 +1,13 @@
 from unittest import TestCase
 
 from src.environnement import Environnement
-from src.outil import distance
 from src.Robot.robot import Adaptateur_simule
 
 
 class TestAdaptateurSimu(TestCase):
     def setUp(self) :
         self.env = Environnement(500,300,1)
-        self.rob = Adaptateur_simule("Rob", 10, 15, 5, 7, 8, self.env)
+        self.rob = Adaptateur_simule("Rob", 10, 15, 5, 7, 15, 8, self.env, 'red')
     
     def test_constructeur(self):
         self.assertEqual(self.rob.nom, "Rob")
@@ -16,6 +15,7 @@ class TestAdaptateurSimu(TestCase):
         self.assertEqual(self.rob.y, 15)
         self.assertEqual(self.rob.width, 5)
         self.assertEqual(self.rob.length, 7)
+        self.assertEqual(self.rob.height, 15)
         self.assertEqual(self.rob.direction, (0,-1))
         self.assertEqual(self.rob.rayonRoue, 8)
         self.assertEqual(self.rob.vitAngD, 0)

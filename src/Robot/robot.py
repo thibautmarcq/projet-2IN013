@@ -9,7 +9,7 @@ from src.outil import distance, getAngleFromVect, normaliserVecteur
 class Robot :
 	"""Robot - Objet aux coordonnées continues, se place dans l'environnement, avance selon une direction"""
 
-	def __init__(self, nom, x, y, width, length, rayonRoue, couleur):
+	def __init__(self, nom, x, y, width, length, height, rayonRoue, couleur):
 
 		""" Initialise le robot grâce avec les paramètres passés en argument
 			Initialise la direction du robot à (0, -1), donc vers le bas
@@ -18,6 +18,7 @@ class Robot :
 			:param y: coordonnée y à laquelle on veut initialiser le robot
 			:param width: la largeur du robot
 			:param length: la longueur du robot
+			:param height: la hauteur du robot (utilisé dans l'interface 3D)
 			:param rayonRoue: la taille des roue
 			:returns: ne retourne rien, ça initalise seulement le robot
 		"""
@@ -28,6 +29,7 @@ class Robot :
 		self.y = y
 		self.width = width
 		self.length = length
+		self.height = height
 		self.rayonRoue = rayonRoue # taille des roues en m donc 1 m = 1/100 cm
 		self.couleur = couleur
 
@@ -180,8 +182,8 @@ class Adaptateur_simule(Adaptateur) :
 	""" Classe d'adaptation du robot simulé, qui hérite de la classe Robot
 	"""
 
-	def __init__(self, nom, x, y, width, length, rayonRoue, env, couleur) :
-		self.robot = Robot(nom, x, y, width, length, rayonRoue, couleur)
+	def __init__(self, nom, x, y, width, length, height, rayonRoue, env, couleur) :
+		self.robot = Robot(nom, x, y, width, length, height, rayonRoue, couleur)
 		self.last_point = (self.robot.x, self.robot.y)
 		self.last_dir = self.robot.direction
 		self.env = env

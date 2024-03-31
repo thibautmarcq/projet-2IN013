@@ -5,9 +5,9 @@ from time import sleep
 from src.constantes import (LARGEUR_ENV, LARGEUR_ROBOT, LIST_PTS_OBS_CARRE,
                             LIST_PTS_OBS_COEUR, LIST_PTS_OBS_TRIANGLE,
                             LONGUEUR_ENV, LONGUEUR_ROBOT, SCALE_ENV_1,
-                            TAILLE_ROUE, TIC_SIMULATION)
+                            TAILLE_ROUE, TIC_SIMULATION, HAUTEUR_ROBOT)
 from src.Controleur.controleur import Controler
-from src.Controleur.Strategies import setStrategieCarre
+from src.Controleur.strategies import setStrategieCarre
 from src.environnement import Environnement
 from src.Interface.interface import Interface
 from src.Robot.mockupRobot import Adaptateur_reel
@@ -36,12 +36,12 @@ env.addObstacle('C',LIST_PTS_OBS_COEUR)
 controleur = Controler()
 
 # Ajoute le premier robot
-robotA1 = Adaptateur_simule("Bob", 250, 250, LARGEUR_ROBOT, LONGUEUR_ROBOT, TAILLE_ROUE, env, "lightgreen")
+robotA1 = Adaptateur_simule("Bob", 250, 250, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE, env, "lightgreen")
 env.addRobot(robotA1)
 
 
 # ajoute le deuxieme robot pour test
-robotA2 = Adaptateur_simule("Stuart", 400, 250, LARGEUR_ROBOT, LONGUEUR_ROBOT, TAILLE_ROUE, env, "red")
+robotA2 = Adaptateur_simule("Stuart", 400, 250, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE, env, "red")
 env.addRobot(robotA2)
 
 # Ajoute un robot réel pour le tester
