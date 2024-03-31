@@ -1,6 +1,8 @@
 from logging import getLogger
 from math import cos, pi, sin, sqrt
+from threading import Thread
 
+from .adapt import Adaptateur
 from src.outil import distance, getAngleFromVect, normaliserVecteur
 
 
@@ -183,9 +185,19 @@ class Adaptateur_simule(Adaptateur) :
 		self.last_point = (self.robot.x, self.robot.y)
 		self.last_dir = self.robot.direction
 		self.env = env
+		
+		self.dist_parcourA = 0
+		self.angle_parcourA = 0
+		self.run = True
+		t1 = Thread(target=self.updateDistAng, daemon=True)
+		t1.start()
+
   
 	def initialise(self):
 		self.last_point = (self.robot.x, self.robot.y)
+		self.last_dir = self.robot.direction
+		self.dist_parcourA = 0
+		self.angle_parcourA = 0
 
 	def setVitAngDA(self, vit):
 		""" Setter de vitesse angulaire de la roue droite depuis l'adaptateur
@@ -220,8 +232,6 @@ class Adaptateur_simule(Adaptateur) :
 		"""
 		pos_actuelle = (self.robot.x, self.robot.y)
 		pos_prec = self.last_point
-		self.last_point = pos_actuelle
-		self.last_dir = self.robot.direction
 		return distance(pos_actuelle, pos_prec)
 	
 	def angleParcouru(self) :
@@ -230,6 +240,4 @@ class Adaptateur_simule(Adaptateur) :
 		"""
 		dir_actuelle = self.robot.direction
 		dir_prec = self.last_dir
-		self.last_dir = dir_actuelle
-		self.last_point = (self.robot.x, self.robot.y)
 		return getAngleFromVect(dir_prec, dir_actuelle)

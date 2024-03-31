@@ -1,5 +1,6 @@
 from logging import getLogger
 from math import degrees, pi
+from threading import Thread
 
 from .adapt import Adaptateur
 
@@ -38,7 +39,7 @@ class mockupRobot():
     def get_motor_position(self):
         self.angled += self.dpsd
         self.angleg += self.dpsg
-        self.logger.debug("get_motor_position : %d %d", self.angleg, self.angled)
+        # self.logger.debug("get_motor_position : %d %d", self.angleg, self.angled)
         return (self.angleg, self.angled)
 
 
@@ -84,8 +85,16 @@ class Adaptateur_reel(Adaptateur) :
         self.robot.estCrash = False
         self.robot.estSousControle = False
         
+        self.dist_parcourA = 0
+        self.angle_parcourA = 0
+        self.run = True
+        t1 = Thread(target=self.updateDistAng, daemon=True)
+        t1.start()
+        
     def initialise(self) :
         self.robot.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
+        self.dist_parcourA = 0
+        self.angle_parcourA = 0
 
     def setVitAngDA(self, dps) :
         """

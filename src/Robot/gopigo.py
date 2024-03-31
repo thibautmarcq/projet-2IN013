@@ -1,6 +1,7 @@
 from robot2IN013 import Robot2IN013 # Import de l'API, supposée être sur le robot ?
 from math import degrees, pi
 from .adapt import Adaptateur
+from threading import Thread
 
 class Adaptateur_reel(Adaptateur):
     """
@@ -14,10 +15,18 @@ class Adaptateur_reel(Adaptateur):
         self.robot.estCrash = False
         self.robot.estSousControle = False
         self.robot.MOTOR_LEFT_RIGHT = self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT # Port 3 correspond aux deux roues
-
+        
+        self.dist_parcourA = 0
+        self.angle_parcourA = 0
+        self.run = True
+        t1 = Thread(target=self.updateDistAng, daemon=True)
+        t1.start()
+	
         
     def initialise(self) :
-        self.robot.offset_motor_encoder(self.robot.MOTOR_LEFT_RIGHT, 0)
+        self.robot.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
+        self.dist_parcourA = 0
+        self.angle_parcourA = 0
 
     def setVitAngDA(self, dps) :
         """

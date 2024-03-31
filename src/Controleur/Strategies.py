@@ -14,7 +14,6 @@ class StrategieAvancer():
         self.distance = distance
         self.rob = robAdapt
         self.parcouru = 0
-        self.rob.distanceParcourue() # Met à jour les infos du robot avec le pt de départ
 
     def start(self) :
         """ Lancement de la stratégie avancer """
@@ -29,7 +28,7 @@ class StrategieAvancer():
             :returns: rien, on met juste à jour la distance parcourue par le robot
         """
         if not self.stop() and not self.rob.robot.estCrash:
-            self.parcouru = self.rob.distanceParcourue()
+            self.parcouru = self.rob.dist_parcourA
             self.logger.debug("distance de segment parcourue : %d", self.parcouru )
 
     def stop(self):
@@ -50,7 +49,6 @@ class StrategieTourner():
         self.rob = robAdapt
         self.angle = angle
         self.angle_parcouru = 0
-        self.rob.angleParcouru()
 
     def start(self) :
         self.logger.debug("Stratégie tourner lancée")
@@ -70,7 +68,7 @@ class StrategieTourner():
             :returns: ne retourne rien, on met juste a jour le paramètre distance parcourue
         """
         if not self.stop() and not self.rob.robot.estCrash:
-            self.angle_parcouru = self.rob.angleParcouru()
+            self.angle_parcouru = self.rob.angle_parcourA
             self.logger.debug("angle de rotation parcouru : %d",self.angle_parcouru)
 
 

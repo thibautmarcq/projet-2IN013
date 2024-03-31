@@ -2,6 +2,7 @@
 # ------------------------------  CONSTANTES DE TEMPS  ------------------------------
 TIC_SIMULATION = 1/2000
 TIC_CONTROLEUR = 1/(2**30)
+TIC_ADAPT = 1/(2**30)
 TIC_INTERFACE = 1000/60
 
 
