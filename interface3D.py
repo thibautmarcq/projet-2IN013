@@ -1,41 +1,45 @@
 # pip install panda3d==1.10.14
 
+from src.Robot.robot import Robot
+from src.constantes import LONGUEUR_ROBOT, LARGEUR_ROBOT, TAILLE_ROUE, DICO_COULEURS
+
 from direct.showbase.ShowBase import ShowBase
 from direct.task import Task 
-from direct.actor.Actor import Actor # modèles animés
-from direct.interval.IntervalGlobal import Sequence
 from panda3d.core import Point3, load_prc_file, GeomVertexFormat, GeomVertexData, Geom, GeomTriangles, GeomVertexWriter, Vec3, GeomNode
-import simplepbr
+
 from math import *
 
 load_prc_file('config.prc')
 
-class MyApp(ShowBase):
+class Interface3D(ShowBase):
 
     def __init__(self):
         ShowBase.__init__(self)
         
-        self.createRobot()
+        self.createRobot("moulinex3D", 4, 5, LARGEUR_ROBOT, LONGUEUR_ROBOT, 15, TAILLE_ROUE, "lightblue")
         
         # self.taskMgr.add(self.spinCameraTask, "spinCameraTask")
-        self.camera.lookAt(Point3(0, 0, 0))
+        self.taskMgr.add(self.updateCameraTask, "updateCameraTask")
+
     
-    def createRobot(self):
-        """TEMPORAIRE : Crée un cube dans l'interface
+    def createRobot(self, nom, x, y, width, length, height, rayonRoue, couleur):
+        """Crée un robot en 3D (rectangle)
         """
+        self.robot = Robot(nom, x, y, width, length, rayonRoue, couleur)
+        self.robot.height = height
         format = GeomVertexFormat.getV3()
         vdata = GeomVertexData("rectangle", format, Geom.UHDynamic) # UHDynamic car les sommets vont devoir être bougés quand le robot va bouger
         vertex = GeomVertexWriter(vdata, "vertex")
 
-        # Définition des sommets du rectangle | leur indice en comm
-        vertex.addData3f(0, 0, 0)  # 0
-        vertex.addData3f(1, 0, 0)  # 1
-        vertex.addData3f(1, 1, 0)  # 2
-        vertex.addData3f(0, 1, 0)  # 3
-        vertex.addData3f(0, 0, 1)  # 4
-        vertex.addData3f(1, 0, 1)  # 5
-        vertex.addData3f(1, 1, 1)  # 6
-        vertex.addData3f(0, 1, 1)  # 7
+        # Définition des sommets du robot | leur indice en comm (voir fiche thibo)
+        vertex.addData3f((self.robot.x)-(self.robot.width/2), (self.robot.y)-(self.robot.length/2), 0)  # 0 dèrrière bas gauche
+        vertex.addData3f((self.robot.x)+(self.robot.width/2), (self.robot.y)-(self.robot.length/2), 0)  # 1 derriere bas droit
+        vertex.addData3f((self.robot.x)+(self.robot.width/2), (self.robot.y)+(self.robot.length/2), 0)  # 2 devant bas droit
+        vertex.addData3f((self.robot.x)-(self.robot.width/2), (self.robot.y)+(self.robot.length/2), 0)  # 3 devant bas gauche
+        vertex.addData3f((self.robot.x)-(self.robot.width/2), (self.robot.y)-(self.robot.length/2), self.robot.height)  # 4 derriere haut gauche
+        vertex.addData3f((self.robot.x)+(self.robot.width/2), (self.robot.y)-(self.robot.length/2), self.robot.height)  # 5 derriere haut droit
+        vertex.addData3f((self.robot.x)+(self.robot.width/2), (self.robot.y)+(self.robot.length/2), self.robot.height)  # 6 devant haut droit
+        vertex.addData3f((self.robot.x)-(self.robot.width/2), (self.robot.y)+(self.robot.length/2), self.robot.height)  # 7 devant haut gauche
 
         # Création de l'objet (composition de triangles)
         rectangle = GeomTriangles(Geom.UHDynamic)
@@ -71,7 +75,9 @@ class MyApp(ShowBase):
         # Créer un nœud de scène parent pour le nœud de géométrie
         np = self.render.attachNewNode(node) # np est le noeud de l'objet (=un ptr) dans le moteur graphique
         np.setPos(0, 0, 0)  # Déplacer le triangle pour le voir
-        np.setColor(1, 0, 0, 1) # RGB + transparence | COULEUR
+        
+        self.robot.vectcouleur = DICO_COULEURS[self.robot.couleur]
+        np.setColor(self.robot.vectcouleur[0], self.robot.vectcouleur[1], self.robot.vectcouleur[2], self.robot.vectcouleur[3]) # RGB + transparence | COULEUR
         np.setTwoSided(True) # pour render toutes les faces
     
     
@@ -84,6 +90,14 @@ class MyApp(ShowBase):
         self.camera.setPos(20 * sin(angleRadians), -20 * cos(angleRadians), 3)
         self.camera.lookAt(Point3(0, 0, 0))
         return Task.cont
+    
+    # Task pour suivre le robot
+    def updateCameraTask(self, task):
+        # Set the camera position relative to the robot's position
+        self.camera.setPos(self.robot.x - 150, self.robot.y - 200, 150)
+        self.camera.lookAt(Point3(self.robot.x, self.robot.y, 0))
+        
+        return Task.cont  # Continue the task indefinitely
 
-app = MyApp()
+app = Interface3D()
 app.run()
