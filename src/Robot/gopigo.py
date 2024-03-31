@@ -15,8 +15,8 @@ class Adaptateur_reel:
         self.robot.MOTOR_LEFT_RIGHT = self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT # Port 3 correspond aux deux roues
 
         
-    # def initialise(self) :
-    #     self.robot.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
+    def initialise(self) :
+        self.robot.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
 
     def setVitAngDA(self, dps) :
         """
@@ -48,14 +48,12 @@ class Adaptateur_reel:
     
     def distance_parcourue(self) :
         ang_g, ang_d = self.robot.get_motor_position()
-        self.robot.offset_motor_encoder(self.robot.MOTOR_LEFT_RIGHT, 0)
         dist_g = (ang_g/360) * self.robot.WHEEL_CIRCUMFERENCE
         dist_d = (ang_d/360) * self.robot.WHEEL_CIRCUMFERENCE
         return (dist_g + dist_d)/2
     
     def angle_parcouru(self) :
         ang_g, ang_d = self.robot.get_motor_position()
-        self.robot.offset_motor_encoder(self.robot.MOTOR_LEFT_RIGHT, 0)
         dist_d = (ang_d/360) * pi * self.robot.WHEEL_CIRCUMFERENCE
         dist_g = (ang_g/360) * pi * self.robot.WHEEL_CIRCUMFERENCE
         return degrees((dist_g-dist_d)/self.robot.WHEEL_BASE_WIDTH)

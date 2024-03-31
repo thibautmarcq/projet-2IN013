@@ -29,7 +29,7 @@ class StrategieAvancer():
             :returns: rien, on met juste à jour la distance parcourue par le robot
         """
         if not self.stop() and not self.rob.robot.estCrash:
-            self.parcouru += self.rob.distance_parcourue()
+            self.parcouru = self.rob.distance_parcourue()
             self.logger.debug("distance de segment parcourue : %d", self.parcouru )
 
     def stop(self):
@@ -70,7 +70,7 @@ class StrategieTourner():
             :returns: ne retourne rien, on met juste a jour le paramètre distance parcourue
         """
         if not self.stop() and not self.rob.robot.estCrash:
-            self.angle_parcouru += self.rob.angle_parcouru()
+            self.angle_parcouru = self.rob.angle_parcouru()
             self.logger.debug("angle de rotation parcouru : %d",self.angle_parcouru)
 
 

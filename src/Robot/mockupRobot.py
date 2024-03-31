@@ -13,6 +13,8 @@ class mockupRobot():
     """
     def __init__(self):
         self.logger = getLogger(self.__class__.__name__)
+        self.dpsg = 0
+        self.dpsd = 0
         self.angled = 0
         self.angleg = 0
 
@@ -28,17 +30,22 @@ class mockupRobot():
     def set_motor_dps(self, port, dps):
         self.logger.debug("set_motor_dps %d %d", port, dps)
         if(port == 1 or port == 3):
-            self.angleg = dps
+            self.dpsg = dps
         if(port == 2 or port == 3):
-            self.angled = dps
+            self.dpsd = dps
 
     def get_motor_position(self):
+        self.angled += self.dpsd
+        self.angleg += self.dpsg
         self.logger.debug("get_motor_position : %d %d", self.angleg, self.angled)
         return (self.angleg, self.angled)
 
 
     def offset_motor_encoder(self, port, offset):
-        pass
+        if(port == 1 or port == 3):
+            self.angleg = offset
+        if(port == 2 or port == 3):
+            self.angled = offset
         
 
     def get_distance(self):
@@ -109,14 +116,12 @@ class Adaptateur_reel(Adaptateur) :
 
     def distance_parcourue(self) :
         ang_g, ang_d = self.robot.get_motor_position()
-        self.robot.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
         dist_g = (ang_g/360) * WHEEL_CIRCUMFERENCE
         dist_d = (ang_d/360) * WHEEL_CIRCUMFERENCE
         return (dist_g + dist_d)/2
 
     def angle_parcouru(self) :
         ang_g, ang_d = self.robot.get_motor_position()
-        self.robot.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
         dist_d = (ang_d/360) * pi * WHEEL_CIRCUMFERENCE
         dist_g = (ang_g/360) * pi * WHEEL_CIRCUMFERENCE
         return degrees((dist_g-dist_d)/WHEEL_BASE_WIDTH)
