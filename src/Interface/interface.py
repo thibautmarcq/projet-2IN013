@@ -2,7 +2,7 @@ from tkinter import LEFT, Canvas, Label, LabelFrame, PhotoImage, Tk
 
 from ..outil import rotationVecteur
 from src.constantes import TIC_INTERFACE
-from src.Controleur.Strategies import (StrategieAvancer, StrategieBoucle,
+from src.Controleur.strategies import (StrategieAvancer, StrategieBoucle,
                                        StrategieCond, StrategieSeq,
                                        StrategieTourner, distSup,
                                        setStrategieArretMur, setStrategieCarre)
