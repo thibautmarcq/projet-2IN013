@@ -1,6 +1,6 @@
 from tkinter import LEFT, Canvas, Label, LabelFrame, PhotoImage, Tk
 
-from ..outil import rotationVecteur
+from src.outil import rotationVecteur
 from src.constantes import TIC_INTERFACE
 from src.Controleur.strategies import (StrategieAvancer, StrategieBoucle,
                                        StrategieCond, StrategieSeq,
