@@ -29,7 +29,7 @@ SCALE_ENV_1 = 1
 #Dico pour associer un code RGBA à la couleur str d'un robot
 DICO_COULEURS = {
     "red": (1, 0, 0, 1),
-    "green": (0, 1, 0, 1),
+    "green": (135/253, 253/253, 150/253, 0.8),
     "blue": (0, 0, 1, 1),
     "white": (1, 1, 1, 1),
     "black": (0, 0, 0, 1),
