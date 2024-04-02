@@ -21,7 +21,7 @@ basicConfig(filename='logs.log',
 
 def loopEnv(env):
     while True:
-        env.refresh_env()
+        env.refreshEnvironnement()
         sleep(TIC_SIMULATION)
 
 env = Environnement(LARGEUR_ENV, LONGUEUR_ENV, SCALE_ENV_1) # Initialisation de l'env
@@ -30,19 +30,19 @@ T_env.start()
 env.addObstacle('J',LIST_PTS_OBS_TRIANGLE)
 env.addObstacle('P',LIST_PTS_OBS_CARRE)
 env.addObstacle('C',LIST_PTS_OBS_COEUR)
-#env.print_matrix()
+#env.printMatrix()
 
 #On crée un controleur
 controleur = Controler()
 
 # Ajoute le premier robot
 robotA1 = Adaptateur_simule("Bob", 250, 250, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE, env, "lightgreen")
-env.addRobot(robotA1)
+env.setRobot(robotA1)
 
 
 # ajoute le deuxieme robot pour test
 robotA2 = Adaptateur_simule("Stuart", 400, 250, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE, env, "red")
-env.addRobot(robotA2)
+env.setRobot(robotA2)
 
 # Ajoute un robot réel pour le tester
 robot3 = Adaptateur_reel()

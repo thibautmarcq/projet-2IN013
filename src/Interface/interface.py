@@ -76,7 +76,7 @@ class Interface:
 		self.canv.grid(row=3, column=0)
 
 
-	def create_robot_rect(self, robot):
+	def createRobotRect(self, robot):
 		""" Crée le polygone qui représente notre robot sur l'interface graphique
 			:param robot: le robot qu'on veut représenter sur l'interface graphique
 			:returns: ne retourne rien
@@ -87,7 +87,7 @@ class Interface:
 						robot.x-(robot.width/2), robot.y+(robot.length/2)]
 		robot.rect = self.canv.create_polygon(robot.points, fill=(robot.couleur))
 
-	def create_obs(self):
+	def createObs(self):
 		""" Crée le polygone qui représente notre obstacle sur l'interface graphique
 			:param env: le robot qu'on veut représenter sur l'interface graphique
 			:returns: ne retourne rien
@@ -95,7 +95,7 @@ class Interface:
 		for obs in self.env.listeObs:
 			self.canv.create_polygon(obs.lstPoints, fill=('grey'))
 		
-	def choisir_strategie(self, strat, distance) :
+	def choisirStrategie(self, strat, distance) :
 		""" Choisis la strategie à lancer
 			:param strat: 1 pour la strategie carré, 2 pour la strategie arret mur, 3 pour la conditionnelle mur, 4 pour la boucle carré
 			:param distance: la taille du coté du carré ou la distance d'arret du robot pour la strat arretmur 
@@ -127,7 +127,7 @@ class Interface:
 		
 
 
-	def update_stats_affichage(self):
+	def updateStatsAffichage(self):
 		""" Met à jour l'affichage des coordonnées dans l'affichage (implémenter chaque avancement)
 			:returns: ne retourne rien, fait juste l'affichage à jour des coordonnées
 		"""
@@ -142,7 +142,7 @@ class Interface:
 		# Update label distance
 		self.lab_distance.config(text=("Obstacle dans : "+str(round(self.env.listeRobots[self.env.robotSelect].capteurDistanceA(), 2))))
 
-	def rotate_robot_rect(self, canvas, robot, angle):
+	def rotateRobotRect(self, canvas, robot, angle):
 
 		""" Fait une rotation du rectangle qui représente le robot
 			:param canvas: le canva dans lequel on est placé
@@ -158,7 +158,7 @@ class Interface:
 		canvas.coords(robot.rect, robot.points)
 
 
-	def refresh_position_robot_visuel(self, canvas, robot): 
+	def refreshPositionRobotVisuel(self, canvas, robot): 
 
 		""" Update la position du visuel du robot
 			:param canvas: la fenêtre visuelle sur laquelle on est et qu'on veut mettre à jour
@@ -181,21 +181,21 @@ class Interface:
 					)
 		canvas.coords(robot.robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
 
-	def dessine_point(self, pos, couleur) :
+	def dessinePoint(self, pos, couleur) :
 		x, y = pos
 		self.canv.create_line(x-1, y-1, x+1, y+1, fill=couleur)
 
-	def tic_tac(self):
-		self.update_stats_affichage()
+	def ticTac(self):
+		self.updateStatsAffichage()
 		for adapt in self.env.listeRobots:
 			robot = adapt.robot # !!
-			self.refresh_position_robot_visuel(self.canv, robot)
+			self.refreshPositionRobotVisuel(self.canv, robot)
 			if robot.draw and not robot.estCrash:
-				self.dessine_point((robot.x, robot.y),  "black") #self.env.listeRobots[self.env.robotSelect].couleur)
+				self.dessinePoint((robot.x, robot.y),  "black") #self.env.listeRobots[self.env.robotSelect].couleur)
 				if not robot.estSousControle:
 					robot.draw = False
 					
-		self.root.after(int(TIC_INTERFACE), self.tic_tac)
+		self.root.after(int(TIC_INTERFACE), self.ticTac)
 
 
 	def mainloop(self):
@@ -204,11 +204,11 @@ class Interface:
 		"""
 		for robA in self.env.listeRobots:
 			rob = robA.robot
-			self.create_robot_rect(rob)
+			self.createRobotRect(rob)
 			rob.draw = False
 			rob.robot_vec = self.canv.create_line(rob.x, rob.y, rob.x+(75*rob.direction[0]), rob.y+(75*rob.direction[1]))
 
-		self.create_obs()
+		self.createObs()
 	
 
 		# ---------------------------
@@ -236,10 +236,10 @@ class Interface:
 		self.root.bind('d', lambda event: self.env.listeRobots[self.env.robotSelect].robot.changeVitAngD(-1)) # - droit
 
 
-		self.root.bind('c', lambda event: self.choisir_strategie(1, 120)) # Fait tracer le carré au robot
-		self.root.bind('m', lambda event: self.choisir_strategie(2, 20)) # fait la stratégie avancer jusqu'au mur
-		self.root.bind('p', lambda event: self.choisir_strategie(3, 15)) # fait la stratégie avancer jusqu'au mur - 2ème méthode (stratégie conditionnelle)
-		self.root.bind('o', lambda event: self.choisir_strategie(4, 120)) # fait la stratégie carré - 2ème méthode  (stratégie boucle)
+		self.root.bind('c', lambda event: self.choisirStrategie(1, 120)) # Fait tracer le carré au robot
+		self.root.bind('m', lambda event: self.choisirStrategie(2, 20)) # fait la stratégie avancer jusqu'au mur
+		self.root.bind('p', lambda event: self.choisirStrategie(3, 15)) # fait la stratégie avancer jusqu'au mur - 2ème méthode (stratégie conditionnelle)
+		self.root.bind('o', lambda event: self.choisirStrategie(4, 120)) # fait la stratégie carré - 2ème méthode  (stratégie boucle)
 
 		self.root.bind("x", lambda event: self.env.addRobotSelect(1))
 		self.root.bind("w", lambda event: self.env.addRobotSelect(-1))
@@ -254,6 +254,6 @@ class Interface:
 		self.lab_vitesseD.grid(row=2, column=0, padx=5, pady=2)
 
 		# Lancement du tic tac
-		self.tic_tac()
+		self.ticTac()
 		# Boucle de la fenètre principale
 		self.root.mainloop()

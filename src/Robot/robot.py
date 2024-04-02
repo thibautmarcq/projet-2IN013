@@ -40,7 +40,7 @@ class Robot :
 		self.estSousControle = False 	# permet de savoir si notre robot est controlé par le controleur
 		self.estCrash = False  			# Nous permet de savoir si le robot s'est crash et ne pas refresh le robot
 
-	def refresh(self, duree):
+	def refreshRobot(self, duree):
 
 		""" Méthode de update du robot, qui va modifier les coordonnées du robot et son vecteur directeur en fonction des vitesses angulaires des roues et du temps qui s'est écoulé depuis la dernière update.
 			:param duree: le temps qui s'est écoulé depuis la dernière mise à jour du robot
