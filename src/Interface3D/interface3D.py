@@ -1,9 +1,7 @@
 # pip install panda3d==1.10.14
 
-from src.Robot.robot import Adaptateur_simule
-from src.constantes import (LONGUEUR_ROBOT, LARGEUR_ROBOT, TAILLE_ROUE, HAUTEUR_ROBOT, 
-							DICO_COULEURS, LARGEUR_ENV, LONGUEUR_ENV, SCALE_ENV_1, TIC_SIMULATION)
-from src.environnement import Environnement
+from ..constantes import DICO_COULEURS, TIC_SIMULATION
+from ..environnement import Environnement
 
 from direct.showbase.ShowBase import ShowBase
 from direct.task import Task 
@@ -14,8 +12,9 @@ from math import sin, cos, pi
 from time import sleep
 from threading import Thread
 from sys import exit
+from time import sleep
 
-load_prc_file('src/Interface3D/config.prc')
+load_prc_file('src/Interface3D/source/config.prc')
 
 class Interface3D(ShowBase):
 
@@ -30,6 +29,9 @@ class Interface3D(ShowBase):
 		# Bind changement de robot
 		self.accept('x', self.env.addRobotSelect, [1])
 		self.accept('w', self.env.addRobotSelect, [-1])
+
+		self.son = self.loader.loadSfx("src/Interface3D/source/secret.mp3")
+		self.secret = False
 
 		# self.taskMgr.add(self.spinCameraTask, "spinCameraTask")
 		self.taskMgr.add(self.updateCameraTask, "updateCameraTask")
@@ -52,6 +54,7 @@ class Interface3D(ShowBase):
 		self.accept('d', self.env.listeRobots[self.env.robotSelect].robot.changeVitAngD, [1])
 		self.accept('x', self.env.addRobotSelect, [1])
 		self.accept('w', self.env.addRobotSelect, [-1])
+		self.accept('shift-m', self.mystere)
 
 
 	def createAllRobots(self):
@@ -154,20 +157,20 @@ class Interface3D(ShowBase):
 		""" Crée le visuel de l'environnement dans l'interface
 		:returns: rien, crée simplement l'environnement en 3D 
 		"""
-		self.env.format = GeomVertexFormat.getV3t2()  # Use a format that includes texture coordinates
+		self.env.format = GeomVertexFormat.getV3t2() 
 		self.env.vdata = GeomVertexData("envi", self.env.format, Geom.UHStatic)
 		self.env.vertex = GeomVertexWriter(self.env.vdata, "vertex")
-		self.env.texcoord = GeomVertexWriter(self.env.vdata, "texcoord")  # Create a writer for texture coordinates
+		self.env.texcoord = GeomVertexWriter(self.env.vdata, "texcoord")
 
 		# Définition des sommets et des coordonnées de texture
 		self.env.vertex.addData3f(0, 0, -1)  # 0 bas gauche
-		self.env.texcoord.addData2f(0, 0)  # Texture coordinate for vertex 0
+		self.env.texcoord.addData2f(0, 0) 
 		self.env.vertex.addData3f(self.env.length, 0, -1)  # 1 bas droite
-		self.env.texcoord.addData2f(1, 0)  # Texture coordinate for vertex 1
+		self.env.texcoord.addData2f(1, 0) 
 		self.env.vertex.addData3f(0, self.env.width, -1)  # 2 haut gauche
-		self.env.texcoord.addData2f(0, 1)  # Texture coordinate for vertex 2
+		self.env.texcoord.addData2f(0, 1)
 		self.env.vertex.addData3f(self.env.length, self.env.width, -1)  # 3 haut droit
-		self.env.texcoord.addData2f(1, 1)  # Texture coordinate for vertex 3
+		self.env.texcoord.addData2f(1, 1)
 		# Création de l'objet + ajout du plan
 		self.env.plan = GeomTriangles(Geom.UHStatic)
 		self.env.plan.addVertices(0, 1, 2)
@@ -182,7 +185,7 @@ class Interface3D(ShowBase):
 		self.env.np.setPos(0,0,0)
 		self.env.np.setTwoSided(True)
 		texture = Texture()
-		texture.read("src/Interface3D/envi.png")
+		texture.read("src/Interface3D/source/envi.png")
 		self.env.np.setTexture(texture)
 		
 	def ticTac(self):
@@ -192,7 +195,7 @@ class Interface3D(ShowBase):
 				self.updateRobot(adapt)
 			self.binds()
 			sleep(TIC_SIMULATION)
-	
+
 	# Task pour faire rotate la camera
 	def spinCameraTask(self, task):
 		""" Effectue une rotation de la caméra autour du robot pendant qu'il avance """
@@ -205,7 +208,7 @@ class Interface3D(ShowBase):
 		self.camera.setPos(camera_x, camera_y, 200) 
 		self.camera.lookAt(Point3(robot.x, robot.y, 0))
 		return Task.cont
-	
+
 	# Task pour suivre le robot
 	def updateCameraTask(self, task):
 		""" Set la caméra derrière le robot et le suit pendant qu'il avance """
@@ -224,23 +227,17 @@ class Interface3D(ShowBase):
 			for adapt in self.env.listeRobots:
 				# print('oui')
 				self.updateRobot(adapt)
-				self.updateCameraTask(adapt)  # Add call to updateCameraTask
+				self.updateCameraTask(adapt)
 			self.binds()
 			sleep(TIC_SIMULATION)
-
-# ----- MAIN -----
-
-envi = Environnement(LARGEUR_ENV+500, LONGUEUR_ENV+500, SCALE_ENV_1)
-robot1 = Adaptateur_simule("moulinex3D", 25, 46, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE, envi, "lightblue")
-envi.addRobot(robot1)
-robot2 = Adaptateur_simule("robocar3D", 250, 100, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE, envi, "green")
-envi.addRobot(robot2)
-app = Interface3D(envi)
-def loopEnv(env):
-    while True:
-        env.refresh_env()
-        sleep(TIC_SIMULATION)
-T_env = Thread(target=loopEnv, args=[envi], daemon=True)
-T_env.start()
-# envi.print_matrix()
-app.run()
+	
+	def mystere(self):
+		""" Méthode secrète """
+		if self.secret==False:
+			self.son.play()
+			self.secret=True
+			print("play")
+		else :
+			self.son.stop()
+			self.secret=False
+			print("stop")

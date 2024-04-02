@@ -9,3 +9,5 @@ logs.log
 .DS_Store
 src/.DS_Store
 results_camera.txt
+src/Interface3D/__pycache__
+__pycache__/demo.cpython-310.pyc
