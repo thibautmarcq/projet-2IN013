@@ -19,6 +19,9 @@ controleur = Controler()
 reel = Adaptateur_reel()
 
 def menu() :
+    """
+    Fonction qui affiche un menu pour choisir une action
+    """
     global RUNNING
     print("0 - Quitter")
     print("1 - Tracer un carré")
