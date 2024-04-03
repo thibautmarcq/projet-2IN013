@@ -8,11 +8,11 @@ from time import sleep
 from threading import Thread
 
 
-envi = Environnement(LARGEUR_ENV+500, LONGUEUR_ENV+500, SCALE_ENV_1)
+envi = Environnement(LARGEUR_ENV, LONGUEUR_ENV, SCALE_ENV_1)
 
-robot1 = Adaptateur_simule("moulinex3D", 25, 46, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE, envi, "lightblue")
+robot1 = Adaptateur_simule("moulinex3D", 400, 400, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE, envi, "lightblue")
 envi.setRobot(robot1)
-robot2 = Adaptateur_simule("robocar3D", 250, 100, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE, envi, "green")
+robot2 = Adaptateur_simule("robocar3D", 250, 300, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE, envi, "green")
 envi.setRobot(robot2)
 
 interface = Interface3D(envi)

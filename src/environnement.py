@@ -42,7 +42,7 @@ class Environnement:
         self.matrice[:, -1] = 2
         self.logger.info("Matrice initialisée")
 
-    def setRobotSelect(self, n):
+    def addRobotSelect(self, n):
         """
         Change l'indice du robot sélectionné (lui ajoute n)
         :returns: rien, ajoute n à la valeur de sélection du robot
