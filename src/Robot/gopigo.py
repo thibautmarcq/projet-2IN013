@@ -1,7 +1,11 @@
-from robot2IN013 import Robot2IN013 # Import de l'API, supposée être sur le robot ?
 from math import degrees, pi
-from .adapt import Adaptateur
 from threading import Thread
+
+from robot2IN013 import \
+    Robot2IN013  # Import de l'API, supposée être sur le robot ?
+
+from .adapt import Adaptateur
+
 
 class Adaptateur_reel(Adaptateur):
     """
@@ -24,6 +28,9 @@ class Adaptateur_reel(Adaptateur):
 	
         
     def initialise(self) :
+        """
+        Méthode qui va initialiser les moteurs du robot et les variables de distance et d'angle parcourus à 0
+        """
         self.robot.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
         self.dist_parcourA = 0
         self.angle_parcourA = 0
@@ -57,12 +64,19 @@ class Adaptateur_reel(Adaptateur):
         return self.robot.get_distance()
     
     def distanceParcourue(self) :
+        """ La distance parcourue entre le point précédent et le point actuel
+			:returns: la distance parcourue depuis la dernière visite à cette fonction
+		"""
         ang_g, ang_d = self.robot.get_motor_position()
         dist_g = (ang_g/360) * self.robot.WHEEL_CIRCUMFERENCE
         dist_d = (ang_d/360) * self.robot.WHEEL_CIRCUMFERENCE
         return (dist_g + dist_d)/2
     
     def angleParcouru(self) :
+        """
+        Calcule l'angle parcouru par le robot
+        :returns: l'angle parcouru par le robot
+        """
         ang_g, ang_d = self.robot.get_motor_position()
         dist_d = (ang_d/360) * pi * self.robot.WHEEL_CIRCUMFERENCE
         dist_g = (ang_g/360) * pi * self.robot.WHEEL_CIRCUMFERENCE

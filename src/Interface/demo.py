@@ -2,10 +2,11 @@ from logging import DEBUG, basicConfig
 from threading import Thread
 from time import sleep
 
-from src.constantes import (LARGEUR_ENV, LARGEUR_ROBOT, LIST_PTS_OBS_CARRE,
-                            LIST_PTS_OBS_COEUR, LIST_PTS_OBS_TRIANGLE,
-                            LONGUEUR_ENV, LONGUEUR_ROBOT, SCALE_ENV_1,
-                            TAILLE_ROUE, TIC_SIMULATION, HAUTEUR_ROBOT)
+from src.constantes import (HAUTEUR_ROBOT, LARGEUR_ENV, LARGEUR_ROBOT,
+                            LIST_PTS_OBS_CARRE, LIST_PTS_OBS_COEUR,
+                            LIST_PTS_OBS_TRIANGLE, LONGUEUR_ENV,
+                            LONGUEUR_ROBOT, SCALE_ENV_1, TAILLE_ROUE,
+                            TIC_SIMULATION)
 from src.Controleur.controleur import Controler
 from src.Controleur.strategies import setStrategieCarre
 from src.environnement import Environnement
@@ -51,6 +52,9 @@ T_env = Thread(target=loopEnv, args=[env], daemon=True)
 T_env.start()
 
 def menu(cmd):
+    """
+    Fonction qui affiche un menu pour choisir une action
+    """
     if cmd == "1":
         run = Interface(env, controleur)
         run.mainloop()
