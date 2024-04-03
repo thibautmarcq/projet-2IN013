@@ -25,7 +25,7 @@ class Controler:
                     self.strat_en_cour.step()
                 else:
                     self.strategie = 0
-                    self.strat_en_cour.rob.setVitAngA(0)
+                    self.strat_en_cour.robA.setVitAngA(0)
                     self.strat_en_cour = None
             sleep(TIC_CONTROLEUR)
 

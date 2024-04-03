@@ -1,7 +1,7 @@
 
 Sur l'organisation du code :
 
-- Mettre les paramètres du robot dans le fichier de constantes et non pas dans le fichier du robot, comme ça on peut en créer un nouveau
+- Mettre les paramètres du robot dans le fichier de constantes et non pas dans le fichier de la simulation, comme ça on peut en créer un nouveau
 - le loop env a définir en dehors du fichier de environnement
 - ne laisser aucun import *, à la place on veut des import explicites quitte a les multiplier -> solution : le init.py ? par exemple 
 - faire une factory pour créer un environnement par défaut : on veut juste quelques lignes dans la simulation, pas autant qu'on en a maintenant
@@ -14,7 +14,7 @@ Sur le code :
 - ne pas import Robot2IN013 dans gopigo
 - ne pas définir les constantes dans gopigo
 - changer le nom angle_parcouru() en get_angle_parcouru()
-- mettre des acuumulateurs dans les adaptateurs
+- mettre des accumulateurs dans les adaptateurs
 - le plus possible, rendre le code d'une fonction indépendant du fonctionnement d'une autre, ca facilite tout
 
 

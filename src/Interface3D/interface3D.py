@@ -96,10 +96,10 @@ class Interface3D(ShowBase):
 		# Top
 		robot.rectangle.addVertices(4, 5, 6)
 		robot.rectangle.addVertices(6, 7, 4)
-		# Front
+		# Back
 		robot.rectangle.addVertices(0, 1, 5)
 		robot.rectangle.addVertices(5, 4, 0)
-		# Back
+		# Front
 		robot.rectangle.addVertices(3, 2, 6)
 		robot.rectangle.addVertices(6, 7, 3)
 		# Left

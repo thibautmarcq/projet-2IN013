@@ -89,7 +89,6 @@ class Interface:
 
 	def create_obs(self):
 		""" Crée le polygone qui représente notre obstacle sur l'interface graphique
-			:param env: le robot qu'on veut représenter sur l'interface graphique
 			:returns: ne retourne rien
 		"""
 		for obs in self.env.listeObs:
