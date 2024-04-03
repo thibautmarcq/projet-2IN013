@@ -1,8 +1,5 @@
 from math import degrees, pi
-from threading import Thread
-
-from robot2IN013 import \
-    Robot2IN013  # Import de l'API, supposée être sur le robot ?
+from threading import Thread  
 
 from .adapt import Adaptateur
 
@@ -11,14 +8,14 @@ class Adaptateur_reel(Adaptateur):
     """
     Classe d'adaptation du robot réel qui hérite de la classe mockupRobot
     """
-    def __init__(self) :
+    def __init__(self,rob) :
         """
         Constructeur de la classe Adaptateur qui va créer un robot réel
         """
-        self.robot = Robot2IN013()
+        self.robot = rob
         self.robot.estCrash = False
         self.robot.estSousControle = False
-        self.robot.MOTOR_LEFT_RIGHT = self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT # Port 3 correspond aux deux roues
+        self.MOTOR_LEFT_RIGHT = self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT # Port 3 correspond aux deux roues
         
         self.dist_parcourA = 0
         self.angle_parcourA = 0

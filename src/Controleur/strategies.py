@@ -96,7 +96,7 @@ class StrategieArretMur():
         """ Réinitialisation de la vitesse du robot et de la distance entre le robot et le mur/obstacle
         """
         self.robA.setVitAngA(4)
-        self.distrob = self.rob.capteurDistanceA()
+        self.distrob = self.robA.capteurDistanceA()
         self.robA.initialise()
         self.logger.debug("Stratégie ArretMur lancée")
 

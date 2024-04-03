@@ -11,8 +11,9 @@ from src.Controleur.controleur import Controler
 from src.Controleur.strategies import setStrategieCarre
 from src.environnement import Environnement
 from src.Interface.interface import Interface
-from src.Robot.mockupRobot import Adaptateur_reel
+from src.Robot.gopigo import Adaptateur_reel
 from src.Robot.robot import Adaptateur_simule
+from src.Robot.mockupRobot import MockupRobot
 
 basicConfig(filename='logs.log', 
                     level=DEBUG, 
@@ -45,8 +46,11 @@ env.setRobot(robotA1)
 robotA2 = Adaptateur_simule("Stuart", 400, 250, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE, env, "red")
 env.setRobot(robotA2)
 
-# Ajoute un robot réel pour le tester
-robot3 = Adaptateur_reel()
+# Crée le mockup robot
+robMock = MockupRobot()
+
+# Adapte le robot mockup pour le tester
+robot3 = Adaptateur_reel(robMock)
 
 T_env = Thread(target=loopEnv, args=[env], daemon=True)
 T_env.start()

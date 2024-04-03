@@ -4,16 +4,19 @@ from threading import Thread
 
 from .adapt import Adaptateur
 
-WHEEL_BASE_WIDTH         = 117  # distance (mm) de la roue gauche a la roue droite.
-WHEEL_DIAMETER           = 66.5 #  diametre de la roue (mm)
-WHEEL_BASE_CIRCUMFERENCE = WHEEL_BASE_WIDTH * pi # perimetre du cercle de rotation (mm)
-WHEEL_CIRCUMFERENCE      = WHEEL_DIAMETER   * pi # perimetre de la roue (mm)
 
-class mockupRobot():
+class MockupRobot():
     """
     Classe de simulation du robot réel
     """
     def __init__(self):
+
+        self.WHEEL_BASE_WIDTH         = 117  # distance (mm) de la roue gauche a la roue droite.
+        self.WHEEL_DIAMETER           = 66.5 #  diametre de la roue (mm)
+        self.WHEEL_BASE_CIRCUMFERENCE = self.WHEEL_BASE_WIDTH * pi # perimetre du cercle de rotation (mm)
+        self.WHEEL_CIRCUMFERENCE      = self.WHEEL_DIAMETER   * pi # perimetre de la roue (mm)
+        self.MOTOR_LEFT = 1     # Port 1 correspond à la roue gauche
+        self.MOTOR_RIGHT = 2    # Port 2 correspond à la roue droite
         self.logger = getLogger(self.__class__.__name__)
         self.dpsg = 0
         self.dpsd = 0
@@ -68,80 +71,3 @@ class mockupRobot():
 
     def __getattr__(self,attr):
         pass
-
-class Adaptateur_reel(Adaptateur) :
-    """
-    Classe d'adaptation du robot réel qui hérite de la classe mockupRobot
-    """
-    def __init__(self) :
-        """
-        Constructeur de la classe Adaptateur qui va créer un objet de la classe mockupRobot
-        """
-        self.robot = mockupRobot()
-        self.MOTOR_LEFT = 1     # Port 1 correspond à la roue gauche
-        self.MOTOR_RIGHT = 2    # Port 2 correspond à la roue droite
-        self.MOTOR_LEFT_RIGHT = self.MOTOR_LEFT + self.MOTOR_RIGHT # Port 3 correspond aux deux roues
-        
-        self.robot.estCrash = False
-        self.robot.estSousControle = False
-        
-        self.dist_parcourA = 0
-        self.angle_parcourA = 0
-        self.run = True
-        t1 = Thread(target=self.updateDistAng, daemon=True)
-        t1.start()
-        
-    def initialise(self) :
-        """
-        Méthode qui va initialiser les moteurs du robot et les variables de distance et d'angle parcourus à 0
-        """
-        self.robot.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
-        self.dist_parcourA = 0
-        self.angle_parcourA = 0
-
-    def setVitAngDA(self, dps) :
-        """
-        Setter de la roue droite, elle va donner la vitesse angulaire dps à la roue droite
-        :param dps: vitesse angulaire que l'on veut donner à la roue droite
-        """
-        self.robot.set_motor_dps(self.MOTOR_RIGHT, dps)
-
-    def setVitAngGA(self, dps) :
-        """
-        Setter de la roue gauche, elle va donner la vitesse angulaire dps à la roue gauche
-        :param dps: vitesse angulaire que l'on veut donner à la roue gauche
-        """
-        self.robot.set_motor_dps(self.MOTOR_LEFT, dps)
-
-    def setVitAngA(self, dps) :
-        """
-        Setter qui va donner aux roues gauche et droite une certaine vitesse angulaire dps
-        :param dps: la vitesse angulaire qu'on veut donner aux roues droite et gauche
-        """
-        self.robot.set_motor_dps(self.MOTOR_RIGHT + self.MOTOR_LEFT, dps)
-
-    def capteurDistanceA(self) :
-        """
-        Getter qui renvoie la distance mesurée par le capteur de distance
-        :returns: la distance mesurée par le capteur de distance
-        """
-        return self.robot.get_distance()
-
-    def distanceParcourue(self) :
-        """ La distance parcourue entre le point précédent et le point actuel
-			:returns: la distance parcourue depuis la dernière visite à cette fonction
-		"""
-        ang_g, ang_d = self.robot.get_motor_position()
-        dist_g = (ang_g/360) * WHEEL_CIRCUMFERENCE
-        dist_d = (ang_d/360) * WHEEL_CIRCUMFERENCE
-        return (dist_g + dist_d)/2
-
-    def angleParcouru(self) :
-        """
-        Calcule l'angle parcouru par le robot
-        :returns: l'angle parcouru par le robot
-        """
-        ang_g, ang_d = self.robot.get_motor_position()
-        dist_d = (ang_d/360) * pi * WHEEL_CIRCUMFERENCE
-        dist_g = (ang_g/360) * pi * WHEEL_CIRCUMFERENCE
-        return degrees((dist_g-dist_d)/WHEEL_BASE_WIDTH)
