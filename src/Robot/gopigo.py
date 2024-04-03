@@ -37,21 +37,21 @@ class Adaptateur_reel(Adaptateur):
         Setter de la roue droite, elle va donner la vitesse angulaire dps à la roue droite
         :param dps: vitesse angulaire que l'on veut donner à la roue droite
         """
-        self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, dps)
+        self.robot.set_motor_dps(self.robot.MOTOR_RIGHT, dps*100)
 
     def setVitAngGA(self, dps) :
         """
         Setter de la roue gauche, elle va donner la vitesse angulaire dps à la roue gauche
         :param dps: vitesse angulaire que l'on veut donner à la roue gauche
         """
-        self.robot.set_motor_dps(self.robot.MOTOR_LEFT, dps)
+        self.robot.set_motor_dps(self.robot.MOTOR_LEFT, dps*100)
 
     def setVitAngA(self, dps) :
         """
         Setter qui va donner aux roues gauche et droite une certaine vitesse angulaire dps
         :param dps: la vitesse angulaire qu'on veut donner aux roues droite et gauche
         """
-        self.robot.set_motor_dps(self.robot.MOTOR_LEFT_RIGHT, dps)
+        self.robot.set_motor_dps(self.MOTOR_LEFT_RIGHT, dps*100)
 
     def capteurDistanceA(self) :
         """

@@ -33,15 +33,15 @@ class MockupRobot():
         self.logger.debug("get_images")
 
     def set_motor_dps(self, port, dps):
-        self.logger.debug("set_motor_dps %d %d", port, dps)
+        # self.logger.debug("set_motor_dps %d %d", port, dps)
         if(port == 1 or port == 3):
             self.dpsg = dps
         if(port == 2 or port == 3):
             self.dpsd = dps
 
     def get_motor_position(self):
-        self.angled += self.dpsd
-        self.angleg += self.dpsg
+        self.angled += self.dpsd/2
+        self.angleg += self.dpsg/2
         # self.logger.debug("get_motor_position : %d %d", self.angleg, self.angled)
         return (self.angleg, self.angled)
 
@@ -55,7 +55,7 @@ class MockupRobot():
 
     def get_distance(self):
         self.logger.debug("get_distance")
-        return 15
+        return 15 # self.logger.debug("set_motor_dps %d %d", port, dps)
 
     def servo_rotate(self,position):
         self.logger.debug("servo_rotate = %d", position)

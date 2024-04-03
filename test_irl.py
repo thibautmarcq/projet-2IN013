@@ -1,6 +1,8 @@
 # Main à lancer sur le robot pour exécuter des stratégies/actions
 
 from logging import DEBUG, basicConfig
+from robot2IN013 import Robot2IN013
+
 
 from src.Controleur.controleur import Controler
 from src.Controleur.strategies import setStrategieArretMur, setStrategieCarre, StrategieAvancer, StrategieTourner
@@ -14,9 +16,9 @@ basicConfig(filename='logs.log',
 
 #On crée un controleur
 controleur = Controler()
-
+rob = Robot2IN013()
 # Ajoute le premier robot
-reel = Adaptateur_reel()
+reel = Adaptateur_reel(rob)
 
 def menu() :
     global RUNNING
