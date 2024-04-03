@@ -79,12 +79,12 @@ class Environnement:
                     pass
         self.logger.info("Obstacle %s ajouté", nom)
 
-    def print_matrix(self):
+    def printMatrix(self):
         for row in self.matrice:
             print(' '.join(str(item) for item in row))
         self.logger.debug("Affichage de la matrice")
 
-    def addRobot(self, robA):
+    def setRobot(self, robA):
         """ Ajoute un robot à notre environnement
             :param robA: instance du robot (adapté!!)
             :returns: rien, on ajoute juste un robot à la liste des listeRobots de l'environnement
@@ -92,7 +92,7 @@ class Environnement:
         self.listeRobots.append(robA)
         self.logger.info("Robot %s initialisé", robA.robot.nom)
  
-    def refresh_env(self) :
+    def refreshEnvironnement(self) :
         """ Pour rafraichir l'environnement et faire updater tous les listeRobots qui le composent.
             :returns: ne retourne rien, fait juste la mise à jour de tous les éléments
         """
@@ -104,7 +104,7 @@ class Environnement:
         for robA in self.listeRobots : # on fait avancer tous les listeRobots de l'environnement
             if (not(robA.robot.estCrash) and not(self.collision(robA.robot))): # Si le robot est opérationnel et qu'il n'y a pas collision 
                 duree = temps - self.last_refresh
-                robA.robot.refresh(duree)
+                robA.robot.refreshRobot(duree)
 
             elif not robA.robot.estCrash:
                 robA.robot.estCrash = True

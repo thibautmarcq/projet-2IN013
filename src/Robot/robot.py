@@ -2,8 +2,9 @@ from logging import getLogger
 from math import cos, pi, sin, sqrt
 from threading import Thread
 
-from .adapt import Adaptateur
 from src.outil import distance, getAngleFromVect, normaliserVecteur
+
+from .adapt import Adaptateur
 
 
 class Robot :
@@ -40,7 +41,7 @@ class Robot :
 		self.estSousControle = False 	# permet de savoir si notre robot est controlé par le controleur
 		self.estCrash = False  			# Nous permet de savoir si le robot s'est crash et ne pas refresh le robot
 
-	def refresh(self, duree):
+	def refreshRobot(self, duree):
 
 		""" Méthode de update du robot, qui va modifier les coordonnées du robot et son vecteur directeur en fonction des vitesses angulaires des roues et du temps qui s'est écoulé depuis la dernière update.
 			:param duree: le temps qui s'est écoulé depuis la dernière mise à jour du robot
@@ -194,8 +195,8 @@ class Adaptateur_simule(Adaptateur) :
 		t1 = Thread(target=self.updateDistAng, daemon=True)
 		t1.start()
 
-  
 	def initialise(self):
+		""" Méthode qui initialise les moteurs du robot et les variables de distance et d'angle parcourus à 0"""
 		self.last_point = (self.robot.x, self.robot.y)
 		self.last_dir = self.robot.direction
 		self.dist_parcourA = 0

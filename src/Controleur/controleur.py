@@ -19,6 +19,9 @@ class Controler:
         t.start()
 
     def mainControleur(self):
+        """
+        Main du controleur
+        """
         while self.Running:
             if self.strategie:
                 if not self.strat_en_cour.stop():

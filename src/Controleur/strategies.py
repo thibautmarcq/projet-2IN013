@@ -51,6 +51,7 @@ class StrategieTourner():
         self.angle_parcouru = 0
 
     def start(self) :
+        """ Lancement de la stratégie tourner """
         self.logger.debug("Stratégie tourner lancée")
 
         self.robA.robot.estSousControle = True
@@ -127,6 +128,7 @@ class StrategieSeq():
         self.indice = -1
 
     def start(self):
+        """ Lancement de la stratégie séquentielle """
         self.indice = -1
         self.robA.robot.estSousControle = True
         self.robA.initialise()
@@ -153,7 +155,7 @@ class StrategieSeq():
             self.robA.robot.estSousControle = False
             return True
         return False
-    
+
 
 class StrategieCond():
     def __init__(self, robAdapt, strat, cond):
@@ -166,20 +168,21 @@ class StrategieCond():
         self.robA = robAdapt
         self.strat = strat
         self.cond = cond
-        
+
     def start(self):
+        """ Lancement de la stratégie conditionnelle """
         self.logger.debug("Stratégie conditionnelle lancée")
         self.robA.initialise()
         self.robA.robot.estSousControle = True
         self.strat.start()
-                    
+
     def step(self):
         """ Exécute la strat demandée si la condition est remplie 
         :returns: rien, fait le step de la strat
         """
         if not self.stop() :
             self.strat.step() 
-    
+
     def stop(self):
         """ Vérifie si la condition est toujours valide
         :returns: False si condition remplie (pas de stop), True si non remplie (stop)
@@ -188,7 +191,7 @@ class StrategieCond():
             self.robA.robot.estSousControle = False
             return True
         return False
-    
+
 
 class StrategieBoucle():
     def __init__(self, robAdapt, strat, nbTours):
@@ -202,14 +205,15 @@ class StrategieBoucle():
         self.strat = strat
         self.nbTours = nbTours
         self.restants = self.nbTours
-        
+
     def start(self):
+        """ Lancement de la stratégie de boucle """
         self.logger.debug("Stratégie de boucle lancée")
         self.restants = self.nbTours
         self.robA.robot.estSousControle = True
         self.robA.initialise()
         self.strat.start()
-        
+
     def step(self):
         """ Exécute la strat demandée si on est encore dans un tour
         :returns: rien, fait le step de la strat
@@ -220,7 +224,7 @@ class StrategieBoucle():
                 self.restants-=1 
                 if not self.stop():
                     self.strat.start()
-                        
+
     def stop(self):
         """ Vérifie si le nombre de tours a été fait
         :returns: False si il reste encore des tours à faire, True si les tours ont été faits
@@ -229,18 +233,18 @@ class StrategieBoucle():
             self.robA.robot.estSousControle = False
             return True
         return False
-             
-        
+
 def setStrategieCarre(robAdapt, longueur_cote):
+    """ Crée une stratégie pour faire un carré"""
     avance = StrategieAvancer(robAdapt, longueur_cote)
     tourne = StrategieTourner(robAdapt, 90)
     carre  = StrategieSeq([avance, tourne, avance, tourne, avance, tourne, avance, tourne],robAdapt)
     return carre
 
 def setStrategieArretMur(robAdapt, distarret) :
+    """ Crée une stratégie pour faire arreter le robot à une distance donnée d'un mur """
     arret = StrategieArretMur(robAdapt, distarret)
     return arret
-
 
 # Méthodes conditionnelles pour la stratCond
 def distSup(robAdapt, dist):

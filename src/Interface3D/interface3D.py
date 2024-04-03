@@ -33,8 +33,9 @@ class Interface3D(ShowBase):
 		self.son = self.loader.loadSfx("src/Interface3D/source/secret.mp3")
 		self.secret = False
 
-		# self.taskMgr.add(self.spinCameraTask, "spinCameraTask")
-		self.taskMgr.add(self.updateCameraTask, "updateCameraTask")
+		# self.taskMgr.add(self.cameraUpTask, "cameraUpTask")
+		self.taskMgr.add(self.spinCameraTask, "spinCameraTask")
+		# self.taskMgr.add(self.updateCameraTask, "updateCameraTask")
 
 		self.camLens.setFar(100000) # Pour ne pas avoir de problème de distance de vue
 		T_tictac = Thread(target=self.ticTac, daemon=True)
@@ -165,11 +166,11 @@ class Interface3D(ShowBase):
 		# Définition des sommets et des coordonnées de texture
 		self.env.vertex.addData3f(0, 0, -1)  # 0 bas gauche
 		self.env.texcoord.addData2f(0, 0) 
-		self.env.vertex.addData3f(self.env.length, 0, -1)  # 1 bas droite
+		self.env.vertex.addData3f(self.env.width, 0, -1)  # 1 bas droite
 		self.env.texcoord.addData2f(1, 0) 
-		self.env.vertex.addData3f(0, self.env.width, -1)  # 2 haut gauche
+		self.env.vertex.addData3f(0, self.env.length, -1)  # 2 haut gauche
 		self.env.texcoord.addData2f(0, 1)
-		self.env.vertex.addData3f(self.env.length, self.env.width, -1)  # 3 haut droit
+		self.env.vertex.addData3f(self.env.width, self.env.length, -1)  # 3 haut droit
 		self.env.texcoord.addData2f(1, 1)
 		# Création de l'objet + ajout du plan
 		self.env.plan = GeomTriangles(Geom.UHStatic)
@@ -219,8 +220,20 @@ class Interface3D(ShowBase):
 		camera_z = 500
 		self.camera.setPos(camera_x, camera_y, camera_z)
 		self.camera.lookAt(Point3(robot.x, robot.y, 0))
-		
 		return Task.cont
+	
+	def cameraUpTask(self, task):
+		""" Set la caméra tout en haut de l'environnement et suit le robot """
+		robot = self.env.listeRobots[self.env.robotSelect].robot
+
+		cam_x = (self.env.length/2)
+		cam_y = (self.env.width/2)
+		cam_z = (self.env.length)
+		self.camera.setPos(cam_x, cam_y, 750)
+		# self.camera.lookAt(Point3(cam_x, cam_y, 0))
+		self.camera.lookAt(Point3(robot.x, robot.y, 0))
+		return Task.cont
+
 	
 	def ticTac(self):
 		while True:
