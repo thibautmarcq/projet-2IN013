@@ -33,7 +33,7 @@ def menu() :
         avancer = StrategieAvancer(reel, 500)
         controleur.lancerStrategie(avancer)
     elif cmd==2:
-        mur = setStrategieArretMur(reel, 10)
+        mur = setStrategieArretMur(reel, 1500)
         controleur.lancerStrategie(mur)
     elif cmd==3:
         tourner = StrategieTourner(reel, 90)

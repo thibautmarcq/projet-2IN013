@@ -131,7 +131,6 @@ class StrategieSeq():
         """ Lancement de la stratégie séquentielle """
         self.indice = -1
         self.robA.robot.estSousControle = True
-        self.robA.initialise()
 
     def step(self) : 
         """ Le step de la stratégie séquentielle, où on fait le step de la stratégie en cours ou on passe a la stratégie suivante selon le cas, et on met à jour le robot

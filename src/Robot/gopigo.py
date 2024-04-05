@@ -28,7 +28,9 @@ class Adaptateur_reel(Adaptateur):
         """
         Méthode qui va initialiser les moteurs du robot et les variables de distance et d'angle parcourus à 0
         """
-        self.robot.offset_motor_encoder(self.MOTOR_LEFT_RIGHT, 0)
+        self.robot.offset_motor_encoder(self.robot.MOTOR_LEFT, self.robot.get_motor_position()[0])
+        self.robot.offset_motor_encoder(self.robot.MOTOR_RIGHT, self.robot.get_motor_position()[1])
+        self.run = True
         self.dist_parcourA = 0
         self.angle_parcourA = 0
 
@@ -51,7 +53,7 @@ class Adaptateur_reel(Adaptateur):
         Setter qui va donner aux roues gauche et droite une certaine vitesse angulaire dps
         :param dps: la vitesse angulaire qu'on veut donner aux roues droite et gauche
         """
-        self.robot.set_motor_dps(self.MOTOR_LEFT_RIGHT, dps*100)
+        self.robot.set_motor_dps(self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, dps*100)
 
     def capteurDistanceA(self) :
         """
