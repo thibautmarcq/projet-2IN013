@@ -33,9 +33,11 @@ class Interface3D(ShowBase):
 		self.son = self.loader.loadSfx("src/Interface3D/source/secret.mp3")
 		self.secret = False
 
-		# self.taskMgr.add(self.cameraUpTask, "cameraUpTask")
+		# self.taskMgr.add(self.upCameraTask, "upCameraTask")
+		self.taskMgr.add(self.frontCameraTask, "frontCameraTask")
 		# self.taskMgr.add(self.spinCameraTask, "spinCameraTask")
-		self.taskMgr.add(self.updateCameraTask, "updateCameraTask")
+		# self.taskMgr.add(self.backCameraTask, "backCameraTask")
+  
 
 		self.camLens.setFar(100000) # Pour ne pas avoir de problème de distance de vue
 		T_tictac = Thread(target=self.ticTac, daemon=True)
@@ -191,9 +193,9 @@ class Interface3D(ShowBase):
 		
 	def ticTac(self):
 		while True:
-			for adapt in self.env.listeRobots:
-				# print('oui')
-				self.updateRobot(adapt)
+			# for adapt in self.env.listeRobots:
+			# 	# print('oui')
+			# 	self.updateRobot(adapt)
 			self.binds()
 			sleep(TIC_SIMULATION)
 
@@ -210,37 +212,45 @@ class Interface3D(ShowBase):
 		self.camera.lookAt(Point3(robot.x, robot.y, 0))
 		return Task.cont
 
-	# Task pour suivre le robot
-	def updateCameraTask(self, task):
-		""" Set la caméra derrière le robot et le suit pendant qu'il avance """
+	# Task pour suivre le robot par derrière
+	def backCameraTask(self, task):
+		""" Set la caméra derrière le robot et le suit lorsqu'il avance """
 		robot = self.env.listeRobots[self.env.robotSelect].robot
 		dx, dy = robot.direction
-		camera_x = float(dx)*(robot.x - 150)
-		camera_y = float(dy)*(robot.y - 200)
+		camera_x = robot.x + 500 * dx
+		camera_y = robot.y + 500 * dy
 		camera_z = 500
 		self.camera.setPos(camera_x, camera_y, camera_z)
 		self.camera.lookAt(Point3(robot.x, robot.y, 0))
 		return Task.cont
 	
-	def cameraUpTask(self, task):
-		""" Set la caméra tout en haut de l'environnement et suit le robot """
+	def frontCameraTask(self, task):
+		""" Set la caméra devant le robot (comme la vraie caméra) """
 		robot = self.env.listeRobots[self.env.robotSelect].robot
-
-		cam_x = (self.env.length/2)
-		cam_y = (self.env.width/2)
-		cam_z = (self.env.length)
-		self.camera.setPos(cam_x, cam_y, 750)
-		# self.camera.lookAt(Point3(cam_x, cam_y, 0))
-		self.camera.lookAt(Point3(robot.x, robot.y, 0))
+		dx, dy = robot.direction
+		camera_x = robot.x - robot.width * dx
+		camera_y = robot.y - robot.length * dy
+		camera_z = robot.height/2
+		self.camera.setPos(camera_x, camera_y, camera_z)
+		self.camera.lookAt(Point3(robot.x + 100 * (-dx), robot.y + 100 * (-dy), robot.height/2))
+		self.camLens.setFov(100) # Réglage du FOV (champ de vision)
 		return Task.cont
-
+	
+	def upCameraTask(self, task):
+		""" Set la caméra au dessus de l'environnement (reproduction interface 2D) """
+		cam_x = (self.env.length/2+100)
+		cam_y = (self.env.width/2-100)
+		cam_z = (self.env.length*2)
+		self.camera.setPos(cam_x, cam_y, cam_z)
+		self.camera.lookAt(Point3(cam_x, cam_y, 0))
+		return Task.cont
 	
 	def ticTac(self):
 		while True:
 			for adapt in self.env.listeRobots:
 				# print('oui')
 				self.updateRobot(adapt)
-				self.updateCameraTask(adapt)
+				# self.updateCameraTask(adapt)
 			self.binds()
 			sleep(TIC_SIMULATION)
 	
