@@ -34,8 +34,8 @@ class Interface3D(ShowBase):
 		self.secret = False
 
 		# self.taskMgr.add(self.cameraUpTask, "cameraUpTask")
-		self.taskMgr.add(self.spinCameraTask, "spinCameraTask")
-		# self.taskMgr.add(self.updateCameraTask, "updateCameraTask")
+		# self.taskMgr.add(self.spinCameraTask, "spinCameraTask")
+		self.taskMgr.add(self.updateCameraTask, "updateCameraTask")
 
 		self.camLens.setFar(100000) # Pour ne pas avoir de problème de distance de vue
 		T_tictac = Thread(target=self.ticTac, daemon=True)
@@ -92,23 +92,23 @@ class Interface3D(ShowBase):
 
 		# Ajout des faces du carré
 		# Bottom
-		robot.rectangle.addVertices(0, 1, 2)
-		robot.rectangle.addVertices(2, 3, 0)
+		robot.rectangle.addVertices(0, 1, 3)
+		robot.rectangle.addVertices(3, 2, 0)
 		# Top
-		robot.rectangle.addVertices(4, 5, 6)
-		robot.rectangle.addVertices(6, 7, 4)
+		robot.rectangle.addVertices(4, 5, 7)
+		robot.rectangle.addVertices(7, 6, 4)
 		# Back
 		robot.rectangle.addVertices(0, 1, 5)
 		robot.rectangle.addVertices(5, 4, 0)
 		# Front
-		robot.rectangle.addVertices(3, 2, 6)
-		robot.rectangle.addVertices(6, 7, 3)
+		robot.rectangle.addVertices(3, 3, 7)
+		robot.rectangle.addVertices(7, 6, 2)
 		# Left
-		robot.rectangle.addVertices(0, 4, 7)
-		robot.rectangle.addVertices(7, 3, 0)
+		robot.rectangle.addVertices(0, 4, 6)
+		robot.rectangle.addVertices(6, 2, 0)
 		# Right
-		robot.rectangle.addVertices(1, 2, 6)
-		robot.rectangle.addVertices(6, 5, 1)
+		robot.rectangle.addVertices(1, 3, 7)
+		robot.rectangle.addVertices(7, 5, 1)
 		
 		# Créer un objet Geom (=l'objet du robot) pour contenir les triangles (=les faces)
 		robot.geom = Geom(robot.vdata)
@@ -140,17 +140,17 @@ class Interface3D(ShowBase):
 		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)-(robot.length/2)*dx, robot.y-(robot.width/2)*(dx)-(robot.length/2)*dy, 0)  # 0 dèrrière bas gauche
 		robot.vertex.setRow(1)
 		robot.vertex.setData3f(robot.x+(robot.width/2)*(-dy)-(robot.length/2)*dx, robot.y+(robot.width/2)*(dx)-(robot.length/2)*dy, 0)  # 1 derriere bas droit
-		robot.vertex.setRow(2)
-		robot.vertex.addData3f(robot.x+(robot.width/2)*(-dy)+(robot.length/2)*dx, robot.y+(robot.width/2)*(dx)+(robot.length/2)*dy, 0)  # 2 devant bas droit
 		robot.vertex.setRow(3)
+		robot.vertex.addData3f(robot.x+(robot.width/2)*(-dy)+(robot.length/2)*dx, robot.y+(robot.width/2)*(dx)+(robot.length/2)*dy, 0)  # 2 devant bas droit
+		robot.vertex.setRow(2)
 		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)+(robot.length/2)*dx, robot.y-(robot.width/2)*(dx)+(robot.length/2)*dy, 0)  # 3 devant bas gauche
 		robot.vertex.setRow(4)
 		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)-(robot.length/2)*dx, robot.y-(robot.width/2)*(dx)-(robot.length/2)*dy, robot.height)  # 4 derriere haut gauche
 		robot.vertex.setRow(5)
 		robot.vertex.setData3f(robot.x+(robot.width/2)*(-dy)-(robot.length/2)*dx, robot.y+(robot.width/2)*(dx)-(robot.length/2)*dy, robot.height)  # 5 derriere haut droit
-		robot.vertex.setRow(6)
-		robot.vertex.setData3f(robot.x+(robot.width/2)*(-dy)+(robot.length/2)*dx, robot.y+(robot.width/2)*(dx)+(robot.length/2)*dy, robot.height)  # 6 devant haut droit
 		robot.vertex.setRow(7)
+		robot.vertex.setData3f(robot.x+(robot.width/2)*(-dy)+(robot.length/2)*dx, robot.y+(robot.width/2)*(dx)+(robot.length/2)*dy, robot.height)  # 6 devant haut droit
+		robot.vertex.setRow(6)
 		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)+(robot.length/2)*dx, robot.y-(robot.width/2)*(dx)+(robot.length/2)*dy, robot.height)  # 7 devant haut gauche
 
 
