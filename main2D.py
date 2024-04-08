@@ -1,4 +1,4 @@
-from src.Interface.demo import menu
+from src.Interface import menu
 
 RUNNING = True
 

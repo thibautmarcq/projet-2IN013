@@ -2,7 +2,7 @@
 
 from unittest import TestCase
 
-from src.obstacle import Obstacle
+from src import Obstacle
 
 
 class TestObstacle(TestCase):

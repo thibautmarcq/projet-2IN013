@@ -1,8 +1,9 @@
-from abc import abstractmethod
 import logging
+from abc import abstractmethod
 from time import sleep
 
-from src.constantes import TIC_ADAPT
+from src import TIC_ADAPT
+
 
 class Adaptateur:
     """ Classe abstraite d'adaptateur pour définir les méthodes des adaptateurs """

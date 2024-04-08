@@ -1,11 +1,10 @@
 # Main à lancer sur le robot pour exécuter des stratégies/actions
 
 from logging import DEBUG, basicConfig
-from robot2IN013 import Robot2IN013
 
-from src.Controleur.controleur import Controler
-from src.Controleur.strategies import setStrategieArretMur, setStrategieCarre
-from src.Robot.gopigo import Adaptateur_reel
+from robot2IN013 import Robot2IN013
+from src.Controleur import Controler, setStrategieArretMur, setStrategieCarre
+from src.Robot import Adaptateur_reel
 
 basicConfig(filename='logs.log', 
                     level=DEBUG, 

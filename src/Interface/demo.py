@@ -2,18 +2,13 @@ from logging import DEBUG, basicConfig
 from threading import Thread
 from time import sleep
 
-from src.constantes import (HAUTEUR_ROBOT, LARGEUR_ENV, LARGEUR_ROBOT,
-                            LIST_PTS_OBS_CARRE, LIST_PTS_OBS_COEUR,
-                            LIST_PTS_OBS_TRIANGLE, LONGUEUR_ENV,
-                            LONGUEUR_ROBOT, SCALE_ENV_1, TAILLE_ROUE,
-                            TIC_SIMULATION)
-from src.Controleur.controleur import Controler
-from src.Controleur.strategies import setStrategieCarre
-from src.environnement import Environnement
+from src import (HAUTEUR_ROBOT, LARGEUR_ENV, LARGEUR_ROBOT, LIST_PTS_OBS_CARRE,
+                 LIST_PTS_OBS_COEUR, LIST_PTS_OBS_TRIANGLE, LONGUEUR_ENV,
+                 LONGUEUR_ROBOT, SCALE_ENV_1, TAILLE_ROUE, TIC_SIMULATION,
+                 Environnement)
+from src.Controleur import Controler, setStrategieCarre
 from src.Interface.interface import Interface
-from src.Robot.gopigo import Adaptateur_reel
-from src.Robot.robot import Adaptateur_simule
-from src.Robot.mockupRobot import MockupRobot
+from src.Robot import Adaptateur_reel, Adaptateur_simule, MockupRobot
 
 basicConfig(filename='logs.log', 
                     level=DEBUG, 

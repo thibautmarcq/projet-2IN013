@@ -1,6 +1,6 @@
 from logging import getLogger
 
-from src.constantes import VIT_ANG_AVAN, VIT_ANG_TOUR
+from src import VIT_ANG_AVAN, VIT_ANG_TOUR
 
 
 class StrategieAvancer():

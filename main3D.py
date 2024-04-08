@@ -1,12 +1,11 @@
-from src.environnement import Environnement
-from src.Interface3D.interface3D import Interface3D
-from src.Robot.robot import Adaptateur_simule
-from src.constantes import (LARGEUR_ENV, LONGUEUR_ENV, LARGEUR_ROBOT, LONGUEUR_ROBOT, 
-                            HAUTEUR_ROBOT, TAILLE_ROUE, SCALE_ENV_1, TIC_SIMULATION)
-
-from time import sleep
 from threading import Thread
+from time import sleep
 
+from src import (HAUTEUR_ROBOT, LARGEUR_ENV, LARGEUR_ROBOT, LONGUEUR_ENV,
+                 LONGUEUR_ROBOT, SCALE_ENV_1, TAILLE_ROUE, TIC_SIMULATION,
+                 Environnement)
+from src.Interface3D import Interface3D
+from src.Robot import Adaptateur_simule
 
 envi = Environnement(LARGEUR_ENV, LONGUEUR_ENV, SCALE_ENV_1)
 

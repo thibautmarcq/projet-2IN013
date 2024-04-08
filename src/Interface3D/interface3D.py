@@ -1,18 +1,16 @@
 # pip install panda3d==1.10.14
 
-from ..constantes import DICO_COULEURS, TIC_SIMULATION
-from ..environnement import Environnement
+from math import cos, pi, sin
+from sys import exit
+from threading import Thread
+from time import sleep
 
 from direct.showbase.ShowBase import ShowBase
-from direct.task import Task 
-from panda3d.core import (Point3, load_prc_file, GeomVertexFormat, GeomVertexData, Geom, GeomTriangles, 
-                          GeomVertexWriter, GeomNode, OmniBoundingVolume, Texture)
-
-from math import sin, cos, pi
-from time import sleep
-from threading import Thread
-from sys import exit
-from time import sleep
+from direct.task import Task
+from panda3d.core import (Geom, GeomNode, GeomTriangles, GeomVertexData,
+                          GeomVertexFormat, GeomVertexWriter,
+                          OmniBoundingVolume, Point3, Texture, load_prc_file)
+from src import DICO_COULEURS, TIC_SIMULATION, Environnement
 
 load_prc_file('src/Interface3D/source/config.prc')
 

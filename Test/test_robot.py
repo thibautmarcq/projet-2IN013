@@ -2,8 +2,8 @@
 
 from unittest import TestCase
 
-from src.environnement import Environnement
-from src.Robot.robot import Robot
+from src import Environnement
+from src.Robot import Robot
 
 
 class TestRobot(TestCase):

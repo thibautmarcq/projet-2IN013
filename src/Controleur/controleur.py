@@ -2,7 +2,7 @@ from logging import getLogger
 from threading import Thread
 from time import sleep
 
-from src.constantes import TIC_CONTROLEUR
+from src import TIC_CONTROLEUR
 
 
 class Controler:

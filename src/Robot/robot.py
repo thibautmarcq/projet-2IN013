@@ -2,7 +2,7 @@ from logging import getLogger
 from math import cos, pi, sin, sqrt
 from threading import Thread
 
-from src.outil import distance, getAngleFromVect, normaliserVecteur
+from src import distance, getAngleFromVect, normaliserVecteur
 
 from .adapt import Adaptateur
 

@@ -1,7 +1,7 @@
 from unittest import TestCase
 
-from src.environnement import Environnement
-from src.Robot.robot import Adaptateur_simule
+from src import Environnement
+from src.Robot import Adaptateur_simule
 
 
 class TestAdaptateurSimu(TestCase):
