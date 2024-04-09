@@ -21,6 +21,7 @@ class Interface3D(ShowBase):
 		ShowBase.__init__(self)
 		self.env = env
 		self.createAllRobots()
+		self.createAllObstacles()
 		self.createEnvironnement()
 
 		# Bind quitter la fenêtre
@@ -106,7 +107,7 @@ class Interface3D(ShowBase):
 		robot.rectangle.addVertices(0, 1, 5)
 		robot.rectangle.addVertices(5, 4, 0)
 		# Front
-		robot.rectangle.addVertices(3, 3, 7)
+		robot.rectangle.addVertices(2, 3, 7)
 		robot.rectangle.addVertices(7, 6, 2)
 		# Left
 		robot.rectangle.addVertices(0, 4, 6)
@@ -194,6 +195,61 @@ class Interface3D(ShowBase):
 		texture.read("src/Interface3D/source/envi.png")
 		self.env.np.setTexture(texture)
 
+	def createAllObstacles(self):
+		for obs in self.env.listeObs:
+			self.createObstacle(obs, 40)
+  
+	def createObstacle(self, obs, height):
+		""" Crée un obstacle en 3D à partir de ses points dans l'interface
+		:param obs: obstacle
+		:param height: sa hauteur
+		:returns: ne retourne rien, initialise seulement un obstacle dans l'interface 3D
+		"""
+		obs.format = GeomVertexFormat.getV3() # type des sommets
+		obs.vdata = GeomVertexData("obstacle", obs.format, Geom.UHStatic)
+		obs.vertex = GeomVertexWriter(obs.vdata, "vertex")
+		obs.forme = GeomTriangles(Geom.UHStatic)
+
+		# Calcule le point central de la figure 
+		x_coords = [point[0] for point in obs.lstPoints]
+		y_coords = [point[1] for point in obs.lstPoints]
+		center_x = sum(x_coords)/len(obs.lstPoints)
+		center_y = sum(y_coords)/len(obs.lstPoints)
+		obs.vertex.addData3f(center_x, center_y, 0)
+		obs.vertex.addData3f(center_x, center_y, height)
+		# Le premier sommet a donc comme indice 2 
+	
+		idS = 1
+		for sommet in obs.lstPoints :
+			# numéro pair => sommet du bas, impair => sommet du haut
+			# on crée les faces directement après l'ajout dans le tableau de sommets
+			obs.vertex.addData3f(sommet[0], sommet[1], 0) # idS-1
+			obs.vertex.addData3f(sommet[0], sommet[1], height) # idS
+			idS+=2
+			if idS >=3:
+				# Cotés
+				obs.forme.addVertices(idS-3, idS-1, idS)
+				obs.forme.addVertices(idS-3, idS-2, idS)
+				# Toit
+				obs.forme.addVertices(1, idS, idS-2)
+		# Ferme la figure
+		obs.forme.addVertices(2, 3, idS-1)
+		obs.forme.addVertices(idS-1, 3, idS)
+		obs.forme.addVertices(idS, 1, 2)
+			
+		obs.geom = Geom(obs.vdata)
+		obs.geom.addPrimitive(obs.forme)
+		obs.node = GeomNode("obstacle")
+		obs.node.addGeom(obs.geom)
+
+		obs.np = self.render.attachNewNode(obs.node)
+
+		obs.vectcouleur = DICO_COULEURS["grey"]
+		obs.np.setColor(obs.vectcouleur[0], obs.vectcouleur[1], obs.vectcouleur[2], obs.vectcouleur[3]) # RGB + transparence | COULEUR
+		obs.np.setTwoSided(True) # pour render toutes les faces
+		obs.np.node().setBounds(OmniBoundingVolume())
+		obs.np.node().setFinal(True)
+		
 
 
 	# -------------------- Task pour la camera --------------------
