@@ -1,8 +1,5 @@
 from logging import getLogger
-from math import degrees, pi
-from threading import Thread
-
-from .adapt import Adaptateur
+from math import pi
 
 
 class MockupRobot():

@@ -27,7 +27,6 @@ T_env.start()
 env.addObstacle('J',LIST_PTS_OBS_TRIANGLE)
 env.addObstacle('P',LIST_PTS_OBS_CARRE)
 env.addObstacle('C',LIST_PTS_OBS_COEUR)
-#env.printMatrix()
 
 #On crée un controleur
 controleur = Controler()
