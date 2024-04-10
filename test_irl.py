@@ -3,9 +3,9 @@
 from logging import DEBUG, basicConfig
 
 from robot2IN013 import Robot2IN013
-from src.Controleur import (Controler, StrategieAvancer, StrategieTourner,
+from src.controleurs import (Controler, StrategieAvancer, StrategieTourner,
                             setStrategieArretMur)
-from src.Robot.gopigo import Adaptateur_reel
+from src.robots.gopigo import Adaptateur_reel
 
 basicConfig(filename='logs.log', 
                     level=DEBUG, 

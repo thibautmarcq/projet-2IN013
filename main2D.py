@@ -1,4 +1,4 @@
-from src.Interface import menu
+from src.interface2D import menu
 
 RUNNING = True
 

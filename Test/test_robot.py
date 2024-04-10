@@ -3,7 +3,7 @@
 from unittest import TestCase
 
 from src import Environnement
-from src.Robot import Robot
+from src.robots import Robot
 
 
 class TestRobot(TestCase):

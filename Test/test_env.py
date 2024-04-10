@@ -3,7 +3,7 @@
 from unittest import TestCase
 
 from src import Environnement
-from src.Robot import Adaptateur_simule
+from src.robots import Adaptateur_simule
 
 
 class TestEnvironnement(TestCase):

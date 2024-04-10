@@ -1,8 +1,8 @@
 from unittest import TestCase
 
 from src import Environnement
-from src.Controleur import Controler, setStrategieCarre
-from src.Robot import Adaptateur_simule
+from src.controleurs import Controler, setStrategieCarre
+from src.robots import Adaptateur_simule
 
 
 class TestControleur(TestCase):

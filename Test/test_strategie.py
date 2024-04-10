@@ -1,10 +1,10 @@
 from unittest import TestCase
 
 from src import Environnement
-from src.Controleur import (StrategieArretMur, StrategieAvancer,
+from src.controleurs import (StrategieArretMur, StrategieAvancer,
                             StrategieTourner, distSup, setStrategieArretMur,
                             setStrategieCarre)
-from src.Robot import Adaptateur_simule
+from src.robots import Adaptateur_simule
 
 
 class TestControleur(TestCase):

@@ -3,8 +3,8 @@
 from logging import DEBUG, basicConfig
 
 from robot2IN013 import Robot2IN013
-from src.Controleur import Controler, setStrategieArretMur, setStrategieCarre
-from src.Robot import Adaptateur_reel
+from src.controleurs import Controler, setStrategieArretMur, setStrategieCarre
+from src.robots import Adaptateur_reel
 
 basicConfig(filename='logs.log', 
                     level=DEBUG, 

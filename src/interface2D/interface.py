@@ -1,7 +1,7 @@
 from tkinter import LEFT, Canvas, Label, LabelFrame, PhotoImage, Tk
 
 from src import TIC_INTERFACE, rotationVecteur
-from src.Controleur import (StrategieAvancer, StrategieBoucle, StrategieCond,
+from src.controleurs import (StrategieAvancer, StrategieBoucle, StrategieCond,
                             StrategieSeq, StrategieTourner, distSup,
                             setStrategieArretMur, setStrategieCarre)
 
@@ -55,7 +55,7 @@ class Interface:
 	
 		self.frame_tutorial = LabelFrame(self.frame_gauche, text="Tutorial", bd=1)
 		self.frame_tutorial.grid(row=1)
-		self.tutorial_image = PhotoImage(file="src/Interface/source/tuto_fr.png").subsample(2,2)
+		self.tutorial_image = PhotoImage(file="src/interface2D/source/tuto_fr.png").subsample(2,2)
 		self.tutorial = Label(self.frame_tutorial, image=self.tutorial_image)
 		self.tutorial.grid(row=1, column=1)
 
