@@ -3,7 +3,7 @@
 from logging import DEBUG, basicConfig
 
 from robot2IN013 import Robot2IN013
-from src.controleurs import Controler, setStrategieArretMur, setStrategieCarre
+from src.controleur import Controler, setStrategieArretMur, setStrategieCarre
 from src.robots import Adaptateur_reel
 
 basicConfig(filename='logs.log', 
