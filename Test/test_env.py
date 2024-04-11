@@ -56,14 +56,14 @@ class TestEnvironnement(TestCase):
         self.assertEqual(len(self.env.listeRobots), 2)
         self.assertEqual(self.env.listeRobots[1].robot.couleur, 'green')
 
-    def test_collision(self):
+    def test_verifCollision(self):
         robotA = Adaptateur_simule('rob1', self.env.width/2, self.env.length/2, 5, 5, 15, 2, self.env, "red") # On place le robot au milieu de l'environnement
         self.env.setRobot(robotA)
-        self.assertEqual(self.env.collision(robotA.robot), False)
-        robotA.robot.x, robotA.robot.y = 3, self.env.length/2 # On place le robot près des murs de l'environnement pour faire une collision contre le mur
-        self.assertEqual(self.env.collision(robotA.robot), True)
+        self.assertEqual(self.env.verifCollision(robotA.robot), False)
+        robotA.robot.x, robotA.robot.y = 3, self.env.length/2 # On place le robot près des murs de l'environnement pour faire une verifCollision contre le mur
+        self.assertEqual(self.env.verifCollision(robotA.robot), True)
         robot2 = Adaptateur_simule('rob2', 10, 90, 5, 5, 15, 2, self.env, 'green') # On place le robot au milieu de l'environnement
         self.env.setRobot(robot2)
-        self.assertEqual(self.env.collision(robot2.robot), False)
-        robot2.robot.x, robot2.robot.y = self.env.width/2, 3 # On place le robot près des murs de l'environnement pour faire une collision contre le mur
-        self.assertEqual(self.env.collision(robot2.robot), True)
+        self.assertEqual(self.env.verifCollision(robot2.robot), False)
+        robot2.robot.x, robot2.robot.y = self.env.width/2, 3 # On place le robot près des murs de l'environnement pour faire une verifCollision contre le mur
+        self.assertEqual(self.env.verifCollision(robot2.robot), True)

@@ -2,7 +2,7 @@ from logging import getLogger
 from math import cos, pi, sin, sqrt
 from threading import Thread
 
-from src import distance, getAngleFromVect, normaliserVecteur
+from src import getAngleFromVect, getDistanceFromPts, normaliserVecteur
 
 from .adapt import Adaptateur
 
@@ -141,30 +141,25 @@ class Robot :
 		self.changeVitAngG(quant)
 		self.changeVitAngD(quant)
 
-
-
 	def getVitesseG(self) :
-
 		""" Getter qui renvoir la vitesse d'un point qui serait sur la roue gauche
 			:returns: la vitesse d'un point sur la roue gauche
 		"""
 		return self.vitAngG*self.rayonRoue
 	
 	def getVitesseD(self) :
-
 		""" Getter qui renvoie la vitesse d'un point qui serait sur la roue droite
 			:returns: la vitesse d'un point sur la roue droite
 		"""
 		return self.vitAngD*self.rayonRoue
 	
 	def getVitesse(self) :
-
 		""" Getter de la vitesse du point central du robot
 			:returns: la vitesse du robot en son centre
 		"""
 		return (self.getVitesseD() + self.getVitesseG())/2
 	
-	def capteurDistance(self, env):
+	def getDistance(self, env):
 		"""
 		Capteur de distance du robot, donne la distance entre le pt milieu avant du robot (tete) et l'obstacle devant lui
 		:returns: retourne la distance entre la tete du robot et l'obstacle le plus proche devant lui
@@ -178,7 +173,9 @@ class Robot :
 			x2, y2 = (x2+dirNorm[0], y2+dirNorm[1]) # on avance en case suivant le vect dir
 
 		return sqrt((x2 - x1)**2 + (y2 - y1)**2)
-	
+
+
+
 class Adaptateur_simule(Adaptateur) :
 	""" Classe d'adaptation du robot simulé, qui hérite de la classe Robot
 	"""
@@ -223,21 +220,21 @@ class Adaptateur_simule(Adaptateur) :
 		"""
 		self.robot.setVitAng(vit)
 
-	def capteurDistanceA(self) :
+	def getDistanceA(self) :
 		""" Capteur de distance du robot simulé depuis l'adaptateur
 			:returns: la distance à l'obstacle le plus proche en regardant tout droit
 		"""
-		return self.robot.capteurDistance(self.env)
+		return self.robot.getDistance(self.env)
 
-	def distanceParcourue(self) :
+	def getDistanceParcourue(self) :
 		""" La distance parcourue entre le point précédent et le point actuel
 			:returns: la distance parcourue depuis la dernière visite à cette fonction
 		"""
 		pos_actuelle = (self.robot.x, self.robot.y)
 		pos_prec = self.last_point
-		return distance(pos_actuelle, pos_prec)
+		return getDistanceFromPts(pos_actuelle, pos_prec)
 	
-	def angleParcouru(self) :
+	def getAngleParcourue(self) :
 		""" Getter de l'angle parcouru entre le dernier point enregistré et la position actuelle du robot
 			:returns: l'angle entre les deux points
 		"""

@@ -47,7 +47,7 @@ def getAngleFromVect(u, v) :
     cos_theta = min(1, max(-1, prodScalaire(u, v) / (norme(u) * norme(v))))
     return acos(cos_theta) * 180 / pi ## on multiplie le résultat par 180/pi pour avoir une valeur de retour en degré et non en radians
 
-def distance(p1, p2) :
+def getDistanceFromPts(p1, p2) :
     """ Calcule la distance entre deux points p1 et p2
         :param p1: premier point 
         :param p2: deuxième point

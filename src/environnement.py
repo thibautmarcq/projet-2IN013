@@ -102,7 +102,7 @@ class Environnement:
             self.last_refresh = temps
 
         for robA in self.listeRobots : # on fait avancer tous les listeRobots de l'environnement
-            if (not(robA.robot.estCrash) and not(self.collision(robA.robot))): # Si le robot est opérationnel et qu'il n'y a pas collision 
+            if (not(robA.robot.estCrash) and not(self.verifCollision(robA.robot))): # Si le robot est opérationnel et qu'il n'y a pas verifCollision 
                 duree = temps - self.last_refresh
                 robA.robot.refreshRobot(duree)
 
@@ -111,7 +111,7 @@ class Environnement:
 
         self.last_refresh = temps # on met à jour l'heure du dernier rafraichissement 
 
-    def collision(self, rob):
+    def verifCollision(self, rob):
         """
         Vérifie si le prochain mouvement du robot va le faire rentrer en collision avec un obstacle (2)
         :param rob: robot pour lequel on veut tester la collision prochaine (simulé! pas adaptateur!!)

@@ -90,13 +90,13 @@ class StrategieArretMur():
         
         self.robA = robAdapt
         self.distarret = distarret
-        self.distrob = self.robA.capteurDistanceA() # la distance entre le robot et le mur/obtacle le plus proche devant lui, obtenue avec le capteur de distance
+        self.distrob = self.robA.getDistanceA() # la distance entre le robot et le mur/obtacle le plus proche devant lui, obtenue avec le capteur de distance
 
     def start(self):
         """ Réinitialisation de la vitesse du robot et de la distance entre le robot et le mur/obstacle
         """
         self.robA.setVitAngA(4)
-        self.distrob = self.robA.capteurDistanceA()
+        self.distrob = self.robA.getDistanceA()
         self.robA.initialise()
         self.logger.debug("Stratégie ArretMur lancée")
 
@@ -105,7 +105,7 @@ class StrategieArretMur():
             :returns: rien, on met juste à jour la distance entre le robot et le mur/obstacle
         """
         if not self.stop():
-            self.distrob = self.robA.capteurDistanceA()
+            self.distrob = self.robA.getDistanceA()
         else:
             self.robA.setVitAngA(0)
 
@@ -161,7 +161,7 @@ class StrategieCond():
         """ Stratégie conditionnelle 
         :param robAdapt: le robot que l'on veut faire executer la strat
         :param strat: la stratégie à executer tant que la cond est remplie
-        :param cond: fonction conditionnelle / booleenne (ex: <module>.distSup(rob, 5) renverrai True si le captDist renvoie > 5)
+        :param cond: fonction conditionnelle / booleenne (ex: <module>.verifDistanceSup(rob, 5) renverrai True si le captDist renvoie > 5)
         """
         self.logger = getLogger(self.__class__.__name__)
         self.robA = robAdapt
@@ -246,9 +246,9 @@ def setStrategieArretMur(robAdapt, distarret) :
     return arret
 
 # Méthodes conditionnelles pour la stratCond
-def distSup(robAdapt, dist):
+def verifDistanceSup(robAdapt, dist):
     """ Verifie que le robot est à une distance supérieure à dist d'un obstacle
     :param robAdapt: l'adaptateur pour lequel on va utiliser le capteur de distance
     :param dist: la distance utilisée pour la condition
     """
-    return (robAdapt.capteurDistanceA()>dist)
+    return (robAdapt.getDistanceA()>dist)

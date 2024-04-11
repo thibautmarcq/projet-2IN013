@@ -15,8 +15,8 @@ class Adaptateur:
 
     def updateDistAng(self):
         while(self.run):
-            self.dist_parcourA = self.distanceParcourue()
-            self.angle_parcourA = self.angleParcouru()	
+            self.dist_parcourA = self.getDistanceParcourue()
+            self.angle_parcourA = self.getAngleParcourue()	
             sleep(TIC_ADAPT)
 
     @abstractmethod
@@ -36,13 +36,13 @@ class Adaptateur:
         self.logger.info("setVitAng = %d", dps)
     
     @abstractmethod
-    def capteurDistanceA(self) :
+    def getDistanceA(self) :
         self.logger.debug("capteurDistance")
     
     @abstractmethod
-    def distanceParcourue(self) :
+    def getDistanceParcourue(self) :
         pass
     
     @abstractmethod
-    def angleParcouru(self) :
+    def getAngleParcourue(self) :
         pass

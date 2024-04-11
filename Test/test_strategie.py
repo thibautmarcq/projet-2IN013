@@ -2,8 +2,8 @@ from unittest import TestCase
 
 from src import Environnement
 from src.controleur import (StrategieArretMur, StrategieAvancer,
-                            StrategieTourner, distSup, setStrategieArretMur,
-                            setStrategieCarre)
+                            StrategieTourner, setStrategieArretMur,
+                            setStrategieCarre, verifDistanceSup)
 from src.robots import Adaptateur_simule
 
 
@@ -21,7 +21,7 @@ class TestControleur(TestCase):
 
     def test_setStrategieArretMur(self):
         setStrategieArretMur(self.rob, 20)
-        self.assertGreaterEqual(20,self.rob.capteurDistanceA())
+        self.assertGreaterEqual(20,self.rob.getDistanceA())
 
     def test_strategieAvancer(self):
         self.strat = StrategieAvancer(self.rob, 200)
@@ -95,5 +95,5 @@ class TestControleur(TestCase):
         self.assertEqual(self.strat.distrob, 6)
         self.assertEqual(self.strat.stop(), True)
 
-    def test_distSup(self):
-        self.assertEqual(distSup(self.rob, 10), True)
+    def test_verifDistanceSup(self):
+        self.assertEqual(verifDistanceSup(self.rob, 10), True)

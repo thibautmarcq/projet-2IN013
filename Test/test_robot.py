@@ -82,16 +82,16 @@ class TestRobot(TestCase):
         self.rob.changeVitAngD(-2)
         self.assertEqual(self.rob.getVitesse(), 32)
     
-    def test_capteurDistance(self):
+    def test_getDistance(self):
         self.envi = Environnement(500, 300, 1)
         self.rob.env = self.envi
-        self.assertAlmostEqual(self.rob.capteurDistance(self.envi), 11) # Bordure de l'environnement
+        self.assertAlmostEqual(self.rob.getDistance(self.envi), 11) # Bordure de l'environnement
         self.rob.x = 50
         self.rob.y = 70
         self.rob.direction = (0, 1)
         self.rob.length = 8
         self.envi.addObstacle("test1", [(45, 94), (68, 94), (32, 159)])
-        self.assertAlmostEqual(self.rob.capteurDistance(self.envi), 20) # Test pour un obstacle
+        self.assertAlmostEqual(self.rob.getDistance(self.envi), 20) # Test pour un obstacle
         self.rob.direction = (1, 1)
         self.envi.addObstacle("test2", [(60, 71), (36, 83), (178, 178), (156, 163)]) # Test pour un autre obstacle
-        self.assertAlmostEqual(self.rob.capteurDistance(self.envi), 0)
+        self.assertAlmostEqual(self.rob.getDistance(self.envi), 0)

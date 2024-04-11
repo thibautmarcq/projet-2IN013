@@ -6,7 +6,7 @@ from src import (HAUTEUR_ROBOT, LARGEUR_ENV, LARGEUR_ROBOT, LIST_PTS_OBS_CARRE,
                  LIST_PTS_OBS_COEUR, LIST_PTS_OBS_TRIANGLE, LONGUEUR_ENV,
                  LONGUEUR_ROBOT, SCALE_ENV_1, TAILLE_ROUE, TIC_SIMULATION,
                  Environnement)
-from src.controleur import Controler, setStrategieCarre
+from src.Controleur import Controler, setStrategieCarre
 from src.interface2D.interface import Interface
 from src.robots import Adaptateur_reel, Adaptateur_simule, MockupRobot
 

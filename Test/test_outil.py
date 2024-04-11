@@ -2,7 +2,7 @@
 from math import sqrt
 from unittest import TestCase
 
-from src import (distance, getAngleFromVect, getVectFromAngle,
+from src import (getAngleFromVect, getDistanceFromPts, getVectFromAngle,
                  normaliserVecteur, norme, prodScalaire)
 
 
@@ -28,10 +28,10 @@ class TestOutil(TestCase):
         self.assertAlmostEqual(getAngleFromVect((1, 0), (1, 0)), 0.0) # Angle entre le même vecteur
         self.assertAlmostEqual(getAngleFromVect((-1, 0), (0, -1)), 90.0) # Valeurs négatives, vecteurs orthogonaux
 
-    def test_distance(self):
-        self.assertEqual(distance((1, 2), (4, 6)), 5.0)
-        self.assertEqual(distance((1, 2), (1, 2)), 0.0) # Distance entre les 2 memes points 
-        self.assertEqual(distance((-1, -2), (-4, -6)), 5.0) # Valeurs négatives
+    def test_getDistanceFromPts(self):
+        self.assertEqual(getDistanceFromPts((1, 2), (4, 6)), 5.0)
+        self.assertEqual(getDistanceFromPts((1, 2), (1, 2)), 0.0) # Distance entre les 2 memes points 
+        self.assertEqual(getDistanceFromPts((-1, -2), (-4, -6)), 5.0) # Valeurs négatives
 
     def test_getVectFromAngle(self):
 

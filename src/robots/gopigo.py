@@ -1,5 +1,5 @@
 from math import degrees, pi
-from threading import Thread  
+from threading import Thread
 
 from .adapt import Adaptateur
 
@@ -55,14 +55,14 @@ class Adaptateur_reel(Adaptateur):
         """
         self.robot.set_motor_dps(self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, dps*100)
 
-    def capteurDistanceA(self) :
+    def getDistanceA(self) :
         """
         Getter qui renvoie la distance mesurée par le capteur de distance
         :returns: la distance mesurée par le capteur de distance
         """
         return self.robot.get_distance()
     
-    def distanceParcourue(self) :
+    def getDistanceParcourue(self) :
         """ La distance parcourue entre le point précédent et le point actuel
 			:returns: la distance parcourue depuis la dernière visite à cette fonction
 		"""
@@ -71,7 +71,7 @@ class Adaptateur_reel(Adaptateur):
         dist_d = (ang_d/360) * self.robot.WHEEL_CIRCUMFERENCE
         return (dist_g + dist_d)/2
     
-    def angleParcouru(self) :
+    def getAngleParcourue(self) :
         """
         Calcule l'angle parcouru par le robot
         :returns: l'angle parcouru par le robot

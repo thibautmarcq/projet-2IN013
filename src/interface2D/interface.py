@@ -1,9 +1,10 @@
 from tkinter import LEFT, Canvas, Label, LabelFrame, PhotoImage, Tk
 
 from src import TIC_INTERFACE, rotationVecteur
-from src.controleur import (StrategieAvancer, StrategieBoucle, StrategieCond,
-                            StrategieSeq, StrategieTourner, distSup,
-                            setStrategieArretMur, setStrategieCarre)
+from src.Controleur import (StrategieAvancer, StrategieBoucle, StrategieCond,
+                            StrategieSeq, StrategieTourner,
+                            setStrategieArretMur, setStrategieCarre,
+                            verifDistanceSup)
 
 
 class Interface:
@@ -116,7 +117,7 @@ class Interface:
 			arret_mur = setStrategieArretMur(robA, distance)
 			self.controleur.lancerStrategie(arret_mur)
 		elif strat==3:
-			arret_mur2 = StrategieCond(robA, StrategieAvancer(robA,400), lambda: distSup(robA, distance))
+			arret_mur2 = StrategieCond(robA, StrategieAvancer(robA,400), lambda: verifDistanceSup(robA, distance))
 			self.controleur.lancerStrategie(arret_mur2)
 		elif strat==4:
 			carre2 = StrategieBoucle(robA, StrategieSeq([StrategieAvancer(robA, distance), StrategieTourner(robA, 90)], robA), 4)
@@ -138,7 +139,7 @@ class Interface:
 		self.lab_vitesseG.config(text=("Vitesse roue G : "+str(round(self.env.listeRobots[self.env.robotSelect].robot.getVitesseG()))))
 		self.lab_vitesseD.config(text=("Vitesse roue D : "+str(round(self.env.listeRobots[self.env.robotSelect].robot.getVitesseD()))))
 		# Update label distance
-		self.lab_distance.config(text=("Obstacle dans : "+str(round(self.env.listeRobots[self.env.robotSelect].capteurDistanceA(), 2))))
+		self.lab_distance.config(text=("Obstacle dans : "+str(round(self.env.listeRobots[self.env.robotSelect].getDistanceA(), 2))))
 
 	def rotateRobotRect(self, canvas, robot, angle):
 
@@ -219,7 +220,7 @@ class Interface:
 		self.lab_coord_y.grid(row=2, column=0)
 
 		# Affichage données capteur distance
-		self.lab_distance = Label(self.frame_dist_obstacle, text=("Obstacle dans : "+str(round(self.env.listeRobots[self.env.robotSelect].capteurDistanceA(), 2))))
+		self.lab_distance = Label(self.frame_dist_obstacle, text=("Obstacle dans : "+str(round(self.env.listeRobots[self.env.robotSelect].getDistanceA(), 2))))
 		self.lab_distance.grid(row=0, column=0)
 
 		# -------------------------------------------------------------------		-------------
