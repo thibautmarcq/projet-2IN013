@@ -32,7 +32,7 @@ T_env.start()
 
 controleur = Controler()
 
-def menu(cmd) :
+def menuAll(cmd) :
     """
     Fonction qui affiche un menu pour choisir une action
     """

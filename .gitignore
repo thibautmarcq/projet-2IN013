@@ -1,5 +1,4 @@
 src/__pycache__/
-src/__pycache__/robot.cpython-310.pyc
 Test/__pycache__/
 /.vscode
 logs.log
@@ -10,4 +9,4 @@ src/.DS_Store
 results_camera.txt
 src/interface3D/__pycache__
 src/interface2D/__pycache__
-__pycache__/demo.cpython-310.pyc
+__pycache__/

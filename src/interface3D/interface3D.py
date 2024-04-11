@@ -12,7 +12,7 @@ from panda3d.core import (Geom, GeomNode, GeomTriangles, GeomVertexData,
                           OmniBoundingVolume, Point3, Texture, load_prc_file)
 from src import DICO_COULEURS, TIC_SIMULATION
 
-load_prc_file('src/Interface3D/source/config.prc')
+load_prc_file('src/interface3D/source/config.prc')
 
 class Interface3D(ShowBase):
 	""" Classe Interface 3D - Ensemble de méthodes définies pour créer et gérer des objets dans une interface en 3D """
@@ -30,7 +30,7 @@ class Interface3D(ShowBase):
 		self.accept('x', self.env.addRobotSelect, [1])
 		self.accept('w', self.env.addRobotSelect, [-1])
 
-		self.son = self.loader.loadSfx("src/Interface3D/source/secret.mp3")
+		self.son = self.loader.loadSfx("src/interface3D/source/secret.mp3")
 		self.secret = False
 
 		self.taskMgr.add(self.upCameraTask, "upCameraTask")
@@ -192,7 +192,7 @@ class Interface3D(ShowBase):
 		self.env.np.setPos(0,0,0)
 		self.env.np.setTwoSided(True)
 		texture = Texture()
-		texture.read("src/Interface3D/source/envi.png")
+		texture.read("src/interface3D/source/envi.png")
 		self.env.np.setTexture(texture)
 
 	def createAllObstacles(self):
