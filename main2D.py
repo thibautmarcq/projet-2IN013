@@ -1,4 +1,4 @@
-from src.interface2D import menu
+from src.interface2D import menu2D
 
 RUNNING = True
 
@@ -12,4 +12,4 @@ while RUNNING:
     if cmd == "0":
         RUNNING = False
     else:
-        menu(cmd)
+        menu2D(cmd)

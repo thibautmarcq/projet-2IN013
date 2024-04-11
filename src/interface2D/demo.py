@@ -6,8 +6,8 @@ from src import (HAUTEUR_ROBOT, LARGEUR_ENV, LARGEUR_ROBOT, LIST_PTS_OBS_CARRE,
                  LIST_PTS_OBS_COEUR, LIST_PTS_OBS_TRIANGLE, LONGUEUR_ENV,
                  LONGUEUR_ROBOT, SCALE_ENV_1, TAILLE_ROUE, TIC_SIMULATION,
                  Environnement)
-from src.Controleur import Controler, setStrategieCarre
-from src.interface2D.interface import Interface
+from src.controleur import Controler, setStrategieCarre
+from src.interface2D.interface2D import Interface
 from src.robots import Adaptateur_reel, Adaptateur_simule, MockupRobot
 
 basicConfig(filename='logs.log', 
@@ -49,7 +49,7 @@ robot3 = Adaptateur_reel(robMock)
 T_env = Thread(target=loopEnv, args=[env], daemon=True)
 T_env.start()
 
-def menu(cmd):
+def menu2D(cmd):
     """
     Fonction qui affiche un menu pour choisir une action
     """

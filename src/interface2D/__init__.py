@@ -1,2 +1,2 @@
 from .demo import *
-from .interface import Interface
+from .interface2D import Interface
