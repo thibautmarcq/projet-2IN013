@@ -8,9 +8,9 @@ from time import sleep
 from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
 from panda3d.core import (Geom, GeomNode, GeomTriangles, GeomVertexData,
-						  GeomVertexFormat, GeomVertexWriter,
-						  OmniBoundingVolume, Point3, Texture, load_prc_file)
-from src import DICO_COULEURS, TIC_SIMULATION, Environnement
+                          GeomVertexFormat, GeomVertexWriter,
+                          OmniBoundingVolume, Point3, Texture, load_prc_file)
+from src import DICO_COULEURS, TIC_SIMULATION
 
 load_prc_file('src/Interface3D/source/config.prc')
 
