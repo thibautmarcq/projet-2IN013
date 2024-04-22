@@ -20,8 +20,8 @@ class Adaptateur_reel(Adaptateur):
         self.dist_parcourA = 0
         self.angle_parcourA = 0
         self.run = True
-        t1 = Thread(target=self.updateDistAng, daemon=True)
-        t1.start()
+        # t1 = Thread(target=self.updateDistAng, daemon=True)
+        # t1.start()
 	
         
     def initialise(self) :

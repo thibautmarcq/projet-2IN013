@@ -28,7 +28,7 @@ class StrategieAvancer():
             :returns: rien, on met juste à jour la distance parcourue par le robot
         """
         if not self.stop() and not self.robA.robot.estCrash:
-            self.parcouru = self.robA.dist_parcourA
+            self.parcouru = self.robA.getDistanceParcourue()
             self.logger.debug("distance de segment parcourue : %d", self.parcouru )
 
     def stop(self):
@@ -69,7 +69,7 @@ class StrategieTourner():
             :returns: ne retourne rien, on met juste a jour le paramètre distance parcourue
         """
         if not self.stop() and not self.robA.robot.estCrash:
-            self.angle_parcouru = self.robA.angle_parcourA
+            self.angle_parcouru = self.robA.getAnglePacourue()
             self.logger.debug("angle de rotation parcouru : %d",self.angle_parcouru)
 
 
@@ -130,6 +130,7 @@ class StrategieSeq():
     def start(self):
         """ Lancement de la stratégie séquentielle """
         self.indice = -1
+        self.robA.initialise()
         self.robA.robot.estSousControle = True
 
     def step(self) : 
