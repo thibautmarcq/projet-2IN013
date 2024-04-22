@@ -6,8 +6,8 @@ from src import (HAUTEUR_ROBOT, LARGEUR_ENV, LARGEUR_ROBOT, LIST_PTS_OBS_CARRE,
                  LONGUEUR_ROBOT, SCALE_ENV_1, TAILLE_ROUE, TIC_SIMULATION,
                  Environnement)
 from src.controleur import Controler
-from src.interface2D.interface2D import Interface
-from src.interface3D.interface3D import Interface3D
+from src.interface2D import Interface
+from src.interface3D import Interface3D
 from src.robots import Adaptateur_simule
 
 envi = Environnement(LARGEUR_ENV, LONGUEUR_ENV, SCALE_ENV_1)
