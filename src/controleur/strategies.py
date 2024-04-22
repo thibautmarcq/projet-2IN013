@@ -69,7 +69,7 @@ class StrategieTourner():
             :returns: ne retourne rien, on met juste a jour le paramètre distance parcourue
         """
         if not self.stop() and not self.robA.robot.estCrash:
-            self.angle_parcouru = self.robA.getAnglePacourue()
+            self.angle_parcouru = self.robA.getAngleParcouru()
             self.logger.debug("angle de rotation parcouru : %d",self.angle_parcouru)
 
 

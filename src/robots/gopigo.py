@@ -20,8 +20,8 @@ class Adaptateur_reel(Adaptateur):
         self.dist_parcourA = 0
         self.angle_parcourA = 0
         self.run = True
-        # t1 = Thread(target=self.updateDistAng, daemon=True)
-        # t1.start()
+        t1 = Thread(target=self.updateDistAng, daemon=True)
+        t1.start()
 	
         
     def initialise(self) :
@@ -71,7 +71,7 @@ class Adaptateur_reel(Adaptateur):
         dist_d = (ang_d/360) * self.robot.WHEEL_CIRCUMFERENCE
         return (dist_g + dist_d)/2
     
-    def getAngleParcourue(self) :
+    def getAngleParcouru(self) :
         """
         Calcule l'angle parcouru par le robot
         :returns: l'angle parcouru par le robot

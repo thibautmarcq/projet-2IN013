@@ -234,7 +234,7 @@ class Adaptateur_simule(Adaptateur) :
 		pos_prec = self.last_point
 		return getDistanceFromPts(pos_actuelle, pos_prec)
 	
-	def getAngleParcourue(self) :
+	def getAngleParcouru(self) :
 		""" Getter de l'angle parcouru entre le dernier point enregistré et la position actuelle du robot
 			:returns: l'angle entre les deux points
 		"""

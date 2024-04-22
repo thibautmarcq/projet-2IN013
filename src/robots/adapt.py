@@ -16,7 +16,7 @@ class Adaptateur:
     def updateDistAng(self):
         while(self.run):
             self.dist_parcourA = self.getDistanceParcourue()
-            self.angle_parcourA = self.getAngleParcourue()	
+            self.angle_parcourA = self.getAngleParcouru()	
             sleep(TIC_ADAPT)
 
     @abstractmethod
@@ -44,5 +44,5 @@ class Adaptateur:
         pass
     
     @abstractmethod
-    def getAngleParcourue(self) :
+    def getAngleParcouru(self) :
         pass
