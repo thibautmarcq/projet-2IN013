@@ -26,21 +26,31 @@ class Environnement:
         self.robotSelect = 0 # robot selectionné pour bouger
         self.scale = scale #echelle en int positif 
         self.last_refresh = 0 # initialise la dernière fois où l'environnement a été rafraîchi à 0 pour savoir quand on le fait pour la première fois
-        self.listeObs =[]
-        self.initMatrice()
+        self.listeObs =[] # utile pour la représentation graphique
+        self.dicoObs = dict()
+        self.initBorders() # lance l'initialisation de la bordure de l'env
         self.logger.info("Environnement initialisé")
 
-    def initMatrice(self):
+    def initBorders(self):
         """
-        Initialise la matrice avec des 0, ainsi que ses bords avec 2 (obstacles)
-        :returns: rien, initialise juste la matrice comme il faut
-        """
-        self.matrice = np.zeros([int(self.length/self.scale), int(self.width/self.scale)], dtype=int) # Création d'une matrice int(width/scale)*int(length/scale) grâce à np.empty
-        self.matrice[0] = 2
-        self.matrice[-1] = 2
-        self.matrice[:, 0] = 2
-        self.matrice[:, -1] = 2
-        self.logger.info("Matrice initialisée")
+            Initialise les bordures de l'environnement en tant qu'obstacles 
+            :returns: rien, crée simplement les bordures de l'environnement dans le dico des obstacles
+            """
+        lstPoints = [(0,0), (self.width, 0), (self.width, self.length), (0, self.length)]
+
+        for i in range(len(lstPoints)): # Parcours la liste des points
+            x1, y1 = (lstPoints[i])
+            x2, y2 = lstPoints[(i+1)%len(lstPoints)] # Cas où i est le dernier indice de la liste - Point d'arrivée
+
+            self.dicoObs[(int(y1/self.scale),int(x1/self.scale))] = 'bordure'
+
+            while (round(x1), round(y1)) != (round(x2), round(y2)):
+                dir = normaliserVecteur((x2-x1,y2-y1)) # Vecteur directeur normalisé
+                x1,y1 = ((x1+dir[0]), (y1+dir[1]))
+
+                self.dicoObs[(int(y1/self.scale),int(x1/self.scale))] = 'bordure'
+                
+        self.logger.info("Obstacle %s ajouté", 'bordure')
 
     def addRobotSelect(self, n):
         """
@@ -51,10 +61,10 @@ class Environnement:
             self.robotSelect = (self.robotSelect + n)% len(self.listeRobots)
  
     def addObstacle(self, nom, lstPoints):
-        """ Ajout d'un obstacle dans la matrice, l'obstacle est représenté par '2' dans la matrice
+        """ Ajout d'un obstacle dans le dico des obstacles
             :param nom: nom de l'obstacle
             :param lstPoints: liste des points (x,y) qui définissent la forme de l'obstacle 
-            :returns: ne retourne rien, place juste un obstacle aléatoirement dans la matrice
+            :returns: ne retourne rien, place juste un obstacle dans le dico des obstacles
         """
         self.listeObs.append(Obstacle(nom, lstPoints))
         if any(x > self.width or x < 0 or y > self.length or y < 0 for (x, y) in lstPoints):
@@ -65,18 +75,14 @@ class Environnement:
             x1, y1 = lstPoints[i]
             x2, y2 = lstPoints[(i+1)%len(lstPoints)] # Cas où i est le dernier indice de la liste - Point d'arrivée
 
-            self.matrice[int(y1/self.scale)][int(x1/self.scale)] = 2 # Place le pt de départ dans la matrice
+            self.dicoObs[(int(y1/self.scale),int(x1/self.scale))] = nom
 
             while (round(x1), round(y1)) != (round(x2), round(y2)):
                 dir = normaliserVecteur((x2-x1,y2-y1)) # Vecteur directeur normalisé
                 x1,y1 = ((x1+dir[0]), (y1+dir[1]))
 
-                self.matrice[int(y1/self.scale)][int(x1/self.scale)] = 2 # Update la matrice
-                try:
-                    self.matrice[int(y1/self.scale)][int(x1/self.scale)+1] = 2 # Deuxieme couche pour aucun pb de hitbox
-                    self.matrice[int(y1/self.scale)+1][int(x1/self.scale)] = 2
-                except:
-                    pass
+                self.dicoObs[(int(y1/self.scale),int(x1/self.scale))] = nom
+                
         self.logger.info("Obstacle %s ajouté", nom)
 
     def printMatrix(self):
@@ -125,9 +131,8 @@ class Environnement:
             x2, y2 = lstPoints[(i+1)%len(lstPoints)] #arrivée
 
             while (round(x1), round(y1)) != (round(x2), round(y2)):
-                if (self.matrice[int(y1/self.scale)][int(x1/self.scale)]==2): # teste si le point est sur un obstacle
-                    # print("Collision de", rob.nom, "! Obstacle en (", str(x1),",",str(y1),")")
-                    self.logger.warning("Collision de %s! Obstacle en (%d, %d)", rob.nom, x1, y1)
+                if (int(y1/self.scale), int(x1/self.scale)) in self.dicoObs:
+                    self.logger.warning("Collision de %s! Obstacle %s en (%d, %d)", rob.nom, self.dicoObs[(int(y1/self.scale), int(x1/self.scale))], x1, y1)
                     return True
                 
                 long = sqrt((x2-x1)**2 + (y2-y1)**2) # Longueur du vect dir
