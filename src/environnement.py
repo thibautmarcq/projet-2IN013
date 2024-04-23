@@ -110,7 +110,7 @@ class Environnement:
         for robA in self.listeRobots : # on fait avancer tous les listeRobots de l'environnement
             if (not(robA.robot.estCrash) and not(self.verifCollision(robA.robot))): # Si le robot est opérationnel et qu'il n'y a pas collision 
                 duree = temps - self.last_refresh
-                robA.robot.refreshRobot(duree)
+                robA.robot.refresh(duree)
 
             elif not robA.robot.estCrash:
                 robA.robot.estCrash = True

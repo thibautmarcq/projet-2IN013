@@ -41,22 +41,22 @@ class Robot :
 		self.estSousControle = False 	# permet de savoir si notre robot est controlé par le controleur
 		self.estCrash = False  			# Nous permet de savoir si le robot s'est crash et ne pas refresh le robot
 
-	def refreshRobot(self, duree):
+	def refresh(self, duree):
 
 		""" Méthode de update du robot, qui va modifier les coordonnées du robot et son vecteur directeur en fonction des vitesses angulaires des roues et du temps qui s'est écoulé depuis la dernière update.
 			:param duree: le temps qui s'est écoulé depuis la dernière mise à jour du robot
 			:returns: ne retourne rien, on met juste à jour le robot
 		"""
 
-		vit = self.getVitesse() # on récupère la vitesse du centre du robot 
+		vitesse = self.getVitesse() # on récupère la vitesse du centre du robot 
 		dirBasex, dirBasey = self.direction
 
 		# on récupère les coordonnées des deux roues sous la forme de point
 
-		orto = [dirBasex*cos(pi/2)-dirBasey*sin( pi/2),
+		vecteurOrtogonal = [dirBasex*cos(pi/2)-dirBasey*sin( pi/2),
 				dirBasex*sin(pi/2)+dirBasey*cos( pi/2)]
-		coordRG = (self.x-(orto[0]*(self.width/2)), self.y-(orto[1]*(self.width/2)))
-		coordRD = (self.x+orto[0]*(self.width/2), self.y+orto[1]*(self.width/2))
+		coordRG = (self.x-(vecteurOrtogonal[0]*(self.width/2)), self.y-(vecteurOrtogonal[1]*(self.width/2)))
+		coordRD = (self.x+vecteurOrtogonal[0]*(self.width/2), self.y+vecteurOrtogonal[1]*(self.width/2))
 
 		# on calcule le vecteur vitesse de chaque roue
 		vg = self.getVitesseG()
@@ -85,8 +85,8 @@ class Robot :
 		self.direction = penteOrto # il devient notre nouvelle direction
 
 		# et on fait notre déplacement
-		self.x += self.direction[0]*vit*duree
-		self.y += self.direction[1]*vit*duree
+		self.x += self.direction[0]*vitesse*duree
+		self.y += self.direction[1]*vitesse*duree
 	
 
 	# Fonctions de manipulation des vitesses angulaires des roues 
