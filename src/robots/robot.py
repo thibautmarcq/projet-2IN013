@@ -35,8 +35,8 @@ class Robot :
 		self.couleur = couleur
 
 		self.direction = (0,-1) # vecteur directeur du robot
-		self.vitAngG = 0 # Vitesses angulaires des deux roues initialisées à 0
-		self.vitAngD = 0 
+		self._vitAngG = 0 # Vitesses angulaires des deux roues initialisées à 0
+		self._vitAngD = 0 
 
 		self.estSousControle = False 	# permet de savoir si notre robot est controlé par le controleur
 		self.estCrash = False  			# Nous permet de savoir si le robot s'est crash et ne pas refresh le robot
@@ -90,23 +90,34 @@ class Robot :
 	
 
 	# Fonctions de manipulation des vitesses angulaires des roues 
+ 
+	@property
+	def vitAngG(self):
+		return self._vitAngG
+	
 
-	def setVitAngG(self, vit) :
+	@vitAngG.setter
+	def vitAngG(self, vit):
 
 		""" Setter de vitesse angulaire de la roue gauche
 			:param vit: la vitesse anngulaire qu'on veut donner à la roue gauche
 			:returns: ne retourne rien, on met juste à jour la vitesse angulaire de la roue gauche
 		"""
-		self.vitAngG = vit
+		self._vitAngG = vit
 		self.logger.debug("Vitesse roueG set à %d (%s)", vit, self.nom)
 
-	def setVitAngD(self, vit) :
+	@property
+	def vitAngD(self):
+		return self._vitAngD
+
+	@vitAngD.setter
+	def vitAngD(self, vit) :
 
 		""" Setter de vitesse angulaire de la roue droite
 			:param vit: vitesse angulaire que l'on veut donner à la roue droite
 			:returns: ne retourne rien, on change juste la vitesse angulaire de la roue droite
 		"""
-		self.vitAngD = vit
+		self._vitAngD = vit
 		self.logger.debug("Vitesse roueD set à %d (%s)", vit, self.nom)
 
 	def setVitAng(self, vit) :
@@ -115,8 +126,8 @@ class Robot :
 			:param vit: la vitesse angulaire qu'on veut donner aux roues droite et gauche
 			:returns: ne retourne rien, on met à jour les vitesses angulaires des roues
 		"""
-		self.setVitAngD(vit)
-		self.setVitAngG(vit)
+		self.vitAngD = vit
+		self.vitAngG = vit
 		self.logger.debug("Vitesse globale set à %d (%s)", vit, self.nom)
 
 	def changeVitAngG(self, quant) :
@@ -201,14 +212,14 @@ class Adaptateur_simule(Adaptateur) :
 			:param vit: la vitesse angulaire que l'on veut donner à la roue droite
 			:returns: ne retourne rien
 		"""
-		self.robot.setVitAngD(vit)
+		self.robot.vitAngD = vit
 
 	def setVitAngGA(self, vit) :
 		""" Setter de vitesse angulaire de la roue droite depuis l'adaptateur
 			:param vit: la vitesse angulaire que l'on veut donner aux roues
 			:returns: ne retourne rien
 		"""
-		self.robot.setVitAngG(vit)
+		self.robot.vitAngG = vit
 
 	def setVitAngA(self, vit) :
 		""" Setter de vitesse angulaire des roues gauche et droite depuis l'adaptateur
