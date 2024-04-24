@@ -9,7 +9,7 @@ from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
 from panda3d.core import (Geom, GeomNode, GeomTriangles, GeomVertexData,
                           GeomVertexFormat, GeomVertexWriter,
-                          OmniBoundingVolume, Point3, Texture, load_prc_file)
+                          OmniBoundingVolume, Point3, Texture, load_prc_file, PNMImage, Filename, AsyncTask)
 from src import DICO_COULEURS, TIC_SIMULATION
 
 load_prc_file('src/interface3D/source/config.prc')
@@ -62,6 +62,8 @@ class Interface3D(ShowBase):
 		self.accept('1', self.taskMgr.add, [self.upCameraTask, "upCameraTask"])
 		self.accept('2', self.taskMgr.add, [self.frontCameraTask, "frontCameraTask"])
 		self.accept('3', self.taskMgr.add, [self.backCameraTask, "backCameraTask"])
+
+		self.accept('5', self.taskMgr.add, [self.takePic, "takePicture"])
 
 
 	def createAllRobots(self):
@@ -301,8 +303,6 @@ class Interface3D(ShowBase):
 		self.camera.lookAt(Point3(cam_x, cam_y, 0))
 		return Task.cont
 
-
-
 	def ticTac(self):
 		while True:
 			for adapt in self.env.listeRobots:
@@ -321,3 +321,32 @@ class Interface3D(ShowBase):
 			self.son.stop()
 			self.secret=False
 			print("stop")
+
+	# Méthodes pour get des images de l'interface
+	def renderToPNM(self):
+		"""
+		Prend une image de l'interface (vue initiale)
+		:returns: une image au format PNM (+-=array)
+		"""
+		self.graphicsEngine.renderFrame()
+
+		image = PNMImage()
+		dr = self.camNode.getDisplayRegion(0)
+		dr.getScreenshot(image)
+
+		return image
+	
+	def takePic(self, task):
+		"""
+		Tache permettant de prendre en photo l'interface
+		:option: touche '8' pour arrêter la tache
+		:returns: rien, prend une photo de la scène très fréquemment et la save"""
+
+		self.renderToPNM().write(Filename('src/interface3D/source/img.jpg'))
+		def fin(task):
+			self.taskMgr.remove('takePicture')
+			print("Fin du recording")
+			return Task.done
+
+		self.accept('8', self.taskMgr.add, [fin, "finImages"])
+		return Task.cont
