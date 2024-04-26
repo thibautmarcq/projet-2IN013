@@ -1,4 +1,4 @@
-from src import menuAll
+from src.demoMainAll import menuAll
 
 RUNNING = True
 while RUNNING:
