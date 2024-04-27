@@ -41,7 +41,7 @@ def menuAll(cmd) :
         interface2D.mainloop()
 
     elif cmd == "2":
-        interface3D = Interface3D(envi)
+        interface3D = Interface3D(envi, controleur)
         interface3D.run()
 
     elif cmd == "3":
