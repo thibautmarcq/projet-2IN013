@@ -7,19 +7,24 @@ from time import sleep
 
 from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
-from panda3d.core import (Geom, GeomNode, GeomTriangles, GeomVertexData,
-                          GeomVertexFormat, GeomVertexWriter,
-                          OmniBoundingVolume, Point3, Texture, load_prc_file, PNMImage, Filename, AsyncTask)
-from src import DICO_COULEURS, TIC_SIMULATION
+from panda3d.core import (AsyncTask, Filename, Geom, GeomNode, GeomPoints,
+                          GeomTriangles, GeomVertexData, GeomVertexFormat,
+                          GeomVertexWriter, OmniBoundingVolume, PNMImage,
+                          Point3, Texture, load_prc_file)
+from src import (DICO_COULEURS, TIC_SIMULATION, StrategieAvancer,
+                 StrategieBoucle, StrategieCond, StrategieSeq,
+                 StrategieTourner, setStrategieArretMur, setStrategieCarre,
+                 verifDistanceSup)
 
 load_prc_file('src/interface3D/source/config.prc')
 
 class Interface3D(ShowBase):
 	""" Classe Interface 3D - Ensemble de méthodes définies pour créer et gérer des objets dans une interface en 3D """
 
-	def __init__(self, env):
+	def __init__(self, env, controleur):
 		ShowBase.__init__(self)
 		self.env = env
+		self.controleur = controleur
 		self.createAllRobots()
 		self.createAllObstacles()
 		self.createEnvironnement()
@@ -38,6 +43,7 @@ class Interface3D(ShowBase):
 		# self.taskMgr.add(self.spinCameraTask, "spinCameraTask")
 		# self.taskMgr.add(self.backCameraTask, "backCameraTask")
 
+		self.setDraw()
 
 		self.camLens.setFar(100000) # Pour ne pas avoir de problème de distance de vue
 		T_tictac = Thread(target=self.ticTac, daemon=True)
@@ -64,6 +70,39 @@ class Interface3D(ShowBase):
 		self.accept('3', self.taskMgr.add, [self.backCameraTask, "backCameraTask"])
 
 		self.accept('5', self.taskMgr.add, [self.takePic, "takePicture"])
+
+		self.accept('c', lambda:self.choisirStrategie(1, 120))
+		self.accept('m', lambda:self.choisirStrategie(2, 20))
+		self.accept('p', lambda:self.choisirStrategie(3, 15))
+		self.accept('o', lambda:self.choisirStrategie(4, 120))
+
+	def choisirStrategie(self, strat, distance) :
+		""" Choisis la strategie à lancer
+			:param strat: 1 pour la strategie carré, 2 pour la strategie arret mur, 3 pour la conditionnelle mur, 4 pour la boucle carré
+			:param distance: la taille du coté du carré ou la distance d'arret du robot pour la strat arretmur 
+		
+		"""
+		robA = self.env.listeRobots[self.env.robotSelect]
+		if robA.robot.estCrash:
+			print("Impossible de contrôler ce robot, il est crash.")
+			return
+		elif robA.robot.estSousControle:
+			print("Impossible de contrôler ce robot, il est déjà sous contrôle.")
+			return
+
+		if strat==1:
+			carre = setStrategieCarre(robA, distance)
+			robA.robot.draw = True
+			self.controleur.lancerStrategie(carre)
+		elif strat==2:
+			arret_mur = setStrategieArretMur(robA, distance)
+			self.controleur.lancerStrategie(arret_mur)
+		elif strat==3:
+			arret_mur2 = StrategieCond(robA, StrategieAvancer(robA,400), lambda: verifDistanceSup(robA, distance))
+			self.controleur.lancerStrategie(arret_mur2)
+		elif strat==4:
+			carre2 = StrategieBoucle(robA, StrategieSeq([StrategieAvancer(robA, distance), StrategieTourner(robA, 90)], robA), 4)
+			self.controleur.lancerStrategie(carre2)
 
 
 	def createAllRobots(self):
@@ -160,7 +199,10 @@ class Interface3D(ShowBase):
 		robot.vertex.setData3f(robot.x+(robot.width/2)*(-dy)+(robot.length/2)*dx, robot.y+(robot.width/2)*(dx)+(robot.length/2)*dy, robot.height)  # 6 devant haut droit
 		robot.vertex.setRow(6)
 		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)+(robot.length/2)*dx, robot.y-(robot.width/2)*(dx)+(robot.length/2)*dy, robot.height)  # 7 devant haut gauche
-
+		# if robot.draw and not robot.estCrash:
+		# 	self.drawPoint(robot)
+		# 	if not robot.estSousControle:
+		# 		robot.draw = False
 
 	def createEnvironnement(self):
 		""" Crée le visuel de l'environnement dans l'interface
@@ -197,10 +239,39 @@ class Interface3D(ShowBase):
 		texture.read("src/interface3D/source/envi.png")
 		self.env.np.setTexture(texture)
 
+	# def drawPoint(self, robot):
+	# 	"""
+	# 	Draw a point in 3D space
+	# 	:param x: x-coordinate of the point
+	# 	:param y: y-coordinate of the point
+	# 	:param z: z-coordinate of the point
+	# 	:param color: color of the point
+	# 	"""
+
+	# 	# Create a new GeomVertexData and add a vertex to it
+	# 	vdata = GeomVertexData('point', GeomVertexFormat.getV3(), Geom.UHStatic)
+	# 	vertex = GeomVertexWriter(vdata, 'vertex')
+	# 	vertex.addData3f(robot.x, robot.y, 0)
+
+	# 	# Create a new point primitive
+	# 	point = GeomPoints(Geom.UHStatic)
+	# 	point.addVertex(0)
+
+	# 	# Create a new Geom and add the primitive to it
+	# 	geom = Geom(vdata)
+	# 	geom.addPrimitive(point)
+
+	# 	# Create a new GeomNode and add the Geom to it
+	# 	node = GeomNode('point')
+	# 	node.addGeom(geom)
+
+	# 	# Attach the GeomNode to the scene graph
+	# 	self.render.attachNewNode(node)
+
 	def createAllObstacles(self):
 		for obs in self.env.listeObs:
 			self.createObstacle(obs, 40)
-  
+
 	def createObstacle(self, obs, height):
 		""" Crée un obstacle en 3D à partir de ses points dans l'interface
 		:param obs: obstacle
@@ -310,6 +381,11 @@ class Interface3D(ShowBase):
 				self.updateRobot(adapt)
 			self.binds()
 			sleep(TIC_SIMULATION)
+
+	def setDraw(self) :
+
+		for robot in self.env.listeRobots:
+			robot.robot.draw = False
 
 	def mystere(self):
 		""" Méthode secrète """
