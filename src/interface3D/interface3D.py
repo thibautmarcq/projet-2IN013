@@ -49,12 +49,12 @@ class Interface3D(ShowBase):
 		# 								BINDS,										| a | z | e |
 		#           Modèle : (<touche>, <fonction>, <liste params>)		            | q | s | d |
 		# -------------------------------------------------------------------		-------------
-		self.accept('a', self.env.listeRobots[self.env.robotSelect].robot.changeVitAngG, [-1])
-		self.accept('q', self.env.listeRobots[self.env.robotSelect].robot.changeVitAngG, [1])
-		self.accept('z', self.env.listeRobots[self.env.robotSelect].robot.changeVitAng, [-1])
-		self.accept('s', self.env.listeRobots[self.env.robotSelect].robot.changeVitAng, [1])
-		self.accept('e', self.env.listeRobots[self.env.robotSelect].robot.changeVitAngD, [-1])
-		self.accept('d', self.env.listeRobots[self.env.robotSelect].robot.changeVitAngD, [1])
+		self.accept('a', self.env.listeRobots[self.env.robotSelect].robot.changeVitAngG, [1])
+		self.accept('q', self.env.listeRobots[self.env.robotSelect].robot.changeVitAngG, [-1])
+		self.accept('z', self.env.listeRobots[self.env.robotSelect].robot.changeVitAng, [1])
+		self.accept('s', self.env.listeRobots[self.env.robotSelect].robot.changeVitAng, [-1])
+		self.accept('e', self.env.listeRobots[self.env.robotSelect].robot.changeVitAngD, [1])
+		self.accept('d', self.env.listeRobots[self.env.robotSelect].robot.changeVitAngD, [-1])
 		self.accept('x', self.env.addRobotSelect, [1])
 		self.accept('w', self.env.addRobotSelect, [-1])
 		self.accept('shift-m', self.mystere)
@@ -84,14 +84,14 @@ class Interface3D(ShowBase):
 		robot.vertex = GeomVertexWriter(robot.vdata, "vertex")
 
 		# Définition des sommets du robot | leur indice en comm (voir fiche thibo)
-		robot.vertex.addData3f((robot.x)-(robot.width/2), (robot.y)-(robot.length/2), 0)  # 0 dèrrière bas gauche
-		robot.vertex.addData3f((robot.x)+(robot.width/2), (robot.y)-(robot.length/2), 0)  # 1 derriere bas droit
-		robot.vertex.addData3f((robot.x)+(robot.width/2), (robot.y)+(robot.length/2), 0)  # 2 devant bas droit
-		robot.vertex.addData3f((robot.x)-(robot.width/2), (robot.y)+(robot.length/2), 0)  # 3 devant bas gauche
-		robot.vertex.addData3f((robot.x)-(robot.width/2), (robot.y)-(robot.length/2), robot.height)  # 4 derriere haut gauche
-		robot.vertex.addData3f((robot.x)+(robot.width/2), (robot.y)-(robot.length/2), robot.height)  # 5 derriere haut droit
-		robot.vertex.addData3f((robot.x)+(robot.width/2), (robot.y)+(robot.length/2), robot.height)  # 6 devant haut droit
-		robot.vertex.addData3f((robot.x)-(robot.width/2), (robot.y)+(robot.length/2), robot.height)  # 7 devant haut gauche
+		robot.vertex.addData3f((robot.x)-(robot.width/2), self.env.length - (robot.y)-(robot.length/2), 0)  # 0 dèrrière bas gauche
+		robot.vertex.addData3f((robot.x)+(robot.width/2), self.env.length - (robot.y)-(robot.length/2), 0)  # 1 derriere bas droit
+		robot.vertex.addData3f((robot.x)+(robot.width/2), self.env.length - (robot.y)+(robot.length/2), 0)  # 2 devant bas droit
+		robot.vertex.addData3f((robot.x)-(robot.width/2), self.env.length - (robot.y)+(robot.length/2), 0)  # 3 devant bas gauche
+		robot.vertex.addData3f((robot.x)-(robot.width/2), self.env.length - (robot.y)-(robot.length/2), robot.height)  # 4 derriere haut gauche
+		robot.vertex.addData3f((robot.x)+(robot.width/2), self.env.length - (robot.y)-(robot.length/2), robot.height)  # 5 derriere haut droit
+		robot.vertex.addData3f((robot.x)+(robot.width/2), self.env.length - (robot.y)+(robot.length/2), robot.height)  # 6 devant haut droit
+		robot.vertex.addData3f((robot.x)-(robot.width/2), self.env.length - (robot.y)+(robot.length/2), robot.height)  # 7 devant haut gauche
 
 		# Création de l'objet (composition de triangles)
 		robot.rectangle = GeomTriangles(Geom.UHDynamic)
@@ -143,21 +143,21 @@ class Interface3D(ShowBase):
 		dx, dy = robot.direction
 
 		robot.vertex.setRow(0)
-		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)-(robot.length/2)*dx, robot.y-(robot.width/2)*(dx)-(robot.length/2)*dy, 0)  # 0 dèrrière bas gauche
+		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)-(robot.length/2)*dx, self.env.length - (robot.y-(robot.width/2)*(dx)-(robot.length/2)*dy), 0)  # 0 dèrrière bas gauche
 		robot.vertex.setRow(1)
-		robot.vertex.setData3f(robot.x+(robot.width/2)*(-dy)-(robot.length/2)*dx, robot.y+(robot.width/2)*(dx)-(robot.length/2)*dy, 0)  # 1 derriere bas droit
+		robot.vertex.setData3f(robot.x+(robot.width/2)*(-dy)-(robot.length/2)*dx, self.env.length - (robot.y+(robot.width/2)*(dx)-(robot.length/2)*dy), 0)  # 1 derriere bas droit
 		robot.vertex.setRow(3)
-		robot.vertex.addData3f(robot.x+(robot.width/2)*(-dy)+(robot.length/2)*dx, robot.y+(robot.width/2)*(dx)+(robot.length/2)*dy, 0)  # 2 devant bas droit
+		robot.vertex.addData3f(robot.x+(robot.width/2)*(-dy)+(robot.length/2)*dx, self.env.length - (robot.y+(robot.width/2)*(dx)+(robot.length/2)*dy), 0)  # 2 devant bas droit
 		robot.vertex.setRow(2)
-		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)+(robot.length/2)*dx, robot.y-(robot.width/2)*(dx)+(robot.length/2)*dy, 0)  # 3 devant bas gauche
+		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)+(robot.length/2)*dx, self.env.length - (robot.y-(robot.width/2)*(dx)+(robot.length/2)*dy), 0)  # 3 devant bas gauche
 		robot.vertex.setRow(4)
-		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)-(robot.length/2)*dx, robot.y-(robot.width/2)*(dx)-(robot.length/2)*dy, robot.height)  # 4 derriere haut gauche
+		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)-(robot.length/2)*dx, self.env.length - (robot.y-(robot.width/2)*(dx)-(robot.length/2)*dy), robot.height)  # 4 derriere haut gauche
 		robot.vertex.setRow(5)
-		robot.vertex.setData3f(robot.x+(robot.width/2)*(-dy)-(robot.length/2)*dx, robot.y+(robot.width/2)*(dx)-(robot.length/2)*dy, robot.height)  # 5 derriere haut droit
+		robot.vertex.setData3f(robot.x+(robot.width/2)*(-dy)-(robot.length/2)*dx, self.env.length - (robot.y+(robot.width/2)*(dx)-(robot.length/2)*dy), robot.height)  # 5 derriere haut droit
 		robot.vertex.setRow(7)
-		robot.vertex.setData3f(robot.x+(robot.width/2)*(-dy)+(robot.length/2)*dx, robot.y+(robot.width/2)*(dx)+(robot.length/2)*dy, robot.height)  # 6 devant haut droit
+		robot.vertex.setData3f(robot.x+(robot.width/2)*(-dy)+(robot.length/2)*dx, self.env.length - (robot.y+(robot.width/2)*(dx)+(robot.length/2)*dy), robot.height)  # 6 devant haut droit
 		robot.vertex.setRow(6)
-		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)+(robot.length/2)*dx, robot.y-(robot.width/2)*(dx)+(robot.length/2)*dy, robot.height)  # 7 devant haut gauche
+		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)+(robot.length/2)*dx, self.env.length - (robot.y-(robot.width/2)*(dx)+(robot.length/2)*dy), robot.height)  # 7 devant haut gauche
 
 
 	def createEnvironnement(self):
@@ -212,7 +212,7 @@ class Interface3D(ShowBase):
 
 		# Calcule le point central de la figure 
 		x_coords = [point[0] for point in obs.lstPoints]
-		y_coords = [point[1] for point in obs.lstPoints]
+		y_coords = [self.env.length - point[1] for point in obs.lstPoints]
 		center_x = sum(x_coords)/len(obs.lstPoints)
 		center_y = sum(y_coords)/len(obs.lstPoints)
 		obs.vertex.addData3f(center_x, center_y, 0)
@@ -223,8 +223,8 @@ class Interface3D(ShowBase):
 		for sommet in obs.lstPoints :
 			# numéro pair => sommet du bas, impair => sommet du haut
 			# on crée les faces directement après l'ajout dans le tableau de sommets
-			obs.vertex.addData3f(sommet[0], sommet[1], 0) # idS-1
-			obs.vertex.addData3f(sommet[0], sommet[1], height) # idS
+			obs.vertex.addData3f(sommet[0], self.env.length - sommet[1], 0) # idS-1
+			obs.vertex.addData3f(sommet[0], self.env.length - sommet[1], height) # idS
 			idS+=2
 			if idS >=3:
 				# Cotés
@@ -272,11 +272,11 @@ class Interface3D(ShowBase):
 		self.camLens.setFov(45)
 		robot = self.env.listeRobots[self.env.robotSelect].robot
 		dx, dy = robot.direction
-		camera_x = robot.x + 500 * dx
-		camera_y = robot.y + 500 * dy
+		camera_x = robot.x - 500 * dx
+		camera_y = robot.y - 500 * dy
 		camera_z = 500
-		self.camera.setPos(camera_x, camera_y, camera_z)
-		self.camera.lookAt(Point3(robot.x, robot.y, 0))
+		self.camera.setPos(camera_x, self.env.length - camera_y, camera_z)
+		self.camera.lookAt(Point3(robot.x, self.env.length - robot.y, 0))
 		return Task.cont
 
 	def frontCameraTask(self, task):
