@@ -20,8 +20,8 @@ class Adaptateur_reel(Adaptateur):
         self.dist_parcourA = 0
         self.angle_parcourA = 0
         self.run = True
-        t1 = Thread(target=self.updateDistAng, daemon=True)
-        t1.start()
+        # t1 = Thread(target=self.updateDistAng, daemon=True)
+        # t1.start()
 	
         
     def initialise(self) :
@@ -67,8 +67,10 @@ class Adaptateur_reel(Adaptateur):
 			:returns: la distance parcourue depuis la dernière visite à cette fonction
 		"""
         ang_g, ang_d = self.robot.get_motor_position()
+        print("angle dist :", ang_g, ang_d)
         dist_g = (ang_g/360) * self.robot.WHEEL_CIRCUMFERENCE
         dist_d = (ang_d/360) * self.robot.WHEEL_CIRCUMFERENCE
+        print("distance dist: ", (dist_d+dist_g)/2)
         return (dist_g + dist_d)/2
     
     def getAngleParcouru(self) :
@@ -77,8 +79,12 @@ class Adaptateur_reel(Adaptateur):
         :returns: l'angle parcouru par le robot
         """
         ang_g, ang_d = self.robot.get_motor_position()
-        dist_d = (ang_d/360) * pi * self.robot.WHEEL_CIRCUMFERENCE
-        dist_g = (ang_g/360) * pi * self.robot.WHEEL_CIRCUMFERENCE
+        print("angle angle:", ang_g, ang_d)
+        dist_d = (ang_d/360) * self.robot.WHEEL_CIRCUMFERENCE
+        dist_g = (ang_g/360) * self.robot.WHEEL_CIRCUMFERENCE
+        print("prout ", dist_g, dist_d)
+        print("distance angle: ", degrees((dist_g-dist_d)/self.robot.WHEEL_BASE_WIDTH))
         return degrees((dist_g-dist_d)/self.robot.WHEEL_BASE_WIDTH)
+
 
 

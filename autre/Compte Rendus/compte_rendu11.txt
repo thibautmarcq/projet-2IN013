@@ -1,0 +1,13 @@
+Brouillon (et final aussi y’a pas bcp de changements à faire entre les deux haha) :
+
+Il nous reste à intégrer la balise dans l’interface 3D
+-> voir comment intégrer l’objet balise dans l’interface
+-> voir comment récupérer les images de la simu 3D pour simuler une caméra
+-> voir comment reconnaitre la balise dans la vraie vie
+-> + traitement de l’image (ça sera la même chose pour 2D et 3D)
+
+Il faut aussi pouvoir faire les stratégies dans l’interface 3D
+Il faudrait qu’on puisse lancer les stratégies indépendamment de quel espace on utilise pour l’interface
+Donc que les stratégies fonctionnent en 2D et en 3D, et qu’on puisse passer d’un espace à l’autre
+
+Régler les bugs pour le robot réel pour enfin le faire avancer correctement (-> corrigé pendant le reste de la séance avec l’entretien)

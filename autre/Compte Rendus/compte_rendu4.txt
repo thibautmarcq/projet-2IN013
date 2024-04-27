@@ -1,0 +1,55 @@
+Ressenti global : on a pas beaucoup avancé cette semaine. Les profs nous trouvent en stagnation, ce qu'on leur a montré n'était pas à la hauteur de leurs espérances.
+
+Il faut que l'on comprenne vraiment comment implémenter la physique du robot. Il nous manque une formule basique (4lignes).
+Il faut qu'on teste aussi ces fonctions de physique : avec des scénarios différents (roue à 0, même vitesse G&D, cas à la main)
+
+Organisation : Les taches doivent être explicites, tout le monde doit les comprendre.
+L'avancement du projet doit être cohérent. Si l'on n'implémente pas totalement les obstacles : pas de matrice obstacles etcc..
+Tout le monde doit communiquer sur son avancement - compléter Trello.
+
+Github : Faire attention à la compréhensibilité de nos variables, de nos commits (doivent être explicites, pas "Correction du bug").
+Gérer les bugs : diviser en plusieurs sous-tâches si besoin de modifier plusieurs choses.
+
+Code : Que signifient certaines variables/constantes? Ils ont l'impression qu'on a modelé notre code en expérimentant, pas en comprenant réellement.
+Modifier certaines fonctions qui ne sont pas globales (forment des cas spécifiques - robotDansCadre).
+
+(Objectifs de la semaine prochaine)
+
+
+                --- BROUILLON ---
+Attention aux tests unitaires, surtout si on remove des methodes
+
+Vecteur directeur - vitesse angulaire - norme (av reculer) - angle rotation
+en fonction du ch de v des roues : changement de la rotation(angle) du vect directeur -> trouver le calcul (4lignes)
+> Tests : cas élémentaires avec solution intuitive : 2roues meme vitesse- tourner en rond centre - etcc + faire un cas au hasard à la main (valider les equations)
+
+
+Trello -
+Ecrire les taches dans un langage correct - tt le monde doit comprendre
+Avancer progressivement sur les taches - si pas d'obstacles > pas de matrice de gestion des obstacles (on avance que sur ce qu'on va montrer)
+
+Compléter le Trello - claude !!!
+
+Une belle démo ! - C'est subjectif 
+
+
+Github-
+Attention aux attributs - roueD et G > faire un truc plus concret
+Attention aux noms de commit github
+Embettant d'avoir des bugs à droite à gauche - diviser en taches pour ne pas avoir de commits sur plusieurs fichiers
+Attention aux noms des commits -> explicites, gitignore pour 
+
+Code-
+Rotation ? 40? 6000? 
+robotDansCadre ? Attention -> Modifier pour s'adapter à tous les canva
+Pb de simulation 
+
+Semaine prochaine-
+Tout doit etre corrigé - physique - branches - modules -> très rapidement 
+Vraiment rajouter obstacles : capteur d'obstacles (distance) 
+Début de controlleur - fait un carré - avance proche du mur (va faire apparaitre des problèmes etcc)
+
+
+
+
+

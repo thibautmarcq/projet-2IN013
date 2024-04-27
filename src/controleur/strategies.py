@@ -14,6 +14,7 @@ class StrategieAvancer():
         self.distance = distance
         self.robA = robAdapt
         self.parcouru = 0
+        self.robA.initialise()
 
     def start(self) :
         """ Lancement de la stratégie avancer """
@@ -49,6 +50,7 @@ class StrategieTourner():
         self.robA = robAdapt
         self.angle = angle
         self.angle_parcouru = 0
+        self.robA.initialise()
 
     def start(self) :
         """ Lancement de la stratégie tourner """
@@ -77,7 +79,7 @@ class StrategieTourner():
         """ Détermine si on a fini de faire la rotation de l'angle self.angle
             :returns: True si la rotation a bien été effectuée, False sinon
         """
-        return abs(self.angle_parcouru) >= abs(self.angle)
+        return abs(self.angle_parcouru) > abs(self.angle)
     
 
 class StrategieArretMur():
@@ -91,6 +93,7 @@ class StrategieArretMur():
         self.robA = robAdapt
         self.distarret = distarret
         self.distrob = self.robA.getDistanceA() # la distance entre le robot et le mur/obtacle le plus proche devant lui, obtenue avec le capteur de distance
+        self.robA.initialise()
 
     def start(self):
         """ Réinitialisation de la vitesse du robot et de la distance entre le robot et le mur/obstacle
@@ -126,6 +129,7 @@ class StrategieSeq():
         self.listeStrat = listeStrat
         self.robA = robAdapt
         self.indice = -1
+        self.robA.initialise()
 
     def start(self):
         """ Lancement de la stratégie séquentielle """
@@ -168,6 +172,7 @@ class StrategieCond():
         self.robA = robAdapt
         self.strat = strat
         self.cond = cond
+        self.robA.initialise()
 
     def start(self):
         """ Lancement de la stratégie conditionnelle """
@@ -205,6 +210,7 @@ class StrategieBoucle():
         self.strat = strat
         self.nbTours = nbTours
         self.restants = self.nbTours
+        self.robA.initialise()
 
     def start(self):
         """ Lancement de la stratégie de boucle """

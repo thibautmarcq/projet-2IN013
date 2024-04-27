@@ -1,0 +1,74 @@
+
+Sur l'organisation du code :
+
+- Mettre les paramètres du robot dans le fichier de constantes et non pas dans le fichier de la simulation, comme ça on peut en créer un nouveau
+- le loop env a définir en dehors du fichier de environnement
+- ne laisser aucun import *, à la place on veut des import explicites quitte a les multiplier -> solution : le init.py ? par exemple 
+- faire une factory pour créer un environnement par défaut : on veut juste quelques lignes dans la simulation, pas autant qu'on en a maintenant
+- on a besoin d’une variable de référence, d’une variable qui stocke au cas ou on passe entre plusieurs stratégies sans repasser par un strat (ca j'ai pas compris donc désolée si c'est pas clair)
+- pour tester sur le robot réel, faire des tests plus unitaires pour voir si ca marche au lieu de lancer une stratégie entière
+
+Sur le code :
+- le problème qu'on a avec les setters et les getters avec lesquels on n'arrive plus à faire les stratégies vient sûrement d'un autre bug, parce que les getters ne causent pas de bug
+- robot.rob pas clair du tout, a renommer sinon on va s'embrouiller et ca risque de poser des problemes
+- ne pas import Robot2IN013 dans gopigo
+- ne pas définir les constantes dans gopigo
+- changer le nom angle_parcouru() en get_angle_parcouru()
+- mettre des accumulateurs dans les adaptateurs
+- le plus possible, rendre le code d'une fonction indépendant du fonctionnement d'une autre, ca facilite tout
+
+
+
+
+
+Brouillon :
+
+
+Mettre les paramètres du robot dans le fichier de constantes au lieu de le faire dans la simulation
+Par exemple le rayon des roues
+
+On peut mettre le menu a cote
+
+Les import a enlever de la simulation
+Les import * c’est nul il faut détailler ca pour trouver d’ou ca vient
+
+Dans le init.py il faut mettre les import ?
+Loop env ca doit être autre part aussi
+
+Faire une factory pour créer un env par défaut dans l’interface
+
+Apres on fait juste get environnement et get contrôleur
+
+On veut juste voir quelques lignes dans le main de la simulation, pas 85
+
+C’est de la cosmétique mais ca devient utile après 
+
+
+
+Le problème avec setters et les getters qui veulent plus faire les stratégies vient pat d’un bug qu’on avait pas vu avant
+
+
+Avantage de l’héritage : ne pas répéter du code
+Par exemple dans les stratégies quand on fait get_rob
+
+Robot.rob a renommer 
+
+Il faut donner le rob en param de l’adaptateur
+
+Il faut pas import Robot2IN013 dans gopigo
+
+Ne pas définir les constantes 
+
+Changer angle_parcouru() en get_angle_parcouru
+
+Il faut être sur de ce qu’on fait
+La meilleure solution est que les traitements soient indépendants les uns des autres, si on s’appuie d’un appel de fonction pour une autre fonction 
+
+Accumulateurs dans les adaptateurs 
+
+On a besoin d’une variable de référence, d’une variable qui stocke au cas ou on passe entre plusieurs stratégies sans repasser par un strat
+
+
+Tache remplacer les import * par des import plus spécifiques 
+
+Faire les tests unitaires au lieu de faire un test avec une stratégie 

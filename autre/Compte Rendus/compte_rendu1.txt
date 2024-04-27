@@ -1,0 +1,15 @@
+Ce qu'on a fait : 
+- prise en main de l'outil trullo
+- établissement du premier scrum
+- réflexion sur l'organisation du travail
+
+A noter : 
+- est-ce qu'on est vraiment surs d'utiliser PyGame ? Est-ce que c'est le plus nécessaire et urgent a faire, ça va mener a une demonstration client ?
+- chaque choix qu'on fait comme le précédent nécessite d'être capable de le justifier : pourquoi PyGame et pas autre chose ?
+- définir des blocs de temps par tache, ne pas faire des temps arbitraires
+- découper les tâches le plus possible, de sorte qu'elles soient unitaires et indépendantes
+- les tâches doivent être simples et très détaillées, pour que chaque membre de l'équipe (voire quelqu'un d'extérieur) puisse comprendre facilement de quoi il s'agit, meme plusieurs semaines plus tard quand la tache n'est plus fraiche en memoire
+- prendre en compte la verification des taches dans le temps 
+- " Tout sera dans la classe robot, je vois pas comment on pourrait faire autrement" - Claude (désolée le prof a dit de bien noter)
+- s'assurer de toujours avoir quelque chose a presenter au client
+

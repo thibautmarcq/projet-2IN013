@@ -4,9 +4,10 @@ from time import sleep
 from src import (HAUTEUR_ROBOT, LARGEUR_ENV, LARGEUR_ROBOT, LIST_PTS_OBS_CARRE,
                  LIST_PTS_OBS_COEUR, LIST_PTS_OBS_TRIANGLE, LONGUEUR_ENV,
                  LONGUEUR_ROBOT, SCALE_ENV_1, TAILLE_ROUE, TIC_SIMULATION,
-                 Environnement)
-from .interface3D import Interface3D
+                 Controler, Environnement)
+
 from ..robots import Adaptateur_simule
+from .interface3D import Interface3D
 
 envi = Environnement(LARGEUR_ENV, LONGUEUR_ENV, SCALE_ENV_1)
 
@@ -27,13 +28,13 @@ def loopEnv(envi):
 T_env = Thread(target=loopEnv, args=[envi], daemon=True)
 T_env.start()
 # envi.printMatrix()
-
+controleur = Controler()
 def menu3D(cmd):
     """
     Fonction qui affiche un menu pour choisir une action
     """
     if cmd == "1":
-        interface3D = Interface3D(envi)
+        interface3D = Interface3D(envi, controleur)
         interface3D.run()
 
     elif cmd == "2":
