@@ -325,7 +325,7 @@ class Interface3D(ShowBase):
 		
 
 
-	# -------------------- Task pour la camera --------------------
+	# -------------------- Tasks pour la camera --------------------
 
 	def spinCameraTask(self, task):
 		""" Effectue une rotation de la caméra autour du robot pendant qu'il avance """
@@ -354,14 +354,18 @@ class Interface3D(ShowBase):
 
 	def frontCameraTask(self, task):
 		""" Set la caméra devant le robot (comme la vraie caméra) """
-		robot = self.env.listeRobots[self.env.robotSelect].robot
-		dx, dy = robot.direction
-		camera_x = robot.x - robot.width * dx
-		camera_y = robot.y - robot.length * dy
-		camera_z = robot.height/2
-		self.camera.setPos(camera_x, camera_y, camera_z)
-		self.camera.lookAt(Point3(robot.x + 100 * (-dx), robot.y + 100 * (-dy), robot.height/2))
-		self.camLens.setFov(100) # Réglage du FOV (champ de vision)
+		try:
+			robot = self.env.listeRobots[self.env.robotSelect].robot
+			dx, dy = robot.direction
+			camera_x = robot.x + robot.width * dx
+			camera_y = self.env.length-(robot.y + robot.length * dy)
+			camera_z = robot.height/2
+			self.camera.setPos(camera_x, camera_y, camera_z)
+			self.camera.lookAt(Point3(robot.x + 100 *(dx), self.env.length-(robot.y + 100 *(dy)), robot.height/2))
+			self.camLens.setFov(100) # Réglage du FOV (champ de vision)
+		except AttributeError as e:
+			print(f"Error: {e}")
+			return Task.fail
 		return Task.cont
 
 	def upCameraTask(self, task):
@@ -374,10 +378,14 @@ class Interface3D(ShowBase):
 		self.camera.lookAt(Point3(cam_x, cam_y, 0))
 		return Task.cont
 
+
+	# -------------------- Méthodes liées à l'update  de l'interface --------------------
+
+
 	def ticTac(self):
+		""" Méthode pour update la simulation à chaque tic"""
 		while True:
 			for adapt in self.env.listeRobots:
-				# print('oui')
 				self.updateRobot(adapt)
 			self.binds()
 			sleep(TIC_SIMULATION)
@@ -398,7 +406,9 @@ class Interface3D(ShowBase):
 			self.secret=False
 			print("stop")
 
-	# Méthodes pour get des images de l'interface
+
+	# -------------------- Méthodes pour get les images de la caméra --------------------
+
 	def renderToPNM(self):
 		"""
 		Prend une image de l'interface (vue initiale)
@@ -416,8 +426,8 @@ class Interface3D(ShowBase):
 		"""
 		Tache permettant de prendre en photo l'interface
 		:option: touche '8' pour arrêter la tache
-		:returns: rien, prend une photo de la scène très fréquemment et la save"""
-
+		:returns: rien, prend une photo de la scène très fréquemment et la save
+		"""
 		self.renderToPNM().write(Filename('src/interface3D/source/img.jpg'))
 		def fin(task):
 			self.taskMgr.remove('takePicture')
@@ -426,3 +436,7 @@ class Interface3D(ShowBase):
 
 		self.accept('8', self.taskMgr.add, [fin, "finImages"])
 		return Task.cont
+	
+
+	# --------------------------------------------------------------
+
