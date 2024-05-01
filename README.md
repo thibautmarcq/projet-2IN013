@@ -1,6 +1,6 @@
 ##### LU2IN013 
 <div align="center">
-      <h1> <img src="https://d29zukiv45njce.cloudfront.net/images/poli.png" width="90px"><br/>Projet S5 Mono-Info 💻</h1>
+      <h1> <img src="https://d29zukiv45njce.cloudfront.net/images/poli.png" width="90px"><br/>Projet S4 Mono-Info 💻</h1>
      </div>
 
 # Projet réalisé par
