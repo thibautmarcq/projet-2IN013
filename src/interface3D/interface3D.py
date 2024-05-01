@@ -8,13 +8,13 @@ from time import sleep
 from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
 from panda3d.core import (AsyncTask, Filename, Geom, GeomNode, GeomPoints,
-                          GeomTriangles, GeomVertexData, GeomVertexFormat,
-                          GeomVertexWriter, OmniBoundingVolume, PNMImage,
-                          Point3, Texture, load_prc_file)
+						  GeomTriangles, GeomVertexData, GeomVertexFormat,
+						  GeomVertexWriter, OmniBoundingVolume, PNMImage,
+						  Point3, Texture, load_prc_file, LineSegs, NodePath)
 from src import (DICO_COULEURS, TIC_SIMULATION, StrategieAvancer,
-                 StrategieBoucle, StrategieCond, StrategieSeq,
-                 StrategieTourner, setStrategieArretMur, setStrategieCarre,
-                 verifDistanceSup)
+				 StrategieBoucle, StrategieCond, StrategieSeq,
+				 StrategieTourner, setStrategieArretMur, setStrategieCarre,
+				 verifDistanceSup)
 
 load_prc_file('src/interface3D/source/config.prc')
 
@@ -94,6 +94,9 @@ class Interface3D(ShowBase):
 			carre = setStrategieCarre(robA, distance)
 			robA.robot.draw = True
 			self.controleur.lancerStrategie(carre)
+			T_draw = Thread(target=self.drawOpti, daemon=True)
+			T_draw.start()
+			print("start")
 		elif strat==2:
 			arret_mur = setStrategieArretMur(robA, distance)
 			self.controleur.lancerStrategie(arret_mur)
@@ -104,6 +107,8 @@ class Interface3D(ShowBase):
 			carre2 = StrategieBoucle(robA, StrategieSeq([StrategieAvancer(robA, distance), StrategieTourner(robA, 90)], robA), 4)
 			self.controleur.lancerStrategie(carre2)
 
+
+	# -------------------- Création des objets en 3D --------------------
 
 	def createAllRobots(self):
 		""" Crée tous les robots présents dans l'environnement
@@ -199,10 +204,9 @@ class Interface3D(ShowBase):
 		robot.vertex.setData3f(robot.x+(robot.width/2)*(-dy)+(robot.length/2)*dx, self.env.length - (robot.y+(robot.width/2)*(dx)+(robot.length/2)*dy), robot.height)  # 6 devant haut droit
 		robot.vertex.setRow(6)
 		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)+(robot.length/2)*dx, self.env.length - (robot.y-(robot.width/2)*(dx)+(robot.length/2)*dy), robot.height)  # 7 devant haut gauche
-		# if robot.draw and not robot.estCrash:
-		# 	self.drawPoint(robot)
-		# 	if not robot.estSousControle:
-		# 		robot.draw = False
+
+		if robot.draw and not robot.estSousControle:	# on est en train de dessiner, mais on a fini la méthode
+			robot.draw = False
 
 	def createEnvironnement(self):
 		""" Crée le visuel de l'environnement dans l'interface
@@ -239,34 +243,71 @@ class Interface3D(ShowBase):
 		texture.read("src/interface3D/source/envi.png")
 		self.env.np.setTexture(texture)
 
-	# def drawPoint(self, robot):
-	# 	"""
-	# 	Draw a point in 3D space
-	# 	:param x: x-coordinate of the point
-	# 	:param y: y-coordinate of the point
-	# 	:param z: z-coordinate of the point
-	# 	:param color: color of the point
-	# 	"""
+	def drawOpti(self):
+		"""
+		Dessine la trace du robot de manière optimisée (éviter le stack overflow).
+		Trace des lignes partielles à chaque pas jusqu'à tracer une vraie ligne quand il tourne.
+		Chaque ligne partielle est libérée à chaque fois.
+		A lancer en thread pour se faire en simultané du robot.
+		"""
 
-	# 	# Create a new GeomVertexData and add a vertex to it
-	# 	vdata = GeomVertexData('point', GeomVertexFormat.getV3(), Geom.UHStatic)
-	# 	vertex = GeomVertexWriter(vdata, 'vertex')
-	# 	vertex.addData3f(robot.x, robot.y, 0)
+		def libereTabNodes(tabNodes):
+			for node in tabNodes:
+				node.removeNode()
+		
+		robot = self.env.listeRobots[self.env.robotSelect].robot
+		tabDir = [robot.direction]
 
-	# 	# Create a new point primitive
-	# 	point = GeomPoints(Geom.UHStatic)
-	# 	point.addVertex(0)
+		tabNodesLines = [] # tab des nodes des lignes (côté entier du carré), plus tard supprimé
+		tabPts = [(robot.x, self.env.length-robot.y)] # utilisé pour repérer les 4 coins du carré
 
-	# 	# Create a new Geom and add the primitive to it
-	# 	geom = Geom(vdata)
-	# 	geom.addPrimitive(point)
+		tabNodesLinesPartial = [] # tableau des lignes pas finies, plus tard supprimé
+		ptsDraw = 0
 
-	# 	# Create a new GeomNode and add the Geom to it
-	# 	node = GeomNode('point')
-	# 	node.addGeom(geom)
+		while (robot.draw and not robot.estCrash): # tant qu'on dessine
+			while (((tabDir[0][0] == robot.direction[0]) or (tabDir[0][1] == robot.direction[1])) and robot.draw and not robot.estCrash): # tant que la direction ne change pas
+				ptsDraw += 1
+				if (ptsDraw%10==0): # évite d'avoir trop de pts (stack overflow)
+					self.drawLine((tabPts[len(tabPts)-1]), (robot.x, self.env.length-robot.y), tabNodesLinesPartial)
+					# print("drawPoint")
+					node = tabNodesLinesPartial.pop()
+					node.removeNode()
+			
+			# quand on tourne > trace la ligne complète  + on enregistre le point
+			# print("draw full ligne")
+			self.drawLine((tabPts[len(tabPts)-1]), (robot.x, self.env.length-robot.y), tabNodesLines) # on trace une ligne entre le dernier point et le pt actuel
+			tabPts.append((robot.x, self.env.length-robot.y))
 
-	# 	# Attach the GeomNode to the scene graph
-	# 	self.render.attachNewNode(node)
+			tabDir.pop() # supprime les anciennes directions
+			tabDir.append(robot.direction)
+
+		# On supprime les lignes et les points restants à la fin du carré
+		print("Suppression du tracé")
+		libereTabNodes(tabNodesLines)
+		libereTabNodes(tabNodesLinesPartial)
+		print("Fin Tracer Carré ! youhouu")
+		return
+
+
+	def drawLine(self, pt1, pt2, tabNodesLines):
+		"""
+		Trace une ligne en 2D entre pt1 et pt2
+		:param pt1: pt de départ
+		:param pt2: pt d'arrivé
+		"""
+		# crée un objet ligne
+		line = LineSegs()
+		line.moveTo(pt1[0], pt1[1], 0)  # Move to the start point
+		line.drawTo(pt2[0], pt2[1], 0)  # Draw to the end point
+
+		# crée un node et lui rattache la ligne
+		line_node = line.create()
+		line_node_path = NodePath(line_node)
+
+		# render le node + l'ajoute à la liste des nodes
+		line_node_path.reparentTo(self.render)
+		tabNodesLines.append(line_node_path)
+		# print("jai ligne")
 
 	def createAllObstacles(self):
 		for obs in self.env.listeObs:
@@ -391,7 +432,6 @@ class Interface3D(ShowBase):
 			sleep(TIC_SIMULATION)
 
 	def setDraw(self) :
-
 		for robot in self.env.listeRobots:
 			robot.robot.draw = False
 
