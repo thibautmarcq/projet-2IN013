@@ -16,6 +16,8 @@ from src import (DICO_COULEURS, TIC_SIMULATION, StrategieAvancer,
 				 StrategieTourner, setStrategieArretMur, setStrategieCarre,
 				 verifDistanceSup)
 
+from ..outil import normaliserVecteur
+
 load_prc_file('src/interface3D/source/config.prc')
 
 class Interface3D(ShowBase):
@@ -28,6 +30,11 @@ class Interface3D(ShowBase):
 		self.createAllRobots()
 		self.createAllObstacles()
 		self.createEnvironnement()
+
+
+		self.createBalise()	
+		self.vertexBal = None
+
 
 		# Bind quitter la fenêtre
 		self.accept('escape', exit)
@@ -363,7 +370,119 @@ class Interface3D(ShowBase):
 		obs.np.setTwoSided(True) # pour render toutes les faces
 		obs.np.node().setBounds(OmniBoundingVolume())
 		obs.np.node().setFinal(True)
+
+	def createBalise(self): # Renvoie un NodePath
+		"""
+		Crée une balise (objet) aux coordonnées de la mouse
+		:returns: le NodePath vers la balise crée (objet3D)
+		"""
+
+		robot = self.env.listeRobots[self.env.robotSelect].robot
+		ydir , xdir = robot.direction
+		widthBal = 60
+		heightBal = 40
+
+		winWidth = self.win.getXSize()
+		winHeight = self.win.getYSize()
+
+		if self.mouseWatcherNode.hasMouse():
+			mouseX = (self.mouseWatcherNode.getMouseX() + 0.65) * winWidth / 2
+			mouseY = (1.25- self.mouseWatcherNode.getMouseY()) * winHeight / 2
+		else :
+			print("Pas de souris à l'écran!")
+			mouseX = (robot.x+100)*xdir
+			mouseY = (robot.y+100)*ydir
 		
+
+		# print(mouseX, " ", mouseY)
+		# print(xdir, ydir)
+		
+		format = GeomVertexFormat.getV3()
+		vdata = GeomVertexData("balise", format, Geom.UHDynamic)
+		self.vertexBal = GeomVertexWriter(vdata, "vertex")
+
+		self.vertexBal.addData3f(mouseX-widthBal/2*(xdir), winHeight-mouseY-widthBal/2*(ydir), 0) # 0 
+		self.vertexBal.addData3f(mouseX+widthBal/2*(xdir), winHeight-mouseY+widthBal/2*(ydir), 0) # 1
+		self.vertexBal.addData3f(mouseX-widthBal/2*(xdir), winHeight-mouseY-widthBal/2*(ydir), heightBal) # 2
+		self.vertexBal.addData3f(mouseX+widthBal/2*(xdir), winHeight-mouseY+widthBal/2*(ydir), heightBal) # 3
+
+		balise = GeomTriangles(Geom.UHDynamic)
+		balise.addVertices(0,1,2)
+		balise.addVertices(1,2,3)
+
+		geom = Geom(vdata)
+		geom.addPrimitive(balise)
+
+		node = GeomNode("balise")
+		node.addGeom(geom)
+
+		np = self.render.attachNewNode(node)
+		np.setTwoSided(True) # pour render toutes les faces
+		np.node().setBounds(OmniBoundingVolume())
+		np.node().setFinal(True)
+		
+		# texture = Texture()
+		# texture.read("src/interface3D/source/balise.jpg")
+		# np.setTexture(texture)
+		print("balise crée")
+		return np
+
+	def updateBalise(self):
+		"""
+		Méthode d'affichage et de suppression de la balise régulièrement.
+		Temporaire, le temps de faire de bons updates
+		Méthode lancée en threading."""
+
+
+		robot = self.env.listeRobots[self.env.robotSelect].robot
+		ydir , xdir = robot.direction
+
+		widthBal = 60
+		heightBal = 40
+
+		winWidth = self.win.getXSize()
+		winHeight = self.win.getYSize()
+
+		mouseX = None
+		mouseY = None
+		init = None
+
+		if self.mouseWatcherNode.hasMouse():
+			mouseX = (self.mouseWatcherNode.getMouseX() + 0.65) * winWidth / 2
+			mouseY = (1.25- self.mouseWatcherNode.getMouseY()) * winHeight / 2
+			init = True
+			print("update ", init)
+		else :
+			print("Pas de souris à l'écran!")
+
+		if mouseX!=None and mouseY!=None:
+			print(mouseX, " ", mouseY)
+
+		if init==True and self.vertexBal!=None:
+			self.vertexBal.setRow(0)
+			self.vertexBal.vertex.setData3f(mouseX-widthBal/2*(xdir), winHeight-mouseY-widthBal/2*(ydir), 0) # 0 
+			self.vertexBal.vertex.setRow(2)
+			self.vertexBal.vertex.setData3f(mouseX+widthBal/2*(xdir), winHeight-mouseY+widthBal/2*(ydir), 0) # 1
+			self.vertexBal.vertex.setRow(3)
+			self.vertexBal.vertex.setData3f(mouseX-widthBal/2*(xdir), winHeight-mouseY-widthBal/2*(ydir), heightBal) # 2
+			self.vertexBal.vertex.setRow(4)
+			self.vertexBal.vertex.setData3f(mouseX+widthBal/2*(xdir), winHeight-mouseY+widthBal/2*(ydir), heightBal) # 3
+
+	def deleteNode(self, node):
+		"""
+		Supprime un objet (node) de l'interface
+		:param node: le node a supprimer de l'interface
+		"""
+		if node is not None:
+			node.removeNode()
+
+	# def lanceBalise(self):
+	# 	"""
+	# 	Méthode de lancement de l'affichage de la balise
+	# 	"""
+	# 	tab = []
+	# 	self.createBalise(tab)
+
 
 
 	# -------------------- Tasks pour la camera --------------------
@@ -429,6 +548,20 @@ class Interface3D(ShowBase):
 			for adapt in self.env.listeRobots:
 				self.updateRobot(adapt)
 			self.binds()
+			self.updateBalise()
+			# win = self.win
+
+			# if self.mouseWatcherNode.hasMouse():
+			# 	mouseX = self.mouseWatcherNode.getMouseX() * win.getXSize()
+			# 	mouseY = win.getYSize() - self.mouseWatcherNode.getMouseY() * win.getYSize()
+			# 	print(mouseX, mouseY)
+
+			# winWidth = self.win.getXSize()
+			# winHeight = self.win.getYSize()
+
+			# print("Window size: ", winWidth, "x", winHeight)
+
+			# self.updateBalise()
 			sleep(TIC_SIMULATION)
 
 	def setDraw(self) :
