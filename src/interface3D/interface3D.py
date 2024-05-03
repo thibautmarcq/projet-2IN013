@@ -16,8 +16,6 @@ from src import (DICO_COULEURS, TIC_SIMULATION, StrategieAvancer,
 				 StrategieTourner, setStrategieArretMur, setStrategieCarre,
 				 verifDistanceSup)
 
-from ..outil import normaliserVecteur
-
 load_prc_file('src/interface3D/source/config.prc')
 
 class Interface3D(ShowBase):
@@ -31,16 +29,13 @@ class Interface3D(ShowBase):
 		self.createAllObstacles()
 		self.createEnvironnement()
 
-
-		self.createBalise()	
-		self.vertexBal = None
-
+		self.createBalise(Balise(250,250, 40, 60))
 
 		# Bind quitter la fenêtre
 		self.accept('escape', exit)
 		# Bind changement de robot
-		self.accept('x', self.env.addRobotSelect, [1])
-		self.accept('w', self.env.addRobotSelect, [-1])
+		# self.accept('x', self.env.addRobotSelect, [1])
+		# self.accept('w', self.env.addRobotSelect, [-1])
 
 		self.son = self.loader.loadSfx("src/interface3D/source/secret.mp3")
 		self.secret = False
@@ -72,9 +67,10 @@ class Interface3D(ShowBase):
 		self.accept('w', self.env.addRobotSelect, [-1])
 		self.accept('shift-m', self.mystere)
 		# Switch entre les vues
-		self.accept('1', self.taskMgr.add, [self.upCameraTask, "upCameraTask"])
-		self.accept('2', self.taskMgr.add, [self.frontCameraTask, "frontCameraTask"])
-		self.accept('3', self.taskMgr.add, [self.backCameraTask, "backCameraTask"])
+		self.accept('control-arrow_up', self.taskMgr.add, [self.upCameraTask, "upCameraTask"])
+		self.accept('control-arrow_right', self.taskMgr.add, [self.frontCameraTask, "frontCameraTask"])
+		self.accept('control-arrow_down', self.taskMgr.add, [self.backCameraTask, "backCameraTask"])
+		self.accept('control-arrow_left', self.env.addRobotSelect, [1])
 
 		self.accept('5', self.taskMgr.add, [self.takePic, "takePicture"])
 
@@ -371,61 +367,62 @@ class Interface3D(ShowBase):
 		obs.np.node().setBounds(OmniBoundingVolume())
 		obs.np.node().setFinal(True)
 
-	def createBalise(self): # Renvoie un NodePath
+	def createBalise(self, balise): # Renvoie un NodePath
 		"""
 		Crée une balise (objet) aux coordonnées de la mouse
 		:returns: le NodePath vers la balise crée (objet3D)
 		"""
+		self.balise = balise
 
 		robot = self.env.listeRobots[self.env.robotSelect].robot
-		ydir , xdir = robot.direction
-		widthBal = 60
-		heightBal = 40
+		# dir orthogonale à celle du rob
+		self.balise.dir[1] = robot.direction[0]
+		self.balise.dir[0] = robot.direction[1]
 
 		winWidth = self.win.getXSize()
 		winHeight = self.win.getYSize()
 
-		if self.mouseWatcherNode.hasMouse():
-			mouseX = (self.mouseWatcherNode.getMouseX() + 0.65) * winWidth / 2
-			mouseY = (1.25- self.mouseWatcherNode.getMouseY()) * winHeight / 2
+		if self.mouseWatcherNode.hasMouse(): # si la souris est déjà sur l'écran
+			self.balise.x = (self.mouseWatcherNode.getMouseX() + 0.65) * winWidth / 2
+			self.balise.y = (1.25- self.mouseWatcherNode.getMouseY()) * winHeight / 2
 		else :
 			print("Pas de souris à l'écran!")
-			mouseX = (robot.x+100)*xdir
-			mouseY = (robot.y+100)*ydir
-		
+			self.balise.x = (robot.x+1000)*self.balise.dir[0]
+			self.balise.y = (robot.y+1000)*self.balise.dir[1]
 
-		# print(mouseX, " ", mouseY)
+		# print(self.balise.x, " ", self.balise.x)
 		# print(xdir, ydir)
 		
-		format = GeomVertexFormat.getV3()
-		vdata = GeomVertexData("balise", format, Geom.UHDynamic)
-		self.vertexBal = GeomVertexWriter(vdata, "vertex")
+		self.balise.format = GeomVertexFormat.getV3()
+		self.balise.vdata = GeomVertexData("balise", self.balise.format, Geom.UHDynamic)
+		self.balise.vertexBal = GeomVertexWriter(self.balise.vdata, "vertex")
+		print("self ", self.balise.vertexBal)
 
-		self.vertexBal.addData3f(mouseX-widthBal/2*(xdir), winHeight-mouseY-widthBal/2*(ydir), 0) # 0 
-		self.vertexBal.addData3f(mouseX+widthBal/2*(xdir), winHeight-mouseY+widthBal/2*(ydir), 0) # 1
-		self.vertexBal.addData3f(mouseX-widthBal/2*(xdir), winHeight-mouseY-widthBal/2*(ydir), heightBal) # 2
-		self.vertexBal.addData3f(mouseX+widthBal/2*(xdir), winHeight-mouseY+widthBal/2*(ydir), heightBal) # 3
+		self.balise.vertexBal.addData3f(self.balise.x-self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y-self.balise.width/2*(self.balise.dir[1]), 0) # 0 
+		self.balise.vertexBal.addData3f(self.balise.x+self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y+self.balise.width/2*(self.balise.dir[1]), 0) # 1
+		self.balise.vertexBal.addData3f(self.balise.x-self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y-self.balise.width/2*(self.balise.dir[1]), self.balise.height) # 2
+		self.balise.vertexBal.addData3f(self.balise.x+self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y+self.balise.width/2*(self.balise.dir[1]), self.balise.height) # 3
 
-		balise = GeomTriangles(Geom.UHDynamic)
-		balise.addVertices(0,1,2)
-		balise.addVertices(1,2,3)
+		self.balise.balise = GeomTriangles(Geom.UHDynamic)
+		self.balise.balise.addVertices(0,1,2)
+		self.balise.balise.addVertices(1,2,3)
 
-		geom = Geom(vdata)
-		geom.addPrimitive(balise)
+		self.balise.geom = Geom(self.balise.vdata)
+		self.balise.geom.addPrimitive(self.balise.balise)
 
 		node = GeomNode("balise")
-		node.addGeom(geom)
+		node.addGeom(self.balise.geom)
 
-		np = self.render.attachNewNode(node)
-		np.setTwoSided(True) # pour render toutes les faces
-		np.node().setBounds(OmniBoundingVolume())
-		np.node().setFinal(True)
+		self.balise.np = self.render.attachNewNode(node)
+		self.balise.np.setTwoSided(True) # pour render toutes les faces
+		self.balise.np.node().setBounds(OmniBoundingVolume())
+		self.balise.np.node().setFinal(True)
 		
-		# texture = Texture()
-		# texture.read("src/interface3D/source/balise.jpg")
-		# np.setTexture(texture)
+		texture = Texture()
+		texture.read("src/interface3D/source/balise.jpg")
+		self.balise.np.setTexture(texture)
 		print("balise crée")
-		return np
+		return self.balise.np
 
 	def updateBalise(self):
 		"""
@@ -435,10 +432,8 @@ class Interface3D(ShowBase):
 
 
 		robot = self.env.listeRobots[self.env.robotSelect].robot
-		ydir , xdir = robot.direction
-
-		widthBal = 60
-		heightBal = 40
+		self.balise.dir[1] = robot.direction[0]
+		self.balise.dir[0] = robot.direction[1]
 
 		winWidth = self.win.getXSize()
 		winHeight = self.win.getYSize()
@@ -448,25 +443,24 @@ class Interface3D(ShowBase):
 		init = None
 
 		if self.mouseWatcherNode.hasMouse():
-			mouseX = (self.mouseWatcherNode.getMouseX() + 0.65) * winWidth / 2
-			mouseY = (1.25- self.mouseWatcherNode.getMouseY()) * winHeight / 2
+			self.balise.x = (self.mouseWatcherNode.getMouseX() + 0.65) * winWidth / 2
+			self.balise.y = (1.25- self.mouseWatcherNode.getMouseY()) * winHeight / 2
 			init = True
-			print("update ", init)
+			# print("update ", init)
 		else :
 			print("Pas de souris à l'écran!")
 
-		if mouseX!=None and mouseY!=None:
-			print(mouseX, " ", mouseY)
+		print(self.balise.x, " ", self.balise.y)
 
-		if init==True and self.vertexBal!=None:
-			self.vertexBal.setRow(0)
-			self.vertexBal.vertex.setData3f(mouseX-widthBal/2*(xdir), winHeight-mouseY-widthBal/2*(ydir), 0) # 0 
-			self.vertexBal.vertex.setRow(2)
-			self.vertexBal.vertex.setData3f(mouseX+widthBal/2*(xdir), winHeight-mouseY+widthBal/2*(ydir), 0) # 1
-			self.vertexBal.vertex.setRow(3)
-			self.vertexBal.vertex.setData3f(mouseX-widthBal/2*(xdir), winHeight-mouseY-widthBal/2*(ydir), heightBal) # 2
-			self.vertexBal.vertex.setRow(4)
-			self.vertexBal.vertex.setData3f(mouseX+widthBal/2*(xdir), winHeight-mouseY+widthBal/2*(ydir), heightBal) # 3
+		if init==True and self.balise.vertexBal!=None:
+			self.balise.vertexBal.setRow(0)
+			self.balise.vertexBal.setData3f(self.balise.x-self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y-self.balise.width/2*(self.balise.dir[1]), 0) # 0 
+			self.balise.vertexBal.setRow(1)
+			self.balise.vertexBal.setData3f(self.balise.x+self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y+self.balise.width/2*(self.balise.dir[1]), 0) # 1
+			self.balise.vertexBal.setRow(2)
+			self.balise.vertexBal.setData3f(self.balise.x-self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y-self.balise.width/2*(self.balise.dir[1]), self.balise.height) # 2
+			self.balise.vertexBal.setRow(3)
+			self.balise.vertexBal.setData3f(self.balise.x+self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y+self.balise.width/2*(self.balise.dir[1]), self.balise.height) # 3
 
 	def deleteNode(self, node):
 		"""
@@ -475,15 +469,6 @@ class Interface3D(ShowBase):
 		"""
 		if node is not None:
 			node.removeNode()
-
-	# def lanceBalise(self):
-	# 	"""
-	# 	Méthode de lancement de l'affichage de la balise
-	# 	"""
-	# 	tab = []
-	# 	self.createBalise(tab)
-
-
 
 	# -------------------- Tasks pour la camera --------------------
 
@@ -561,7 +546,7 @@ class Interface3D(ShowBase):
 
 			# print("Window size: ", winWidth, "x", winHeight)
 
-			# self.updateBalise()
+			# self.updateCreateBalise()
 			sleep(TIC_SIMULATION)
 
 	def setDraw(self) :
@@ -613,3 +598,12 @@ class Interface3D(ShowBase):
 
 	# --------------------------------------------------------------
 
+class Balise:
+
+	def __init__(self, x, y, width, height):
+		self.x = x
+		self.y = y
+		self.width = width
+		self.height = height
+
+		self.dir = [0,0]
