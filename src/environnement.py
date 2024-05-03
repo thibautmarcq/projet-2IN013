@@ -2,8 +2,6 @@ from logging import getLogger
 from math import sqrt
 from time import time
 
-import numpy as np
-
 from .obstacle import Obstacle
 from .outil import normaliserVecteur
 

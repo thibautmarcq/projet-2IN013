@@ -27,7 +27,6 @@ def loopEnv(envi):
 
 T_env = Thread(target=loopEnv, args=[envi], daemon=True)
 T_env.start()
-# envi.printMatrix()
 controleur = Controler()
 def menu3D(cmd):
     """

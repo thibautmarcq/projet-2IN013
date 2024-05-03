@@ -190,7 +190,7 @@ class Interface:
 			robot = adapt.robot # !!
 			self.refreshPositionRobotVisuel(self.canv, robot)
 			if robot.draw and not robot.estCrash:
-				self.dessinePoint((robot.x, robot.y),  "black") #self.env.listeRobots[self.env.robotSelect].couleur)
+				self.dessinePoint((robot.x, robot.y),  "black")
 				if not robot.estSousControle:
 					robot.draw = False
 					

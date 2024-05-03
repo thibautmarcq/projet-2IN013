@@ -270,11 +270,11 @@ class Interface3D(ShowBase):
 		while (robot.draw and not robot.estCrash): # tant qu'on dessine
 			while (((tabDir[0][0] == robot.direction[0]) or (tabDir[0][1] == robot.direction[1])) and robot.draw and not robot.estCrash): # tant que la direction ne change pas
 				ptsDraw += 1
-				if (ptsDraw%10==0): # évite d'avoir trop de pts (stack overflow)
-					self.drawLine((tabPts[len(tabPts)-1]), (robot.x, self.env.length-robot.y), tabNodesLinesPartial)
-					# print("drawPoint")
-					node = tabNodesLinesPartial.pop()
-					node.removeNode()
+				self.drawLine((tabPts[len(tabPts)-1]), (robot.x, self.env.length-robot.y), tabNodesLinesPartial)
+				# print("drawPoint")
+				node = tabNodesLinesPartial.pop()
+				node.removeNode()
+				sleep(TIC_SIMULATION)
 			
 			# quand on tourne > trace la ligne complète  + on enregistre le point
 			# print("draw full ligne")
