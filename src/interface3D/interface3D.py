@@ -10,7 +10,7 @@ from direct.task import Task
 from panda3d.core import (AsyncTask, Filename, Geom, GeomNode, GeomPoints,
 						  GeomTriangles, GeomVertexData, GeomVertexFormat,
 						  GeomVertexWriter, OmniBoundingVolume, PNMImage,
-						  Point3, Texture, load_prc_file, LineSegs, NodePath)
+						  Point3, Texture, load_prc_file, LineSegs, NodePath, TextureStage)
 from src import (DICO_COULEURS, TIC_SIMULATION, StrategieAvancer,
 				 StrategieBoucle, StrategieCond, StrategieSeq,
 				 StrategieTourner, setStrategieArretMur, setStrategieCarre,
@@ -29,7 +29,7 @@ class Interface3D(ShowBase):
 		self.createAllObstacles()
 		self.createEnvironnement()
 
-		self.createBalise(Balise(250,250, 40, 60))
+		self.createBalise(Balise(250, 250, 80, 53))
 
 		# Bind quitter la fenêtre
 		self.accept('escape', exit)
@@ -370,6 +370,7 @@ class Interface3D(ShowBase):
 	def createBalise(self, balise): # Renvoie un NodePath
 		"""
 		Crée une balise (objet) aux coordonnées de la mouse
+		:param balise: la balise que l'on souhaite créer
 		:returns: le NodePath vers la balise crée (objet3D)
 		"""
 		self.balise = balise
@@ -393,16 +394,28 @@ class Interface3D(ShowBase):
 		# print(self.balise.x, " ", self.balise.x)
 		# print(xdir, ydir)
 		
-		self.balise.format = GeomVertexFormat.getV3()
+		# Define the vertex format to include texture coordinates
+		self.balise.format = GeomVertexFormat.getV3t2()
 		self.balise.vdata = GeomVertexData("balise", self.balise.format, Geom.UHDynamic)
+
+		# Create writers for the vertices and texture coordinates
 		self.balise.vertexBal = GeomVertexWriter(self.balise.vdata, "vertex")
-		print("self ", self.balise.vertexBal)
+		self.balise.texcoord = GeomVertexWriter(self.balise.vdata, "texcoord")
 
-		self.balise.vertexBal.addData3f(self.balise.x-self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y-self.balise.width/2*(self.balise.dir[1]), 0) # 0 
-		self.balise.vertexBal.addData3f(self.balise.x+self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y+self.balise.width/2*(self.balise.dir[1]), 0) # 1
-		self.balise.vertexBal.addData3f(self.balise.x-self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y-self.balise.width/2*(self.balise.dir[1]), self.balise.height) # 2
-		self.balise.vertexBal.addData3f(self.balise.x+self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y+self.balise.width/2*(self.balise.dir[1]), self.balise.height) # 3
+		# Add vertices and texture coordinates
+		self.balise.vertexBal.addData3f(self.balise.x-self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y-self.balise.width/2*(self.balise.dir[1]), 0)
+		self.balise.texcoord.addData2f(0, 0)
 
+		self.balise.vertexBal.addData3f(self.balise.x+self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y+self.balise.width/2*(self.balise.dir[1]), 0)
+		self.balise.texcoord.addData2f(1, 0)
+
+		self.balise.vertexBal.addData3f(self.balise.x-self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y-self.balise.width/2*(self.balise.dir[1]), self.balise.height)
+		self.balise.texcoord.addData2f(0, 1)
+
+		self.balise.vertexBal.addData3f(self.balise.x+self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y+self.balise.width/2*(self.balise.dir[1]), self.balise.height)
+		self.balise.texcoord.addData2f(1, 1)
+
+		# The rest of your code...
 		self.balise.balise = GeomTriangles(Geom.UHDynamic)
 		self.balise.balise.addVertices(0,1,2)
 		self.balise.balise.addVertices(1,2,3)
@@ -420,8 +433,9 @@ class Interface3D(ShowBase):
 		
 		texture = Texture()
 		texture.read("src/interface3D/source/balise.jpg")
+		# self.balise.np.setTexScale(TextureStage.getDefault(), 0.5, 0.5)		
 		self.balise.np.setTexture(texture)
-		print("balise crée")
+		# print("balise crée")
 		return self.balise.np
 
 	def updateBalise(self):
@@ -438,20 +452,17 @@ class Interface3D(ShowBase):
 		winWidth = self.win.getXSize()
 		winHeight = self.win.getYSize()
 
-		mouseX = None
-		mouseY = None
 		init = None
-
 		if self.mouseWatcherNode.hasMouse():
 			self.balise.x = (self.mouseWatcherNode.getMouseX() + 0.65) * winWidth / 2
 			self.balise.y = (1.25- self.mouseWatcherNode.getMouseY()) * winHeight / 2
 			init = True
 			# print("update ", init)
 		else :
-			print("Pas de souris à l'écran!")
+			# print("Pas de souris à l'écran!")
+			pass
 
-		print(self.balise.x, " ", self.balise.y)
-
+		# print(self.balise.x, " ", self.balise.y)
 		if init==True and self.balise.vertexBal!=None:
 			self.balise.vertexBal.setRow(0)
 			self.balise.vertexBal.setData3f(self.balise.x-self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y-self.balise.width/2*(self.balise.dir[1]), 0) # 0 
