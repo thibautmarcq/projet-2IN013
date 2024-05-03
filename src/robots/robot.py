@@ -1,6 +1,5 @@
 from logging import getLogger
 from math import cos, pi, sin, sqrt
-from threading import Thread
 
 from src import getAngleFromVect, getDistanceFromPts, normaliserVecteur
 
@@ -197,8 +196,6 @@ class Adaptateur_simule(Adaptateur) :
 		self.dist_parcourA = 0
 		self.angle_parcourA = 0
 		self.run = True
-		t1 = Thread(target=self.updateDistAng, daemon=True)
-		t1.start()
 
 	def initialise(self):
 		""" Méthode qui initialise les moteurs du robot et les variables de distance et d'angle parcourus à 0"""

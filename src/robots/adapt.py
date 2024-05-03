@@ -2,7 +2,6 @@ import logging
 from abc import abstractmethod
 from time import sleep
 
-from src import TIC_ADAPT
 
 
 class Adaptateur:
@@ -12,12 +11,6 @@ class Adaptateur:
     def __init__(self):
         self.logger = logging.getLogger(self.__class__.__name__)
         self.logger.debug("Initialisation du robot")
-
-    def updateDistAng(self):
-        while(self.run):
-            self.dist_parcourA = self.getDistanceParcourue()
-            self.angle_parcourA = self.getAngleParcouru()	
-            sleep(TIC_ADAPT)
 
     @abstractmethod
     def initialise(self):
