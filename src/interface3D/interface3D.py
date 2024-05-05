@@ -274,7 +274,7 @@ class Interface3D(ShowBase):
 				# print("drawPoint")
 				node = tabNodesLinesPartial.pop()
 				node.removeNode()
-				sleep(TIC_SIMULATION)
+				sleep(TIC_SIMULATION*1.5)
 			
 			# quand on tourne > trace la ligne complète  + on enregistre le point
 			# print("draw full ligne")
@@ -404,16 +404,16 @@ class Interface3D(ShowBase):
 
 		# Add vertices and texture coordinates
 		self.balise.vertexBal.addData3f(self.balise.x-self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y-self.balise.width/2*(self.balise.dir[1]), 0)
-		self.balise.texcoord.addData2f(0, 0)
-
-		self.balise.vertexBal.addData3f(self.balise.x+self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y+self.balise.width/2*(self.balise.dir[1]), 0)
 		self.balise.texcoord.addData2f(1, 0)
 
+		self.balise.vertexBal.addData3f(self.balise.x+self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y+self.balise.width/2*(self.balise.dir[1]), 0)
+		self.balise.texcoord.addData2f(0, 0)
+
 		self.balise.vertexBal.addData3f(self.balise.x-self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y-self.balise.width/2*(self.balise.dir[1]), self.balise.height)
-		self.balise.texcoord.addData2f(0, 1)
+		self.balise.texcoord.addData2f(1, 1)
 
 		self.balise.vertexBal.addData3f(self.balise.x+self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y+self.balise.width/2*(self.balise.dir[1]), self.balise.height)
-		self.balise.texcoord.addData2f(1, 1)
+		self.balise.texcoord.addData2f(0, 1)
 
 		# The rest of your code...
 		self.balise.balise = GeomTriangles(Geom.UHDynamic)
@@ -510,18 +510,15 @@ class Interface3D(ShowBase):
 
 	def frontCameraTask(self, task):
 		""" Set la caméra devant le robot (comme la vraie caméra) """
-		try:
-			robot = self.env.listeRobots[self.env.robotSelect].robot
-			dx, dy = robot.direction
-			camera_x = robot.x + robot.width * dx
-			camera_y = self.env.length-(robot.y + robot.length * dy)
-			camera_z = robot.height/2
-			self.camera.setPos(camera_x, camera_y, camera_z)
-			self.camera.lookAt(Point3(robot.x + 100 *(dx), self.env.length-(robot.y + 100 *(dy)), robot.height/2))
-			self.camLens.setFov(100) # Réglage du FOV (champ de vision)
-		except AttributeError as e:
-			print(f"Error: {e}")
-			return Task.fail
+		robot = self.env.listeRobots[self.env.robotSelect].robot
+		dx, dy = robot.direction
+		camera_x = robot.x + robot.width * dx
+		camera_y = self.env.length-(robot.y + robot.length * dy)
+		camera_z = robot.height
+		self.camera.setPos(camera_x, camera_y, camera_z)
+		self.camera.lookAt(Point3(robot.x + 100 *(dx), self.env.length-(robot.y + 100 *(dy)), robot.height))
+		self.camLens.setFov(140) # Réglage du FOV (champ de vision)
+
 		return Task.cont
 
 	def upCameraTask(self, task):
