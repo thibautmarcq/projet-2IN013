@@ -34,7 +34,11 @@ def menu3D(cmd):
     """
     if cmd == "1":
         interface3D = Interface3D(envi, controleur)
-        interface3D.run()
+        try: interface3D.run()
+        except SystemExit:
+            interface3D.running = False
+            interface3D.destroy()
+
 
     elif cmd == "2":
         print("\nInformation de la simulation:")

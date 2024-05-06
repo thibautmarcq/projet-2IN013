@@ -28,6 +28,7 @@ class Interface3D(ShowBase):
 		self.createAllRobots()
 		self.createAllObstacles()
 		self.createEnvironnement()
+		self.running = True
 
 		self.createBalise(Balise(250, 250, 80, 53))
 
@@ -537,7 +538,7 @@ class Interface3D(ShowBase):
 
 	def ticTac(self):
 		""" Méthode pour update la simulation à chaque tic"""
-		while True:
+		while self.running:
 			for adapt in self.env.listeRobots:
 				self.updateRobot(adapt)
 			self.binds()
