@@ -1,5 +1,5 @@
 from tkinter import LEFT, Canvas, Label, LabelFrame, PhotoImage, Tk
-
+from sys import exit
 from src import TIC_INTERFACE, rotationVecteur
 from src.controleur import (StrategieAvancer, StrategieBoucle, StrategieCond,
                             StrategieSeq, StrategieTourner,
@@ -239,6 +239,8 @@ class Interface:
 		self.root.bind('m', lambda event: self.choisirStrategie(2, 20)) # fait la stratégie avancer jusqu'au mur
 		self.root.bind('p', lambda event: self.choisirStrategie(3, 15)) # fait la stratégie avancer jusqu'au mur - 2ème méthode (stratégie conditionnelle)
 		self.root.bind('o', lambda event: self.choisirStrategie(4, 120)) # fait la stratégie carré - 2ème méthode  (stratégie boucle)
+
+		self.root.bind('<Escape>', lambda event: self.root.destroy())
 
 		self.root.bind("x", lambda event: self.env.addRobotSelect(1))
 		self.root.bind("w", lambda event: self.env.addRobotSelect(-1))

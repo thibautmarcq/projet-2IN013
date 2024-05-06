@@ -57,6 +57,7 @@ class Adaptateur_reel(Adaptateur):
         Getter qui renvoie la distance mesurée par le capteur de distance
         :returns: la distance mesurée par le capteur de distance
         """
+        print(self.robot.get_distance())
         return self.robot.get_distance()
     
     def getDistanceParcourue(self) :

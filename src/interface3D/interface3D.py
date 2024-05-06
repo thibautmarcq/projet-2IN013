@@ -7,10 +7,10 @@ from time import sleep
 
 from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
-from panda3d.core import (AsyncTask, Filename, Geom, GeomNode, GeomPoints,
+from panda3d.core import (Filename, Geom, GeomNode,
 						  GeomTriangles, GeomVertexData, GeomVertexFormat,
 						  GeomVertexWriter, OmniBoundingVolume, PNMImage,
-						  Point3, Texture, load_prc_file, LineSegs, NodePath, TextureStage)
+						  Point3, Texture, load_prc_file, LineSegs, NodePath)
 from src import (DICO_COULEURS, TIC_SIMULATION, StrategieAvancer,
 				 StrategieBoucle, StrategieCond, StrategieSeq,
 				 StrategieTourner, setStrategieArretMur, setStrategieCarre,
@@ -34,9 +34,6 @@ class Interface3D(ShowBase):
 
 		# Bind quitter la fenêtre
 		self.accept('escape', exit)
-		# Bind changement de robot
-		# self.accept('x', self.env.addRobotSelect, [1])
-		# self.accept('w', self.env.addRobotSelect, [-1])
 
 		self.son = self.loader.loadSfx("src/interface3D/source/secret.mp3")
 		self.secret = False
@@ -68,10 +65,9 @@ class Interface3D(ShowBase):
 		self.accept('w', self.env.addRobotSelect, [-1])
 		self.accept('shift-m', self.mystere)
 		# Switch entre les vues
-		self.accept('control-arrow_up', self.taskMgr.add, [self.upCameraTask, "upCameraTask"])
-		self.accept('control-arrow_right', self.taskMgr.add, [self.frontCameraTask, "frontCameraTask"])
-		self.accept('control-arrow_down', self.taskMgr.add, [self.backCameraTask, "backCameraTask"])
-		self.accept('control-arrow_left', self.env.addRobotSelect, [1])
+		self.accept('arrow_up', self.taskMgr.add, [self.upCameraTask, "upCameraTask"])
+		self.accept('arrow_right', self.taskMgr.add, [self.frontCameraTask, "frontCameraTask"])
+		self.accept('arrow_down', self.taskMgr.add, [self.backCameraTask, "backCameraTask"])
 
 		self.accept('5', self.taskMgr.add, [self.takePic, "takePicture"])
 
@@ -444,7 +440,6 @@ class Interface3D(ShowBase):
 		Méthode d'affichage et de suppression de la balise régulièrement.
 		Temporaire, le temps de faire de bons updates
 		Méthode lancée en threading."""
-
 
 		robot = self.env.listeRobots[self.env.robotSelect].robot
 		self.balise.dir[1] = robot.direction[0]
