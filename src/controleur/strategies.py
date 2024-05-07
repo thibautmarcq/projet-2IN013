@@ -1,11 +1,11 @@
 from logging import getLogger
 
-from src import VIT_ANG_AVAN, VIT_ANG_TOUR
+from src import VIT_ANG_AVAN, VIT_ANG_TOUR, contientBalise
 
 
 class StrategieAvancer():
     def __init__(self, robAdapt, distance) :
-        """ Statégie qui fait avancer le robot d'une distance donnée
+        """ Stratégie qui fait avancer le robot d'une distance donnée
             :param distance: la distance que doit parcourir le robot
             :param robAdapt: l'adaptateur du robot qu'on veut avancer
             :returns: ne retourne rien, on initialise la stratégie
@@ -41,7 +41,7 @@ class StrategieAvancer():
 
 class StrategieTourner():    
     def __init__(self, robAdapt, angle):
-        """ Stategie qui fait tourner le robot représenté par son adaptateur d'un angle donné
+        """ Strategie qui fait tourner le robot représenté par son adaptateur d'un angle donné
             :param robAdapt: l'adaptateur du robot que l'on veut faire tourner
             :param angle: la rotation que l'on veut ordonner au robot d'effectuer
         """
@@ -84,7 +84,7 @@ class StrategieTourner():
 
 class StrategieArretMur():
     def __init__(self, robAdapt, distarret):
-        """ Stategie qui fait arreter le robot a une distance donnée
+        """ Strategie qui fait arreter le robot a une distance donnée
             :param robAdapt: le robot que l'on veut faire arreter avant un mur/obtacle
             :param distarret: la distance que l'on veut entre le robot et le mur/obstacle
         """
@@ -119,9 +119,56 @@ class StrategieArretMur():
         return self.distrob <= self.distarret
     
 
+class StrategieSuivreBalise():
+    def __init__(self, robAdapt):
+        """ Strategie permettant au robot de suivre une balise  
+            :param robAdapt: le robot qui va suivre la balise
+        """
+        self.logger = getLogger(self.__class__.__name__)
+        
+        self.robA = robAdapt
+        self.robA.initialise()
+        self.robA.robot.estSousControle = True
+        self.balise ,self.decale = contientBalise(self.robA.get_imageA()) 
+        # balise : Booléen: True si le robot voit la balise, decalage : le decalage en x entre le milieu de son champ de vision et la balise
+
+    def start(self):
+        """ Réinitialisation du robot, du decalage et de balise 
+        """
+        self.robA.initialise()
+        self.balise, self.decale = contientBalise(self.robA.get_imageA())
+        self.logger.debug("Stratégie Suivre Balise lancé")
+
+    def step(self):
+        """ Le step de la stratégie suivre balise : qui met à jour le decalage entre le milieu de son champ de vision et la balise
+            et qui set la vitesse des roues en fonction du decalage
+            :returns: rien
+        """
+        if not self.stop():
+            self.robA.setVitAngA(1)
+            if self.decale > 0:
+                self.robA.setVitAngGA(2)
+                self.robA.setVitAngDA(1)
+            if self.decale < 0:
+                self.robA.setVitAngGA(1)
+                self.robA.setVitAngDA(2)
+            self.balise, self.decale = contientBalise(self.robA.get_imageA())
+        else:
+            self.robA.setVitAngA(0)
+
+    def stop(self):
+        """ Retourne si la balise est dans le champ de vision du robot
+            :return: True si la balise n'y est pas, False sinon
+        """
+        if not self.balise:
+            self.robA.robot.estSousControle = False
+            return True
+        return False
+    
+
 class StrategieSeq():
     def __init__(self, listeStrat, robAdapt) :
-        """ Statégie séquentielle
+        """ Stratégie séquentielle
             :param listeStrat: liste de stratégies qui vont être executées à la suite
             :param rob: le robot que l'on veut faire tourner
             :returns: rien, on initialise la stratégie séquentielle
