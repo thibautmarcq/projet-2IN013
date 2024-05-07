@@ -2,6 +2,7 @@ from math import degrees
 
 from .adapt import Adaptateur
 
+from time import time
 
 class Adaptateur_reel(Adaptateur):
     """
@@ -19,7 +20,9 @@ class Adaptateur_reel(Adaptateur):
         self.dist_parcourA = 0
         self.angle_parcourA = 0
         self.run = True
-	
+
+        self.lastDist = self.robot.get_distance()
+        self.lastRefresh = time()
         
     def initialise(self) :
         """
@@ -57,8 +60,13 @@ class Adaptateur_reel(Adaptateur):
         Getter qui renvoie la distance mesurée par le capteur de distance
         :returns: la distance mesurée par le capteur de distance
         """
-        print(self.robot.get_distance())
-        return self.robot.get_distance()
+        tmps = time()
+        if (tmps-self.lastRefresh<0.06):
+            return self.lastDist
+        
+        self.lastDist = self.robot.get_distance()
+        self.lastRefresh = tmps
+        return self.lastDist
     
     def getDistanceParcourue(self) :
         """ La distance parcourue entre le point précédent et le point actuel
@@ -83,6 +91,5 @@ class Adaptateur_reel(Adaptateur):
         print("prout ", dist_g, dist_d)
         print("distance angle: ", degrees((dist_g-dist_d)/self.robot.WHEEL_BASE_WIDTH))
         return degrees((dist_g-dist_d)/self.robot.WHEEL_BASE_WIDTH)
-
 
 
