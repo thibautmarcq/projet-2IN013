@@ -2,7 +2,7 @@
 
 from math import cos, pi, sin
 from sys import exit
-from threading import Thread
+from threading import Thread, Timer
 from time import sleep
 
 from direct.showbase.ShowBase import ShowBase
@@ -10,13 +10,15 @@ from direct.task import Task
 from panda3d.core import (Filename, Geom, GeomNode,
 						  GeomTriangles, GeomVertexData, GeomVertexFormat,
 						  GeomVertexWriter, OmniBoundingVolume, PNMImage,
-						  Point3, Texture, load_prc_file, LineSegs, NodePath)
+						  Point3, Texture, load_prc_file, LineSegs, NodePath, StringStream)
 from src import (DICO_COULEURS, TIC_SIMULATION, StrategieAvancer,
 				 StrategieBoucle, StrategieCond, StrategieSeq,
 				 StrategieTourner, setStrategieArretMur, setStrategieCarre,
 				 verifDistanceSup, StrategieSuivreBalise)
 
 import cv2
+import numpy as np
+from PIL import Image
 
 load_prc_file('src/interface3D/source/config.prc')
 
@@ -71,13 +73,15 @@ class Interface3D(ShowBase):
 		self.accept('arrow_right', self.taskMgr.add, [self.frontCameraTask, "frontCameraTask"])
 		self.accept('arrow_down', self.taskMgr.add, [self.backCameraTask, "backCameraTask"])
 
-		self.accept('5', self.taskMgr.add, [self.takePic, "takePicture"])
+		# self.accept('5', self.taskMgr.add, [self.takePic, "takePicture"])
 
 		self.accept('c', lambda:self.choisirStrategie(1, 120))
 		self.accept('m', lambda:self.choisirStrategie(2, 20))
 		self.accept('p', lambda:self.choisirStrategie(3, 15))
 		self.accept('o', lambda:self.choisirStrategie(4, 120))
 		self.accept('b', lambda:self.choisirStrategie(5, 0))
+
+		# self.accept('n', self.showImage)
 
 	def choisirStrategie(self, strat, distance) :
 		""" Choisis la strategie à lancer
@@ -539,24 +543,24 @@ class Interface3D(ShowBase):
 
 	def ticTac(self):
 		""" Méthode pour update la simulation à chaque tic"""
+		i = 0
 		while self.running:
 			for adapt in self.env.listeRobots:
 				self.updateRobot(adapt)
 			self.binds()
 			self.updateBalise()
 			# win = self.win
-
 			# if self.mouseWatcherNode.hasMouse():
 			# 	mouseX = self.mouseWatcherNode.getMouseX() * win.getXSize()
 			# 	mouseY = win.getYSize() - self.mouseWatcherNode.getMouseY() * win.getYSize()
 			# 	print(mouseX, mouseY)
-
 			# winWidth = self.win.getXSize()
 			# winHeight = self.win.getYSize()
-
 			# print("Window size: ", winWidth, "x", winHeight)
-
 			# self.updateCreateBalise()
+			# i+=1
+			# if (i%5==0):
+			# 	self.updateImg()
 			sleep(TIC_SIMULATION)
 
 	def setDraw(self) :
@@ -577,35 +581,59 @@ class Interface3D(ShowBase):
 
 	# -------------------- Méthodes pour get les images de la caméra --------------------
 
-	def renderToPNM(self):
-		"""
-		Prend une image de l'interface (vue initiale)
-		:returns: une image au format PNM (+-=array)
-		"""
+	def renderCamFront(self):
+		# Prend le screen à l'endroit où est la caméra sur le robot (avant du robot)
+		robot = self.env.listeRobots[self.env.robotSelect].robot
+		dx, dy = robot.direction
+		camera_x = robot.x + robot.width * dx
+		camera_y = self.env.length-(robot.y + robot.length * dy)
+		camera_z = robot.height
+		self.camera.setPos(camera_x, camera_y, camera_z)
+		self.camera.lookAt(Point3(robot.x + 100 *(dx), self.env.length-(robot.y + 100 *(dy)), robot.height))
+		self.camLens.setFov(140) # Réglage du FOV (champ de vision)
+
+		# Render the frame
 		self.graphicsEngine.renderFrame()
 
-		image = PNMImage()
-		dr = self.camNode.getDisplayRegion(0)
-		dr.getScreenshot(image)
+	def getImageInterface(self):
+		sleep(1)
+		# Récupérer la région d'affichage de la caméra
+		dr = self.win.getDisplayRegion(0)
 
-		return image
+		# Prendre le screenshot
+		tex = dr.getScreenshot()
+
+		# Récupérer les données d'image brutes du screenshot
+		data = tex.getRamImage()
+
+		# Convertir les données d'image brutes en tableau NumPy
+		v = memoryview(data).tolist()
+		img = np.array(v, dtype=np.uint8)
+
+		# Redimensionner le tableau NumPy en une image
+		img = img.reshape((tex.getYSize(), tex.getXSize(), 4))
+
+		# Inverser les lignes de l'image pour que l'origine soit en haut à gauche
+		img = img[::-1]
+
+		return img
+
+	def display_image(self,image_array):
+		"""Affiche l'image dans une fenêtre cv2
+		:param image_array: l'array np pour lequel on veut l'image
+		"""
+		# cv2.imshow('Image', image_array)
+		# cv2.waitKey(0)
+		# cv2.destroyAllWindows()
+		# print(image_array)
+		pass
 	
-	def takePic(self, task):
+	def updateImg(self):
 		"""
-		Tache permettant de prendre en photo l'interface
-		:option: touche '8' pour arrêter la tache
-		:returns: rien, prend une photo de la scène très fréquemment et la save
+		Update l'attribut img du robot avec l'image de la cam simulée de l'i3D
 		"""
-		robot = self.env.listeRobots[self.env.robotSelect]
-		self.renderToPNM().write(Filename('src/interface3D/source/img.jpg'))
-		robot.img = cv2.imread('src/interface3D/source/img.jpg', cv2.IMREAD_UNCHANGED)
-		def fin(task):
-			self.taskMgr.remove('takePicture')
-			print("Fin du recording")
-			return Task.done
-
-		self.accept('8', self.taskMgr.add, [fin, "finImages"])
-		return Task.cont
+		robot = self.env.listeRobots[self.env.robotSelect].robot
+		robot.img = self.getImageInterface()	
 	
 
 	# --------------------------------------------------------------
