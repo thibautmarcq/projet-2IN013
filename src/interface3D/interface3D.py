@@ -16,6 +16,8 @@ from src import (DICO_COULEURS, TIC_SIMULATION, StrategieAvancer,
 				 StrategieTourner, setStrategieArretMur, setStrategieCarre,
 				 verifDistanceSup, StrategieSuivreBalise)
 
+import numpy as np
+
 load_prc_file('src/interface3D/source/config.prc')
 
 class Interface3D(ShowBase):
@@ -602,6 +604,14 @@ class Interface3D(ShowBase):
 
 		self.accept('8', self.taskMgr.add, [fin, "finImages"])
 		return Task.cont
+	
+	def getImage(self):
+		"""
+		Prend en photo l'interface 3D
+		:returns: un array du screenshot de la fenêtre
+		"""
+		image = np.array(self.renderToPNM(), np.uint8)
+		return image
 	
 
 	# --------------------------------------------------------------
