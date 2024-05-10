@@ -14,7 +14,7 @@ from panda3d.core import (Filename, Geom, GeomNode,
 from src import (DICO_COULEURS, TIC_SIMULATION, StrategieAvancer,
 				 StrategieBoucle, StrategieCond, StrategieSeq,
 				 StrategieTourner, setStrategieArretMur, setStrategieCarre,
-				 verifDistanceSup)
+				 verifDistanceSup, StrategieSuivreBalise)
 
 load_prc_file('src/interface3D/source/config.prc')
 
@@ -75,6 +75,7 @@ class Interface3D(ShowBase):
 		self.accept('m', lambda:self.choisirStrategie(2, 20))
 		self.accept('p', lambda:self.choisirStrategie(3, 15))
 		self.accept('o', lambda:self.choisirStrategie(4, 120))
+		self.accept('b', lambda:self.choisirStrategie(5, 0))
 
 	def choisirStrategie(self, strat, distance) :
 		""" Choisis la strategie à lancer
@@ -106,6 +107,9 @@ class Interface3D(ShowBase):
 		elif strat==4:
 			carre2 = StrategieBoucle(robA, StrategieSeq([StrategieAvancer(robA, distance), StrategieTourner(robA, 90)], robA), 4)
 			self.controleur.lancerStrategie(carre2)
+		elif strat==5:
+			balise = StrategieSuivreBalise(robA)
+			self.controleur.lancerStrategie(balise)
 
 
 	# -------------------- Création des objets en 3D --------------------

@@ -36,6 +36,7 @@ class Robot :
 		self.direction = (0,-1) # vecteur directeur du robot
 		self._vitAngG = 0 # Vitesses angulaires des deux roues initialisées à 0
 		self._vitAngD = 0 
+		self.image = None
 
 		self.estSousControle = False 	# permet de savoir si notre robot est controlé par le controleur
 		self.estCrash = False  			# Nous permet de savoir si le robot s'est crash et ne pas refresh le robot
@@ -203,6 +204,7 @@ class Adaptateur_simule(Adaptateur) :
 		self.last_dir = self.robot.direction
 		self.dist_parcourA = 0
 		self.angle_parcourA = 0
+		self.robot.image = None
 
 	def setVitAngDA(self, vit):
 		""" Setter de vitesse angulaire de la roue droite depuis l'adaptateur
@@ -246,3 +248,8 @@ class Adaptateur_simule(Adaptateur) :
 		dir_actuelle = self.robot.direction
 		dir_prec = self.last_dir
 		return getAngleFromVect(dir_prec, dir_actuelle)
+	
+	def get_imageA(self):
+		""" Getter de l'image prise dans l'interface3d
+		"""
+		return self.robot.image[0]
