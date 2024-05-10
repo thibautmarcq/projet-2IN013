@@ -187,8 +187,8 @@ class Adaptateur_simule(Adaptateur) :
 	""" Classe d'adaptation du robot simulé, qui hérite de la classe Robot
 	"""
 
-	def __init__(self, nom, x, y, width, length, height, rayonRoue, env, couleur) :
-		self.robot = Robot(nom, x, y, width, length, height, rayonRoue, couleur)
+	def __init__(self, robot, env) :
+		self.robot = robot
 		self.last_point = (self.robot.x, self.robot.y)
 		self.last_dir = self.robot.direction
 		self.env = env

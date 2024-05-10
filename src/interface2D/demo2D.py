@@ -5,10 +5,11 @@ from time import sleep
 from src import (HAUTEUR_ROBOT, LARGEUR_ENV, LARGEUR_ROBOT, LIST_PTS_OBS_CARRE,
                  LIST_PTS_OBS_COEUR, LIST_PTS_OBS_TRIANGLE, LONGUEUR_ENV,
                  LONGUEUR_ROBOT, SCALE_ENV_1, TAILLE_ROUE, TIC_SIMULATION,
-                 Environnement)
-from src.controleur import Controler, setStrategieCarre
+                 Environnement, Controler, setStrategieCarre,
+                 Adaptateur_reel, Adaptateur_simule, MockupRobot, Robot)
+
 from src.interface2D.interface2D import Interface
-from src.robots import Adaptateur_reel, Adaptateur_simule, MockupRobot
+
 
 basicConfig(filename='logs.log', 
                     level=DEBUG, 
@@ -32,12 +33,14 @@ env.addObstacle('C',LIST_PTS_OBS_COEUR)
 controleur = Controler()
 
 # Ajoute le premier robot
-robotA1 = Adaptateur_simule("Bob", 250, 250, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE, env, "lightgreen")
+robot1 = Robot("Bob", 400, 250, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE,"lightblue")
+robotA1 = Adaptateur_simule(robot1, env)
 env.setRobot(robotA1)
 
 
 # ajoute le deuxieme robot pour test
-robotA2 = Adaptateur_simule("Stuart", 400, 250, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE, env, "red")
+robot2 = Robot("Stuart", 250, 300, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE,"red")
+robotA2 = Adaptateur_simule(robot2, env)
 env.setRobot(robotA2)
 
 # Crée le mockup robot
