@@ -86,7 +86,7 @@ def contientBalise(image):
     Sinon (False, None)
     """
     # obtenir le npArray du patern à rechercher
-    balise = cv2.imread("autre/Photos_balise", cv2.IMREAD_UNCHANGED)
+    balise = cv2.imread("autre/Photos_balise/template.jpg", cv2.IMREAD_UNCHANGED)
     bal = 1 # compteur de rotation de la balise
     while bal <= 4:
         # nous donne un array des % de match

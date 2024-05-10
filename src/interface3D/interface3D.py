@@ -16,7 +16,7 @@ from src import (DICO_COULEURS, TIC_SIMULATION, StrategieAvancer,
 				 StrategieTourner, setStrategieArretMur, setStrategieCarre,
 				 verifDistanceSup, StrategieSuivreBalise)
 
-import numpy as np
+import cv2
 
 load_prc_file('src/interface3D/source/config.prc')
 
@@ -596,7 +596,9 @@ class Interface3D(ShowBase):
 		:option: touche '8' pour arrêter la tache
 		:returns: rien, prend une photo de la scène très fréquemment et la save
 		"""
+		robot = self.env.listeRobots[self.env.robotSelect]
 		self.renderToPNM().write(Filename('src/interface3D/source/img.jpg'))
+		robot.img = cv2.imread('src/interface3D/source/img.jpg', cv2.IMREAD_UNCHANGED)
 		def fin(task):
 			self.taskMgr.remove('takePicture')
 			print("Fin du recording")
@@ -604,14 +606,6 @@ class Interface3D(ShowBase):
 
 		self.accept('8', self.taskMgr.add, [fin, "finImages"])
 		return Task.cont
-	
-	def getImage(self):
-		"""
-		Prend en photo l'interface 3D
-		:returns: un array du screenshot de la fenêtre
-		"""
-		image = np.array(self.renderToPNM(), np.uint8)
-		return image
 	
 
 	# --------------------------------------------------------------
