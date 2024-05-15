@@ -85,9 +85,12 @@ def contientBalise(image):
     :returns: (True, décalageEnX) si la balise reconnue dans notre image
     Sinon (False, None)
     """
-    print("image :", image)
+    #print("image :", image)
+    
     # obtenir le npArray du patern à rechercher
-    balise = cv2.imread("autre/Photos_balise/template.jpg", cv2.IMREAD_UNCHANGED)
+    balise = (cv2.imread("autre/Photos_balise/template.jpg", cv2.IMREAD_UNCHANGED))
+    print('prout', balise.dtype, image.dtype)
+
     bal = 1 # compteur de rotation de la balise
     if image is not None :
         while bal <= 4:
@@ -95,7 +98,7 @@ def contientBalise(image):
             resultat = cv2.matchTemplate(image, balise, cv2.TM_CCOEFF_NORMED) 
             _, maxVal, _, maxPoint = cv2.minMaxLoc(resultat) # récupère le meilleur match
             # Si un match suffisant est trouvé 
-            if maxVal >= 0.93:
+            if maxVal >= 0.70:
                 w = balise.shape[1]
                 h= balise.shape[0]
                 cv2.rectangle(image, maxPoint, (maxPoint[0]+w, maxPoint[1]+h), (0,0,0), 3)
