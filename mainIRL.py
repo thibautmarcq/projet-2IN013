@@ -21,6 +21,8 @@ robreel = Robot2IN013()
 
 # Adapte le robot
 reel = Adaptateur_reel(robreel)
+reel.vitAngD = 0
+reel.vitAngG = 0
 
 def menu() :
     """
@@ -70,24 +72,32 @@ def menu() :
                 display_message(stdscr, f"Touche {chr(key)}\n")
 
                 if key == ord('a'):
-                    reel.setVitAngGA(reel.robot.vitAngG+1)
+                    reel.vitAngG+=0.5
+                    reel.setVitAngGA(reel.vitAngG)
                     display_message(stdscr, "+RG")
                 elif key == ord('z'):
-                    reel.setVitAngGA(reel.robot.vitAngG+1)
-                    reel.setVitAngDA(reel.robot.vitAngD+1)
+                    reel.vitAngG+=0.5
+                    reel.setVitAngGA(reel.vitAngG)
+                    reel.vitAngD+=0.5
+                    reel.setVitAngDA(reel.vitAngD)
                     display_message(stdscr, "+Global")
                 elif key == ord('e'):
-                    reel.setVitAngDA(reel.robot.vitAngD+1)
+                    reel.vitAngD+=0.5
+                    reel.setVitAngDA(reel.vitAngD)
                     display_message(stdscr, "+RD")
                 elif key == ord('q'):
-                    reel.setVitAngGA(reel.robot.vitAngG-1)
+                    reel.vitAngG-=0.5
+                    reel.setVitAngGA(reel.vitAngG)
                     display_message(stdscr, "-RG")
                 elif key == ord('s'):
-                    reel.setVitAngGA(reel.robot.vitAngG-1)
-                    reel.setVitAngDA(reel.robot.vitAngD-1)
+                    reel.vitAngG-=0.5
+                    reel.setVitAngGA(reel.vitAngG)
+                    reel.vitAngD-=0.5
+                    reel.setVitAngDA(reel.vitAngD)
                     display_message(stdscr, "-Global")              
                 elif key == ord('d'):
-                    reel.setVitAngDA(reel.robot.vitAngD-1)
+                    reel.vitAngD-=0.5
+                    reel.setVitAngDA(reel.vitAngD)
                     display_message(stdscr, "-RD")
                 elif key == ord('p'):
                     CMD = False
@@ -101,3 +111,4 @@ def menu() :
 RUNNING = True
 while RUNNING:
     menu()
+
