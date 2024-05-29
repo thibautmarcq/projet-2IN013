@@ -16,7 +16,6 @@ from src import (DICO_COULEURS, TIC_SIMULATION, StrategieAvancer,
 				 StrategieTourner, setStrategieArretMur, setStrategieCarre,
 				 verifDistanceSup, StrategieSuivreBalise)
 
-import cv2
 import numpy as np
 from PIL import Image
 
@@ -33,8 +32,7 @@ class Interface3D(ShowBase):
 		self.createAllObstacles()
 		self.createEnvironnement()
 		self.running = True
-
-		self.createBalise(Balise(250, 250, 80, 53))
+		self.showBalise = False
 
 		# Bind quitter la fenêtre
 		self.accept('escape', exit)
@@ -54,7 +52,7 @@ class Interface3D(ShowBase):
 		T_tictac.start()
 
 	def binds(self):
-		""" Bind les touches pour les déplacements des robots """
+		""" Bind les touches pour les déplacements des robots, les stratégies et certaines actions"""
 		# -------------------------------------------------------------------		-------------
 		# 								BINDS,										| a | z | e |
 		#           Modèle : (<touche>, <fonction>, <liste params>)		            | q | s | d |
@@ -114,8 +112,14 @@ class Interface3D(ShowBase):
 			carre2 = StrategieBoucle(robA, StrategieSeq([StrategieAvancer(robA, distance), StrategieTourner(robA, 90)], robA), 4)
 			self.controleur.lancerStrategie(carre2)
 		elif strat==5:
-			balise = StrategieSuivreBalise(robA)
-			self.controleur.lancerStrategie(balise)
+			if not self.showBalise:
+				self.createBalise(Balise(250, 250, 80, 53))
+				self.showBalise = True
+				# balise = StrategieSuivreBalise(robA)
+				# self.controleur.lancerStrategie(balise)
+			else :
+				self.showBalise = False
+				self.deleteNode(self.balise.np)
 
 
 	# -------------------- Création des objets en 3D --------------------
@@ -278,13 +282,11 @@ class Interface3D(ShowBase):
 			while (((tabDir[0][0] == robot.direction[0]) or (tabDir[0][1] == robot.direction[1])) and robot.draw and not robot.estCrash): # tant que la direction ne change pas
 				ptsDraw += 1
 				self.drawLine((tabPts[len(tabPts)-1]), (robot.x, self.env.length-robot.y), tabNodesLinesPartial)
-				# print("drawPoint")
 				node = tabNodesLinesPartial.pop()
 				node.removeNode()
 				sleep(TIC_SIMULATION*1.5)
 			
 			# quand on tourne > trace la ligne complète  + on enregistre le point
-			# print("draw full ligne")
 			self.drawLine((tabPts[len(tabPts)-1]), (robot.x, self.env.length-robot.y), tabNodesLines) # on trace une ligne entre le dernier point et le pt actuel
 			tabPts.append((robot.x, self.env.length-robot.y))
 
@@ -292,10 +294,8 @@ class Interface3D(ShowBase):
 			tabDir.append(robot.direction)
 
 		# On supprime les lignes et les points restants à la fin du carré
-		print("Suppression du tracé")
 		libereTabNodes(tabNodesLines)
 		libereTabNodes(tabNodesLinesPartial)
-		print("Fin Tracer Carré ! youhouu")
 		return
 
 
@@ -317,7 +317,6 @@ class Interface3D(ShowBase):
 		# render le node + l'ajoute à la liste des nodes
 		line_node_path.reparentTo(self.render)
 		tabNodesLines.append(line_node_path)
-		# print("jai ligne")
 
 	def createAllObstacles(self):
 		for obs in self.env.listeObs:
@@ -397,9 +396,6 @@ class Interface3D(ShowBase):
 			print("Pas de souris à l'écran!")
 			self.balise.x = (robot.x+1000)*self.balise.dir[0]
 			self.balise.y = (robot.y+1000)*self.balise.dir[1]
-
-		# print(self.balise.x, " ", self.balise.x)
-		# print(xdir, ydir)
 		
 		# Define the vertex format to include texture coordinates
 		self.balise.format = GeomVertexFormat.getV3t2()
@@ -439,10 +435,8 @@ class Interface3D(ShowBase):
 		self.balise.np.node().setFinal(True)
 		
 		texture = Texture()
-		texture.read("src/interface3D/source/balise.jpg")
-		# self.balise.np.setTexScale(TextureStage.getDefault(), 0.5, 0.5)		
+		texture.read("src/interface3D/source/balise.jpg")		
 		self.balise.np.setTexture(texture)
-		# print("balise crée")
 		return self.balise.np
 
 	def updateBalise(self):
@@ -459,16 +453,11 @@ class Interface3D(ShowBase):
 		winHeight = self.win.getYSize()
 
 		init = None
-		if self.mouseWatcherNode.hasMouse():
+		if self.mouseWatcherNode.hasMouse(): # si on a la souris à l'écran
 			self.balise.x = (self.mouseWatcherNode.getMouseX() + 0.65) * winWidth / 2
 			self.balise.y = (1.25- self.mouseWatcherNode.getMouseY()) * winHeight / 2
 			init = True
-			# print("update ", init)
-		else :
-			# print("Pas de souris à l'écran!")
-			pass
 
-		# print(self.balise.x, " ", self.balise.y)
 		if init==True and self.balise.vertexBal!=None:
 			self.balise.vertexBal.setRow(0)
 			self.balise.vertexBal.setData3f(self.balise.x-self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y-self.balise.width/2*(self.balise.dir[1]), 0) # 0 
@@ -548,19 +537,8 @@ class Interface3D(ShowBase):
 			for adapt in self.env.listeRobots:
 				self.updateRobot(adapt)
 			self.binds()
-			self.updateBalise()
-			# win = self.win
-			# if self.mouseWatcherNode.hasMouse():
-			# 	mouseX = self.mouseWatcherNode.getMouseX() * win.getXSize()
-			# 	mouseY = win.getYSize() - self.mouseWatcherNode.getMouseY() * win.getYSize()
-			# 	print(mouseX, mouseY)
-			# winWidth = self.win.getXSize()
-			# winHeight = self.win.getYSize()
-			# print("Window size: ", winWidth, "x", winHeight)
-			# self.updateCreateBalise()
-			# i+=1
-			# if (i%5==0):
-			# 	self.updateImg()
+			if self.showBalise:
+				self.updateBalise()
 			sleep(TIC_SIMULATION)
 
 	def setDraw(self) :
