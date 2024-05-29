@@ -97,17 +97,18 @@ def contientBalise(image):
             resultat = cv2.matchTemplate(image, balise, cv2.TM_CCOEFF_NORMED) 
             _, maxVal, _, maxPoint = cv2.minMaxLoc(resultat) # récupère le meilleur match
             # Si un match suffisant est trouvé 
+            print("Sens balise,", bal, "val :", maxVal)
             if maxVal >= 0.65:
                 w = balise.shape[1]
                 h= balise.shape[0]
                 cv2.rectangle(image, maxPoint, (maxPoint[0]+w, maxPoint[1]+h), (0,0,0), 3)
-                print("Sens balise,", bal,"match ! Decalage en x:,", (maxPoint[0]+w/2)-image.shape[1]/2)
+                print("match ! Decalage en x:,", (maxPoint[0]+w/2)-image.shape[1]/2)
                 return (True, (maxPoint[0]+w/2)-image.shape[1]/2)
             
             # Sinon on fait une rotation de notre balise
             # pour rechercher notre balise sous divers rotation ( 90 ° )
             else:
-                print("Sens balise,", bal,"pas de match")
+                print("pas de match")
                 balise = np.rot90(balise, 1, (0, 1))
                 bal+=1
     return (False, None)
