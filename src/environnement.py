@@ -9,7 +9,6 @@ from .outil import normaliserVecteur
 class Environnement:
     
     def __init__(self, width, length, scale): 
-        
         """ Initialise l'environnement où l'on va se placer, où on considère que l'environnement dans lequel évolue le robot est un rectangle
             :param width: largeur de l'environnement
             :param length: longueur de l'environnement
@@ -17,7 +16,6 @@ class Environnement:
             :returns: ne retourne rien, fait juste l'initialisation
         """
         self.logger = getLogger(self.__class__.__name__)
-        
         self.width=width
         self.length=length
         self.listeRobots = []
@@ -29,35 +27,34 @@ class Environnement:
         self.initBorders() # lance l'initialisation de la bordure de l'env
         self.logger.info("Environnement initialisé")
 
+
     def initBorders(self):
-        """
-            Initialise les bordures de l'environnement en tant qu'obstacles 
+        """ Initialise les bordures de l'environnement en tant qu'obstacles 
             :returns: rien, crée simplement les bordures de l'environnement dans le dico des obstacles
-            """
+        """
         lstPoints = [(0,0), (self.width, 0), (self.width, self.length), (0, self.length)]
 
         for i in range(len(lstPoints)): # Parcours la liste des points
             x1, y1 = (lstPoints[i])
             x2, y2 = lstPoints[(i+1)%len(lstPoints)] # Cas où i est le dernier indice de la liste - Point d'arrivée
-
             self.dicoObs[(int(y1/self.scale),int(x1/self.scale))] = 'bordure'
 
             while (round(x1), round(y1)) != (round(x2), round(y2)):
                 dir = normaliserVecteur((x2-x1,y2-y1)) # Vecteur directeur normalisé
                 x1,y1 = ((x1+dir[0]), (y1+dir[1]))
-
                 self.dicoObs[(int(y1/self.scale),int(x1/self.scale))] = 'bordure'
-                
+
         self.logger.info("Obstacle %s ajouté", 'bordure')
 
+
     def addRobotSelect(self, n):
-        """
-        Change l'indice du robot sélectionné (lui ajoute n)
-        :returns: rien, ajoute n à la valeur de sélection du robot
+        """ Change l'indice du robot sélectionné (lui ajoute n)
+            :returns: rien, ajoute n à la valeur de sélection du robot
         """
         if (len(self.listeRobots)!=0): # éviter le modulo par 0
             self.robotSelect = (self.robotSelect + n)% len(self.listeRobots)
  
+
     def addObstacle(self, nom, lstPoints):
         """ Ajout d'un obstacle dans le dico des obstacles
             :param nom: nom de l'obstacle
@@ -83,10 +80,7 @@ class Environnement:
                 
         self.logger.info("Obstacle %s ajouté", nom)
 
-    def printMatrix(self):
-        for row in self.matrice:
-            print(' '.join(str(item) for item in row))
-        self.logger.debug("Affichage de la matrice")
+
 
     def setRobot(self, robA):
         """ Ajoute un robot à notre environnement
@@ -95,6 +89,7 @@ class Environnement:
         """
         self.listeRobots.append(robA)
         self.logger.info("Robot %s initialisé", robA.robot.nom)
+ 
  
     def refreshEnvironnement(self) :
         """ Pour rafraichir l'environnement et faire updater tous les listeRobots qui le composent.
@@ -115,11 +110,12 @@ class Environnement:
 
         self.last_refresh = temps # on met à jour l'heure du dernier rafraichissement 
 
+
     def verifCollision(self, rob):
+        """ Vérifie si le prochain mouvement du robot va le faire rentrer en collision avec un obstacle (2)
+            :param rob: robot pour lequel on veut tester la collision prochaine (simulé! pas adaptateur!!)
+            :returns: true si robot en collision prochaine, false sinon
         """
-        Vérifie si le prochain mouvement du robot va le faire rentrer en collision avec un obstacle (2)
-        :param rob: robot pour lequel on veut tester la collision prochaine (simulé! pas adaptateur!!)
-        :returns: true si robot en collision prochaine, false sinon"""
 
         # liste des 4 points du robot après mouvement (liste de 4couples): HG HD BD BG
         lstPoints = [(rob.x-(rob.width/2)+rob.direction[0],rob.y+(rob.length/2)+rob.direction[1]), (rob.x+(rob.width/2)+rob.direction[0],rob.y+(rob.length/2)+rob.direction[1]), (rob.x+(rob.width/2)+rob.direction[0],rob.y-(rob.length/2)+rob.direction[1]), (rob.x-(rob.width/2)+rob.direction[0],rob.y-(rob.length/2)+rob.direction[1])]

@@ -1,5 +1,4 @@
 from tkinter import LEFT, Canvas, Label, LabelFrame, PhotoImage, Tk
-from sys import exit
 from src import TIC_INTERFACE, rotationVecteur
 from src.controleur import (StrategieAvancer, StrategieBoucle, StrategieCond,
                             StrategieSeq, StrategieTourner,
@@ -14,8 +13,7 @@ class Interface:
 			:param env: l'environnement dans lequel on initialise l'interface
 			:param controleur: le contrôleur de l'environnement:returns: ne retourne rien, initialise seulement l'interface
 		"""
-		self.env = env# notre environnement a représenter graphiquement
-
+		self.env = env  # notre environnement a représenter graphiquement
 		self.controleur = controleur # contient l'instance du controleur
 
 		# Config fenêtre
@@ -23,14 +21,17 @@ class Interface:
 		self.root.geometry(str(self.env.width+500)+"x"+str(max(600,self.env.length+100))) # Adapatation de la taille de la fenetre en fct de celle de l'environnement
 		self.root.title("Simulation - Robocar Poli")
 
+		# ------------------------ Initialisation des frames, modèle ----------------------------------
+		#								  -------------------
+		#								 |titre              |
+		#								  -------------------
+		#								 |  vitesse ||       |
+		#								 |  coords  || canva |
+		#								  ---------- |       |
+		#								 |   tuto   ||       | 
+		#							 	  -------------------
+		# ---------------------------------------------------------------------------------------------
 
-		# Initialisation des frames, modèle :
-		#  --------------
-		# |titre         |
-		#  --------------
-		# |g  up ||can   |
-		# | tuto ||   va |
-		#  --------------
 		self.frame_titre = LabelFrame(self.root, bd=-1)
 		self.frame_titre.grid(row=0, sticky='w', padx=15)
 
@@ -76,6 +77,8 @@ class Interface:
 		self.canv.grid(row=3, column=0)
 
 
+	# ------------------------- Création des robots et des obstacles ---------------------------------------
+
 	def createRobotRect(self, robot):
 		""" Crée le polygone qui représente notre robot sur l'interface graphique
 			:param robot: le robot qu'on veut représenter sur l'interface graphique
@@ -87,13 +90,17 @@ class Interface:
 						robot.x-(robot.width/2), robot.y+(robot.length/2)]
 		robot.rect = self.canv.create_polygon(robot.points, fill=(robot.couleur))
 
+
 	def createObs(self):
 		""" Crée le polygone qui représente notre obstacle sur l'interface graphique
 			:returns: ne retourne rien
 		"""
 		for obs in self.env.listeObs:
 			self.canv.create_polygon(obs.lstPoints, fill=('grey'))
-		
+
+	#--------------------------------------------------------------------------------------------------------	
+
+
 	def choisirStrategie(self, strat, distance) :
 		""" Choisis la strategie à lancer
 			:param strat: 1 pour la strategie carré, 2 pour la strategie arret mur, 3 pour la conditionnelle mur, 4 pour la boucle carré
@@ -123,8 +130,27 @@ class Interface:
 			carre2 = StrategieBoucle(robA, StrategieSeq([StrategieAvancer(robA, distance), StrategieTourner(robA, 90)], robA), 4)
 			self.controleur.lancerStrategie(carre2)
 					
-		
 
+	def rotateRobotRect(self, canvas, robot, angle):
+		""" Fait une rotation du rectangle qui représente le robot
+			:param canvas: le canva dans lequel on est placé
+			:param robot: le robot qu'on veut représenter graphiquement
+			:param angle: l'angle de rotation du robot
+			:returns: ne retourne rien, fait juste une modification sur le canva
+		"""
+		for i in range(0, 8, 2):
+			v = rotationVecteur((robot.points[i]-robot.x, robot.points[i+1]-robot.y), angle)
+			robot.points[i] = v[0] + robot.x
+			robot.points[i+1] = v[1] + robot.y
+		canvas.coords(robot.rect, robot.points)
+
+
+	def dessinePoint(self, pos, couleur) :
+		x, y = pos
+		self.canv.create_line(x-1, y-1, x+1, y+1, fill=couleur)
+
+
+#  ----------------------- Méthodes liées à l'update de l'interface -------------------------------------
 
 	def updateStatsAffichage(self):
 		""" Met à jour l'affichage des coordonnées dans l'affichage (implémenter chaque avancement)
@@ -138,23 +164,9 @@ class Interface:
 		self.lab_vitesse.config(text=("Vitesse globale : "+str(round(self.env.listeRobots[self.env.robotSelect].robot.getVitesse()))))
 		self.lab_vitesseG.config(text=("Vitesse roue G : "+str(round(self.env.listeRobots[self.env.robotSelect].robot.getVitesseG()))))
 		self.lab_vitesseD.config(text=("Vitesse roue D : "+str(round(self.env.listeRobots[self.env.robotSelect].robot.getVitesseD()))))
+
 		# Update label distance
 		self.lab_distance.config(text=("Obstacle dans : "+str(round(self.env.listeRobots[self.env.robotSelect].getDistanceA(), 2))))
-
-	def rotateRobotRect(self, canvas, robot, angle):
-
-		""" Fait une rotation du rectangle qui représente le robot
-			:param canvas: le canva dans lequel on est placé
-			:param robot: le robot qu'on veut représenter graphiquement
-			:param angle: l'angle de rotation du robot
-			:returns: ne retourne rien, fait juste une modification sur le canva
-		"""
-
-		for i in range(0, 8, 2):
-			v = rotationVecteur((robot.points[i]-robot.x, robot.points[i+1]-robot.y), angle)
-			robot.points[i] = v[0] + robot.x
-			robot.points[i+1] = v[1] + robot.y
-		canvas.coords(robot.rect, robot.points)
 
 
 	def refreshPositionRobotVisuel(self, canvas, robot): 
@@ -164,9 +176,6 @@ class Interface:
 			:param robot: le robot dont on veut mettre à jour la représentation sur le canva
 			:returns: rien, on met juste à jour la fenêtre de représentation du robot et de l'environnement
 		"""
-		"""for i in range(0,8,2):
-			robot.points[i] = robot.points[i]+robot.vitesse*robot.direction[0]
-			robot.points[i+1] = robot.points[i+1]+robot.vitesse*robot.direction[1]"""
 		dx, dy = robot.direction
 		canvas.coords(robot.rect,
 					robot.x-(robot.width/2)*(-dy)-(robot.length/2)*dx,
@@ -180,20 +189,16 @@ class Interface:
 					)
 		canvas.coords(robot.robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
 
-	def dessinePoint(self, pos, couleur) :
-		x, y = pos
-		self.canv.create_line(x-1, y-1, x+1, y+1, fill=couleur)
 
 	def ticTac(self):
 		self.updateStatsAffichage()
 		for adapt in self.env.listeRobots:
-			robot = adapt.robot # !!
+			robot = adapt.robot 
 			self.refreshPositionRobotVisuel(self.canv, robot)
 			if robot.draw and not robot.estCrash:
 				self.dessinePoint((robot.x, robot.y),  "black")
 				if not robot.estSousControle:
 					robot.draw = False
-					
 		self.root.after(int(TIC_INTERFACE), self.ticTac)
 
 
@@ -209,19 +214,6 @@ class Interface:
 
 		self.createObs()
 	
-
-		# ---------------------------
-		# Afficheur de coordonnées du robot
-		self.lab_coord_nom = Label(self.frame_coordonnees, text=("Coordonnées du robot "+self.env.listeRobots[self.env.robotSelect].robot.nom+" :"))
-		self.lab_coord_nom.grid(row=0, column=0, padx=5, pady=5)
-		self.lab_coord_x = Label(self.frame_coordonnees, text=("x ="+str(self.env.listeRobots[self.env.robotSelect].robot.x)))
-		self.lab_coord_x.grid(row=1, column=0)
-		self.lab_coord_y = Label(self.frame_coordonnees, text=("y ="+str(self.env.listeRobots[self.env.robotSelect].robot.y)))
-		self.lab_coord_y.grid(row=2, column=0)
-
-		# Affichage données capteur distance
-		self.lab_distance = Label(self.frame_dist_obstacle, text=("Obstacle dans : "+str(round(self.env.listeRobots[self.env.robotSelect].getDistanceA(), 2))))
-		self.lab_distance.grid(row=0, column=0)
 
 		# -------------------------------------------------------------------		-------------
 		# 								BINDS,										| a | z | e |
@@ -244,15 +236,27 @@ class Interface:
 
 		self.root.bind("x", lambda event: self.env.addRobotSelect(1))
 		self.root.bind("w", lambda event: self.env.addRobotSelect(-1))
-		# -------------------------------------------------------------------
-		# 						NOUVEAUX AFFICHAGES							
-		# -------------------------------------------------------------------
+
+
+		# ----------------------------------- Affichages vitesses, coordonnées et capteur de distance ----------------------------------------
+
 		self.lab_vitesse = Label(self.frame_vitesses, text=("Vitesse globale : "+str(self.env.listeRobots[self.env.robotSelect].robot.getVitesse())))
 		self.lab_vitesse.grid(row=0, column=0, padx=5, pady=2)
 		self.lab_vitesseG = Label(self.frame_vitesses, text=("Vitesse roue G : "+str(self.env.listeRobots[self.env.robotSelect].robot.getVitesseG())))
 		self.lab_vitesseG.grid(row=1, column=0, padx=5, pady=2)
 		self.lab_vitesseD = Label(self.frame_vitesses, text=("Vitesse roue D : "+str(self.env.listeRobots[self.env.robotSelect].robot.getVitesseD())))
 		self.lab_vitesseD.grid(row=2, column=0, padx=5, pady=2)
+
+		self.lab_coord_nom = Label(self.frame_coordonnees, text=("Coordonnées du robot "+self.env.listeRobots[self.env.robotSelect].robot.nom+" :"))
+		self.lab_coord_nom.grid(row=0, column=0, padx=5, pady=5)
+		self.lab_coord_x = Label(self.frame_coordonnees, text=("x ="+str(self.env.listeRobots[self.env.robotSelect].robot.x)))
+		self.lab_coord_x.grid(row=1, column=0)
+		self.lab_coord_y = Label(self.frame_coordonnees, text=("y ="+str(self.env.listeRobots[self.env.robotSelect].robot.y)))
+		self.lab_coord_y.grid(row=2, column=0)
+
+		self.lab_distance = Label(self.frame_dist_obstacle, text=("Obstacle dans : "+str(round(self.env.listeRobots[self.env.robotSelect].getDistanceA(), 2))))
+		self.lab_distance.grid(row=0, column=0)
+
 
 		# Lancement du tic tac
 		self.ticTac()

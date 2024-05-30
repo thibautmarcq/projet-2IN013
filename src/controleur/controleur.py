@@ -4,13 +4,10 @@ from time import sleep
 
 from src import TIC_CONTROLEUR
 
-
 class Controler:
 
     def __init__(self):
-        """
-        Constructeur de la classe Controler
-        """
+        """ Constructeur de la classe Controler """
         self.logger = getLogger(self.__class__.__name__)
         self.strat_en_cour = None
         self.strategie = 0
@@ -18,10 +15,9 @@ class Controler:
         t = Thread(target=self.mainControleur, daemon=True)
         t.start()
 
+
     def mainControleur(self):
-        """
-        Main du controleur
-        """
+        """ Main du controleur """
         while self.Running:
             if self.strategie:
                 if not self.strat_en_cour.stop():
@@ -32,6 +28,7 @@ class Controler:
                     self.strat_en_cour.robA.run = False
                     self.strat_en_cour = None
             sleep(TIC_CONTROLEUR)
+
 
     def lancerStrategie(self, strat):
         """ Méthode qui permet de lancer une stratégie

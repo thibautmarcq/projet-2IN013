@@ -1,7 +1,5 @@
 import logging
 from abc import abstractmethod
-from time import sleep
-
 
 
 class Adaptateur:

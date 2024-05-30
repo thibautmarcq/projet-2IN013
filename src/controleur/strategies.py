@@ -4,6 +4,7 @@ from src import VIT_ANG_AVAN, VIT_ANG_TOUR, contientBalise
 
 
 class StrategieAvancer():
+
     def __init__(self, robAdapt, distance) :
         """ Stratégie qui fait avancer le robot d'une distance donnée
             :param distance: la distance que doit parcourir le robot
@@ -16,6 +17,7 @@ class StrategieAvancer():
         self.parcouru = 0
         self.robA.initialise()
 
+
     def start(self) :
         """ Lancement de la stratégie avancer """
         self.logger.debug("Stratégie avancer démarée")
@@ -23,6 +25,7 @@ class StrategieAvancer():
         self.parcouru = 0
         self.robA.setVitAngA(VIT_ANG_AVAN) # Puis on set les vitesses angulaires des deux roues à 5
         self.robA.initialise()
+
 
     def step(self) :
         """ On fait avancer le robot d'un petit pas
@@ -32,6 +35,7 @@ class StrategieAvancer():
             self.parcouru = self.robA.getDistanceParcourue()
             self.logger.debug("distance de segment parcourue : %d", self.parcouru )
 
+
     def stop(self):
         """ Détermine si on a bien parcouru la distance souhaitée
             :returns: True si on a bien complété la stratégie, False sinon
@@ -39,18 +43,20 @@ class StrategieAvancer():
         return self.parcouru >= self.distance
 
 
-class StrategieTourner():    
+
+class StrategieTourner():   
+
     def __init__(self, robAdapt, angle):
         """ Strategie qui fait tourner le robot représenté par son adaptateur d'un angle donné
             :param robAdapt: l'adaptateur du robot que l'on veut faire tourner
             :param angle: la rotation que l'on veut ordonner au robot d'effectuer
         """
         self.logger = getLogger(self.__class__.__name__)
-
         self.robA = robAdapt
         self.angle = angle
         self.angle_parcouru = 0
         self.robA.initialise()
+
 
     def start(self) :
         """ Lancement de la stratégie tourner """
@@ -65,6 +71,7 @@ class StrategieTourner():
 
         self.robA.setVitAngGA(VIT_ANG_TOUR  if self.angle > 0 else -VIT_ANG_TOUR)
         self.robA.setVitAngDA(-VIT_ANG_TOUR  if self.angle > 0 else VIT_ANG_TOUR)
+
 
     def step(self):
         """ Le step de la stratégie tourner, qui met a jour l'angle qui a été parcouru jusqu'à maintenant sinon
@@ -82,26 +89,28 @@ class StrategieTourner():
         return abs(self.angle_parcouru) > abs(self.angle)
     
 
+
 class StrategieArretMur():
+
     def __init__(self, robAdapt, distarret):
         """ Strategie qui fait arreter le robot a une distance donnée
             :param robAdapt: le robot que l'on veut faire arreter avant un mur/obtacle
             :param distarret: la distance que l'on veut entre le robot et le mur/obstacle
         """
         self.logger = getLogger(self.__class__.__name__)
-        
         self.robA = robAdapt
         self.distarret = distarret
         self.distrob = self.robA.getDistanceA() # la distance entre le robot et le mur/obtacle le plus proche devant lui, obtenue avec le capteur de distance
         self.robA.initialise()
 
+
     def start(self):
-        """ Réinitialisation de la vitesse du robot et de la distance entre le robot et le mur/obstacle
-        """
+        """ Réinitialisation de la vitesse du robot et de la distance entre le robot et le mur/obstacle """
         self.robA.setVitAngA(4)
         self.distrob = self.robA.getDistanceA()
         self.robA.initialise()
         self.logger.debug("Stratégie ArretMur lancée")
+
 
     def step(self):
         """ Le step de la stratégie arret mur : qui met à jour la distance entre le robot et le mur/obstacle devant lui
@@ -112,6 +121,7 @@ class StrategieArretMur():
         else:
             self.robA.setVitAngA(0)
 
+
     def stop(self):
         """ Détermine si la distance entre le robot et le mur/obstacle est plus petite ou égale a la distarret souhaitée
             :return: True si oui, non sinon
@@ -119,7 +129,9 @@ class StrategieArretMur():
         return self.distrob <= self.distarret
     
 
+
 class StrategieSuivreBalise():
+
     def __init__(self, robAdapt):
         """ Strategie permettant au robot de suivre une balise  
             :param robAdapt: le robot qui va suivre la balise
@@ -132,12 +144,13 @@ class StrategieSuivreBalise():
         self.balise ,self.decale = contientBalise(self.robA.get_imageA()) 
         # balise : Booléen: True si le robot voit la balise, decalage : le decalage en x entre le milieu de son champ de vision et la balise
 
+
     def start(self):
-        """ Réinitialisation du robot, du decalage et de balise 
-        """
+        """ Réinitialisation du robot, du decalage et de balise """
         self.robA.initialise()
         self.balise, self.decale = contientBalise(self.robA.get_imageA())
         self.logger.debug("Stratégie Suivre Balise lancé")
+
 
     def step(self):
         """ Le step de la stratégie suivre balise : qui met à jour le decalage entre le milieu de son champ de vision et la balise
@@ -156,6 +169,7 @@ class StrategieSuivreBalise():
         else:
             self.robA.setVitAngA(0)
 
+
     def stop(self):
         """ Retourne si la balise est dans le champ de vision du robot
             :return: True si la balise n'y est pas, False sinon
@@ -166,7 +180,9 @@ class StrategieSuivreBalise():
         return False
     
 
+
 class StrategieSeq():
+
     def __init__(self, listeStrat, robAdapt) :
         """ Stratégie séquentielle
             :param listeStrat: liste de stratégies qui vont être executées à la suite
@@ -178,11 +194,13 @@ class StrategieSeq():
         self.indice = -1
         self.robA.initialise()
 
+
     def start(self):
         """ Lancement de la stratégie séquentielle """
         self.indice = -1
         self.robA.initialise()
         self.robA.robot.estSousControle = True
+
 
     def step(self) : 
         """ Le step de la stratégie séquentielle, où on fait le step de la stratégie en cours ou on passe a la stratégie suivante selon le cas, et on met à jour le robot
@@ -192,11 +210,10 @@ class StrategieSeq():
             if (self.indice < 0 or self.listeStrat[self.indice].stop()) and self.indice != len(self.listeStrat)-1: # Si on n'a pas encore commencé à lancer les stratégies unitaire ou si la stratégie en cours est terminée, on avance à la stratégie suivante
                 self.indice += 1
                 self.listeStrat[self.indice].start()
-
             self.listeStrat[self.indice].step() # On fait le step de la stratégie en cours
-
         else:
             self.listeStrat[self.indice].robA.setVitAngA(0)
+
 
     def stop(self) :
         """ Détermine si la stratégie séquentielle est terminée, donc si toutes ses sous-stratégies son terminées
@@ -208,18 +225,21 @@ class StrategieSeq():
         return False
 
 
+
 class StrategieCond():
+
     def __init__(self, robAdapt, strat, cond):
         """ Stratégie conditionnelle 
-        :param robAdapt: le robot que l'on veut faire executer la strat
-        :param strat: la stratégie à executer tant que la cond est remplie
-        :param cond: fonction conditionnelle / booleenne (ex: <module>.verifDistanceSup(rob, 5) renverrai True si le captDist renvoie > 5)
+            :param robAdapt: le robot que l'on veut faire executer la strat
+            :param strat: la stratégie à executer tant que la cond est remplie
+            :param cond: fonction conditionnelle / booleenne (ex: <module>.verifDistanceSup(rob, 5) renverrai True si le captDist renvoie > 5)
         """
         self.logger = getLogger(self.__class__.__name__)
         self.robA = robAdapt
         self.strat = strat
         self.cond = cond
         self.robA.initialise()
+
 
     def start(self):
         """ Lancement de la stratégie conditionnelle """
@@ -228,16 +248,18 @@ class StrategieCond():
         self.robA.robot.estSousControle = True
         self.strat.start()
 
+
     def step(self):
         """ Exécute la strat demandée si la condition est remplie 
-        :returns: rien, fait le step de la strat
+            :returns: rien, fait le step de la strat
         """
         if not self.stop() :
             self.strat.step() 
 
+
     def stop(self):
         """ Vérifie si la condition est toujours valide
-        :returns: False si condition remplie (pas de stop), True si non remplie (stop)
+            :returns: False si condition remplie (pas de stop), True si non remplie (stop)
         """
         if not self.cond() : 
             self.robA.robot.estSousControle = False
@@ -245,12 +267,14 @@ class StrategieCond():
         return False
 
 
+
 class StrategieBoucle():
+
     def __init__(self, robAdapt, strat, nbTours):
         """ Stratégie de boucle
-        :param robAdapt: le robot que l'on veut faire executer la strat
-        :param strat: la stratégie à executer
-        :param nbTours: nombre de tours que la boucle doit faire
+            :param robAdapt: le robot que l'on veut faire executer la strat
+            :param strat: la stratégie à executer
+            :param nbTours: nombre de tours que la boucle doit faire
         """
         self.logger = getLogger(self.__class__.__name__)
         self.robA = robAdapt
@@ -258,6 +282,7 @@ class StrategieBoucle():
         self.nbTours = nbTours
         self.restants = self.nbTours
         self.robA.initialise()
+
 
     def start(self):
         """ Lancement de la stratégie de boucle """
@@ -267,9 +292,10 @@ class StrategieBoucle():
         self.robA.initialise()
         self.strat.start()
 
+
     def step(self):
         """ Exécute la strat demandée si on est encore dans un tour
-        :returns: rien, fait le step de la strat
+            :returns: rien, fait le step de la strat
         """
         if not self.stop() :
             self.strat.step() 
@@ -277,6 +303,7 @@ class StrategieBoucle():
                 self.restants-=1 
                 if not self.stop():
                     self.strat.start()
+
 
     def stop(self):
         """ Vérifie si le nombre de tours a été fait
@@ -287,6 +314,9 @@ class StrategieBoucle():
             return True
         return False
 
+
+# ------------------------- Setter de stratégie -------------------------------
+
 def setStrategieCarre(robAdapt, longueur_cote):
     """ Crée une stratégie pour faire un carré"""
     avance = StrategieAvancer(robAdapt, longueur_cote)
@@ -294,12 +324,14 @@ def setStrategieCarre(robAdapt, longueur_cote):
     carre  = StrategieSeq([avance, tourne, avance, tourne, avance, tourne, avance, tourne],robAdapt)
     return carre
 
+
 def setStrategieArretMur(robAdapt, distarret) :
     """ Crée une stratégie pour faire arreter le robot à une distance donnée d'un mur """
     arret = StrategieArretMur(robAdapt, distarret)
     return arret
 
-# Méthodes conditionnelles pour la stratCond
+
+# -------------------------- Méthodes conditionnelles -------------------------
 def verifDistanceSup(robAdapt, dist):
     """ Verifie que le robot est à une distance supérieure à dist d'un obstacle
     :param robAdapt: l'adaptateur pour lequel on va utiliser le capteur de distance

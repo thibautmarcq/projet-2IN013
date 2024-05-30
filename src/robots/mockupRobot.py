@@ -3,9 +3,7 @@ from math import pi
 
 
 class MockupRobot():
-    """
-    Classe de simulation du robot réel
-    """
+    """ Classe de simulation du robot réel """
     def __init__(self):
 
         self.WHEEL_BASE_WIDTH         = 117  # distance (mm) de la roue gauche a la roue droite.

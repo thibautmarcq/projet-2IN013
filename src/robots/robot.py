@@ -23,7 +23,6 @@ class Robot :
 			:returns: ne retourne rien, ça initalise seulement le robot
 		"""
 		self.logger = getLogger(self.__class__.__name__)
-
 		self.nom = nom
 		self.x = x
 		self.y = y
@@ -41,12 +40,10 @@ class Robot :
 		self.estCrash = False  			# Nous permet de savoir si le robot s'est crash et ne pas refresh le robot
 
 	def refresh(self, duree):
-
 		""" Méthode de update du robot, qui va modifier les coordonnées du robot et son vecteur directeur en fonction des vitesses angulaires des roues et du temps qui s'est écoulé depuis la dernière update.
 			:param duree: le temps qui s'est écoulé depuis la dernière mise à jour du robot
 			:returns: ne retourne rien, on met juste à jour le robot
 		"""
-
 		vitesse = self.getVitesse() # on récupère la vitesse du centre du robot 
 		dirBasex, dirBasey = self.direction
 
@@ -88,7 +85,7 @@ class Robot :
 		self.y += self.direction[1]*vitesse*duree
 	
 
-	# Fonctions de manipulation des vitesses angulaires des roues 
+	# ------------------------ Fonctions de manipulation des vitesses angulaires des roues ----------------------------------------
  
 	@property
 	def vitAngG(self):
@@ -97,7 +94,6 @@ class Robot :
 
 	@vitAngG.setter
 	def vitAngG(self, vit):
-
 		""" Setter de vitesse angulaire de la roue gauche
 			:param vit: la vitesse anngulaire qu'on veut donner à la roue gauche
 			:returns: ne retourne rien, on met juste à jour la vitesse angulaire de la roue gauche
@@ -105,13 +101,14 @@ class Robot :
 		self._vitAngG = vit
 		self.logger.debug("Vitesse roueG set à %d (%s)", vit, self.nom)
 
+
 	@property
 	def vitAngD(self):
 		return self._vitAngD
 
+
 	@vitAngD.setter
 	def vitAngD(self, vit) :
-
 		""" Setter de vitesse angulaire de la roue droite
 			:param vit: vitesse angulaire que l'on veut donner à la roue droite
 			:returns: ne retourne rien, on change juste la vitesse angulaire de la roue droite
@@ -119,8 +116,8 @@ class Robot :
 		self._vitAngD = vit
 		self.logger.debug("Vitesse roueD set à %d (%s)", vit, self.nom)
 
-	def setVitAng(self, vit) :
 
+	def setVitAng(self, vit) :
 		""" Setter qui va donner aux roues gauche et droite une certaine vitesse angulaire
 			:param vit: la vitesse angulaire qu'on veut donner aux roues droite et gauche
 			:returns: ne retourne rien, on met à jour les vitesses angulaires des roues
@@ -129,12 +126,14 @@ class Robot :
 		self.vitAngG = vit
 		self.logger.debug("Vitesse globale set à %d (%s)", vit, self.nom)
 
+
 	def changeVitAngG(self, quant) :
 		""" Setter qui ajoute quant à la vitesse angulaire de la roue gauche
 			:quant: la quantite que l'on veut rajouter à la vitesse angulaire de la roue gauche
 			:returns: rien, on change juste la vitesse angulaire de la roue gauche
 		"""
 		self.vitAngG += quant
+		
 
 	def changeVitAngD(self, quant) :
 		""" Setter qui ajoute quant à la vitesse angulaire de la roue droite
@@ -142,6 +141,7 @@ class Robot :
 			:returns: rien, on change juste la vitesse angulaire de la roue droite
 		"""
 		self.vitAngD += quant
+
 
 	def changeVitAng(self, quant) :
 		""" Setter qui ajoute quant aux vitesses angulaires des deux roues
@@ -151,28 +151,31 @@ class Robot :
 		self.changeVitAngG(quant)
 		self.changeVitAngD(quant)
 
+
 	def getVitesseG(self) :
 		""" Getter qui renvoir la vitesse d'un point qui serait sur la roue gauche
 			:returns: la vitesse d'un point sur la roue gauche
 		"""
 		return self.vitAngG*self.rayonRoue
 	
+
 	def getVitesseD(self) :
 		""" Getter qui renvoie la vitesse d'un point qui serait sur la roue droite
 			:returns: la vitesse d'un point sur la roue droite
 		"""
 		return self.vitAngD*self.rayonRoue
 	
+
 	def getVitesse(self) :
 		""" Getter de la vitesse du point central du robot
 			:returns: la vitesse du robot en son centre
 		"""
 		return (self.getVitesseD() + self.getVitesseG())/2
 	
+
 	def getDistance(self, env):
-		"""
-		Capteur de distance du robot, donne la distance entre le pt milieu avant du robot (tete) et l'obstacle devant lui
-		:returns: retourne la distance entre la tete du robot et l'obstacle le plus proche devant lui
+		""" Capteur de distance du robot, donne la distance entre le pt milieu avant du robot (tete) et l'obstacle devant lui
+			:returns: retourne la distance entre la tete du robot et l'obstacle le plus proche devant lui
 		"""
 		x1, y1 = (self.x+self.direction[0]*(self.length/2), self.y+self.direction[1]*(self.length/2))
 		(x2, y2) = (x1, y1) # Le pt d'avancement est, au début, au pt de départ
@@ -180,13 +183,12 @@ class Robot :
 
 		while ((int(y2/env.scale), int(x2/env.scale)) not in env.dicoObs):
 			x2, y2 = (x2+dirNorm[0], y2+dirNorm[1]) # on avance en case suivant le vect dir
-
 		return sqrt((x2 - x1)**2 + (y2 - y1)**2)
+	
+
 
 class Adaptateur_simule(Adaptateur) :
-	""" Classe d'adaptation du robot simulé, qui hérite de la classe Robot
-	"""
-
+	""" Classe d'adaptation du robot simulé, qui hérite de la classe Robot """
 	def __init__(self, robot, env) :
 		self.robot = robot
 		self.last_point = (self.robot.x, self.robot.y)
@@ -198,6 +200,7 @@ class Adaptateur_simule(Adaptateur) :
 		self.run = True
 		self.img = None
 
+
 	def initialise(self):
 		""" Méthode qui initialise les moteurs du robot et les variables de distance et d'angle parcourus à 0"""
 		self.last_point = (self.robot.x, self.robot.y)
@@ -206,12 +209,16 @@ class Adaptateur_simule(Adaptateur) :
 		self.angle_parcourA = 0
 		self.img = None
 
+
+	# ------------------------ Setter de l'adaptateur ---------------------------------------
+
 	def setVitAngDA(self, vit):
 		""" Setter de vitesse angulaire de la roue droite depuis l'adaptateur
 			:param vit: la vitesse angulaire que l'on veut donner à la roue droite
 			:returns: ne retourne rien
 		"""
 		self.robot.vitAngD = vit
+
 
 	def setVitAngGA(self, vit) :
 		""" Setter de vitesse angulaire de la roue droite depuis l'adaptateur
@@ -220,6 +227,7 @@ class Adaptateur_simule(Adaptateur) :
 		"""
 		self.robot.vitAngG = vit
 
+
 	def setVitAngA(self, vit) :
 		""" Setter de vitesse angulaire des roues gauche et droite depuis l'adaptateur
 			:param vit: la vitesse angulaire que l'on veut donner aux roues
@@ -227,11 +235,15 @@ class Adaptateur_simule(Adaptateur) :
 		"""
 		self.robot.setVitAng(vit)
 
+
+	# ------------------------ Getter de l'adaptateur ---------------------------------------
+
 	def getDistanceA(self) :
 		""" Capteur de distance du robot simulé depuis l'adaptateur
 			:returns: la distance à l'obstacle le plus proche en regardant tout droit
 		"""
 		return self.robot.getDistance(self.env)
+
 
 	def getDistanceParcourue(self) :
 		""" La distance parcourue entre le point précédent et le point actuel
@@ -241,6 +253,7 @@ class Adaptateur_simule(Adaptateur) :
 		pos_prec = self.last_point
 		return getDistanceFromPts(pos_actuelle, pos_prec)
 	
+
 	def getAngleParcouru(self) :
 		""" Getter de l'angle parcouru entre le dernier point enregistré et la position actuelle du robot
 			:returns: l'angle entre les deux points
@@ -249,7 +262,7 @@ class Adaptateur_simule(Adaptateur) :
 		dir_prec = self.last_dir
 		return getAngleFromVect(dir_prec, dir_actuelle)
 	
+
 	def get_imageA(self):
-		""" Getter de l'image prise dans l'interface3d
-		"""
+		""" Getter de l'image prise dans l'interface3d """
 		return self.img

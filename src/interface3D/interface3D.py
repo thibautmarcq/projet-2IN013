@@ -2,22 +2,20 @@
 
 from math import cos, pi, sin
 from sys import exit
-from threading import Thread, Timer
+from threading import Thread
 from time import sleep
 
 from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
-from panda3d.core import (Filename, Geom, GeomNode,
-						  GeomTriangles, GeomVertexData, GeomVertexFormat,
-						  GeomVertexWriter, OmniBoundingVolume, PNMImage,
-						  Point3, Texture, load_prc_file, LineSegs, NodePath, StringStream)
+from panda3d.core import (Geom, GeomNode, GeomTriangles, GeomVertexData,
+						  GeomVertexWriter, OmniBoundingVolume,GeomVertexFormat,
+						  Point3, Texture, load_prc_file, LineSegs, NodePath)
 from src import (DICO_COULEURS, TIC_SIMULATION, StrategieAvancer,
 				 StrategieBoucle, StrategieCond, StrategieSeq,
 				 StrategieTourner, setStrategieArretMur, setStrategieCarre,
 				 verifDistanceSup, StrategieSuivreBalise)
 
 import numpy as np
-from PIL import Image
 
 load_prc_file('src/interface3D/source/config.prc')
 
@@ -34,16 +32,10 @@ class Interface3D(ShowBase):
 		self.running = True
 		self.showBalise = False
 
-		# Bind quitter la fenêtre
-		self.accept('escape', exit)
-
 		self.son = self.loader.loadSfx("src/interface3D/source/secret.mp3")
 		self.secret = False
 
 		self.taskMgr.add(self.upCameraTask, "upCameraTask")
-		# self.taskMgr.add(self.frontCameraTask, "frontCameraTask")
-		# self.taskMgr.add(self.spinCameraTask, "spinCameraTask")
-		# self.taskMgr.add(self.backCameraTask, "backCameraTask")
 
 		self.setDraw()
 
@@ -51,8 +43,9 @@ class Interface3D(ShowBase):
 		T_tictac = Thread(target=self.ticTac, daemon=True)
 		T_tictac.start()
 
+
 	def binds(self):
-		""" Bind les touches pour les déplacements des robots, les stratégies et certaines actions"""
+		""" Bind les touches pour les déplacements des robots, les stratégies et certaines actions """
 		# -------------------------------------------------------------------		-------------
 		# 								BINDS,										| a | z | e |
 		#           Modèle : (<touche>, <fonction>, <liste params>)		            | q | s | d |
@@ -66,12 +59,11 @@ class Interface3D(ShowBase):
 		self.accept('x', self.env.addRobotSelect, [1])
 		self.accept('w', self.env.addRobotSelect, [-1])
 		self.accept('shift-m', self.mystere)
+
 		# Switch entre les vues
 		self.accept('arrow_up', self.taskMgr.add, [self.upCameraTask, "upCameraTask"])
 		self.accept('arrow_right', self.taskMgr.add, [self.frontCameraTask, "frontCameraTask"])
 		self.accept('arrow_down', self.taskMgr.add, [self.backCameraTask, "backCameraTask"])
-
-		# self.accept('5', self.taskMgr.add, [self.takePic, "takePicture"])
 
 		self.accept('c', lambda:self.choisirStrategie(1, 120))
 		self.accept('m', lambda:self.choisirStrategie(2, 20))
@@ -79,7 +71,10 @@ class Interface3D(ShowBase):
 		self.accept('o', lambda:self.choisirStrategie(4, 120))
 		self.accept('b', lambda:self.choisirStrategie(5, 0))
 
-		# self.accept('n', self.showImage)
+		self.accept('escape', exit)
+
+	# ----------------------------------------------------------------------------
+
 
 	def choisirStrategie(self, strat, distance) :
 		""" Choisis la strategie à lancer
@@ -126,15 +121,16 @@ class Interface3D(ShowBase):
 
 	def createAllRobots(self):
 		""" Crée tous les robots présents dans l'environnement
-		:returns: rien, va seulement créer tous les robots de l'environnement (en attribut de l'interface)
+			:returns: rien, va seulement créer tous les robots de l'environnement (en attribut de l'interface)
 		"""
 		for robA in self.env.listeRobots:
 			self.createRobot(robA)
 
+
 	def createRobot(self, robotA):
-		"""Crée un robot en 3D (rectangle) dans l'interface
-		:param robotA: adaptateur de robot
-		:returns: ne retourne rien, ça initalise seulement le robot dans l'interface 3d
+		""" Crée un robot en 3D (rectangle) dans l'interface
+			:param robotA: adaptateur de robot
+			:returns: ne retourne rien, ça initalise seulement le robot dans l'interface 3d
 		"""
 		robot = robotA.robot
 
@@ -194,37 +190,10 @@ class Interface3D(ShowBase):
 		robot.np.node().setBounds(OmniBoundingVolume())
 		robot.np.node().setFinal(True)
 
-	def updateRobot(self, robotA):
-		""" Update le visuel d'un robot dans l'interface
-		:param robotA: le robotA pour lequel on veut update l'affichage
-		:returns: rien, recalcule seulement les coo des sommets et update le visuel d'un robot
-		"""
-		robot = robotA.robot
-		dx, dy = robot.direction
-
-		robot.vertex.setRow(0)
-		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)-(robot.length/2)*dx, self.env.length - (robot.y-(robot.width/2)*(dx)-(robot.length/2)*dy), 0)  # 0 dèrrière bas gauche
-		robot.vertex.setRow(1)
-		robot.vertex.setData3f(robot.x+(robot.width/2)*(-dy)-(robot.length/2)*dx, self.env.length - (robot.y+(robot.width/2)*(dx)-(robot.length/2)*dy), 0)  # 1 derriere bas droit
-		robot.vertex.setRow(3)
-		robot.vertex.addData3f(robot.x+(robot.width/2)*(-dy)+(robot.length/2)*dx, self.env.length - (robot.y+(robot.width/2)*(dx)+(robot.length/2)*dy), 0)  # 2 devant bas droit
-		robot.vertex.setRow(2)
-		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)+(robot.length/2)*dx, self.env.length - (robot.y-(robot.width/2)*(dx)+(robot.length/2)*dy), 0)  # 3 devant bas gauche
-		robot.vertex.setRow(4)
-		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)-(robot.length/2)*dx, self.env.length - (robot.y-(robot.width/2)*(dx)-(robot.length/2)*dy), robot.height)  # 4 derriere haut gauche
-		robot.vertex.setRow(5)
-		robot.vertex.setData3f(robot.x+(robot.width/2)*(-dy)-(robot.length/2)*dx, self.env.length - (robot.y+(robot.width/2)*(dx)-(robot.length/2)*dy), robot.height)  # 5 derriere haut droit
-		robot.vertex.setRow(7)
-		robot.vertex.setData3f(robot.x+(robot.width/2)*(-dy)+(robot.length/2)*dx, self.env.length - (robot.y+(robot.width/2)*(dx)+(robot.length/2)*dy), robot.height)  # 6 devant haut droit
-		robot.vertex.setRow(6)
-		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)+(robot.length/2)*dx, self.env.length - (robot.y-(robot.width/2)*(dx)+(robot.length/2)*dy), robot.height)  # 7 devant haut gauche
-
-		if robot.draw and not robot.estSousControle:	# on est en train de dessiner, mais on a fini la méthode
-			robot.draw = False
 
 	def createEnvironnement(self):
 		""" Crée le visuel de l'environnement dans l'interface
-		:returns: rien, crée simplement l'environnement en 3D
+			:returns: rien, crée simplement l'environnement en 3D
 		"""
 		self.env.format = GeomVertexFormat.getV3t2()
 		self.env.vdata = GeomVertexData("envi", self.env.format, Geom.UHStatic)
@@ -240,13 +209,16 @@ class Interface3D(ShowBase):
 		self.env.texcoord.addData2f(0, 1)
 		self.env.vertex.addData3f(self.env.width, self.env.length, -1)  # 3 haut droit
 		self.env.texcoord.addData2f(1, 1)
+
 		# Création de l'objet + ajout du plan
 		self.env.plan = GeomTriangles(Geom.UHStatic)
 		self.env.plan.addVertices(0, 1, 2)
 		self.env.plan.addVertices(1, 3, 2)
+
 		# Link des données
 		self.env.geom = Geom(self.env.vdata)
 		self.env.geom.addPrimitive(self.env.plan)
+
 		# Création noeud + ajout noeud dans le render
 		self.env.node = GeomNode("envi")
 		self.env.node.addGeom(self.env.geom)
@@ -257,76 +229,17 @@ class Interface3D(ShowBase):
 		texture.read("src/interface3D/source/envi.png")
 		self.env.np.setTexture(texture)
 
-	def drawOpti(self):
-		"""
-		Dessine la trace du robot de manière optimisée (éviter le stack overflow).
-		Trace des lignes partielles à chaque pas jusqu'à tracer une vraie ligne quand il tourne.
-		Chaque ligne partielle est libérée à chaque fois.
-		A lancer en thread pour se faire en simultané du robot.
-		"""
-
-		def libereTabNodes(tabNodes):
-			for node in tabNodes:
-				node.removeNode()
-		
-		robot = self.env.listeRobots[self.env.robotSelect].robot
-		tabDir = [robot.direction]
-
-		tabNodesLines = [] # tab des nodes des lignes (côté entier du carré), plus tard supprimé
-		tabPts = [(robot.x, self.env.length-robot.y)] # utilisé pour repérer les 4 coins du carré
-
-		tabNodesLinesPartial = [] # tableau des lignes pas finies, plus tard supprimé
-		ptsDraw = 0
-
-		while (robot.draw and not robot.estCrash): # tant qu'on dessine
-			while (((tabDir[0][0] == robot.direction[0]) or (tabDir[0][1] == robot.direction[1])) and robot.draw and not robot.estCrash): # tant que la direction ne change pas
-				ptsDraw += 1
-				self.drawLine((tabPts[len(tabPts)-1]), (robot.x, self.env.length-robot.y), tabNodesLinesPartial)
-				node = tabNodesLinesPartial.pop()
-				node.removeNode()
-				sleep(TIC_SIMULATION*1.5)
-			
-			# quand on tourne > trace la ligne complète  + on enregistre le point
-			self.drawLine((tabPts[len(tabPts)-1]), (robot.x, self.env.length-robot.y), tabNodesLines) # on trace une ligne entre le dernier point et le pt actuel
-			tabPts.append((robot.x, self.env.length-robot.y))
-
-			tabDir.pop() # supprime les anciennes directions
-			tabDir.append(robot.direction)
-
-		# On supprime les lignes et les points restants à la fin du carré
-		libereTabNodes(tabNodesLines)
-		libereTabNodes(tabNodesLinesPartial)
-		return
-
-
-	def drawLine(self, pt1, pt2, tabNodesLines):
-		"""
-		Trace une ligne en 2D entre pt1 et pt2
-		:param pt1: pt de départ
-		:param pt2: pt d'arrivé
-		"""
-		# crée un objet ligne
-		line = LineSegs()
-		line.moveTo(pt1[0], pt1[1], 0)  # Move to the start point
-		line.drawTo(pt2[0], pt2[1], 0)  # Draw to the end point
-
-		# crée un node et lui rattache la ligne
-		line_node = line.create()
-		line_node_path = NodePath(line_node)
-
-		# render le node + l'ajoute à la liste des nodes
-		line_node_path.reparentTo(self.render)
-		tabNodesLines.append(line_node_path)
 
 	def createAllObstacles(self):
 		for obs in self.env.listeObs:
 			self.createObstacle(obs, 40)
 
+
 	def createObstacle(self, obs, height):
 		""" Crée un obstacle en 3D à partir de ses points dans l'interface
-		:param obs: obstacle
-		:param height: sa hauteur
-		:returns: ne retourne rien, initialise seulement un obstacle dans l'interface 3D
+			:param obs: obstacle
+			:param height: sa hauteur
+			:returns: ne retourne rien, initialise seulement un obstacle dans l'interface 3D
 		"""
 		obs.format = GeomVertexFormat.getV3() # type des sommets
 		obs.vdata = GeomVertexData("obstacle", obs.format, Geom.UHStatic)
@@ -340,8 +253,8 @@ class Interface3D(ShowBase):
 		center_y = sum(y_coords)/len(obs.lstPoints)
 		obs.vertex.addData3f(center_x, center_y, 0)
 		obs.vertex.addData3f(center_x, center_y, height)
+
 		# Le premier sommet a donc comme indice 2 
-	
 		idS = 1
 		for sommet in obs.lstPoints :
 			# numéro pair => sommet du bas, impair => sommet du haut
@@ -373,11 +286,11 @@ class Interface3D(ShowBase):
 		obs.np.node().setBounds(OmniBoundingVolume())
 		obs.np.node().setFinal(True)
 
+
 	def createBalise(self, balise): # Renvoie un NodePath
-		"""
-		Crée une balise (objet) aux coordonnées de la mouse
-		:param balise: la balise que l'on souhaite créer
-		:returns: le NodePath vers la balise crée (objet3D)
+		""" Crée une balise (objet) aux coordonnées de la mouse
+			:param balise: la balise que l'on souhaite créer
+			:returns: le NodePath vers la balise crée (objet3D)
 		"""
 		self.balise = balise
 
@@ -418,7 +331,6 @@ class Interface3D(ShowBase):
 		self.balise.vertexBal.addData3f(self.balise.x+self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y+self.balise.width/2*(self.balise.dir[1]), self.balise.height)
 		self.balise.texcoord.addData2f(0, 1)
 
-		# The rest of your code...
 		self.balise.balise = GeomTriangles(Geom.UHDynamic)
 		self.balise.balise.addVertices(0,1,2)
 		self.balise.balise.addVertices(1,2,3)
@@ -439,11 +351,172 @@ class Interface3D(ShowBase):
 		self.balise.np.setTexture(texture)
 		return self.balise.np
 
-	def updateBalise(self):
+
+	# ----------------------------- Méthodes liées au tracage du carré -----------------------------------------------------------------
+
+	def drawOpti(self):
+		""" Dessine la trace du robot de manière optimisée (éviter le stack overflow).
+			Trace des lignes partielles à chaque pas jusqu'à tracer une vraie ligne quand il tourne.
+			Chaque ligne partielle est libérée à chaque fois.
+			A lancer en thread pour se faire en simultané du robot.
 		"""
-		Méthode d'affichage et de suppression de la balise régulièrement.
-		Temporaire, le temps de faire de bons updates
-		Méthode lancée en threading."""
+
+		def libereTabNodes(tabNodes):
+			for node in tabNodes:
+				node.removeNode()
+		
+		robot = self.env.listeRobots[self.env.robotSelect].robot
+		tabDir = [robot.direction]
+
+		tabNodesLines = [] # tab des nodes des lignes (côté entier du carré), plus tard supprimé
+		tabPts = [(robot.x, self.env.length-robot.y)] # utilisé pour repérer les 4 coins du carré
+
+		tabNodesLinesPartial = [] # tableau des lignes pas finies, plus tard supprimé
+		ptsDraw = 0
+
+		while (robot.draw and not robot.estCrash): # tant qu'on dessine
+			while (((tabDir[0][0] == robot.direction[0]) or (tabDir[0][1] == robot.direction[1])) and robot.draw and not robot.estCrash): # tant que la direction ne change pas
+				ptsDraw += 1
+				self.drawLine((tabPts[len(tabPts)-1]), (robot.x, self.env.length-robot.y), tabNodesLinesPartial)
+				node = tabNodesLinesPartial.pop()
+				node.removeNode()
+				sleep(TIC_SIMULATION*1.5)
+			
+			# quand on tourne > trace la ligne complète  + on enregistre le point
+			self.drawLine((tabPts[len(tabPts)-1]), (robot.x, self.env.length-robot.y), tabNodesLines) # on trace une ligne entre le dernier point et le pt actuel
+			tabPts.append((robot.x, self.env.length-robot.y))
+
+			tabDir.pop() # supprime les anciennes directions
+			tabDir.append(robot.direction)
+
+		# On supprime les lignes et les points restants à la fin du carré
+		libereTabNodes(tabNodesLines)
+		libereTabNodes(tabNodesLinesPartial)
+		return
+
+
+	def drawLine(self, pt1, pt2, tabNodesLines):
+		""" Trace une ligne en 2D entre pt1 et pt2
+			:param pt1: pt de départ
+			:param pt2: pt d'arrivé
+		"""
+		# crée un objet ligne
+		line = LineSegs()
+		line.moveTo(pt1[0], pt1[1], 0)  # Move to the start point
+		line.drawTo(pt2[0], pt2[1], 0)  # Draw to the end point
+
+		# crée un node et lui rattache la ligne
+		line_node = line.create()
+		line_node_path = NodePath(line_node)
+
+		# render le node + l'ajoute à la liste des nodes
+		line_node_path.reparentTo(self.render)
+		tabNodesLines.append(line_node_path)
+
+
+	def setDraw(self) :
+		for robot in self.env.listeRobots:
+			robot.robot.draw = False
+
+	# --------------------------------------------------------------------------------------
+
+
+	def deleteNode(self, node):
+		""" Supprime un objet (node) de l'interface
+			:param node: le node a supprimer de l'interface
+		"""
+		if node is not None:
+			node.removeNode()
+
+
+	# -------------------- Tasks pour la camera --------------------
+
+	def spinCameraTask(self, task):
+		""" Effectue une rotation de la caméra autour du robot pendant qu'il avance """
+		self.camLens.setFov(45)
+		robot = self.env.listeRobots[self.env.robotSelect].robot
+		angleDegrees = task.time * 30.0
+		angleRadians = angleDegrees * (pi / 180.0)
+		radius = 300
+		camera_x = robot.x + radius * cos(angleRadians)
+		camera_y = robot.y + radius * sin(angleRadians)
+		self.camera.setPos(camera_x, camera_y, 200)
+		self.camera.lookAt(Point3(robot.x, robot.y, 0))
+		return Task.cont
+	
+
+	def backCameraTask(self, task):
+		""" Set la caméra derrière le robot et le suit lorsqu'il avance """
+		self.camLens.setFov(45)
+		robot = self.env.listeRobots[self.env.robotSelect].robot
+		dx, dy = robot.direction
+		camera_x = robot.x - 500 * dx
+		camera_y = robot.y - 500 * dy
+		camera_z = 500
+		self.camera.setPos(camera_x, self.env.length - camera_y, camera_z)
+		self.camera.lookAt(Point3(robot.x, self.env.length - robot.y, 0))
+		return Task.cont
+	
+
+	def frontCameraTask(self, task):
+		""" Set la caméra devant le robot (comme la vraie caméra) """
+		robot = self.env.listeRobots[self.env.robotSelect].robot
+		dx, dy = robot.direction
+		camera_x = robot.x + robot.width * dx
+		camera_y = self.env.length-(robot.y + robot.length * dy)
+		camera_z = robot.height
+		self.camera.setPos(camera_x, camera_y, camera_z)
+		self.camera.lookAt(Point3(robot.x + 100 *(dx), self.env.length-(robot.y + 100 *(dy)), robot.height))
+		self.camLens.setFov(140) # Réglage du FOV (champ de vision)
+		return Task.cont
+	
+
+	def upCameraTask(self, task):
+		""" Set la caméra au dessus de l'environnement (reproduction interface 2D) """
+		self.camLens.setFov(90)
+		cam_x = (self.env.length/2+100)
+		cam_y = (self.env.width/2-100)
+		cam_z = (self.env.length)
+		self.camera.setPos(cam_x, cam_y, cam_z)
+		self.camera.lookAt(Point3(cam_x, cam_y, 0))
+		return Task.cont
+
+
+	# -------------------- Méthodes liées à l'update de l'interface --------------------
+
+	def updateRobot(self, robotA):
+		""" Update le visuel d'un robot dans l'interface
+			:param robotA: le robotA pour lequel on veut update l'affichage
+			:returns: rien, recalcule seulement les coo des sommets et update le visuel d'un robot
+		"""
+		robot = robotA.robot
+		dx, dy = robot.direction
+
+		robot.vertex.setRow(0)
+		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)-(robot.length/2)*dx, self.env.length - (robot.y-(robot.width/2)*(dx)-(robot.length/2)*dy), 0)  # 0 dèrrière bas gauche
+		robot.vertex.setRow(1)
+		robot.vertex.setData3f(robot.x+(robot.width/2)*(-dy)-(robot.length/2)*dx, self.env.length - (robot.y+(robot.width/2)*(dx)-(robot.length/2)*dy), 0)  # 1 derriere bas droit
+		robot.vertex.setRow(3)
+		robot.vertex.addData3f(robot.x+(robot.width/2)*(-dy)+(robot.length/2)*dx, self.env.length - (robot.y+(robot.width/2)*(dx)+(robot.length/2)*dy), 0)  # 2 devant bas droit
+		robot.vertex.setRow(2)
+		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)+(robot.length/2)*dx, self.env.length - (robot.y-(robot.width/2)*(dx)+(robot.length/2)*dy), 0)  # 3 devant bas gauche
+		robot.vertex.setRow(4)
+		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)-(robot.length/2)*dx, self.env.length - (robot.y-(robot.width/2)*(dx)-(robot.length/2)*dy), robot.height)  # 4 derriere haut gauche
+		robot.vertex.setRow(5)
+		robot.vertex.setData3f(robot.x+(robot.width/2)*(-dy)-(robot.length/2)*dx, self.env.length - (robot.y+(robot.width/2)*(dx)-(robot.length/2)*dy), robot.height)  # 5 derriere haut droit
+		robot.vertex.setRow(7)
+		robot.vertex.setData3f(robot.x+(robot.width/2)*(-dy)+(robot.length/2)*dx, self.env.length - (robot.y+(robot.width/2)*(dx)+(robot.length/2)*dy), robot.height)  # 6 devant haut droit
+		robot.vertex.setRow(6)
+		robot.vertex.setData3f(robot.x-(robot.width/2)*(-dy)+(robot.length/2)*dx, self.env.length - (robot.y-(robot.width/2)*(dx)+(robot.length/2)*dy), robot.height)  # 7 devant haut gauche
+
+		if robot.draw and not robot.estSousControle:	# on est en train de dessiner, mais on a fini la méthode
+			robot.draw = False
+
+
+	def updateBalise(self):
+		""" Méthode d'affichage et de suppression de la balise régulièrement.
+			Méthode lancée en threading.
+		"""
 
 		robot = self.env.listeRobots[self.env.robotSelect].robot
 		self.balise.dir[1] = robot.direction[0]
@@ -468,70 +541,9 @@ class Interface3D(ShowBase):
 			self.balise.vertexBal.setRow(3)
 			self.balise.vertexBal.setData3f(self.balise.x+self.balise.width/2*(self.balise.dir[0]), winHeight-self.balise.y+self.balise.width/2*(self.balise.dir[1]), self.balise.height) # 3
 
-	def deleteNode(self, node):
-		"""
-		Supprime un objet (node) de l'interface
-		:param node: le node a supprimer de l'interface
-		"""
-		if node is not None:
-			node.removeNode()
-
-	# -------------------- Tasks pour la camera --------------------
-
-	def spinCameraTask(self, task):
-		""" Effectue une rotation de la caméra autour du robot pendant qu'il avance """
-		self.camLens.setFov(45)
-		robot = self.env.listeRobots[self.env.robotSelect].robot
-		angleDegrees = task.time * 30.0
-		angleRadians = angleDegrees * (pi / 180.0)
-		radius = 300
-		camera_x = robot.x + radius * cos(angleRadians)
-		camera_y = robot.y + radius * sin(angleRadians)
-		self.camera.setPos(camera_x, camera_y, 200)
-		self.camera.lookAt(Point3(robot.x, robot.y, 0))
-		return Task.cont
-
-	def backCameraTask(self, task):
-		""" Set la caméra derrière le robot et le suit lorsqu'il avance """
-		self.camLens.setFov(45)
-		robot = self.env.listeRobots[self.env.robotSelect].robot
-		dx, dy = robot.direction
-		camera_x = robot.x - 500 * dx
-		camera_y = robot.y - 500 * dy
-		camera_z = 500
-		self.camera.setPos(camera_x, self.env.length - camera_y, camera_z)
-		self.camera.lookAt(Point3(robot.x, self.env.length - robot.y, 0))
-		return Task.cont
-
-	def frontCameraTask(self, task):
-		""" Set la caméra devant le robot (comme la vraie caméra) """
-		robot = self.env.listeRobots[self.env.robotSelect].robot
-		dx, dy = robot.direction
-		camera_x = robot.x + robot.width * dx
-		camera_y = self.env.length-(robot.y + robot.length * dy)
-		camera_z = robot.height
-		self.camera.setPos(camera_x, camera_y, camera_z)
-		self.camera.lookAt(Point3(robot.x + 100 *(dx), self.env.length-(robot.y + 100 *(dy)), robot.height))
-		self.camLens.setFov(140) # Réglage du FOV (champ de vision)
-
-		return Task.cont
-
-	def upCameraTask(self, task):
-		""" Set la caméra au dessus de l'environnement (reproduction interface 2D) """
-		self.camLens.setFov(90)
-		cam_x = (self.env.length/2+100)
-		cam_y = (self.env.width/2-100)
-		cam_z = (self.env.length)
-		self.camera.setPos(cam_x, cam_y, cam_z)
-		self.camera.lookAt(Point3(cam_x, cam_y, 0))
-		return Task.cont
-
-
-	# -------------------- Méthodes liées à l'update  de l'interface --------------------
-
 
 	def ticTac(self):
-		""" Méthode pour update la simulation à chaque tic"""
+		""" Méthode pour update la simulation à chaque tic """
 		i = 0
 		while self.running:
 			for adapt in self.env.listeRobots:
@@ -541,9 +553,8 @@ class Interface3D(ShowBase):
 				self.updateBalise()
 			sleep(TIC_SIMULATION)
 
-	def setDraw(self) :
-		for robot in self.env.listeRobots:
-			robot.robot.draw = False
+
+	# ------------------------------------------------------------------------------------------------------
 
 	def mystere(self):
 		""" Méthode secrète """
@@ -596,9 +607,10 @@ class Interface3D(ShowBase):
 
 		return img
 
+
 	def display_image(self,image_array):
-		"""Affiche l'image dans une fenêtre cv2
-		:param image_array: l'array np pour lequel on veut l'image
+		""" Affiche l'image dans une fenêtre cv2
+			:param image_array: l'array np pour lequel on veut l'image
 		"""
 		# cv2.imshow('Image', image_array)
 		# cv2.waitKey(0)
@@ -606,10 +618,9 @@ class Interface3D(ShowBase):
 		# print(image_array)
 		pass
 	
+
 	def updateImg(self):
-		"""
-		Update l'attribut img du robot avec l'image de la cam simulée de l'i3D
-		"""
+		""" Update l'attribut img du robot avec l'image de la cam simulée de l'i3D """
 		robot = self.env.listeRobots[self.env.robotSelect].robot
 		robot.img = self.getImageInterface()	
 	
