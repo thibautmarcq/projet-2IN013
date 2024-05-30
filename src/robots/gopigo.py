@@ -88,8 +88,14 @@ class Adaptateur_reel(Adaptateur):
         print("angle angle:", ang_g, ang_d)
         dist_d = (ang_d/360) * self.robot.WHEEL_CIRCUMFERENCE
         dist_g = (ang_g/360) * self.robot.WHEEL_CIRCUMFERENCE
-        print("prout ", dist_g, dist_d)
         print("distance angle: ", degrees((dist_g-dist_d)/self.robot.WHEEL_BASE_WIDTH))
         return degrees((dist_g-dist_d)/self.robot.WHEEL_BASE_WIDTH)
+    
+    def get_imageA(self):
+        self.robot.start_recording()
+        time.sleep(1)
+        img = self.robot.get_image()
+        self.robot.stop_recording()
+        return img
 
 
