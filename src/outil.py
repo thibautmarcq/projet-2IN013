@@ -80,35 +80,43 @@ def rotationVecteur( v, angle):
     return (x*cos(angle)-y*sin(angle), x*sin(angle)+y*cos(angle))
 
 def contientBalise(image):
-    """ Fonction qui recherche un certain pattern dans l'image passé en parametre
-    :param image : un npArray réprésentant une image
-    :returns: (True, décalageEnX) si la balise reconnue dans notre image
-    Sinon (False, None)
-    """
-    #print("image :", image)
-    
-    # obtenir le npArray du patern à rechercher
-    balise = (cv2.imread("template.jpg", cv2.IMREAD_UNCHANGED))
+    hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+    x, y = 0, 0
 
-    bal = 1 # compteur de rotation de la balise
-    if image is not None :
-        while bal <= 4:
-            # nous donne un array des % de match
-            resultat = cv2.matchTemplate(image, balise, cv2.TM_CCOEFF_NORMED) 
-            _, maxVal, _, maxPoint = cv2.minMaxLoc(resultat) # récupère le meilleur match
-            # Si un match suffisant est trouvé 
-            print("Sens balise,", bal, "val :", maxVal)
-            if maxVal >= 0.65:
-                w = balise.shape[1]
-                h= balise.shape[0]
-                cv2.rectangle(image, maxPoint, (maxPoint[0]+w, maxPoint[1]+h), (0,0,0), 3)
-                print("match ! Decalage en x:,", (maxPoint[0]+w/2)-image.shape[1]/2)
-                return (True, (maxPoint[0]+w/2)-image.shape[1]/2)
-            
-            # Sinon on fait une rotation de notre balise
-            # pour rechercher notre balise sous divers rotation ( 90 ° )
-            else:
-                print("pas de match")
-                balise = np.rot90(balise, 1, (0, 1))
-                bal+=1
-    return (False, None)
+    for color in ["red", "blue", "green", "yellow"]:
+        scope = get_limits(color)
+        mask = cv2.inRange(hsv, scope[0], scope[1])
+        moments = cv2.moments(mask)
+        if moments["m00"] != 0:
+            cX = int(moments["m10"] / moments["m00"])
+            cY = int(moments["m01"] / moments["m00"])
+        else:
+            return (False, 0)
+        x += cX
+        y += cY
+
+    x = int(x/4)
+    y = int(y/4)
+    return (True, (x-(image.shape[0]/2)))
+
+def get_limits(color):
+	"""Donne les nuances max et min de la couleur en paramètre
+	"""
+     
+	if "blue" == color: 
+		lower_limit = np.array([100,84,46])
+		upper_limit = np.array([110,255,255])
+	elif "red" == color:
+		lower_limit = np.array([0,150,100])
+		upper_limit = np.array([10,255,255])
+	elif "green" == color:
+		lower_limit = np.array([59,57,57])
+		upper_limit = np.array([70,255,255])
+	elif "yellow" == color:
+		lower_limit = np.array([20,128,93])
+		upper_limit = np.array([39,255,255])
+	elif "white" == color:
+		lower_limit = np.array([3,26,99])
+		upper_limit = np.array([36,71,165])
+
+	return lower_limit, upper_limit
