@@ -35,5 +35,13 @@ https://github.com/thibautmarcq/projet-2IN013/assets/50046548/feffbbbb-b789-4244
 #### Interface 3D
 https://github.com/thibautmarcq/projet-2IN013/assets/50046548/599a613e-95d2-4f37-b324-c134e6be1158
 
+### Fonctionnalité supplémentaire
+#### Notre robot peut se déplacer librement graces aux touches aze, qsd (dans les interfaces et dans le monde réel)
+##### Exemple
+https://github.com/thibautmarcq/projet-2IN013/assets/50046548/879f8fcd-3523-470f-a6ce-569f3e3a2665
+
+
+
+
 # Divers :
 <a href=https://trello.com/invite/b/sourGsMk/ATTI821518a3e67f2eee19cd581af1dc9cc4DB8D29A3/les-meilleurs-projet>Lien Trello
