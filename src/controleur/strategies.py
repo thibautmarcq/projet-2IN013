@@ -1,6 +1,7 @@
 from logging import getLogger
+from time import time
 
-from src import VIT_ANG_AVAN, VIT_ANG_TOUR, contientBalise
+from src import VIT_ANG_AVAN, VIT_ANG_TOUR, contientBalise, play_audio_with_volume
 
 
 class StrategieAvancer():
@@ -106,7 +107,7 @@ class StrategieArretMur():
 
     def start(self):
         """ Réinitialisation de la vitesse du robot et de la distance entre le robot et le mur/obstacle """
-        self.robA.setVitAngA(2)
+        self.robA.setVitAngA(4)
         self.distrob = self.robA.getDistanceA()
         self.robA.initialise()
         self.logger.debug("Stratégie ArretMur lancée")
@@ -139,17 +140,16 @@ class StrategieSuivreBalise():
         self.logger = getLogger(self.__class__.__name__)
         
         self.robA = robAdapt
+        self.robA.initialise()
         self.robA.robot.estSousControle = True
-        self.cptfalse = 0
         self.balise ,self.decale = contientBalise(self.robA.get_imageA()) 
-        # balise : Booléen: True si le robot voit la balise, decalage : le decalage en pixel entre le milieu de son champ de vision et le x de laa balise
+        # balise : Booléen: True si le robot voit la balise, decalage : le decalage en x entre le milieu de son champ de vision et la balise
 
 
     def start(self):
         """ Réinitialisation du robot, du decalage et de balise """
+        self.robA.initialise()
         self.balise, self.decale = contientBalise(self.robA.get_imageA())
-        print(self.balise, self.decale)
-        self.cptfalse = 0
         self.logger.debug("Stratégie Suivre Balise lancé")
 
 
@@ -159,31 +159,69 @@ class StrategieSuivreBalise():
             :returns: rien
         """
         if not self.stop():
+            self.robA.setVitAngA(1)
+            if self.decale > 0:
+                self.robA.setVitAngGA(2)
+                self.robA.setVitAngDA(1)
+            if self.decale < 0:
+                self.robA.setVitAngGA(1)
+                self.robA.setVitAngDA(2)
             self.balise, self.decale = contientBalise(self.robA.get_imageA())
-            print(self.balise, self.decale)
-            if self.balise:
-                self.robA.setVitAngA(1)
-                if self.decale > 100:
-                    self.robA.setVitAngGA(2)
-                    self.robA.setVitAngDA(1)
-                if self.decale < -100:
-                    self.robA.setVitAngGA(1)
-                    self.robA.setVitAngDA(2)
-                self.cptfalse = 0
-            else:
-                self.robA.setVitAngA(0)
+        else:
+            self.robA.setVitAngA(0)
 
 
     def stop(self):
         """ Retourne si la balise est dans le champ de vision du robot
+            :return: True si la balise n'y est pas, False sinon
         """
-        if self.cptfalse > 100: 
+        if not self.balise:
             self.robA.robot.estSousControle = False
             return True
-        if not self.balise:
-            self.cptfalse += 1
         return False
     
+class StrategieRobocar() :
+
+    def __init__(self, robAdapt) :
+
+        self.logger = getLogger(self.__class__.__name__)
+        self.robA = robAdapt
+        self.rob = self.robA.robot
+        self.robA.robot.estSousControle = True
+        self.temps_depart = time()
+        self.temps = [32, 36, 39, 42]
+        self.poli = False
+        self.roy = False
+        self.ambre = False
+        self.heli = False
+
+
+    def start(self) :
+        self.temps_depart = time()
+        play_audio_with_volume("autre/secret.wav", 0.5)
+    
+    def step(self) :
+
+        if not self.stop() :
+            tmp = time()
+            if tmp-self.temps>32 and tmp-self.temps<36 :
+                self.rob._gpg.set_led(self.rob.LED_LEFT_BLINKER+self.rob.LED_LEFT_EYE+self.rob.LED_LEFT_BLINKER+self.rob.LED_RIGHT_EYE+self.rob.LED_WIFI,0, 0, 1)
+
+            if tmp-self.temps>=36 and tmp-self.temps<39 :
+                self.rob._gpg.set_led(self.rob.LED_LEFT_BLINKER+self.rob.LED_LEFT_EYE+self.rob.LED_LEFT_BLINKER+self.rob.LED_RIGHT_EYE+self.rob.LED_WIFI, 1000, 0, 0)
+
+            if tmp-self.temps>=39 and tmp-self.temps<42 :
+                self.rob._gpg.set_led(self.rob.LED_LEFT_BLINKER+self.rob.LED_LEFT_EYE+self.rob.LED_LEFT_BLINKER+self.rob.LED_RIGHT_EYE+self.rob.LED_WIFI, 255, 30, 170)
+
+            if tmp-self.temps>=42 and tmp-self.temps<=46 :
+                self.rob._gpg.set_led(self.rob.LED_LEFT_BLINKER+self.rob.LED_LEFT_EYE+self.rob.LED_LEFT_BLINKER+self.rob.LED_RIGHT_EYE+self.rob.LED_WIFI, 0, 1000, 0)
+
+            if tmp-self.time>46 :
+                self.rob._gpg.set_led(self.rob.LED_LEFT_BLINKER+self.rob.LED_LEFT_EYE+self.rob.LED_LEFT_BLINKER+self.rob.LED_RIGHT_EYE+self.rob.LED_WIFI, 0, 0, 0)
+
+    def stop(self) :
+        return time()-self.temps>87
+
 
 
 class StrategieSeq():
