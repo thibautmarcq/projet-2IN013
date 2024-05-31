@@ -1,6 +1,7 @@
 from math import acos, cos, pi, radians, sin, sqrt
 import cv2
 import numpy as np
+import simpleaudio as sa
 
 def normaliserVecteur(u) :
     """ Prend en argument un vecteur et un vecteur équivalent normalisé (pour avoir une longueur de 1)
@@ -118,3 +119,12 @@ def get_limits(color):
 		upper_limit = np.array([36,71,165])
 
 	return lower_limit, upper_limit
+
+
+def play_audio_with_volume(filename, volume):
+    wave_obj = sa.WaveObject.from_wave_file(filename)
+    audio_data = np.frombuffer(wave_obj.audio_data, dtype=np.int16)
+    audio_data = (audio_data * volume).astype(np.int16)
+    wave_obj = sa.WaveObject(audio_data.tobytes(), wave_obj.num_channels, wave_obj.bytes_per_sample, wave_obj.sample_rate)
+    play_obj = wave_obj.play()
+    play_obj.wait_done()

@@ -106,7 +106,7 @@ class StrategieArretMur():
 
     def start(self):
         """ Réinitialisation de la vitesse du robot et de la distance entre le robot et le mur/obstacle """
-        self.robA.setVitAngA(4)
+        self.robA.setVitAngA(2)
         self.distrob = self.robA.getDistanceA()
         self.robA.initialise()
         self.logger.debug("Stratégie ArretMur lancée")
@@ -139,16 +139,17 @@ class StrategieSuivreBalise():
         self.logger = getLogger(self.__class__.__name__)
         
         self.robA = robAdapt
-        self.robA.initialise()
         self.robA.robot.estSousControle = True
+        self.cptfalse = 0
         self.balise ,self.decale = contientBalise(self.robA.get_imageA()) 
-        # balise : Booléen: True si le robot voit la balise, decalage : le decalage en x entre le milieu de son champ de vision et la balise
+        # balise : Booléen: True si le robot voit la balise, decalage : le decalage en pixel entre le milieu de son champ de vision et le x de laa balise
 
 
     def start(self):
         """ Réinitialisation du robot, du decalage et de balise """
-        self.robA.initialise()
         self.balise, self.decale = contientBalise(self.robA.get_imageA())
+        print(self.balise, self.decale)
+        self.cptfalse = 0
         self.logger.debug("Stratégie Suivre Balise lancé")
 
 
@@ -158,25 +159,29 @@ class StrategieSuivreBalise():
             :returns: rien
         """
         if not self.stop():
-            self.robA.setVitAngA(1)
-            if self.decale > 0:
-                self.robA.setVitAngGA(2)
-                self.robA.setVitAngDA(1)
-            if self.decale < 0:
-                self.robA.setVitAngGA(1)
-                self.robA.setVitAngDA(2)
             self.balise, self.decale = contientBalise(self.robA.get_imageA())
-        else:
-            self.robA.setVitAngA(0)
+            print(self.balise, self.decale)
+            if self.balise:
+                self.robA.setVitAngA(1)
+                if self.decale > 100:
+                    self.robA.setVitAngGA(2)
+                    self.robA.setVitAngDA(1)
+                if self.decale < -100:
+                    self.robA.setVitAngGA(1)
+                    self.robA.setVitAngDA(2)
+                self.cptfalse = 0
+            else:
+                self.robA.setVitAngA(0)
 
 
     def stop(self):
         """ Retourne si la balise est dans le champ de vision du robot
-            :return: True si la balise n'y est pas, False sinon
         """
-        if not self.balise:
+        if self.cptfalse > 100: 
             self.robA.robot.estSousControle = False
             return True
+        if not self.balise:
+            self.cptfalse += 1
         return False
     
 

@@ -2,7 +2,8 @@ from math import degrees
 
 from .adapt import Adaptateur
 
-from time import time
+from time import time,sleep
+import numpy as np
 
 class Adaptateur_reel(Adaptateur):
     """ Classe d'adaptation du robot réel qui hérite de la classe mockupRobot """
@@ -94,10 +95,9 @@ class Adaptateur_reel(Adaptateur):
     
 
     def get_imageA(self):
-        self.robot.start_recording()
-        time.sleep(1)
-        img = self.robot.get_image()
-        self.robot.stop_recording()
-        return img
+        """ Récupère la dernière image prise par le robot
+            :returns: la dernière image de la cam du robot
+        """
+        return self.robot.get_image()
 
 
