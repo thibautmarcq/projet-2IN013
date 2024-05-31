@@ -4,7 +4,7 @@ from logging import DEBUG, basicConfig
 import curses
 
 from robot2IN013 import Robot2IN013
-from src import Controler, setStrategieArretMur, setStrategieCarre, StrategieSuivreBalise, Adaptateur_reel, play_audio_with_volume
+from src import Controler, setStrategieArretMur, setStrategieCarre, StrategieSuivreBalise, StrategieRobocar, Adaptateur_reel, play_audio_with_volume
 
 basicConfig(filename='logs.log', 
                     level=DEBUG, 
@@ -32,6 +32,7 @@ def menu() :
     print("2 - Avancer vers le mur sans se crasher")
     print("3 - Avancer avec les touches du clavier")
     print("4 - Suivre balise")
+    print("5 - Robocar")
     cmd = int(input("Veuillez choisir une action :\n"))
     if cmd==0:
         RUNNING = False
@@ -110,6 +111,10 @@ def menu() :
     elif cmd==4:
         balise = StrategieSuivreBalise(reel)
         controleur.lancerStrategie(balise)
+
+    elif cmd==5:
+        robocar = StrategieRobocar(reel)
+        controleur.lancerStrategie(robocar)
   
     else:
         print("Numéro non disponible")
