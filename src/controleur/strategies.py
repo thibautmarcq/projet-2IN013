@@ -188,39 +188,39 @@ class StrategieRobocar() :
         self.robA = robAdapt
         self.rob = self.robA.robot
         self.robA.robot.estSousControle = True
-        self.temps_depart = time()
-        self.temps = [32, 36, 39, 42]
-        self.poli = False
-        self.roy = False
-        self.ambre = False
-        self.heli = False
-
+        self.temps = time()
 
     def start(self) :
-        self.temps_depart = time()
+        self.temps= time()
+        self.rob.steer(-50,50)
         play_audio_with_volume("autre/secret.wav", 0.5)
+        
     
     def step(self) :
 
         if not self.stop() :
             tmp = time()
-            if tmp-self.temps>32 and tmp-self.temps<36 :
-                self.rob._gpg.set_led(self.rob.LED_LEFT_BLINKER+self.rob.LED_LEFT_EYE+self.rob.LED_LEFT_BLINKER+self.rob.LED_RIGHT_EYE+self.rob.LED_WIFI,0, 0, 1)
+            if tmp-self.temps>33 and tmp-self.temps<37 :
+                self.rob._gpg.set_led(self.rob.LED_LEFT_BLINKER+self.rob.LED_LEFT_EYE+self.rob.LED_LEFT_BLINKER+self.rob.LED_RIGHT_EYE+self.rob.LED_WIFI,0, 0, 1000)
 
-            if tmp-self.temps>=36 and tmp-self.temps<39 :
+            if tmp-self.temps>=37 and tmp-self.temps<40 :
                 self.rob._gpg.set_led(self.rob.LED_LEFT_BLINKER+self.rob.LED_LEFT_EYE+self.rob.LED_LEFT_BLINKER+self.rob.LED_RIGHT_EYE+self.rob.LED_WIFI, 1000, 0, 0)
 
-            if tmp-self.temps>=39 and tmp-self.temps<42 :
+            if tmp-self.temps>=40 and tmp-self.temps<43 :
                 self.rob._gpg.set_led(self.rob.LED_LEFT_BLINKER+self.rob.LED_LEFT_EYE+self.rob.LED_LEFT_BLINKER+self.rob.LED_RIGHT_EYE+self.rob.LED_WIFI, 255, 30, 170)
 
-            if tmp-self.temps>=42 and tmp-self.temps<=46 :
+            if tmp-self.temps>=43 and tmp-self.temps<=47:
                 self.rob._gpg.set_led(self.rob.LED_LEFT_BLINKER+self.rob.LED_LEFT_EYE+self.rob.LED_LEFT_BLINKER+self.rob.LED_RIGHT_EYE+self.rob.LED_WIFI, 0, 1000, 0)
 
-            if tmp-self.time>46 :
+            if tmp-self.temps>47 :
                 self.rob._gpg.set_led(self.rob.LED_LEFT_BLINKER+self.rob.LED_LEFT_EYE+self.rob.LED_LEFT_BLINKER+self.rob.LED_RIGHT_EYE+self.rob.LED_WIFI, 0, 0, 0)
+        else :
+            self.rob.set_motor_dps(3,0)
+    
 
     def stop(self) :
         return time()-self.temps>87
+        
 
 
 
