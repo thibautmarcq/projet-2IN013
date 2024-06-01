@@ -19,16 +19,23 @@
 - Créer une **interface 3D** de notre simulation
 - **Reconnaître une balise** sur une image et **suivre cette balise** (dans l'interface 3D puis sur le robot réel)
 
-# Médias
-### Execution de la stratégie carré
+
+
+# Stratégies
+## Sur le robot réel
+### Stratégie carré
 https://github.com/thibautmarcq/projet-2IN013/assets/50046548/751b4a39-9b00-4900-a36d-10cb2c4f24e9
 ##### Pour un plus grand carré
 https://github.com/thibautmarcq/projet-2IN013/assets/50046548/d3df6268-1612-4bac-b10d-dada63ef7b68
 
-### Execution de la stratégie arrêt mur
+### Stratégie arrêt mur
 https://github.com/thibautmarcq/projet-2IN013/assets/50046548/d2bb6471-b1d8-41ef-8c7e-251c583e65ec
 
+### Stratégie suivre balise
+https://github.com/thibautmarcq/projet-2IN013/assets/50046548/d1fde213-b679-43a9-abc9-974adfb3d7c5
 
+
+## Sur le robot simulé
 ### Stratégie carré et collision dans un obstacle
 #### Interface 2D
 https://github.com/thibautmarcq/projet-2IN013/assets/50046548/feffbbbb-b789-4244-b766-514e5d33d84f
@@ -39,7 +46,6 @@ https://github.com/thibautmarcq/projet-2IN013/assets/50046548/599a613e-95d2-4f37
 #### Notre robot peut se déplacer librement graces aux touches aze, qsd (dans les interfaces et dans le monde réel)
 ##### Exemple
 https://github.com/thibautmarcq/projet-2IN013/assets/50046548/879f8fcd-3523-470f-a6ce-569f3e3a2665
-
 
 
 
