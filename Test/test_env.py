@@ -11,6 +11,7 @@ class TestEnvironnement(TestCase):
     def setUp(self):
         self.env = Environnement(100, 100, 1)
 
+
     def test_init(self):
         self.assertEqual(self.env.width, 100)
         self.assertEqual(self.env.length, 100)
@@ -20,12 +21,14 @@ class TestEnvironnement(TestCase):
         self.assertEqual(self.env.last_refresh, 0)
         self.assertEqual(self.env.listeObs, [])
 
+
     def test_initMatrice(self):
         self.env.initMatrice()
         self.assertEqual(self.env.matrice[0][0], 2) # angle
         self.assertEqual(self.env.matrice[-1][0], 2)
         self.assertEqual(self.env.matrice[-1][5], 2)
         self.assertEqual(self.env.matrice[0][5], 2)
+
 
     def test_addRobotSelect(self):
         self.env.addRobotSelect(1) # test d'ajout alors que pas de robot
@@ -38,6 +41,7 @@ class TestEnvironnement(TestCase):
         self.env.setRobot(rob1)
         self.env.addRobotSelect(1) # test avec robot
         self.assertEqual(self.env.robotSelect, 1)
+
 
     def test_addObstacle(self):
         self.env.addObstacle('obs1', [(10, 10), (20, 20)]) # ligne (basique)
@@ -55,6 +59,7 @@ class TestEnvironnement(TestCase):
         self.env.setRobot(robot2)
         self.assertEqual(len(self.env.listeRobots), 2)
         self.assertEqual(self.env.listeRobots[1].robot.couleur, 'green')
+
 
     def test_verifCollision(self):
         robotA = Adaptateur_simule('rob1', self.env.width/2, self.env.length/2, 5, 5, 15, 2, self.env, "red") # On place le robot au milieu de l'environnement

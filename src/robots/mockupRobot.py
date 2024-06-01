@@ -18,20 +18,25 @@ class MockupRobot():
         self.angled = 0
         self.angleg = 0
 
+
     def stop(self):
         pass
+
 
     def get_image(self):
         self.logger.debug("get_image")
 
+
     def get_images(self):
         self.logger.debug("get_images")
+
 
     def set_motor_dps(self, port, dps):
         if(port == 1 or port == 3):
             self.dpsg = dps
         if(port == 2 or port == 3):
             self.dpsd = dps
+
 
     def get_motor_position(self):
         self.angled += self.dpsd/2

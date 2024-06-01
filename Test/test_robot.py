@@ -22,7 +22,6 @@ class TestRobot(TestCase):
         self.assertEqual(self.rob.vitAngG, 0)
         self.assertEqual(self.rob.couleur, "red")
 
-    # def test_refresh(self):
         
     def test_setVitAngG(self):
         self.rob.setVitAngG(5)
@@ -32,6 +31,7 @@ class TestRobot(TestCase):
         self.rob.setVitAngG(0)
         self.assertEqual(self.rob.vitAngG,0)
 
+
     def test_setVitAngD(self):
         self.rob.setVitAngD(5)
         self.assertEqual(self.rob.vitAngD,5)
@@ -39,6 +39,7 @@ class TestRobot(TestCase):
         self.assertEqual(self.rob.vitAngD,-7)
         self.rob.setVitAngD(0)
         self.assertEqual(self.rob.vitAngD,0)
+
 
     def test_changeVitAngG(self):
         self.rob.changeVitAngG(5)
@@ -48,6 +49,7 @@ class TestRobot(TestCase):
         self.rob.changeVitAngG(-7)
         self.assertEqual(self.rob.vitAngG,0)
     
+
     def test_changeVitAngD(self):
         self.rob.changeVitAngD(5)
         self.assertEqual(self.rob.vitAngD,5)
@@ -55,6 +57,7 @@ class TestRobot(TestCase):
         self.assertEqual(self.rob.vitAngD,7)
         self.rob.changeVitAngD(-7)
         self.assertEqual(self.rob.vitAngD,0)
+
 
     def test_changeVitAng(self):
         self.rob.changeVitAng(5)
@@ -64,11 +67,13 @@ class TestRobot(TestCase):
         self.assertEqual(self.rob.vitAngG,0)
         self.assertEqual(self.rob.vitAngD,0)
 
+
     def test_getVitesseG(self):
         self.rob.setVitAngG(4)
         self.assertEqual(self.rob.getVitesseG(), 32)
         self.rob.setVitAngG(0)
         self.assertEqual(self.rob.getVitesseG(), 0)
+
 
     def test_getVitesseD(self):
         self.rob.setVitAngD(4)
@@ -76,11 +81,13 @@ class TestRobot(TestCase):
         self.rob.setVitAngD(0)
         self.assertEqual(self.rob.getVitesseD(), 0)
 
+
     def test_getVitesse(self):
         self.rob.changeVitAng(5)
         self.assertEqual(self.rob.getVitesse(), 40)
         self.rob.changeVitAngD(-2)
         self.assertEqual(self.rob.getVitesse(), 32)
+    
     
     def test_getDistance(self):
         self.envi = Environnement(500, 300, 1)

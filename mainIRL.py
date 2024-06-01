@@ -7,10 +7,11 @@ from robot2IN013 import Robot2IN013
 from src import Controler, setStrategieArretMur, setStrategieCarre, StrategieSuivreBalise, StrategieRobocar, Adaptateur_reel, play_audio_with_volume
 
 basicConfig(filename='logs.log', 
-                    level=DEBUG, 
-                    format='%(asctime)s | %(levelname)s | %(name)s | %(message)s', 
-                    datefmt='%d/%m/%y %H:%M:%S', 
-                    encoding='UTF-8') # niveaux : DEBUG INFO WARNING ERROR CRITICAL
+            level=DEBUG, 
+            format='%(asctime)s | %(levelname)s | %(name)s | %(message)s', 
+            datefmt='%d/%m/%y %H:%M:%S', 
+            encoding='UTF-8') # niveaux : DEBUG INFO WARNING ERROR CRITICAL
+
 #On crée un controleur
 controleur = Controler()
 
@@ -34,18 +35,22 @@ def menu() :
     print("4 - Suivre balise")
     print("5 - Robocar")
     cmd = int(input("Veuillez choisir une action :\n"))
-    if cmd==0:
+
+    if cmd==0: #Arrêt du programme
         RUNNING = False
         robreel.stop_recording()
-    elif cmd== 1:
+
+    elif cmd== 1: #Stratégie tracer un carré
         long = float(input("Quelle largeur voulez-vous pour le carré ? \n"))
         carre = setStrategieCarre(reel, long)
         controleur.lancerStrategie(carre)
-    elif cmd==2:
+
+    elif cmd==2: #Stratégie arrêt mur
         long = float(input("A quelle distance doit-on s'arrêter du mur ?"))
         mur = setStrategieArretMur(reel, long)
         controleur.lancerStrategie(mur)
-    elif cmd==3: # Contrôle manuel
+
+    elif cmd==3: #Contrôle manuel
         CMD = True
         def display_message(stdscr, message):
             stdscr.addstr(3, 0, message)
@@ -103,20 +108,18 @@ def menu() :
                 elif key == ord('p'):
                     CMD = False
                     curses.endwin()
-                    print('prout')
                     reel.setVitAngA(0)
                     robreel.stop_recording()
                     
-                    
-    elif cmd==4:
+    elif cmd==4: #Stratégie de détection et suivi de balise
         balise = StrategieSuivreBalise(reel)
         controleur.lancerStrategie(balise)
 
-    elif cmd==5:
+    elif cmd==5: #Stratégie Robocar
         robocar = StrategieRobocar(reel)
         controleur.lancerStrategie(robocar)
   
-    else:
+    else: 
         print("Numéro non disponible")
 
 RUNNING = True

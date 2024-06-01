@@ -98,8 +98,8 @@ class Interface:
 		for obs in self.env.listeObs:
 			self.canv.create_polygon(obs.lstPoints, fill=('grey'))
 
-	#--------------------------------------------------------------------------------------------------------	
 
+	# --------------------------------------- Choix de la stratégie ---------------------------------------
 
 	def choisirStrategie(self, strat, distance) :
 		""" Choisis la strategie à lancer
@@ -130,25 +130,6 @@ class Interface:
 			carre2 = StrategieBoucle(robA, StrategieSeq([StrategieAvancer(robA, distance), StrategieTourner(robA, 90)], robA), 4)
 			self.controleur.lancerStrategie(carre2)
 					
-
-	def rotateRobotRect(self, canvas, robot, angle):
-		""" Fait une rotation du rectangle qui représente le robot
-			:param canvas: le canva dans lequel on est placé
-			:param robot: le robot qu'on veut représenter graphiquement
-			:param angle: l'angle de rotation du robot
-			:returns: ne retourne rien, fait juste une modification sur le canva
-		"""
-		for i in range(0, 8, 2):
-			v = rotationVecteur((robot.points[i]-robot.x, robot.points[i+1]-robot.y), angle)
-			robot.points[i] = v[0] + robot.x
-			robot.points[i+1] = v[1] + robot.y
-		canvas.coords(robot.rect, robot.points)
-
-
-	def dessinePoint(self, pos, couleur) :
-		x, y = pos
-		self.canv.create_line(x-1, y-1, x+1, y+1, fill=couleur)
-
 
 #  ----------------------- Méthodes liées à l'update de l'interface -------------------------------------
 
@@ -189,6 +170,30 @@ class Interface:
 					)
 		canvas.coords(robot.robot_vec, robot.x, robot.y, robot.x+(75*robot.direction[0]), robot.y+(75*robot.direction[1]))
 
+
+	def rotateRobotRect(self, canvas, robot, angle):
+		""" Fait une rotation du rectangle qui représente le robot
+			:param canvas: le canva dans lequel on est placé
+			:param robot: le robot qu'on veut représenter graphiquement
+			:param angle: l'angle de rotation du robot
+			:returns: ne retourne rien, fait juste une modification sur le canva
+		"""
+		for i in range(0, 8, 2):
+			v = rotationVecteur((robot.points[i]-robot.x, robot.points[i+1]-robot.y), angle)
+			robot.points[i] = v[0] + robot.x
+			robot.points[i+1] = v[1] + robot.y
+		canvas.coords(robot.rect, robot.points)
+
+
+	def dessinePoint(self, pos, couleur) :
+		""" Dessine un point d'une certaine couleur à une position donnée
+			:param pos: coordonées du point que l'on veut dessiner
+			:param couleur: couleur que l'on veut donner au point
+		"""
+		x, y = pos
+		self.canv.create_line(x-1, y-1, x+1, y+1, fill=couleur)
+
+#  ----------------------- Méthodes liées au lancement et au déroulement de l'interface -------------------------------------
 
 	def ticTac(self):
 		self.updateStatsAffichage()

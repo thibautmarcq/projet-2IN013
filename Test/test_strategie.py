@@ -8,9 +8,11 @@ from src.robots import Adaptateur_simule
 
 
 class TestControleur(TestCase):
+
     def setUp(self):
         self.env = Environnement(100, 100, 1)
         self.rob = Adaptateur_simule("Rob", 10, 15, 5, 7, 15, 8, self.env, "red")
+
 
     def test_setStrategieCarre(self):
         setStrategieCarre(self.rob, 20)
@@ -19,9 +21,11 @@ class TestControleur(TestCase):
         self.assertAlmostEqual(self.rob.robot.x, 10)
         self.assertAlmostEqual(self.rob.robot.y, 15)
 
+
     def test_setStrategieArretMur(self):
         setStrategieArretMur(self.rob, 20)
         self.assertGreaterEqual(20,self.rob.getDistanceA())
+
 
     def test_strategieAvancer(self):
         self.strat = StrategieAvancer(self.rob, 200)
@@ -46,6 +50,7 @@ class TestControleur(TestCase):
         self.strat.step()
         self.assertEqual(self.strat.parcouru, 200.0)
         self.assertEqual(self.strat.stop(), True)
+
 
     def test_strategieTourner(self):
         self.strat = StrategieTourner(self.rob, 90)
@@ -77,6 +82,7 @@ class TestControleur(TestCase):
         self.assertAlmostEqual(self.strat.angle_parcouru, 90.0)
         self.assertEqual(self.strat.stop(), True)
     
+
     def test_strategieArretMur(self):
         self.strat = StrategieArretMur(self.rob, 10)
         self.rob.robot.x, self.rob.robot.y = self.env.width/2, self.env.length/2
@@ -94,6 +100,7 @@ class TestControleur(TestCase):
         self.strat.step()
         self.assertEqual(self.strat.distrob, 6)
         self.assertEqual(self.strat.stop(), True)
+
 
     def test_verifDistanceSup(self):
         self.assertEqual(verifDistanceSup(self.rob, 10), True)

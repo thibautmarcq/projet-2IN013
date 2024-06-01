@@ -22,7 +22,12 @@ load_prc_file('src/interface3D/source/config.prc')
 class Interface3D(ShowBase):
 	""" Classe Interface 3D - Ensemble de méthodes définies pour créer et gérer des objets dans une interface en 3D """
 
-	def __init__(self, env, controleur):
+	def __init__(self, env, controleur) :
+		""" Initalisation de l'interface 3D
+			:param env: l'environnement que l'on veut modéliser en 3D
+			:param controleur: le contrpoleur qui va être utilisé dans la simulation
+		"""
+
 		ShowBase.__init__(self)
 		self.env = env
 		self.controleur = controleur
@@ -73,8 +78,8 @@ class Interface3D(ShowBase):
 
 		self.accept('escape', exit)
 
-	# ----------------------------------------------------------------------------
 
+	# ------------------------------ Choix d'une stratégie ------------------------------
 
 	def choisirStrategie(self, strat, distance) :
 		""" Choisis la strategie à lancer
@@ -570,20 +575,6 @@ class Interface3D(ShowBase):
 
 	# -------------------- Méthodes pour get les images de la caméra --------------------
 
-	def renderCamFront(self):
-		# Prend le screen à l'endroit où est la caméra sur le robot (avant du robot)
-		robot = self.env.listeRobots[self.env.robotSelect].robot
-		dx, dy = robot.direction
-		camera_x = robot.x + robot.width * dx
-		camera_y = self.env.length-(robot.y + robot.length * dy)
-		camera_z = robot.height
-		self.camera.setPos(camera_x, camera_y, camera_z)
-		self.camera.lookAt(Point3(robot.x + 100 *(dx), self.env.length-(robot.y + 100 *(dy)), robot.height))
-		self.camLens.setFov(140) # Réglage du FOV (champ de vision)
-
-		# Render the frame
-		self.graphicsEngine.renderFrame()
-
 	def getImageInterface(self):
 		sleep(1)
 		# Récupérer la région d'affichage de la caméra
@@ -606,17 +597,6 @@ class Interface3D(ShowBase):
 		img = img[::-1]
 
 		return img
-
-
-	def display_image(self,image_array):
-		""" Affiche l'image dans une fenêtre cv2
-			:param image_array: l'array np pour lequel on veut l'image
-		"""
-		# cv2.imshow('Image', image_array)
-		# cv2.waitKey(0)
-		# cv2.destroyAllWindows()
-		# print(image_array)
-		pass
 	
 
 	def updateImg(self):
@@ -625,11 +605,14 @@ class Interface3D(ShowBase):
 		robot.img = self.getImageInterface()	
 	
 
-	# --------------------------------------------------------------
+	# ----------------------- Balise -----------------------
 
 class Balise:
 
 	def __init__(self, x, y, width, height):
+		""" Initialisation de la balise
+			:param x: coordonnée x de la balise
+			:param y: coordonnée y de la balise"""
 		self.x = x
 		self.y = y
 		self.width = width

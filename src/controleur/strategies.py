@@ -1,8 +1,11 @@
 from logging import getLogger
 from time import time
 
-from src import VIT_ANG_AVAN, VIT_ANG_TOUR, contientBalise, play_audio_with_volume
+from src import (VIT_ANG_AVAN, VIT_ANG_TOUR, contientBalise,
+                DEBUT_POLI, DEBUT_ROY, DEBUT_AMBRE, DEBUT_HELI, FIN_PERSONNAGES, FIN_GENERIQUE)
 
+
+# ------------------------- Stratégies de base -------------------------------
 
 class StrategieAvancer():
 
@@ -22,6 +25,7 @@ class StrategieAvancer():
     def start(self) :
         """ Lancement de la stratégie avancer """
         self.logger.debug("Stratégie avancer démarée")
+
         self.robA.robot.estSousControle = True
         self.parcouru = 0
         self.robA.setVitAngA(VIT_ANG_AVAN) # Puis on set les vitesses angulaires des deux roues à 5
@@ -41,7 +45,10 @@ class StrategieAvancer():
         """ Détermine si on a bien parcouru la distance souhaitée
             :returns: True si on a bien complété la stratégie, False sinon
         """
-        return self.parcouru >= self.distance
+        if self.parcouru >= self.distance :
+            self.robA.robot.estSousControle = False
+            return True
+        return False
 
 
 
@@ -69,13 +76,12 @@ class StrategieTourner():
 
         # On considère ici une rotation d'un angle alpha dans le sens horaire, c.à.d si positif on tourne vers la droite, sinon vers la gauche
         # On change les vitesses des deux roues, en leur donnant des vitesses opposées afin de tourner sur place
-
         self.robA.setVitAngGA(VIT_ANG_TOUR  if self.angle > 0 else -VIT_ANG_TOUR)
         self.robA.setVitAngDA(-VIT_ANG_TOUR  if self.angle > 0 else VIT_ANG_TOUR)
 
 
     def step(self):
-        """ Le step de la stratégie tourner, qui met a jour l'angle qui a été parcouru jusqu'à maintenant sinon
+        """ Le step de la stratégie tourner, qui met a jour l'angle qui a été parcouru jusqu'à maintenant
             :returns: ne retourne rien, on met juste a jour le paramètre distance parcourue
         """
         if not self.stop() and not self.robA.robot.estCrash:
@@ -87,7 +93,10 @@ class StrategieTourner():
         """ Détermine si on a fini de faire la rotation de l'angle self.angle
             :returns: True si la rotation a bien été effectuée, False sinon
         """
-        return abs(self.angle_parcouru) > abs(self.angle)
+        if abs(self.angle_parcouru) > abs(self.angle) :
+            self.robA.robot.estSousControle = False
+            return True
+        return False
     
 
 
@@ -107,6 +116,7 @@ class StrategieArretMur():
 
     def start(self):
         """ Réinitialisation de la vitesse du robot et de la distance entre le robot et le mur/obstacle """
+        self.robA.robot.estSousControle = True
         self.robA.setVitAngA(4)
         self.distrob = self.robA.getDistanceA()
         self.robA.initialise()
@@ -127,7 +137,10 @@ class StrategieArretMur():
         """ Détermine si la distance entre le robot et le mur/obstacle est plus petite ou égale a la distarret souhaitée
             :return: True si oui, non sinon
         """
-        return self.distrob <= self.distarret
+        if self.distrob <= self.distarret :
+            self.robA.robot.estSousControle = False
+            return True
+        return False
     
 
 
@@ -141,13 +154,14 @@ class StrategieSuivreBalise():
         
         self.robA = robAdapt
         self.robA.initialise()
-        self.robA.robot.estSousControle = True
         self.balise ,self.decale = contientBalise(self.robA.get_imageA()) 
-        # balise : Booléen: True si le robot voit la balise, decalage : le decalage en x entre le milieu de son champ de vision et la balise
+        # balise : Booléen: True si le robot voit la balise
+        # decalage : le decalage en x entre le milieu de son champ de vision et la balise
 
 
     def start(self):
         """ Réinitialisation du robot, du decalage et de balise """
+        self.robA.robot.estSousControle = True
         self.robA.initialise()
         self.balise, self.decale = contientBalise(self.robA.get_imageA())
         self.logger.debug("Stratégie Suivre Balise lancé")
@@ -183,46 +197,60 @@ class StrategieSuivreBalise():
 class StrategieRobocar() :
 
     def __init__(self, robAdapt) :
+        """ Stratégie supplémentaire spéciale Robocar Poli, permet de lancer le générique en faisant des mouvement et en activant les couleurs en fonction des personnages
+        """
 
         self.logger = getLogger(self.__class__.__name__)
         self.robA = robAdapt
-        self.rob = self.robA.robot
-        self.robA.robot.estSousControle = True
         self.temps = time()
 
     def start(self) :
-        self.temps= time()
-        self.rob.steer(-50,50)
-        play_audio_with_volume("autre/secret.wav", 0.5)
+        """ Initialisation de la stratégie Robocar, on enregistre l'heure du débue de lancement, on met le robot en mouvement et on lance le son
+            :returns: rien, on entame juste la stratégie
+        """
+        self.robA.robot.estSousControle = True
+        self.temps_debut = time()
+        self.robA.tourne(-50, 50)
+        self.robA.playSound("autre/secret.wav")
         
     
     def step(self) :
-
-        if not self.stop() :
+        """ Step de la stratégie Robocar, on vérifie si le temps actuel correspond à une étape de changement de lumière du robot
+        """
+        if not self.stop :
             tmp = time()
-            if tmp-self.temps>33 and tmp-self.temps<37 :
-                self.rob._gpg.set_led(self.rob.LED_LEFT_BLINKER+self.rob.LED_LEFT_EYE+self.rob.LED_LEFT_BLINKER+self.rob.LED_RIGHT_EYE+self.rob.LED_WIFI,0, 0, 1000)
+            difference = time()-self.temps_debut
 
-            if tmp-self.temps>=37 and tmp-self.temps<40 :
-                self.rob._gpg.set_led(self.rob.LED_LEFT_BLINKER+self.rob.LED_LEFT_EYE+self.rob.LED_LEFT_BLINKER+self.rob.LED_RIGHT_EYE+self.rob.LED_WIFI, 1000, 0, 0)
+            if difference>=DEBUT_POLI and difference<DEBUT_ROY :
+                self.robA.changeCouleur("blue")
+            
+            elif difference>=DEBUT_ROY and difference<DEBUT_AMBRE :
+                self.robA.changeCouleur("red")
 
-            if tmp-self.temps>=40 and tmp-self.temps<43 :
-                self.rob._gpg.set_led(self.rob.LED_LEFT_BLINKER+self.rob.LED_LEFT_EYE+self.rob.LED_LEFT_BLINKER+self.rob.LED_RIGHT_EYE+self.rob.LED_WIFI, 255, 30, 170)
+            elif difference>=DEBUT_AMBRE and difference<DEBUT_HELI :
+                self.robA.changeCouleur("pink")
+            
+            elif difference>=DEBUT_HELI and difference<FIN_PERSONNAGES :
+                self.robA.changeCouleur("green")
 
-            if tmp-self.temps>=43 and tmp-self.temps<=47:
-                self.rob._gpg.set_led(self.rob.LED_LEFT_BLINKER+self.rob.LED_LEFT_EYE+self.rob.LED_LEFT_BLINKER+self.rob.LED_RIGHT_EYE+self.rob.LED_WIFI, 0, 1000, 0)
+            elif difference>FIN_PERSONNAGES :
+                self.robA.changeCouleur("base")
 
-            if tmp-self.temps>47 :
-                self.rob._gpg.set_led(self.rob.LED_LEFT_BLINKER+self.rob.LED_LEFT_EYE+self.rob.LED_LEFT_BLINKER+self.rob.LED_RIGHT_EYE+self.rob.LED_WIFI, 0, 0, 0)
         else :
-            self.rob.set_motor_dps(3,0)
+            self.robA.setVitAngA(0)
     
 
     def stop(self) :
-        return time()-self.temps>87
-        
+        """ Stop de la stratégie Robocar, détermine si le générique a fini de jouer
+            :returns: True si la stratégie est terminée, False sinon
+        """
+        if time()-self.temps_debut>FIN_GENERIQUE :
+            self.robA.robot.estSousControle = False
+            return True
+        return False
 
 
+# ------------------------- Types de stratégie multiples -------------------------------
 
 class StrategieSeq():
 
@@ -240,9 +268,9 @@ class StrategieSeq():
 
     def start(self):
         """ Lancement de la stratégie séquentielle """
+        self.robA.robot.estSousControle = True
         self.indice = -1
         self.robA.initialise()
-        self.robA.robot.estSousControle = True
 
 
     def step(self) : 
@@ -350,7 +378,7 @@ class StrategieBoucle():
 
     def stop(self):
         """ Vérifie si le nombre de tours a été fait
-        :returns: False si il reste encore des tours à faire, True si les tours ont été faits
+            :returns: False si il reste encore des tours à faire, True si les tours ont été faits
         """
         if self.restants<1 :
             self.robA.robot.estSousControle = False
@@ -375,6 +403,7 @@ def setStrategieArretMur(robAdapt, distarret) :
 
 
 # -------------------------- Méthodes conditionnelles -------------------------
+
 def verifDistanceSup(robAdapt, dist):
     """ Verifie que le robot est à une distance supérieure à dist d'un obstacle
     :param robAdapt: l'adaptateur pour lequel on va utiliser le capteur de distance

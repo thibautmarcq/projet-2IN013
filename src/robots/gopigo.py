@@ -1,8 +1,9 @@
 from math import degrees
 
 from .adapt import Adaptateur
+from src import play_audio_with_volume, DICO_COULEURS_ROBOCAR, VOL
 
-from time import time,sleep
+from time import time, sleep
 import numpy as np
 
 class Adaptateur_reel(Adaptateur):
@@ -32,7 +33,7 @@ class Adaptateur_reel(Adaptateur):
         self.angle_parcourA = 0
 
 
-    # ------------------------ Setter de l'adaptateur ---------------------------------------
+    # ------------------------ Setters de l'adaptateur ---------------------------------------
 
     def setVitAngDA(self, dps) :
         """ Setter de la roue droite, elle va donner la vitesse angulaire dps à la roue droite
@@ -55,7 +56,15 @@ class Adaptateur_reel(Adaptateur):
         self.robot.set_motor_dps(self.robot.MOTOR_LEFT + self.robot.MOTOR_RIGHT, dps*100)
 
 
-    # # ------------------------ Getter de l'adaptateur ---------------------------------------
+    def tourne(self, gauche, droite):
+        """ Méthode qui permet de faire tourner le robot sur lui-même avec des vitesses de roues données
+            :param gauche: la vitesse que l'on veut donner à la roue gauche
+            :param droite: la vitesse que l'on veut donner à la roue droite
+        """
+        self.robot.steer(gauche, droite)
+
+
+    # ------------------------ Getters de l'adaptateur ------------------------
 
     def getDistanceA(self) :
         """ Getter qui renvoie la distance mesurée par le capteur de distance
@@ -99,5 +108,19 @@ class Adaptateur_reel(Adaptateur):
             :returns: la dernière image de la cam du robot
         """
         return self.robot.get_image()
+    
+
+# ------------------------ Changement de couleur du robot ------------------------
+
+    def changeCouleur(self, coul):
+        rgb = DICO_COULEURS_ROBOCAR[coul]
+        r,g,b = rgb
+        self.robot._gpg.set_led(self.robot.LED_LEFT_BLINKER+self.robot.LED_LEFT_EYE+self.robot.LED_LEFT_BLINKER+self.robot.LED_RIGHT_EYE+self.robot.LED_WIFI,r, g, b)
+
+
+# ------------------------ Faire jouer un son ------------------------
+
+    def playSound(self, sound):
+        play_audio_with_volume(sound, VOL)
 
 

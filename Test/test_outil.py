@@ -13,25 +13,30 @@ class TestOutil(TestCase):
         self.assertEqual(normaliserVecteur((0, 0)), (0, 0)) # Vecteur nul
         self.assertEqual(normaliserVecteur((-3, -4)), (-0.6, -0.8)) # Valeurs négatives
 
+
     def test_norme(self):
         self.assertEqual(norme((3, 4)), 5.0)
         self.assertEqual(norme((0, 0)), 0) # Vecteur nul
         self.assertEqual(norme((-3, -4)), 5.0) # Valeurs négatives
+
 
     def test_prodScalaire(self):
         self.assertEqual(prodScalaire((1, 2), (3, 4)), 11)
         self.assertEqual(prodScalaire((0, 0), (3, 4)), 0) # Produit scalaire avec vecteur nul
         self.assertEqual(prodScalaire((-1, -2), (-3, -4)), 11) # Valeurs négatives
 
+
     def test_getAngleFromVect(self):
         self.assertAlmostEqual(getAngleFromVect((1, 0), (0, 1)), 90.0)
         self.assertAlmostEqual(getAngleFromVect((1, 0), (1, 0)), 0.0) # Angle entre le même vecteur
         self.assertAlmostEqual(getAngleFromVect((-1, 0), (0, -1)), 90.0) # Valeurs négatives, vecteurs orthogonaux
 
+
     def test_getDistanceFromPts(self):
         self.assertEqual(getDistanceFromPts((1, 2), (4, 6)), 5.0)
         self.assertEqual(getDistanceFromPts((1, 2), (1, 2)), 0.0) # Distance entre les 2 memes points 
         self.assertEqual(getDistanceFromPts((-1, -2), (-4, -6)), 5.0) # Valeurs négatives
+
 
     def test_getVectFromAngle(self):
 

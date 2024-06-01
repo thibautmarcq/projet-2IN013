@@ -5,7 +5,7 @@ import simpleaudio as sa
 
 def normaliserVecteur(u) :
     """ Prend en argument un vecteur et un vecteur équivalent normalisé (pour avoir une longueur de 1)
-        :param vect: le vecteur que l'on souhaite normaliser
+        :param u: le vecteur que l'on souhaite normaliser
         :returns: un vecteur correspondant au vecteur donné en argument, mais normalisé à 1 de longueur
     """
     x, y = u
@@ -43,7 +43,7 @@ def getAngleFromVect(u, v) :
     """
     # On s'assure que la valeur qu'on va donner en argument de la fonction acos est bien comprise entre -1 et 1
     cos_theta = min(1, max(-1, prodScalaire(u, v) / (norme(u) * norme(v))))
-    return acos(cos_theta) * 180 / pi ## on multiplie le résultat par 180/pi pour avoir une valeur de retour en degré et non en radians
+    return acos(cos_theta) * 180 / pi # On multiplie le résultat par 180/pi pour avoir une valeur de retour en degré et non en radians
 
 
 def getDistanceFromPts(p1, p2) :
@@ -58,18 +58,19 @@ def getDistanceFromPts(p1, p2) :
 
 
 def getVectFromAngle(vect, alpha):
-    """ Calcule le vecteur obtenu avec un angle
-        :param angle: angle du vecteur voulu
-        :returns: un vecteur d'angle <angle>
+    """ Calcule le vecteur obtenu avec un angle depuis un vecteur de départ
+        :param vect: l'angle dont on veut calculer le changement
+        :alpha: la valeur de rotation souhaitée
+        :returns: un vecteur d'angle <alpha>
     """
-    a = radians(alpha) # angle alpha en radians
+    a = radians(alpha) # l'angle alpha est en radians
     x, y = vect
     x_prime = cos(a)*x - sin(a)*y
     y_prime = sin(a)*x + cos(a)*y
     return [x_prime, y_prime]
 
 
-def rotationVecteur( v, angle):
+def rotationVecteur(v, angle):
     """ Fonction qui fait une rotation du vecteur2D <v> de <angle>
 		:param v: le vecteur de direction de départ
 		:param angle: l'angle par lequel on veut tourner le robot
@@ -80,6 +81,10 @@ def rotationVecteur( v, angle):
 
 
 def contientBalise(image):
+    """ Détermine si une image contient la balise
+        :param image: l'image où on souhaite détecter la balise
+        :returns: True si la balise se trouve dans l'image, False sinon
+    """
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     x, y = 0, 0
 

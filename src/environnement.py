@@ -49,6 +49,7 @@ class Environnement:
 
     def addRobotSelect(self, n):
         """ Change l'indice du robot sélectionné (lui ajoute n)
+            :param n: le valeur de déplacement que l'on souhaite dans la liste des robots
             :returns: rien, ajoute n à la valeur de sélection du robot
         """
         if (len(self.listeRobots)!=0): # éviter le modulo par 0
@@ -79,7 +80,6 @@ class Environnement:
                 self.dicoObs[(int(y1/self.scale),int(x1/self.scale))] = nom
                 
         self.logger.info("Obstacle %s ajouté", nom)
-
 
 
     def setRobot(self, robA):

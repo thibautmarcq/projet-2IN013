@@ -25,6 +25,10 @@ class Adaptateur:
     @abstractmethod
     def setVitAngA(self, dps) :
         self.logger.info("setVitAng = %d", dps)
+
+    @abstractmethod
+    def tourne(self, gauche, droite) :
+        pass
     
     @abstractmethod
     def getDistanceA(self) :
@@ -36,4 +40,16 @@ class Adaptateur:
     
     @abstractmethod
     def getAngleParcouru(self) :
+        pass
+
+    @abstractmethod
+    def get_imageA(self) :
+        pass
+
+    @abstractmethod
+    def changeCouleur(self, coul) :
+        pass
+
+    @abstractmethod
+    def playSound(self, sound) :
         pass

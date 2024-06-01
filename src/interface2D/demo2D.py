@@ -12,12 +12,15 @@ from src.interface2D.interface2D import Interface
 
 
 basicConfig(filename='logs.log', 
-                    level=DEBUG, 
-                    format='%(asctime)s | %(levelname)s | %(name)s | %(message)s', 
-                    datefmt='%d/%m/%y %H:%M:%S', 
-                    encoding='UTF-8') # niveaux : DEBUG INFO WARNING ERROR CRITICAL
+            level=DEBUG, 
+            format='%(asctime)s | %(levelname)s | %(name)s | %(message)s', 
+            datefmt='%d/%m/%y %H:%M:%S', 
+            encoding='UTF-8') # niveaux : DEBUG INFO WARNING ERROR CRITICAL
 
 def loopEnv(env):
+    """ La fonction de boucle de rafraîchissement de l'environnement
+        :param env: l'environnement qu'on veut faire tourner
+    """
     while True:
         env.refreshEnvironnement()
         sleep(TIC_SIMULATION)
@@ -32,18 +35,18 @@ env.addObstacle('C',LIST_PTS_OBS_COEUR)
 #On crée un controleur
 controleur = Controler()
 
-# Ajoute le premier robot
+# Ajout du premier robot
 robot1 = Robot("Bob", 400, 250, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE,"lightblue")
 robotA1 = Adaptateur_simule(robot1, env)
 env.setRobot(robotA1)
 
 
-# ajoute le deuxieme robot pour test
+# Ajout du deuxième robot pour test
 robot2 = Robot("Stuart", 250, 300, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE,"red")
 robotA2 = Adaptateur_simule(robot2, env)
 env.setRobot(robotA2)
 
-# Crée le mockup robot
+# Création du mockup robot
 robMock = MockupRobot()
 
 # Adapte le robot mockup pour le tester

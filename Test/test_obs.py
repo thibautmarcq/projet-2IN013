@@ -13,6 +13,7 @@ class TestObstacle(TestCase):
         self.obs4 = Obstacle("Montagne", [(-1, -1), (0, 0), (1, 1), (0, 0)])
         # self.obs = Obstacle("Coeur", [(9,2), (17,9), (15,12), (12,12), (9,10), (6,12), (3,12), (2,9)], self.env1)
 
+
     def test_attributs(self):
         self.assertEqual(self.obs1.nom, "Pierre")
         self.assertEqual(self.obs1.lstPoints, [(14,5), (24,8), (24,12.2), (14,12.5)])

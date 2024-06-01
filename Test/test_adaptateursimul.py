@@ -9,6 +9,7 @@ class TestAdaptateurSimu(TestCase):
         self.env = Environnement(500,300,1)
         self.rob = Adaptateur_simule("Rob", 10, 15, 5, 7, 15, 8, self.env, 'red')
     
+
     def test_constructeur(self):
         self.assertEqual(self.rob.nom, "Rob")
         self.assertEqual(self.rob.x, 10)
@@ -24,6 +25,7 @@ class TestAdaptateurSimu(TestCase):
         self.assertEqual(self.rob.last_dir, self.rob.direction)
         self.assertEqual(self.rob.env, self.env)
 
+
     def test_setVitAngG(self):
         self.rob.setVitAngGA(5)
         self.assertEqual(self.rob.vitAngG,5)
@@ -31,6 +33,7 @@ class TestAdaptateurSimu(TestCase):
         self.assertEqual(self.rob.vitAngG,-7)
         self.rob.setVitAngGA(0)
         self.assertEqual(self.rob.vitAngG,0)
+
 
     def test_setVitAngD(self):
         self.rob.setVitAngDA(5)
@@ -40,6 +43,7 @@ class TestAdaptateurSimu(TestCase):
         self.rob.setVitAngDA(0)
         self.assertEqual(self.rob.vitAngD,0)
 
+
     def test_setVitAng(self):
         self.rob.setVitAngA(5)
         self.assertEqual((self.rob.vitAngD, self.rob.vitAngG),(5,5))
@@ -47,6 +51,7 @@ class TestAdaptateurSimu(TestCase):
         self.assertEqual((self.rob.vitAngD, self.rob.vitAngG),(-7,-7))
         self.rob.setVitAngA(0)
         self.assertEqual((self.rob.vitAngD, self.rob.vitAngG),(0,0))
+
 
     def test_getDistance(self):
         self.assertAlmostEqual(self.rob.getDistanceA(), 11) # Bordure de l'environnement
@@ -59,6 +64,7 @@ class TestAdaptateurSimu(TestCase):
         self.rob.direction = (1, 1)
         self.env.addObstacle("test2", [(60, 71), (36, 83), (178, 178), (156, 163)]) # Test pour un autre obstacle
         self.assertAlmostEqual(self.rob.getDistanceA(), 0) # Test pour un autre obstacle
+
 
     def test_getDistanceParcourue(self):
         self.rob.x, self.rob.y = 0, 0
@@ -77,6 +83,7 @@ class TestAdaptateurSimu(TestCase):
         self.assertAlmostEqual(self.rob.getDistanceParcourue(), 413.0, places=1)
         self.rob.x, self.rob.y = (-100, -231)
         self.assertEqual(self.rob.getDistanceParcourue(), 341.0)
+
 
     def test_getAngleParcouru(self):
         self.rob.direction = (0, 1)

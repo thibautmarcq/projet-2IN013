@@ -31,9 +31,9 @@ def loopEnv(envi):
 T_env = Thread(target=loopEnv, args=[envi], daemon=True)
 T_env.start()
 controleur = Controler()
+
 def menu3D(cmd):
-    """
-    Fonction qui affiche un menu pour choisir une action
+    """ Fonction qui affiche un menu pour choisir une action parmi l'ouverture d'une interface et l'affichage des informations du robot
     """
     if cmd == "1":
         interface3D = Interface3D(envi, controleur)
@@ -41,7 +41,6 @@ def menu3D(cmd):
         except SystemExit:
             interface3D.running = False
             interface3D.destroy()
-
 
     elif cmd == "2":
         print("\nInformation de la simulation:")

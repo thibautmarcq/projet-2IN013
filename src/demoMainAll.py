@@ -15,9 +15,11 @@ envi = Environnement(LARGEUR_ENV, LONGUEUR_ENV, SCALE_ENV_1)
 robot1 = Robot("moulinex3D", 400, 250, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE,"lightblue")
 robot1 = Adaptateur_simule(robot1, envi)
 envi.setRobot(robot1)
+
 robot2 = Robot("robocar3D", 250, 300, LARGEUR_ROBOT, LONGUEUR_ROBOT, HAUTEUR_ROBOT, TAILLE_ROUE,"green")
 robot2 = Adaptateur_simule(robot2, envi)
 envi.setRobot(robot2)
+
 envi.addObstacle('J',LIST_PTS_OBS_TRIANGLE)
 envi.addObstacle('P',LIST_PTS_OBS_CARRE)
 envi.addObstacle('C',LIST_PTS_OBS_COEUR)
@@ -34,8 +36,7 @@ T_env.start()
 controleur = Controler()
 
 def menuAll(cmd) :
-    """
-    Fonction qui affiche un menu pour choisir une action
+    """ Fonction qui affiche un menu pour choisir une action
     """
     if cmd == "1":
         interface2D = Interface(envi, controleur)

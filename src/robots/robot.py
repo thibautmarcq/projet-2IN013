@@ -20,6 +20,7 @@ class Robot :
 			:param length: la longueur du robot
 			:param height: la hauteur du robot (utilisé dans l'interface 3D)
 			:param rayonRoue: la taille des roue
+			:param couleur: la couleur du robot
 			:returns: ne retourne rien, ça initalise seulement le robot
 		"""
 		self.logger = getLogger(self.__class__.__name__)
@@ -38,6 +39,7 @@ class Robot :
 
 		self.estSousControle = False 	# permet de savoir si notre robot est controlé par le controleur
 		self.estCrash = False  			# Nous permet de savoir si le robot s'est crash et ne pas refresh le robot
+
 
 	def refresh(self, duree):
 		""" Méthode de update du robot, qui va modifier les coordonnées du robot et son vecteur directeur en fonction des vitesses angulaires des roues et du temps qui s'est écoulé depuis la dernière update.
@@ -175,6 +177,7 @@ class Robot :
 
 	def getDistance(self, env):
 		""" Capteur de distance du robot, donne la distance entre le pt milieu avant du robot (tete) et l'obstacle devant lui
+			:param env: environnement dans lequel on veut détecter la distance
 			:returns: retourne la distance entre la tete du robot et l'obstacle le plus proche devant lui
 		"""
 		x1, y1 = (self.x+self.direction[0]*(self.length/2), self.y+self.direction[1]*(self.length/2))
@@ -183,9 +186,11 @@ class Robot :
 
 		while ((int(y2/env.scale), int(x2/env.scale)) not in env.dicoObs):
 			x2, y2 = (x2+dirNorm[0], y2+dirNorm[1]) # on avance en case suivant le vect dir
+
 		return sqrt((x2 - x1)**2 + (y2 - y1)**2)
 	
 
+# ---------------------------------- Adaptateur du robot simulé -------------------------------------------------
 
 class Adaptateur_simule(Adaptateur) :
 	""" Classe d'adaptation du robot simulé, qui hérite de la classe Robot """
@@ -210,7 +215,7 @@ class Adaptateur_simule(Adaptateur) :
 		self.img = None
 
 
-	# ------------------------ Setter de l'adaptateur ---------------------------------------
+	# ------------------------ Setters de l'adaptateur ---------------------------------------
 
 	def setVitAngDA(self, vit):
 		""" Setter de vitesse angulaire de la roue droite depuis l'adaptateur
@@ -236,7 +241,17 @@ class Adaptateur_simule(Adaptateur) :
 		self.robot.setVitAng(vit)
 
 
-	# ------------------------ Getter de l'adaptateur ---------------------------------------
+	def tourne(self, gauche, droite):
+		""" Fait tourner le robot sur lui-même avec des vitesses données, permet de simuler l'effet du 'steer' du robot réel
+			:param gauche: la vitesse de la roue gauche
+			:param droite: la vitesse de la roue droite
+			:returns: rien, on modifie les vitesses
+		"""
+		self.setVitAngGA(gauche)
+		self.setVitAngDA(droite)
+
+
+	# ------------------------ Getters de l'adaptateur ---------------------------------------
 
 	def getDistanceA(self) :
 		""" Capteur de distance du robot simulé depuis l'adaptateur
@@ -264,5 +279,25 @@ class Adaptateur_simule(Adaptateur) :
 	
 
 	def get_imageA(self):
-		""" Getter de l'image prise dans l'interface3d """
+		""" Getter de l'image prise dans l'interface3d 
+			:returns: la dernière image prise dans l'interface3D
+		"""
 		return self.img
+	
+
+# ------------------------ Changement de couleur du robot ------------------------
+
+	def changeCouleur(self, coul):
+		""" Change la couleur du robot
+			:param coul: la couleur que l'on veut donner au robot
+		"""
+		self.robot.couleur = coul
+
+
+# ------------------------ Faire jouer un son ------------------------
+
+	def playSound(self, sound):
+		""" Fait jouer un son au robot
+			:returns: ne retourne rien
+		"""
+		pass
