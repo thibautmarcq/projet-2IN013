@@ -61,7 +61,6 @@ LU2IN013 }
 \renewcommand*\contentsname{Sommaire}
 \tableofcontents
 \vspace{2cm}
-
 \section*{Liens}
 \begin{center}
   \parbox[p]{0.30\textwidth}{
@@ -97,7 +96,7 @@ LU2IN013 }
 
 \hspace{\parindent}Nous avons commencé par créer les modules du robot, de l'environnement, du contrôleur et des stratégies. Les trois nous ont permis de former une simulation, représentée par l'interface 2D.
 
-\hspace{\parindent}Nous avons choisi d'utiliser \textbf{Tkinter} pour cette interface. C’est un module Python très facile à utiliser du fait de la simplicité de ses fonctions, ainsi que du fait qu’il soit directement intégré à Python. Nous l'avons préféré à d'autres alternatives comme \textbf{Pygame} qui étaient trop extensives par rapport à notre utilisation. Avec cette interface, nous avons donc pu \textbf{simuler} le robot, la gestion des obstacles, et \textbf{déployer} nos premières \textbf{stratégies}.
+\hspace{\parindent}Nous avons choisi d'utiliser \textbf{Tkinter} pour cette interface. C’est un module Python très facile à utiliser de part la simplicité de ses fonctions, et du fait qu’il soit directement intégré à Python. Nous l'avons préféré à d'autres alternatives comme \textbf{Pygame} qui étaient trop extensives par rapport à notre utilisation. Avec cette interface, nous avons donc pu \textbf{simuler} le robot, la gestion des obstacles, et \textbf{déployer} nos premières \textbf{stratégies}.
 
 \FloatBarrier
 
@@ -137,7 +136,7 @@ LU2IN013 }
 \hspace{\parindent}L'étape suivante de notre projet était alors d’implémenter la \textbf{stratégie de suivi de la balise}. 
 
 
-\hspace{\parindent}Pour ce faire, nous avons dû créer une interface 3D. Notre choix s'est porté sur le module \textbf{Panda 3D} pour la réaliser. C’est un module \textbf{performant}, utilisé par plusieurs entreprises pour créer des jeux vidéos. Il permet de simuler un monde en 3D et d’y \textbf{inclure des objets}, de gérer des vues caméra et il possède une documentation riche. Nous y avons facilement ajouté les éléments déjà présents dans l'interface 2D et y avons ajouté plusieurs vues : \textbf{vue du dessus} (\texttt{2D}), \textbf{vue arrière} et \textbf{vue avant} (simule la \texttt{caméra du robot}).
+\hspace{\parindent}Pour ce faire, nous avons dû créer une interface 3D. Notre choix s'est porté sur le module \textbf{Panda 3D} pour la réaliser. C’est un module \textbf{performant}, utilisé par plusieurs entreprises pour créer des jeux vidéos. Il permet de simuler un monde en 3D, d’y \textbf{inclure des objets} et de gérer des vues caméra. Il possède une documentation riche. Nous y avons facilement ajouté les éléments déjà présents dans l'interface 2D et ainsi que plusieurs vues : \textbf{vue du dessus} (\texttt{2D}), \textbf{vue arrière} et \textbf{vue avant} (simule la \texttt{caméra du robot}).
 
 \hspace{\parindent}Par la suite, nous avons modélisé et ajouté une \textbf{balise} pour pouvoir simuler la stratégie de \textbf{suivi de balise}.
 
@@ -154,7 +153,7 @@ LU2IN013 }
 \begin{figure}[p]
     \centering
     \includegraphics[width=1\linewidth]{image4.png}
-    \caption{Vue de haut de l’interface 3D, avec tracer carré effectué}
+    \caption{Vue de haut de l’interface 3D, avec "tracer carré" effectué}
     \label{fig:enter-label}
 \end{figure}
 
@@ -192,13 +191,12 @@ LU2IN013 }
 \addcontentsline{toc}{subsection}{Description générale} 
 
 % J'AI FAIS CA POUR L ARCHI MAIS CHANGER OU SUPP TOUS SI CA CONVIENT PAS :) -maelle
-
-Le projet est structuré en trois dossiers et quatre fichiers exécutables, en plus des fichiers de test unitaires, dans le répertoire Projet-2IN013 :
+Le projet se trouve dans le répertoire Projet-2IN013. Il est structuré en trois dossiers et quatre fichiers exécutables, en plus des fichiers de test unitaires : 
 \begin{itemize}[label=-]
     \item \texttt{autre} comporte les fiches, les comptes-rendus de chaque séance, les différentes photos prises et un diagramme UML du projet.
-    \item \texttt{src} est un module dans lequel se trouvent quatre fichiers \texttt{constantes.py}, \texttt{environn-ement.py}, \texttt{obstacle.py} et \texttt{outils.py}. Les fichiers \texttt{constantes.py} et \texttt{outils.py} nous permettent de définir des valeurs numériques et des fonctions utiles utilisées à travers le projet. \texttt{obstacle.py} contient la classe \texttt{Obstacle} nous permettant de définir les obstacles utilisés dans nos simulations, alors que \texttt{environnement.py} contient la définition de l'environnement simulé, ainsi que toutes les méthodes qui permettent de le manipuler.
+    \item \texttt{src} est un module dans lequel se trouvent quatre fichiers \texttt{constantes.py}, \texttt{environn-\\ement.py}, \texttt{obstacle.py} et \texttt{outils.py}. Les fichiers \texttt{constantes.py} et \texttt{outils.py} nous permettent de définir des valeurs numériques et des fonctions utiles utilisées à travers le projet. \texttt{obstacle.py} contient la classe \texttt{Obstacle} nous permettant de définir les obstacles utilisés dans nos simulations, alors que \texttt{environnement.py} contient la définition de l'environnement simulé, ainsi que toutes les méthodes qui permettent de le manipuler.
     
-    De plus, \texttt{src} contient quatre sous modules. Tout d'abord, \texttt{interface2D} et \texttt{interf-ace3D} définissent les simulations d'interface en 2D et 3D respectivement, ainsi qu'une \texttt{démo} qui permet de créer un exemple d'interface générique qui peut être utilisé par l'utilisateur ou d'autres programmes du projet. On trouve dans le sous-module \texttt{controleur} tout ce qui est relatif à la gestion du contrôleur (qui agit sur le robot en lui donnant des instructions) ainsi qu'à la création des stratégies. Pour finir, le sous-module \texttt{robots} permet la définition de notre objet central, le robot (simulé avec \texttt{robot.py}, mockup du réel avec \texttt{mockupRobot.py} et réel avec \texttt{gopigo.py}), ainsi que des adaptateurs de chacun des robots. Les adaptateurs ont le rôle d'interprète entre le contrôleur et des robots de chaque type, en transmettant les ordres du contrôleur. \texttt{adapt.py} est la classe abstraite des Adaptateurs, dont héritent les adaptateurs des robots.
+    De plus, \texttt{src} contient quatre sous modules. Tout d'abord, \texttt{interface2D} et \texttt{interf-\\ace3D} définissent les simulations d'interface en 2D et 3D respectivement, ainsi qu'une \texttt{démo} qui permet de créer un exemple d'interface générique qui peut être utilisé par l'utilisateur ou d'autres programmes du projet. On trouve dans le sous-module \texttt{controleur} tout ce qui est relatif à la gestion du contrôleur (qui agit sur le robot en lui donnant des instructions) ainsi qu'à la création des stratégies. Pour finir, le sous-module \texttt{robots} permet la définition de notre objet central, le robot (simulé avec \texttt{robot.py}, mockup du réel avec \texttt{mockupRobot.py} et réel avec \texttt{gopigo.py}), ainsi que des adaptateurs de chacun des robots. Les adaptateurs ont le rôle d'interprète entre le contrôleur et des robots de chaque type, en transmettant les ordres du contrôleur. \texttt{adapt.py} est la classe abstraite des Adaptateurs, dont héritent les adaptateurs des robots.
     
     \item \texttt{Test} contient les tests unitaires de chaque fonction du projet pouvant nécessiter un test.
     \item \texttt{main2D.py} permet de démarrer l'interface2D.
@@ -223,9 +221,9 @@ Il est nécessaire de noter que, dans chaque module ou sous-module, il y a un fi
 \section*{Gestion du travail en groupe}
 \addcontentsline{toc}{section}{Gestion du travail en groupe}
 
-\hspace{\parindent}Pour la gestion de notre projet, nous avons utilisé deux outils principaux : \textbf{Github} pour la partie code et \textbf{Trello }pour la partie organisationnelle. Ils nous ont permis d’avoir une prise en main accompagnée et facilitée de notre premier projet sur le long terme. 
+\hspace{\parindent}Pour la gestion de notre projet, nous avons utilisé deux outils principaux : \textbf{Github} pour la partie code et \textbf{Trello }pour la partie organisationnelle. Ils nous ont permis, sur toute la durée du projet, d’avoir une prise en main accompagnée et facilitée.
 
-\hspace{\parindent}La méthode\textbf{ Agile}, avec les \textbf{scrums} à compléter chaque semaine, nous a permis d’avoir une certaine consistance dans notre projet, afin de répondre aux exigences de nos \textbf{chers clients} et leur présenter une démonstration chaque semaine. La fragmentation des objectifs en tâches unitaires nous a offert une meilleure prise en main et répartition du travail, et nous arrivions en général assez bien à nous approprier les différentes tâches. La répartition des tâches se faisait ensuite de manière assez naturelle.
+\hspace{\parindent}La méthode\textbf{ Agile}, avec les \textbf{Scrums} à compléter chaque semaine, a donné une certaine consistance dans notre projet, afin de répondre aux exigences de nos \textbf{clients} et de leur présenter une démonstration chaque semaine. La fragmentation des objectifs en tâches unitaires nous a offert une meilleure prise en main et répartition du travail, et nous arrivions en général assez bien à nous approprier les différentes tâches. La répartition des tâches se faisait ensuite de manière assez naturelle.
 
 \hspace{\parindent} Github a été très utile d’un point de vue pratique pour nous permettre de travailler à plusieurs sur le projet, mais également sur plusieurs éléments différents en parallèle grâce aux \textbf{branches}. Nous pouvions ainsi développer différentes parties du projet \textbf{séparément} sans dépendre de l’avancée du travail d’une autre personne.
 
@@ -236,9 +234,9 @@ Il est nécessaire de noter que, dans chaque module ou sous-module, il y a un fi
 \section*{Perspectives d'amélioration}
 \addcontentsline{toc}{section}{Perspectives d'amélioration}
 
-\hspace{\parindent}Il y a quelques points sur lesquels nous aurions pû nous améliorer pour ce projet, en rétrospective. Premièrement, nous n’avons pas utilisé toutes les fonctionnalités dont le robot dispose, ce qui est dommage car il y a de nombreuses options qui auraient permis de réaliser des stratégies \textbf{innovantes} et \textbf{intéressantes}, comme l'utilisation du \textbf{servo} (tête rotative).
+\hspace{\parindent}Avec le recul, il y a quelques points sur lesquels nous aurions pu nous améliorer pour ce projet. En effet, nous n’avons pas utilisé toutes les fonctionnalités dont le robot dispose. C'est dommage car il y a de nombreuses options qui auraient permis de réaliser des stratégies \textbf{innovantes} et \textbf{intéressantes}, comme l'utilisation du \textbf{servo} (tête rotative).
 
-\hspace{\parindent}Un autre aspect sur lequel nous aurions pu être plus performants est la \textbf{consistance} et la répartition du travail. Vers la fin du projet, le travail était plus déséquilibré entre les membres de l’équipe. Nous étions moins réguliers dans notre travail et nous aurions pu avoir une meilleure distribution du travail entre co-équipiers (les examens des autres UE ont également eu un impact sur la quantité de travail fournie sur le projet).
+\hspace{\parindent}Un autre aspect sur lequel nous aurions pu être plus performants est la \textbf{consistance} et la répartition du travail. Vers la fin du projet, le travail était plus déséquilibré entre les membres de l’équipe. Nous étions moins réguliers et nous aurions pu avoir une meilleure distribution des tâches entre co-équipiers (les examens des autres UE ont également eu un impact sur la quantité de travail fournie sur le projet).
 
 \hspace{\parindent} Enfin, nous n'avons pas trouvé de moyen assez rapide et efficace pour \textbf{récupérer une image} de la vue avant du robot dans Panda3D. Sans ce problème, notre stratégie aurait été beaucoup plus performante dans la simulation. Il est à noter que cette stratégie fonctionne \textbf{parfaitement} sur le robot réel. 
 
@@ -261,9 +259,9 @@ Il est nécessaire de noter que, dans chaque module ou sous-module, il y a un fi
     \label{fig:enter-label}
 \end{figure}
 
-\hspace{\parindent}Nous pouvons également ajouter des obstacles de forme \textbf{personnalisée} dans les simulations. Cela donne au client une représentation plus fidèle de la réalité et plus de flexibilité. De plus, il est possible de contrôler les mouvements du robot en dehors des stratégies définies, en contrôlant les vitesses des roues individuellement avec les touches du clavier.
+\hspace{\parindent}Nous pouvons également ajouter des obstacles de forme \textbf{personnalisée} dans les simulations. Cela donne au client une représentation plus fidèle de la réalité et plus de flexibilité. De plus, il est possible de contrôler les mouvements du robot en dehors des stratégies définies, en modulant les vitesses des roues individuellement avec les touches du clavier.
 
-\hspace{\parindent}D’un point de vue plus pratique, nous avons également résolu des problèmes avec le robot. Nous avons \textbf{remonté} le robot lorsqu’il était cassé, et avons retourné la caméra d’un des robots qui se tenait \textbf{à l’envers}. De plus, nous avons remarqué de petites inconsistances de l’API qui posaient des problèmes lors de l’acquisition d’images, et qui pouvaient \textbf{bloquer d’autres tentatives} d’utilisation de la caméra et d’instanciation du robot. Une fois qu'un robot était instancié pour la première fois, la caméra n'était plus utilisable avec une instance différente. Cela nous forçait à redémarrer le robot à chaque fois.
+\hspace{\parindent}D’un point de vue plus pratique, nous avons également résolu des problèmes avec le robot. Nous avons \textbf{remonté} le robot lorsqu’il était cassé, et nous avons retourné la caméra d’un des robots qui se tenait \textbf{à l’envers}. De plus, nous avons remarqué de petites inconsistances de l’API qui posaient des problèmes lors de l’acquisition d’images, et qui pouvaient \textbf{bloquer d’autres tentatives} d’utilisation de la caméra et d’instanciation du robot. Une fois qu'un robot était instancié pour la première fois, la caméra n'était plus utilisable avec une instance différente. Cela nous forçait à redémarrer le robot à chaque fois.
 
 
 \clearpage
@@ -275,11 +273,11 @@ Il est nécessaire de noter que, dans chaque module ou sous-module, il y a un fi
 
 \hspace{\parindent}En rétrospective, ce projet a pu être très frustrant par  moments, mais il nous a apporté de l’\textbf{expérience} et des \textbf{compétences} précieuses. 
 
-\hspace{\parindent}Il nous a appris à travailler sur notre premier projet d’une telle ampleur que ce soit en terme de temps, d'objectifs, ou de travail fourni, le tout en étant en \textbf{équipe}. Nous avons été introduits aux méthodes de travail Agile et Scrum. Ces méthodes étaient pour nous une nouvelle manière de travailler mais elles permettent une meilleure gestion de projet lorsque le nombre de tâches à faire est important. Elles sont aussi très utiles quand le projet comporte un certain nombre de membres dans l’équipe, comme ici. Ces outils nous ont guidés dans notre manière de s’organiser et nous ont permis de maintenir un rythme de travail \textbf{stable} semaine après semaine afin de répondre aux exigences de nos \textbf{deux chers clients}. 
+\hspace{\parindent}Il nous a appris à travailler en équipe sur notre premier projet de grande ampleur, en terme de temps, d'objectifs, ou de travail fourni. Nous avons été introduits aux méthodes de travail Agile et Scrum. Ces méthodes étaient pour nous une première, qui présentent l'avantage d'une meilleure gestion de projet lorsque le nombre de tâches est important. Elles sont aussi très utiles quand le projet comporte plusieurs membres dans l’équipe, comme ici. Ces outils nous ont guidés dans notre manière de nous organiser et nous ont permis de maintenir un rythme de travail \textbf{stable}, semaine après semaine, afin de répondre aux attentes de nos \textbf{professeurs}. 
 
 \hspace{\parindent}Nous avons aussi été confrontés à la gestion de problèmes en tous genres. Nous avons dû chercher des \textbf{solutions} à ces problèmes en trouvant des personnes qui ont fait face à des situations similaires (sur des forums, par exemple), à nos \textbf{membres de groupe}, voire à d’autres \textbf{camarades} de classe.
 
-\hspace{\parindent}Le projet était intéressant dans le sens où nous avons pu voir une \textbf{application concrète} de notre travail avec un robot \textbf{physique} qui répondait à nos commandes. Cela le distingue des autres travaux que nous avons pu faire jusqu’alors dans d'autres UE. Leur influence était limitée à nos ordinateurs. Nous avons pu nous \textbf{amuser} à voir nos programmes avoir une incidence sur le monde physique. De plus, voir notre projet \textbf{se construire} et avancer chaque semaine a été satisfaisant pour nous. Savoir que nous partons d'un dossier vide nous rend d'autant plus \textbf{fiers}.
+\hspace{\parindent}Le projet était intéressant dans la mesure où nous avons pu voir une \textbf{application concrète} de notre travail avec un robot \textbf{physique} qui répondait à nos commandes. Cela le distingue des autres travaux que nous avons pu faire jusqu’alors dans d'autres UE. Leur influence était limitée à nos ordinateurs. Nous avons pu nous \textbf{amuser} à voir nos programmes avoir une incidence sur le monde physique. De plus, voir notre projet \textbf{se construire} et avancer chaque semaine a été satisfaisant pour nous. Savoir que nous partions d'un dossier vide nous rend d'autant plus \textbf{fiers}.
 
 \\
 
@@ -290,12 +288,10 @@ Il est nécessaire de noter que, dans chaque module ou sous-module, il y a un fi
 
 Enfin, nous souhaitons remercier nos deux professeurs \textbf{M. Baskiotis} et \textbf{M. Sigaud}.\textbf{} \\
 
-\hspace{\parindent}\textbf{Merci} pour vos conseils précieux chaque semaine. Les rendez-vous avec vous ont au départ été durs et parfois démoralisants, mais vous avez tous les deux su nous donner de la rigueur, de la \textbf{motivation} et une vision claire de notre projet. Grâce à votre encadrement et votre \textbf{soutien}, nous avons pu surmonter les obstacles et \textbf{progresser }de manière significative. Votre expertise et votre patience ont été \textbf{inestimables}, et nous vous en sommes \textbf{profondément reconnaissants}. 
+\hspace{\parindent}\textbf{Merci} pour vos conseils précieux chaque semaine. Les rendez-vous avec vous ont au départ été exigeants et parfois "démoralisants", mais vous avez tous les deux su nous donner de la rigueur, de la \textbf{motivation} et une vision claire de notre projet. Grâce à votre encadrement et votre \textbf{soutien}, nous avons pu surmonter les obstacles et \textbf{progresser} de manière significative. Votre expertise et votre patience ont été \textbf{inestimables}, et nous vous en sommes \textbf{profondément reconnaissants}. 
 % svp on peut rajouter ca ? (emoji avec les gros yeux)
 \\
-Nous espérons avoir su vous montrer nos compétences et vous convaincre de choisir notre entreprise pour votre projet !
-
-
+Nous espérons avoir su vous montrer nos compétences et vous convaincre, en tant que client, de choisir notre entreprise pour la réalisation de votre projet !
 
 \\
 \end{document}
