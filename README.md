@@ -3,9 +3,10 @@
       <h1> <img src="https://d29zukiv45njce.cloudfront.net/images/poli.png" width="90px"><br/>Projet S4 Mono-Info 💻</h1>
      </div>
 
-# Projet réalisé par
-### [@Inès BENAMER-BELKACEM](https://github.com/ines-benamer) [@Claude CHIBOUT](https://github.com/claudechibout) [@Maëlle LIU](https://github.com/maelleliu) [@Thibaut MARCQ](https://github.com/thibautmarcq) [@Jérôme YU](https://github.com/weeyu)
+[Rapport final](https://github.com/thibautmarcq/projet-2IN013/blob/main/autre/Rapport/Rapport_LU2IN013.pdf)       [Diapos Canva](https://www.canva.com/design/DAGG5gl8c54/ctSZ7vz2iyxrhtkZ1uaysg/edit?utm_content=DAGG5gl8c54&utm_campaign=designshare&utm_medium=link2&utm_source=sharebuttonhttps://www.canva.com/design/DAGG5gl8c54/ctSZ7vz2iyxrhtkZ1uaysg/edit?utm_content=DAGG5gl8c54&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
+# Projet réalisé par
+#### [@Inès BENAMER-BELKACEM](https://github.com/ines-benamer) [@Claude CHIBOUT](https://github.com/claudechibout) [@Maëlle LIU](https://github.com/maelleliu) [@Thibaut MARCQ](https://github.com/thibautmarcq) [@Jérôme YU](https://github.com/weeyu)
 
 # Objectifs
 ### Partie 1
