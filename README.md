@@ -8,6 +8,19 @@
 # Projet réalisé par
 #### [@Inès BENAMER-BELKACEM](https://github.com/ines-benamer) [@Claude CHIBOUT](https://github.com/claudechibout) [@Maëlle LIU](https://github.com/maelleliu) [@Thibaut MARCQ](https://github.com/thibautmarcq) [@Jérôme YU](https://github.com/weeyu)
 
+# Installation
+
+```console
+sudo apt-get install python3-tk
+sudo apt-get install libasound-dev
+```
+```console
+pip install tk
+pip install panda3d
+pip install simpleaudio
+pip install opencv-python
+```
+
 # Objectifs
 ### Partie 1
 - Réaliser une **interface** de **simulation** de notre robot avant de l'intégrer dans le monde réel
